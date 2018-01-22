@@ -31,8 +31,8 @@ module.exports = {
     },
     edit: {
         AbstractEdit: require('./dist/edit/AbstractEdit').default,
-        ImageEdit: require('./dist/edit/Image').default,
-        TextEdit: require('./dist/edit/Text').default
+        ImageEdit: require('./dist/edit/ImageEdit').default,
+        TextEdit: require('./dist/edit/TextEdit').default
     },
     ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
     MapTo: require('./dist/ComponentMapping').MapTo,
