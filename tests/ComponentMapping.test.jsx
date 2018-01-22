@@ -12,8 +12,6 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
     const ATTRIBUTE_CLASS = 'class';
 
-    const ATTRIBUTE_EMPTY_TEXT = 'data-emptytext';
-
     class TestComponent extends Component {
         render () {
             return <div/>
@@ -27,7 +25,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     let observerConfig = { attributes: true, subtree: true };
 
     beforeEach(() => {
-        MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, edit.Image);
+        MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, edit.ImageEdit);
 
         rootNode = document.createElement('div');
         document.body.appendChild(rootNode);
@@ -48,7 +46,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
             function observe (mutationsList) {
                 for(let mutation of mutationsList) {
                     if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS) {
-                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + edit.Image.prototype.dragDropName), 'Component not decorated with drag-drop class name');
+                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + edit.ImageEdit.prototype.dragDropName), 'Component not decorated with drag-drop class name');
                         observer.disconnect();
                         done();
                         break;
@@ -77,7 +75,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
             function observe (mutationsList) {
                 for(let mutation of mutationsList) {
                     hasPlaceholderClassName = mutation.target.classList.contains(PLACE_HOLDER_CLASS_NAME);
-                    hasEmptyText = mutation.target.dataset.emptytext === edit.Image.prototype.emptyLabel;
+                    hasEmptyText = mutation.target.dataset.emptytext === edit.ImageEdit.prototype.emptyLabel;
 
                     if (hasPlaceholderClassName && hasEmptyText) {
                         observer.disconnect();

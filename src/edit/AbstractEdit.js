@@ -17,6 +17,9 @@
 
 /**
  * Required configuration for authoring capabilities
+ *
+ * @class
+ * @memberOf edit
  */
 class AbstractEdit {
 
@@ -41,7 +44,7 @@ class AbstractEdit {
     /**
      * If defined, adds a specific class name enabling the drag and drop functionality
      *
-     * @returns {string}
+     * @returns {string|undefined}
      */
     get dragDropName() {
         return undefined;

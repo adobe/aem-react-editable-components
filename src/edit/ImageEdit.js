@@ -17,23 +17,33 @@
 import AbstractEdit from './AbstractEdit';
 
 /**
- * Default Edit configuration for the Text component that interact with the Core Text component and sub-types
+ * Default Edit configuration for the Image component that interact with the Core Image component and sub-types
+ *
+ * @class
+ * @extends edit.AbstractEdit
  */
-class Text extends AbstractEdit {
+class ImageEdit extends AbstractEdit {
 
     /**
      * @inheritDoc
      */
     get emptyLabel() {
-        return 'Text';
+        return 'Image';
     }
 
     /**
      * @inheritDoc
      */
     isEmpty() {
-        return !this.props || !this.props.cq_model || !this.props.cq_model.text || this.props.cq_model.text.trim().length < 1;
+        return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    get dragDropName() {
+        return 'image';
     }
 }
 
-export default Text;
+export default ImageEdit;

@@ -18,6 +18,11 @@ import React, {Component, Children} from 'react';
 import { render, findDOMNode } from 'react-dom';
 import PageModelManager from '@cq/spa-page-model-manager';
 
+/**
+ * Wrapper component responsible for synchronizing a child component with a give portion of the page model
+ *
+ * @class
+ */
 class ModelProvider extends Component {
 
     constructor(props) {
@@ -66,6 +71,11 @@ class ModelProvider extends Component {
         this.decorateChildElements();
     }
 
+    /**
+     * Decorate a child {@link HTMLElement} with extra data attributes
+     *
+     * @param {HTMLElement} element Element to be decorated
+     */
     decorateChildElement(element) {
         if (!element) {
             return;
@@ -78,13 +88,19 @@ class ModelProvider extends Component {
     }
 
     /**
-     * Decorates the children html with extra data attributes
+     * Decorate all the child {@link HTMLElement}s with extra data attributes
      */
     decorateChildElements() {
         // for each child ref find DOM node and set attrs
         Object.keys(this.refs).forEach(ref => this.decorateChildElement(findDOMNode(this.refs[ref])))
     }
 
+    /**
+     * Gets the model data from the page model
+     *
+     * @param {String} path Location of the data in the page model
+     * @returns {Promise}
+     */
     getData(path) {
         path = path || this.state.path;
 

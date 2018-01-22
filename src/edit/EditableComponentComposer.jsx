@@ -22,6 +22,8 @@ import Utils from '../Utils';
  * Helper class for composing producing a component that can be authored
  *
  * Higher-Order Component pattern
+ *
+ * @private
  */
 const EditableComponentComposer = {
 

@@ -15,14 +15,24 @@ require('./dist/components/ResponsiveColumnModelProvider');
 require('./dist/components/ResponsiveGrid');
 require('./dist/edit/EditableComponentComposer');
 
+/**
+ * Contains all the base components
+ * @namespace components
+ */
+
+/**
+ * Contains all the edit classes
+ * @namespace edit
+ */
+
 module.exports = {
     component: {
         Container: require('./dist/components/Container').default
     },
     edit: {
         AbstractEdit: require('./dist/edit/AbstractEdit').default,
-        Image: require('./dist/edit/Image').default,
-        Text: require('./dist/edit/Text').default
+        ImageEdit: require('./dist/edit/Image').default,
+        TextEdit: require('./dist/edit/Text').default
     },
     ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
     MapTo: require('./dist/ComponentMapping').MapTo,

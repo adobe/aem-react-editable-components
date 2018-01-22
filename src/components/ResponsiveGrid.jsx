@@ -20,6 +20,12 @@ import Container from './Container';
 import ResponsiveColumnModelProvider from './ResponsiveColumnModelProvider';
 import Utils from '../Utils';
 
+/**
+ * Placeholder of the responsive grid component
+ *
+ * @class
+ * @private
+ */
 class Placeholder extends Component {
 
     PLACEHOLDER_CLASS_NAMES = 'new section aem-Grid-newComponent';
@@ -29,6 +35,12 @@ class Placeholder extends Component {
     }
 }
 
+/**
+ * Container that provides the capabilities of the responsive grid
+ *
+ * @class
+ * @extends components.Container
+ */
 class ResponsiveGrid extends Container {
 
     CONTAINER_CLASS_NAME = 'aem-container';

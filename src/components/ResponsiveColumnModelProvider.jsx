@@ -16,10 +16,19 @@
  */
 import ModelProvider from '../ModelProvider';
 
+/**
+ * Model provider specific to the components considered as responsive columns
+ *
+ * @class
+ * @extends ModelProvider
+ */
 class ResponsiveColumnModelProvider extends ModelProvider {
 
     RESPONSIVE_COLUMN_CLASS_NAME_PATTERN = /aem-GridColumn([^ ])*/g;
 
+    /**
+     * @inheritDoc
+     */
     decorateChildElement(element) {
         super.decorateChildElement(element);
 

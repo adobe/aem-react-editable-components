@@ -1,3 +1,19 @@
 {
-  "presets": ["es2015", "react", "stage-0"]
+  "presets": ["es2015", "react", "stage-0"],
+  "plugins": [
+    "transform-react-jsx",
+    [
+      "istanbul",
+      {
+        "include": [
+          "dist/**.*"
+        ],
+        "exclude": [
+          "src/**.*",
+          "node_modules/**.*",
+          "tests/**.*"
+        ]
+      }
+    ]
+  ]
 }
