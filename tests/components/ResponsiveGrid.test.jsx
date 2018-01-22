@@ -1,4 +1,4 @@
-import PageModelManager from '@cq/spa-page-model-manager';
+import PageModelManager from '@cq/cq-spa-page-model-manager';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ComponentMapping, MapTo, edit } from '../../index';

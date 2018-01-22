@@ -16,7 +16,7 @@
  */
 import React, {Component, Children} from 'react';
 import { render, findDOMNode } from 'react-dom';
-import PageModelManager from '@cq/spa-page-model-manager';
+import PageModelManager from '@cq/cq-spa-page-model-manager';
 
 /**
  * Wrapper component responsible for synchronizing a child component with a give portion of the page model

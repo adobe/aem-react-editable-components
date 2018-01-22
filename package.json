@@ -1,6 +1,6 @@
 {
   "name": "@cq/cq-react-editable-components",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "Registry providing the React components that enable the authoring capabilities when used in conjunction with the page editor",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@cq/spa-component-mapping": "^0.0.3",
-    "@cq/spa-page-model-manager": "^0.0.9",
+    "@cq/cq-spa-page-model-manager": "^0.0.10",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
