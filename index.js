@@ -37,5 +37,6 @@ module.exports = {
     ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
     MapTo: require('./dist/ComponentMapping').MapTo,
     ModelProvider: require('./dist/ModelProvider').default,
+    PageModelManager: require('@cq/cq-spa-page-model-manager').default,
     Utils: require('./dist/ModelProvider').default
 };

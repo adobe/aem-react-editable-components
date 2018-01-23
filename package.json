@@ -1,6 +1,6 @@
 {
   "name": "@cq/cq-react-editable-components",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Registry providing the React components that enable the authoring capabilities when used in conjunction with the page editor",
   "main": "index.js",
   "scripts": {
