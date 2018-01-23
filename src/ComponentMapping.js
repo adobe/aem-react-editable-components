@@ -48,8 +48,8 @@ ComponentMapping.map = function map (resourceTypes, clazz, editConfig) {
     };
 
 function MapTo(resourceTypes) {
-    return (clazz, editClass) => {
-        return ComponentMapping.map(resourceTypes, clazz, editClass);
+    return (clazz, editConfig) => {
+        return ComponentMapping.map(resourceTypes, clazz, editConfig);
     };
 }
 
