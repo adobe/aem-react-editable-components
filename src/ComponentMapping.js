@@ -28,18 +28,18 @@ let wrappedMapFct = ComponentMapping.map;
 /**
  * Map a React component with the given resource types. If an {@code editClass} is provided the {@code clazz} is wrapped to provide edition capabilities on the AEM Page Editor
  *
- * @param {string[]} resourceTypes      List of resource types for which to use the given {@code clazz}
- * @param {class} clazz                 Class to be instantiated for the given resource types
- * @param {class} editClass             Configuration class for enabling the edition capabilities
- * @returns {class} the resulting Class
+ * @param {string[]} resourceTypes      list of resource types for which to use the given {@code clazz}
+ * @param {class} clazz                 class to be instantiated for the given resource types
+ * @param {EditConfig} editConfig       configuration object for enabling the edition capabilities
+ * @returns {class}                     the resulting decorated Class
  *
  * @exports ComponentMapping
  */
-ComponentMapping.map = function map (resourceTypes, clazz, editClass) {
+ComponentMapping.map = function map (resourceTypes, clazz, editConfig) {
         let innerClass = clazz;
 
-        if (editClass) {
-            innerClass = EditableComponentComposer.compose(clazz, editClass);
+        if (editConfig) {
+            innerClass = EditableComponentComposer.compose(clazz, editConfig);
         }
 
         wrappedMapFct.call(ComponentMapping, resourceTypes, innerClass);
