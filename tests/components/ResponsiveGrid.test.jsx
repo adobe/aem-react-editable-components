@@ -9,7 +9,7 @@ describe('ResponsiveGrid', () => {
     const RESPONSIVE_GRID_RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
     const TEST_COLUMN_RESOURCE_TYPE = 'test/column/component';
     const RESPONSIVE_GRID_CLASS_NAME = 'aem-Grid';
-    const RESPONSIVE_GRID_CLASS_NAMES = RESPONSIVE_GRID_CLASS_NAME + ' aem-Grid aem-Grid--12 aem-Grid--default--12';
+    const RESPONSIVE_GRID_CLASS_NAMES = RESPONSIVE_GRID_CLASS_NAME + ' aem-Grid--12 aem-Grid--default--12';
     const RESPONSIVE_COLUMN_CLASS_NAME = 'aem-GridColumn';
     const RESPONSIVE_COLUMN_CLASS_NAMES = RESPONSIVE_COLUMN_CLASS_NAME + ' aem-GridColumn--default--12';
     const RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES_SELECTOR = '.new.section.aem-Grid-newComponent';
@@ -79,7 +79,8 @@ describe('ResponsiveGrid', () => {
             let responsiveNode = rootNode.querySelector('.' + RESPONSIVE_GRID_CONTAINER_CLASS_NAME);
 
             if (!responsiveNode) {
-                done(false, 'Responsive Grid element not found');
+                done(new Error('Responsive Grid element not found'));
+                return;
             }
 
             let innerResponsiveGrid = responsiveNode.querySelector('.' + RESPONSIVE_GRID_CLASS_NAME);
