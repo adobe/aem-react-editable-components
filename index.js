@@ -33,7 +33,6 @@ module.exports = {
     PageModelManager: require('@cq/cq-spa-page-model-manager').default,
     Utils: require('./dist/Utils').default,
     edit: {
-        AbstractEdit: require('./dist/edit/AbstractEdit').default,
         ImageEdit: require('./dist/edit/ImageEdit').default,
         TextEdit: require('./dist/edit/TextEdit').default
     }

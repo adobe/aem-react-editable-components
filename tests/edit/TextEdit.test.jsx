@@ -4,66 +4,54 @@ describe('TextEdit', () => {
 
     describe('isEmpty ->', () => {
 
-        it('should have the right label', done => {
-            let textEdit = new edit.TextEdit();
-
-            if ('Text' === textEdit.emptyLabel) {
-                done();
-            }
+        it('should have the right label', () => {
+            assert.isTrue('Text' === edit.TextEdit.emptyLabel);
         });
 
-        it('should be empty when there is no text', done => {
-            let textEdit = new edit.TextEdit();
-
-            textEdit.props = {
-                cq_model: {}
-            };
-
-            if (textEdit.isEmpty()) {
-                done();
-            }
-        });
-
-        it('should be empty when text is empty', done => {
-            let textEdit = new edit.TextEdit();
-
-            textEdit.props = {
-                cq_model: {
-                    text: ''
+        it('should be empty when there is no text', () => {
+            let context = {
+                props: {
+                    cq_model: {}
                 }
             };
 
-            if (textEdit.isEmpty()) {
-                done();
-            }
+            assert.isTrue(edit.TextEdit.isEmpty.bind(context)());
         });
 
-        it('should be empty when text is empty after trim', done => {
-            let textEdit = new edit.TextEdit();
-
-            textEdit.props = {
-                cq_model: {
-                    text: '  '
+        it('should be empty when text is empty', () => {
+            let context = {
+                props: {
+                    cq_model: {
+                        text: ''
+                    }
                 }
             };
 
-            if (textEdit.isEmpty()) {
-                done();
-            }
+            assert.isTrue(edit.TextEdit.isEmpty.bind(context)());
         });
 
-        it('should not be empty when text filled', done => {
-            let textEdit = new edit.TextEdit();
-
-            textEdit.props = {
-                cq_model: {
-                    text: 'test'
+        it('should be empty when text is empty after trim', () => {
+            let context = {
+                props: {
+                    cq_model: {
+                        text: '  '
+                    }
                 }
             };
 
-            if (!textEdit.isEmpty()) {
-                done();
-            }
+            assert.isTrue(edit.TextEdit.isEmpty.bind(context)());
+        });
+
+        it('should not be empty when text filled', () => {
+            let context = {
+                props: {
+                    cq_model: {
+                        text: 'test'
+                    }
+                }
+            };
+
+            assert.isFalse(edit.TextEdit.isEmpty.bind(context)());
         });
 
     });

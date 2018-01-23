@@ -23,6 +23,7 @@ import Utils from '../Utils';
  *
  * Higher-Order Component pattern
  *
+ * @memberOf edit
  * @private
  */
 const EditableComponentComposer = {
@@ -34,12 +35,22 @@ const EditableComponentComposer = {
     DRAG_DROP_CLASS_NAME: 'cq-dd-',
 
     /**
+     * Configuration object carrying the authoring capabilities to decorate the associated component
+     *
+     * @typedef {{}} EditConfig
+     * @param {String} [dragDropName]       If defined, adds a specific class name enabling the drag and drop functionality
+     * @param {String} emptyLabel           Label to be displayed by the placeholder when the component is empty. Optionally returns an empty text value
+     * @param {function} isEmpty            Should the component be considered empty
+     */
+
+    /**
+     * Decorate the given component with properties carried by the editConfig object
      *
      * @param {Component} WrappedComponent  {@link React.Component} to be rendered
-     * @param {class} EditClass             Class responsible for carrying the authoring capabilities
-     * @returns {CompositePlaceholder} the wrapping component
+     * @param {EditConfig} editConfig       Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component
+     * @returns {CompositePlaceholder}      the wrapping component
      */
-    compose: function (WrappedComponent, EditClass) {
+    compose: function (WrappedComponent, editConfig) {
 
         return class CompositePlaceholder extends Component {
 
@@ -53,8 +64,8 @@ const EditableComponentComposer = {
                 // Remove previous drag and drop class names
                 element.className = element.className.replace(EditableComponentComposer.DRAG_DROP_REGEX, '');
 
-                if (EditClass.prototype.dragDropName && EditClass.prototype.dragDropName.trim().length > 0) {
-                    element.classList.add(EditableComponentComposer.DRAG_DROP_CLASS_NAME + EditClass.prototype.dragDropName);
+                if (editConfig.dragDropName && editConfig.dragDropName.trim().length > 0) {
+                    element.classList.add(EditableComponentComposer.DRAG_DROP_CLASS_NAME + editConfig.dragDropName);
                 }
 
                 if (this.usePlaceholder()) {
@@ -62,7 +73,7 @@ const EditableComponentComposer = {
                         element.classList.add(EditableComponentComposer.PLACE_HOLDER_CLASS_NAME);
                     }
 
-                    element.dataset.emptytext = EditClass.prototype.emptyLabel;
+                    element.dataset.emptytext = editConfig.emptyLabel;
                     // console.debug('EditableComponentComposer.js', 'set as placeholder', element, prevProps, this.props, this);
                 } else {
                     element.classList.remove(EditableComponentComposer.PLACE_HOLDER_CLASS_NAME);
@@ -76,7 +87,7 @@ const EditableComponentComposer = {
             }
 
             usePlaceholder() {
-                return Utils.isInEditor() && EditClass && EditClass.prototype && typeof EditClass.prototype.isEmpty === 'function' && EditClass.prototype.isEmpty.call(this);
+                return Utils.isInEditor() && editConfig && typeof editConfig.isEmpty === 'function' && editConfig.isEmpty.call(this);
             }
 
             render() {

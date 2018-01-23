@@ -14,36 +14,31 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
-import AbstractEdit from './AbstractEdit';
 
 /**
  * Default Edit configuration for the Image component that interact with the Core Image component and sub-types
  *
- * @class
- * @extends edit.AbstractEdit
+ * @type EditConfig
+ * @memberOf edit
  */
-class ImageEdit extends AbstractEdit {
+const ImageEdit = {
 
     /**
      * @inheritDoc
      */
-    get emptyLabel() {
-        return 'Image';
-    }
+    dragDropName: 'image',
 
     /**
      * @inheritDoc
      */
-    isEmpty() {
+    emptyLabel: 'Image',
+
+    /**
+     * @inheritDoc
+     */
+    isEmpty: function() {
         return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
     }
-
-    /**
-     * @inheritDoc
-     */
-    get dragDropName() {
-        return 'image';
-    }
-}
+};
 
 export default ImageEdit;
