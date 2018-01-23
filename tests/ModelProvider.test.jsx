@@ -1,7 +1,6 @@
-import PageModelManager from '@cq/cq-spa-page-model-manager';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ModelProvider } from '../index';
+import { ModelProvider, PageModelManager } from '../index';
 
 describe('ModelProvider', () => {
 

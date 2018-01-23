@@ -17,7 +17,7 @@
 import React, { Component } from 'react';
 import ModelConstants from '../ModelConstants';
 import { ComponentMapping } from '../ComponentMapping';
-import ModelProvider from "../ModelProvider";
+import ModelProvider from "./ModelProvider";
 
 /**
  * Container component that provides the common features required by all containers such as the dynamic inclusion of child components

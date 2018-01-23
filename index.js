@@ -26,17 +26,15 @@ require('./dist/edit/EditableComponentComposer');
  */
 
 module.exports = {
-    component: {
-        Container: require('./dist/components/Container').default
-    },
+    ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
+    Container: require('./dist/components/Container').default,
+    MapTo: require('./dist/ComponentMapping').MapTo,
+    ModelProvider: require('./dist/components/ModelProvider').default,
+    PageModelManager: require('@cq/cq-spa-page-model-manager').default,
+    Utils: require('./dist/Utils').default,
     edit: {
         AbstractEdit: require('./dist/edit/AbstractEdit').default,
         ImageEdit: require('./dist/edit/ImageEdit').default,
         TextEdit: require('./dist/edit/TextEdit').default
-    },
-    ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
-    MapTo: require('./dist/ComponentMapping').MapTo,
-    ModelProvider: require('./dist/ModelProvider').default,
-    PageModelManager: require('@cq/cq-spa-page-model-manager').default,
-    Utils: require('./dist/ModelProvider').default
+    }
 };

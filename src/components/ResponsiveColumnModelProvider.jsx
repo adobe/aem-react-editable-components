@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
-import ModelProvider from '../ModelProvider';
+import ModelProvider from './ModelProvider';
 
 /**
  * Model provider specific to the components considered as responsive columns
