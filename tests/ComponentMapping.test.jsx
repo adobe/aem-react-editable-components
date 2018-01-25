@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MapTo, edit } from '../index';
+import { ComponentMapping, MapTo } from '../index';
 
 describe('ComponentMapping & EditableComponentComposer', () => {
 
@@ -11,6 +11,26 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     const TEST_COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
 
     const ATTRIBUTE_CLASS = 'class';
+
+    const EditConfig = {
+
+        /**
+         * @inheritDoc
+         */
+        dragDropName: 'image',
+
+        /**
+         * @inheritDoc
+         */
+        emptyLabel: 'Image',
+
+        /**
+         * @inheritDoc
+         */
+        isEmpty: function() {
+            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+        }
+    };
 
     class TestComponent extends Component {
         render () {
@@ -25,7 +45,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     let observerConfig = { attributes: true, subtree: true };
 
     beforeEach(() => {
-        MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, edit.ImageEdit);
+        MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
         rootNode = document.createElement('div');
         document.body.appendChild(rootNode);
@@ -46,7 +66,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
             function observe (mutationsList) {
                 for(let mutation of mutationsList) {
                     if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS) {
-                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + edit.ImageEdit.dragDropName), 'Component not decorated with drag-drop class name');
+                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + EditConfig.dragDropName), 'Component not decorated with drag-drop class name');
                         observer.disconnect();
                         done();
                         break;
@@ -75,7 +95,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
             function observe (mutationsList) {
                 for(let mutation of mutationsList) {
                     hasPlaceholderClassName = mutation.target.classList.contains(PLACE_HOLDER_CLASS_NAME);
-                    hasEmptyText = mutation.target.dataset.emptytext === edit.ImageEdit.emptyLabel;
+                    hasEmptyText = mutation.target.dataset.emptytext === EditConfig.emptyLabel;
 
                     if (hasPlaceholderClassName && hasEmptyText) {
                         observer.disconnect();

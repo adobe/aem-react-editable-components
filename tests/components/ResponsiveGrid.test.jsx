@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MapTo, PageModelManager, edit } from '../../index';
+import { ComponentMapping, MapTo, PageModelManager } from '../../index';
 
 require('../../dist/components/ResponsiveGrid');
 
@@ -34,6 +34,26 @@ describe('ResponsiveGrid', () => {
         ":type": "wcm/foundation/components/responsivegrid"
     };
 
+    const EditConfig = {
+
+        /**
+         * @inheritDoc
+         */
+        dragDropName: 'image',
+
+        /**
+         * @inheritDoc
+         */
+        emptyLabel: 'Image',
+
+        /**
+         * @inheritDoc
+         */
+        isEmpty: function() {
+            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+        }
+    };
+
     class ComponentChild extends Component {
 
         render() {
@@ -52,7 +72,7 @@ describe('ResponsiveGrid', () => {
     });
 
     beforeEach(() => {
-        MapTo(TEST_COLUMN_RESOURCE_TYPE)(ComponentChild, edit.ImageEdit);
+        MapTo(TEST_COLUMN_RESOURCE_TYPE)(ComponentChild, EditConfig);
 
         rootNode = document.createElement('div');
         document.body.appendChild(rootNode);

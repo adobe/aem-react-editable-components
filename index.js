@@ -31,9 +31,5 @@ module.exports = {
     MapTo: require('./dist/ComponentMapping').MapTo,
     ModelProvider: require('./dist/components/ModelProvider').default,
     PageModelManager: require('@cq/cq-spa-page-model-manager').default,
-    Utils: require('./dist/Utils').default,
-    edit: {
-        ImageEdit: require('./dist/edit/ImageEdit').default,
-        TextEdit: require('./dist/edit/TextEdit').default
-    }
+    Utils: require('./dist/Utils').default
 };

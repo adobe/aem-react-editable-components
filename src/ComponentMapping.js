@@ -15,7 +15,7 @@
  * from Adobe Systems Incorporated.
  */
 import { ComponentMapping } from '@cq/cq-spa-component-mapping';
-import EditableComponentComposer from "./edit/EditableComponentComposer";
+import EditableComponentComposer from "./EditableComponentComposer";
 
 /**
  * Wrapped function

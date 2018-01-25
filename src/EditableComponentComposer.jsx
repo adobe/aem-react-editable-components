@@ -16,7 +16,7 @@
  */
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Utils from '../Utils';
+import Utils from './Utils';
 
 /**
  * Helper class for composing producing a component that can be authored
