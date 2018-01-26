@@ -28,13 +28,6 @@ const Constants = {
     NEW_SECTION_CLASS_NAMES: 'new section',
 
     /**
-     * Selector that identifies the page is being authored by the page editor
-     *
-     * @type {string}
-     */
-    IN_EDITOR_SELECTOR: '[data-cq-editor]',
-
-    /**
      * Type of the item
      *
      * @type {string}

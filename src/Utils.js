@@ -15,7 +15,13 @@
  * from Adobe Systems Incorporated.
  */
 
-import Constants from './Constants';
+/**
+ * Selector that identifies the page is being authored by the page editor
+ *
+ * @type {string}
+ * @private
+ */
+const IN_EDITOR_SELECTOR = '[data-cq-editor]';
 
 /**
  * Helper functions for interacting with the AEM environment
@@ -28,7 +34,7 @@ const Utils = {
      * @returns {boolean}
      */
     isInEditor () {
-        return !!document.querySelector(Constants.IN_EDITOR_SELECTOR)
+        return !!document.querySelector(IN_EDITOR_SELECTOR)
     }
 };
 
