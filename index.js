@@ -20,16 +20,12 @@ require('./dist/edit/EditableComponentComposer');
  * @namespace components
  */
 
-/**
- * Contains all the edit classes
- * @namespace edit
- */
-
 module.exports = {
     ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
     Container: require('./dist/components/Container').default,
     MapTo: require('./dist/ComponentMapping').MapTo,
     ModelProvider: require('./dist/components/ModelProvider').default,
     PageModelManager: require('@cq/cq-spa-page-model-manager').default,
+    Constants: require('./dist/Constants').default,
     Utils: require('./dist/Utils').default
 };

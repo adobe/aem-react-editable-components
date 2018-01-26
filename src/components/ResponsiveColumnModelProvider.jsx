@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -21,6 +21,7 @@ import ModelProvider from './ModelProvider';
  *
  * @class
  * @extends ModelProvider
+ * @memberOf components
  */
 class ResponsiveColumnModelProvider extends ModelProvider {
 

@@ -1,5 +1,5 @@
 # cq-react-editable-base-components
-Base React components that provide authoring capabilities when used in conjunction with the page editor
+React components that provide the base authoring capabilities when used in conjunction with the page editor.
 
 
 ## Development

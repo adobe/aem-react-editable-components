@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -15,17 +15,12 @@
  * from Adobe Systems Incorporated.
  */
 
+import Constants from './Constants';
+
 /**
  * Helper functions for interacting with the AEM environment
  */
 const Utils = {
-
-    /**
-     * Selector that identifies the page is being authored by the page editor
-     *
-     * @type {string}
-     */
-    IN_EDITOR_SELECTOR: '[data-cq-editor]',
 
     /**
      * Is the app used in the context of the AEM Page editor
@@ -33,7 +28,7 @@ const Utils = {
      * @returns {boolean}
      */
     isInEditor () {
-        return !!document.querySelector(this.IN_EDITOR_SELECTOR)
+        return !!document.querySelector(Constants.IN_EDITOR_SELECTOR)
     }
 };
 

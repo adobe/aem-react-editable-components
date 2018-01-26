@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -15,7 +15,7 @@
  * from Adobe Systems Incorporated.
  */
 import React, { Component } from 'react';
-import ModelConstants from '../ModelConstants';
+import Constants from '../Constants';
 import { ComponentMapping } from '../ComponentMapping';
 import ModelProvider from "./ModelProvider";
 
@@ -56,12 +56,12 @@ class Container extends Component {
 
         containerPath = containerPath.length > 0 ? containerPath + '/' : containerPath;
 
-        return this.props.cq_model && this.props.cq_model[ModelConstants.ITEMS_ORDER_PROP].map(itemKey => {
-            const item = that.props.cq_model[ModelConstants.ITEMS_PROP][itemKey];
+        return this.props.cq_model && this.props.cq_model[Constants.ITEMS_ORDER_PROP].map(itemKey => {
+            const item = that.props.cq_model[Constants.ITEMS_PROP][itemKey];
             item.path = containerPath + itemKey;
 
             // console.debug("Container.js", "add item", item.path, item, that);
-            const type = item[ModelConstants.TYPE_PROP];
+            const type = item[Constants.TYPE_PROP];
 
             if (!type) {
                 // console.debug("Container.js", "no type", item, that);

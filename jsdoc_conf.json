@@ -18,6 +18,7 @@
     "monospaceLinks": true
   },
   "opts": {
+    "readme": "./README.md",
     "template": "templates/default",
     "encoding": "utf8",
     "destination": "./out/",

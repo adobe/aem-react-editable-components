@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -16,9 +16,23 @@
  */
 
 /**
- * Useful variables for interacting with the model provided by AEM
+ * Useful variables for interacting with CQ/AEM components
  */
-const ModelConstants = {
+const Constants = {
+
+    /**
+     * Class names associated with a new section component
+     *
+     * @type {string}
+     */
+    NEW_SECTION_CLASS_NAMES: 'new section',
+
+    /**
+     * Selector that identifies the page is being authored by the page editor
+     *
+     * @type {string}
+     */
+    IN_EDITOR_SELECTOR: '[data-cq-editor]',
 
     /**
      * Type of the item
@@ -39,7 +53,7 @@ const ModelConstants = {
      *
      * @type {string}
      */
-    ITEMS_ORDER_PROP: ':itemsOrder',
+    ITEMS_ORDER_PROP: ':itemsOrder'
 };
 
-export default ModelConstants;
+export default Constants;

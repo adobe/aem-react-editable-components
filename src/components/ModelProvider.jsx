@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -22,6 +22,7 @@ import PageModelManager from '@cq/cq-spa-page-model-manager';
  * Wrapper component responsible for synchronizing a child component with a give portion of the page model
  *
  * @class
+ * @memberOf components
  */
 class ModelProvider extends Component {
 

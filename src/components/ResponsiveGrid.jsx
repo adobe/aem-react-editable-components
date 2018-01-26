@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -18,6 +18,7 @@ import React, {Component} from 'react';
 import { MapTo } from '../ComponentMapping';
 import Container from './Container';
 import ResponsiveColumnModelProvider from './ResponsiveColumnModelProvider';
+import Constants from '../Constants';
 import Utils from '../Utils';
 
 /**
@@ -28,7 +29,7 @@ import Utils from '../Utils';
  */
 class Placeholder extends Component {
 
-    PLACEHOLDER_CLASS_NAMES = 'new section aem-Grid-newComponent';
+    PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES + ' aem-Grid-newComponent';
 
     render() {
         return <div data-cq-content-path={this.props.cq_model && this.props.cq_model.path + "/*"} className={this.PLACEHOLDER_CLASS_NAMES} />
@@ -40,6 +41,7 @@ class Placeholder extends Component {
  *
  * @class
  * @extends components.Container
+ * @memberOf components
  */
 class ResponsiveGrid extends Container {
 

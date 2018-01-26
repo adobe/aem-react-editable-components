@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -19,11 +19,19 @@ import ReactDOM from 'react-dom';
 import Utils from './Utils';
 
 /**
+ * Configuration object in charge of providing the necessary data expected by the page editor to initiate the authoring. The provided data will be decorating the associated component
+ *
+ * @typedef {{}} EditConfig
+ * @property {String} [dragDropName]       If defined, adds a specific class name enabling the drag and drop functionality
+ * @property {String} emptyLabel           Label to be displayed by the placeholder when the component is empty. Optionally returns an empty text value
+ * @property {function} isEmpty            Should the component be considered empty
+ */
+
+/**
  * Helper class for composing producing a component that can be authored
  *
  * Higher-Order Component pattern
  *
- * @memberOf edit
  * @private
  */
 const EditableComponentComposer = {
@@ -33,15 +41,6 @@ const EditableComponentComposer = {
     DRAG_DROP_REGEX: /cq-dd-([^ ])+/g,
 
     DRAG_DROP_CLASS_NAME: 'cq-dd-',
-
-    /**
-     * Configuration object carrying the authoring capabilities to decorate the associated component
-     *
-     * @typedef {{}} EditConfig
-     * @param {String} [dragDropName]       If defined, adds a specific class name enabling the drag and drop functionality
-     * @param {String} emptyLabel           Label to be displayed by the placeholder when the component is empty. Optionally returns an empty text value
-     * @param {function} isEmpty            Should the component be considered empty
-     */
 
     /**
      * Decorate the given component with properties carried by the editConfig object

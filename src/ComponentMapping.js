@@ -1,7 +1,7 @@
 /*
  * ADOBE CONFIDENTIAL
  *
- * Copyright 2017 Adobe Systems Incorporated
+ * Copyright 2018 Adobe Systems Incorporated
  * All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -26,9 +26,9 @@ import EditableComponentComposer from "./EditableComponentComposer";
 let wrappedMapFct = ComponentMapping.map;
 
 /**
- * Map a React component with the given resource types. If an {@code editClass} is provided the {@code clazz} is wrapped to provide edition capabilities on the AEM Page Editor
+ * Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
  *
- * @param {string[]} resourceTypes      list of resource types for which to use the given {@code clazz}
+ * @param {string[]} resourceTypes      list of resource types for which to use the given <i>clazz</i>
  * @param {class} clazz                 class to be instantiated for the given resource types
  * @param {EditConfig} editConfig       configuration object for enabling the edition capabilities
  * @returns {class}                     the resulting decorated Class
