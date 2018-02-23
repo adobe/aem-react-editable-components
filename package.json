@@ -23,17 +23,11 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@cq/cq-spa-component-mapping": "^0.0.2",
-    "@cq/cq-spa-page-model-manager": "^0.0.11",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.9.1",
-    "babel-loader": "^6.2.4",
-    "babel-polyfill": "^6.9.1",
-    "babel-preset-es2015": "^6.9.0",
+    "@cq/cq-spa-component-mapping": "^0.0.4",
+    "@cq/cq-spa-page-model-manager": "^0.0.16",
     "custom-event-polyfill": "^0.3.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "webpack": "^1.13.1"
+    "react-dom": "^16.2.0"
   },
   "eslintConfig": {
     "parserOptions": {
@@ -43,10 +37,15 @@
   },
   "peerDependencies": {},
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.9.1",
     "babel-eslint": "7.2.3",
+    "babel-loader": "^6.2.4",
+    "babel-polyfill": "^6.9.1",
     "babel-plugin-istanbul": "^4.1.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^3.5.0",
@@ -70,6 +69,7 @@
     "npm-auto-version": "^1.0.0",
     "react-test-renderer": "^16.2.0",
     "sinon": "^4.1.3",
-    "sinon-chai": "^2.14.0"
+    "sinon-chai": "^2.14.0",
+    "webpack": "^1.13.1"
   }
 }
