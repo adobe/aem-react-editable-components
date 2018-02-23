@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ModelProvider, PageModelManager } from '../index';
 
+
 describe('ModelProvider', () => {
 
     const STATIC_PAGE_MODEL = 'react-page.json';
@@ -47,6 +48,29 @@ describe('ModelProvider', () => {
 
     let server;
 
+    let rootNode;
+
+    let observerConfig = { attributes: true, subtree: true };
+
+    /**
+     * Generic observe function
+     *
+     * @param {function} condition
+     * @param {function} done
+     * @returns {Function}
+     */
+    function observe(condition, done) {
+        return function (mutationsList) {
+            for (let mutation of mutationsList) {
+                if (condition && typeof condition === 'function' && condition(mutation)) {
+                    this.disconnect();
+                    done();
+                    break;
+                }
+            }
+        }
+    }
+
     beforeEach(() => {
         server = sinon.fakeServer.create();
 
@@ -57,6 +81,8 @@ describe('ModelProvider', () => {
             assert.deepEqual(PAGE_MODEL_JSON, model, 'Returns the page model object');
         });
 
+        rootNode = document.createElement('div');
+
         server.respond();
     });
 
@@ -64,25 +90,65 @@ describe('ModelProvider', () => {
         server.restore();
     });
 
+    describe('Tag instantiation ->', () => {
+
+        it('should initialize properly without parameter', done => {
+            ReactDOM.render(<ModelProvider><div></div></ModelProvider>, rootNode);
+
+            let observer = new MutationObserver(observe(function (mutation) {
+                return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === '';
+            }, done));
+
+            observer.observe(rootNode, observerConfig);
+        });
+
+        it('should initialize properly with a path parameter', done => {
+            let path = 'root';
+
+            ReactDOM.render(<ModelProvider path={path}><div></div></ModelProvider>, rootNode);
+
+            let observer = new MutationObserver(observe(function (mutation) {
+                return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === path;
+            }, done));
+
+            observer.observe(rootNode, observerConfig);
+        });
+
+        it('should initialize properly with a key parameter', done => {
+            let path = '';
+
+            ReactDOM.render(<ModelProvider key={'test'}><div></div></ModelProvider>, rootNode);
+
+            let observer = new MutationObserver(observe(function (mutation) {
+                return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === path;
+            }, done));
+
+            observer.observe(rootNode, observerConfig);
+        });
+
+        it('should initialize properly with a path and a key parameter', done => {
+            let path = 'root';
+
+            ReactDOM.render(<ModelProvider key={'test'} path={path}><div></div></ModelProvider>, rootNode);
+
+            let observer = new MutationObserver(observe(function (mutation) {
+                return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === path;
+            }, done));
+
+            observer.observe(rootNode, observerConfig);
+        });
+
+    });
+
     describe('decoration ->', () => {
 
         it('should decorate the inner content', done => {
-            let observer;
             let node = document.createElement('div');
             let config = { attributes: true, subtree: true, childList: true };
 
-            function observe (mutationsList) {
-                for(let mutation of mutationsList) {
-                    if (mutation.target.id === INNER_COMPONENT_ID && mutation.type === 'attributes' && mutation.attributeName === DATA_ATTRIBUTE_CONTENT_PATH) {
-                        expect(mutation.target.dataset.cqContentPath).to.equal(ROOT_GRID_CLASS_PATH);
-                        observer.disconnect();
-                        done();
-                        break;
-                    }
-                }
-            }
-
-            observer = new MutationObserver(observe);
+            let observer = new MutationObserver(observe(function (mutation) {
+                return mutation.target.id === INNER_COMPONENT_ID && mutation.type === 'attributes' && mutation.attributeName === DATA_ATTRIBUTE_CONTENT_PATH && mutation.target.dataset.cqContentPath === ROOT_GRID_CLASS_PATH;
+            }, done));
 
             observer.observe(node, config);
 

@@ -13,7 +13,7 @@
 
 require('./dist/components/ResponsiveColumnModelProvider');
 require('./dist/components/ResponsiveGrid');
-require('./dist/edit/EditableComponentComposer');
+require('./dist/EditableComponentComposer');
 
 /**
  * Contains all the base components

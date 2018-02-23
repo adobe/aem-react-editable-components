@@ -29,12 +29,10 @@ class ModelProvider extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
-
-        if (props) {
-            this.state.path = props.path;
-            this.state.cq_model = props.cq_model;
-        }
+        this.state = {
+            path: props && props.path ? props.path : '',
+            cq_model: props && props.cq_model
+        };
 
         this.updateData();
     }
@@ -43,17 +41,18 @@ class ModelProvider extends Component {
      * Updates the state and data of the current Object
      */
     updateData() {
-        let that = this;
+        const that = this;
+        const path = this.state.path || '';
 
         // Fetching the latest data for the item at the given path
-        this.getData(this.props.path).then(model => {
+        this.getData(path).then(model => {
             if (!model) {
                 return;
             }
 
-            model.path = that.props.path;
+            model.path = path;
+
             that.setState({
-                path: that.props.path,
                 cq_model: model
             });
         });
@@ -82,10 +81,8 @@ class ModelProvider extends Component {
             return;
         }
 
-        if (this.props.path && this.props.path.trim().length > 0) {
-            const childAttrs = {cqContentPath: this.props.path};
-            Object.keys(childAttrs).forEach(attr => element.dataset[attr] = childAttrs[attr]);
-        }
+        const childAttrs = {cqContentPath: this.state.path};
+        Object.keys(childAttrs).forEach(attr => element.dataset[attr] = childAttrs[attr]);
     }
 
     /**
@@ -115,7 +112,7 @@ class ModelProvider extends Component {
 
         // List and clone the children to passing the data as properties
         return Children.map(this.props.children, child =>
-            React.cloneElement(child, { ref: this.props.path, cq_model: this.state.cq_model }));
+            React.cloneElement(child, { ref: this.state.path, cq_model: this.state.cq_model }));
     }
 }
 
