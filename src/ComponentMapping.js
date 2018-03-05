@@ -16,6 +16,7 @@
  */
 import { ComponentMapping } from '@cq/cq-spa-component-mapping';
 import EditableComponentComposer from "./EditableComponentComposer";
+import ModelProviderHelper from "./ModelProviderHelper";
 
 /**
  * Wrapped function
@@ -44,7 +45,7 @@ ComponentMapping.map = function map (resourceTypes, clazz, editConfig) {
 
         wrappedMapFct.call(ComponentMapping, resourceTypes, innerClass);
 
-        return innerClass;
+        return ModelProviderHelper.asModelProvider(innerClass);
     };
 
 function MapTo(resourceTypes) {

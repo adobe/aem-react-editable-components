@@ -32,7 +32,7 @@ class Container extends Component {
      *
      * @returns {ModelProvider}
      */
-    get wrapper() {
+    get modelProvider() {
         return ModelProvider;
     }
 
@@ -76,7 +76,7 @@ class Container extends Component {
                 return false;
             }
 
-            let Wrapper = this.wrapper;
+            let Wrapper = this.modelProvider;
 
             if (Wrapper) {
                 return <Wrapper key={item.path} path={item.path}><DynamicComponent cq_model={item}/></Wrapper>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ModelProvider, PageModelManager } from '../index';
+import { ModelProvider, PageModelManager, MapTo, asModelProvider } from '../index';
 
 
 describe('ModelProvider', () => {
@@ -8,7 +8,10 @@ describe('ModelProvider', () => {
     const STATIC_PAGE_MODEL = 'react-page.json';
 
     const ROOT_GRID_CLASS_PATH = 'root';
+
     const DATA_ATTRIBUTE_CONTENT_PATH = 'data-cq-content-path';
+
+    const TEST_COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
 
     const PAGE_MODEL_JSON = {
         "designPath": "/libs/settings/wcm/designs/default",
@@ -50,7 +53,35 @@ describe('ModelProvider', () => {
 
     let rootNode;
 
+    let observer;
+
     let observerConfig = { attributes: true, subtree: true };
+
+    const EditConfig = {
+
+        /**
+         * @inheritDoc
+         */
+        dragDropName: 'image',
+
+        /**
+         * @inheritDoc
+         */
+        emptyLabel: 'Image',
+
+        /**
+         * @inheritDoc
+         */
+        isEmpty: function() {
+            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+        }
+    };
+
+    class TestComponent extends Component {
+        render () {
+            return <div id={INNER_COMPONENT_ID}/>
+        }
+    }
 
     /**
      * Generic observe function
@@ -63,7 +94,6 @@ describe('ModelProvider', () => {
         return function (mutationsList) {
             for (let mutation of mutationsList) {
                 if (condition && typeof condition === 'function' && condition(mutation)) {
-                    this.disconnect();
                     done();
                     break;
                 }
@@ -87,7 +117,12 @@ describe('ModelProvider', () => {
     });
 
     afterEach(() => {
+        if (observer) {
+            observer.disconnect();
+        }
+
         server.restore();
+        rootNode.innerHTML = '';
     });
 
     describe('Tag instantiation ->', () => {
@@ -95,7 +130,7 @@ describe('ModelProvider', () => {
         it('should initialize properly without parameter', done => {
             ReactDOM.render(<ModelProvider><div></div></ModelProvider>, rootNode);
 
-            let observer = new MutationObserver(observe(function (mutation) {
+            observer = new MutationObserver(observe(function (mutation) {
                 return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === '';
             }, done));
 
@@ -107,7 +142,7 @@ describe('ModelProvider', () => {
 
             ReactDOM.render(<ModelProvider path={path}><div></div></ModelProvider>, rootNode);
 
-            let observer = new MutationObserver(observe(function (mutation) {
+            observer = new MutationObserver(observe(function (mutation) {
                 return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === path;
             }, done));
 
@@ -119,7 +154,7 @@ describe('ModelProvider', () => {
 
             ReactDOM.render(<ModelProvider key={'test'}><div></div></ModelProvider>, rootNode);
 
-            let observer = new MutationObserver(observe(function (mutation) {
+            observer = new MutationObserver(observe(function (mutation) {
                 return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === path;
             }, done));
 
@@ -131,7 +166,7 @@ describe('ModelProvider', () => {
 
             ReactDOM.render(<ModelProvider key={'test'} path={path}><div></div></ModelProvider>, rootNode);
 
-            let observer = new MutationObserver(observe(function (mutation) {
+            observer = new MutationObserver(observe(function (mutation) {
                 return mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === path;
             }, done));
 
@@ -143,18 +178,49 @@ describe('ModelProvider', () => {
     describe('decoration ->', () => {
 
         it('should decorate the inner content', done => {
-            let node = document.createElement('div');
             let config = { attributes: true, subtree: true, childList: true };
 
-            let observer = new MutationObserver(observe(function (mutation) {
+            observer = new MutationObserver(observe(function (mutation) {
                 return mutation.target.id === INNER_COMPONENT_ID && mutation.type === 'attributes' && mutation.attributeName === DATA_ATTRIBUTE_CONTENT_PATH && mutation.target.dataset.cqContentPath === ROOT_GRID_CLASS_PATH;
             }, done));
 
-            observer.observe(node, config);
+            observer.observe(rootNode, config);
 
-            let instance = ReactDOM.render(<ModelProvider path={ROOT_GRID_CLASS_PATH}><div id={INNER_COMPONENT_ID}/></ModelProvider>, node);
+            let instance = ReactDOM.render(<ModelProvider path={ROOT_GRID_CLASS_PATH}><div id={INNER_COMPONENT_ID}/></ModelProvider>, rootNode);
 
             expect(instance.props.path).to.equal(ROOT_GRID_CLASS_PATH);
+        });
+
+        it('should return a component wrapped in a model provider', done => {
+            observer = new MutationObserver(observe(function (mutation) {
+                return mutation.target.id === INNER_COMPONENT_ID && mutation.type === 'attributes' && mutation.attributeName === DATA_ATTRIBUTE_CONTENT_PATH && mutation.target.dataset.cqContentPath === ROOT_GRID_CLASS_PATH;
+            }, done));
+
+            const ModelWrappedComponent = asModelProvider(TestComponent);
+
+            observer.observe(rootNode, observerConfig);
+
+            ReactDOM.render(<ModelWrappedComponent cq_path={ROOT_GRID_CLASS_PATH}/>, rootNode);
+
+            // Produce an update instead of a replacement
+            ReactDOM.render(<ModelWrappedComponent now={Date.now()}/>, rootNode);
+        });
+
+        it('should return a component wrapped in a model provider - MapTo', done => {
+            let config = { attributes: true, subtree: true, childList: true };
+
+            observer = new MutationObserver(observe(function (mutation) {
+                return mutation.target.id === INNER_COMPONENT_ID && mutation.type === 'attributes' && mutation.attributeName === DATA_ATTRIBUTE_CONTENT_PATH && mutation.target.dataset.cqContentPath === ROOT_GRID_CLASS_PATH;
+            }, done));
+
+            const ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
+
+            observer.observe(rootNode, config);
+
+            ReactDOM.render(<ExportedTestComponent cq_path={ROOT_GRID_CLASS_PATH}/>, rootNode);
+
+            // Produce an update instead of a replacement
+            ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
         });
 
     });

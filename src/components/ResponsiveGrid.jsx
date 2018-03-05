@@ -104,7 +104,7 @@ class ResponsiveGrid extends Container {
      * @inheritDoc
      * @returns {ResponsiveColumnModelProvider}
      */
-    get wrapper() {
+    get modelProvider() {
         return ResponsiveColumnModelProvider;
     }
 

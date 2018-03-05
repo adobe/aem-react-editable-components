@@ -39,8 +39,11 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     }
 
     let WrappedTestComponent;
+    let ExportedTestComponent;
 
     let rootNode;
+
+    let observer;
 
     let observerConfig = { attributes: true, subtree: true };
 
@@ -51,7 +54,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     beforeEach(() => {
-        MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
+        ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
         rootNode = document.createElement('div');
         document.body.appendChild(rootNode);
@@ -60,6 +63,10 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     afterEach(() => {
+        if (observer) {
+            observer.disconnect();
+        }
+
         rootNode.innerHTML = '';
         delete rootNode.dataset.cqEditor;
     });
@@ -67,13 +74,10 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     describe('decoration ->', () => {
 
         it('should decorate the mapped component with drag and drop class names', done => {
-            let observer;
-
             function observe (mutationsList) {
                 for(let mutation of mutationsList) {
                     if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS) {
                         assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + EditConfig.dragDropName), 'Component not decorated with drag-drop class name');
-                        observer.disconnect();
                         done();
                         break;
                     }
@@ -90,9 +94,28 @@ describe('ComponentMapping & EditableComponentComposer', () => {
             ReactDOM.render(<WrappedTestComponent now={Date.now()}/>, rootNode);
         });
 
-        it('should decorate the mapped component with image placeholder class names and empty text attribute', done => {
-            let observer;
+        it('should decorate the exported mapped component with drag and drop class names', done => {
+            function observe (mutationsList) {
+                for(let mutation of mutationsList) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS) {
+                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + EditConfig.dragDropName), 'Component not decorated with drag-drop class name');
+                        done();
+                        break;
+                    }
+                }
+            }
 
+            observer = new MutationObserver(observe);
+
+            observer.observe(rootNode, observerConfig);
+
+            ReactDOM.render(<ExportedTestComponent/>, rootNode);
+
+            // Produce an update instead of a replacement
+            ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
+        });
+
+        it('should decorate the mapped component with image placeholder class names and empty text attribute', done => {
             let hasPlaceholderClassName = false;
             let hasEmptyText = false;
 
@@ -102,7 +125,6 @@ describe('ComponentMapping & EditableComponentComposer', () => {
                     hasEmptyText = mutation.target.dataset.emptytext === EditConfig.emptyLabel;
 
                     if (hasPlaceholderClassName && hasEmptyText) {
-                        observer.disconnect();
                         done();
                         break;
                     }
@@ -117,6 +139,32 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
             // Produce an update instead of a replacement
             ReactDOM.render(<WrappedTestComponent now={Date.now()}/>, rootNode);
+        });
+
+        it('should decorate the exported mapped component with image placeholder class names and empty text attribute', done => {
+            let hasPlaceholderClassName = false;
+            let hasEmptyText = false;
+
+            function observe (mutationsList) {
+                for(let mutation of mutationsList) {
+                    hasPlaceholderClassName = mutation.target.classList.contains(PLACE_HOLDER_CLASS_NAME);
+                    hasEmptyText = mutation.target.dataset.emptytext === EditConfig.emptyLabel;
+
+                    if (hasPlaceholderClassName && hasEmptyText) {
+                        done();
+                        break;
+                    }
+                }
+            }
+
+            observer = new MutationObserver(observe);
+
+            observer.observe(rootNode, observerConfig);
+
+            ReactDOM.render(<ExportedTestComponent/>, rootNode);
+
+            // Produce an update instead of a replacement
+            ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
         });
 
     });
