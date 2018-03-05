@@ -68,6 +68,9 @@ describe('ResponsiveGrid', () => {
     let observerConfig = { attributes: true, subtree: true };
 
     before(() => {
+        let metaEditor = document.createElement('meta');
+        metaEditor.setAttribute('property', 'cq:editor');
+        document.head.appendChild(metaEditor);
         sinon.stub(PageModelManager, 'getData').withArgs('child01').resolves(RESPONSIVE_COLUMN_MODEL);
     });
 
@@ -122,8 +125,6 @@ describe('ResponsiveGrid', () => {
     describe('placeholder ->', () => {
 
         it('should have a placeholder', done => {
-            rootNode.dataset.cqEditor = true;
-
             ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cq_model={RESPONSIVE_GRID_MODEL}/>, rootNode);
 
             let placeholder = rootNode.querySelector('.' + RESPONSIVE_GRID_CLASS_NAME + ' > ' + RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES_SELECTOR);

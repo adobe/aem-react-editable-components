@@ -44,6 +44,12 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
     let observerConfig = { attributes: true, subtree: true };
 
+    before(() => {
+        let metaEditor = document.createElement('meta');
+        metaEditor.setAttribute('property', 'cq:editor');
+        document.head.appendChild(metaEditor);
+    });
+
     beforeEach(() => {
         MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
@@ -86,8 +92,6 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
         it('should decorate the mapped component with image placeholder class names and empty text attribute', done => {
             let observer;
-
-            rootNode.dataset.cqEditor = true;
 
             let hasPlaceholderClassName = false;
             let hasEmptyText = false;

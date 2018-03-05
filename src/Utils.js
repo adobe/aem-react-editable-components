@@ -21,7 +21,7 @@
  * @type {string}
  * @private
  */
-const IN_EDITOR_SELECTOR = '[data-cq-editor]';
+const IN_EDITOR_SELECTOR = 'meta[property="cq:editor"]';
 
 /**
  * Helper functions for interacting with the AEM environment
