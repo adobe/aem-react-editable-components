@@ -24,7 +24,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@cq/cq-spa-component-mapping": "^0.0.5",
-    "@cq/cq-spa-page-model-manager": "^0.0.17",
+    "@cq/cq-spa-page-model-manager": "^0.0.19",
     "babel-polyfill": "^6.9.1",
     "custom-event-polyfill": "^0.3.0",
     "react": "^16.2.0",
