@@ -49,7 +49,8 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
     before(() => {
         let metaEditor = document.createElement('meta');
-        metaEditor.setAttribute('property', 'cq:editor');
+        metaEditor.setAttribute('property', 'cq:wcmmode');
+        metaEditor.setAttribute('content', 'edit');
         document.head.appendChild(metaEditor);
     });
 

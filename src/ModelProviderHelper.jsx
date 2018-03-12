@@ -19,7 +19,7 @@ import ModelProvider from "./components/ModelProvider";
 
 /**
  * Helper that facilitate the use of the {@link ModelProvider} component
- * @type {{asModelProvider: (function(*))}}
+ * @type {{withModel: (function(*))}}
  */
 const ModelProviderHelper = {
 
@@ -29,10 +29,10 @@ const ModelProviderHelper = {
      * @param WrappedComponent
      * @returns {CompositeModelProvider}
      */
-    asModelProvider(WrappedComponent) {
+    withModel(WrappedComponent) {
         return class CompositeModelProvider extends Component {
             render() {
-                return <ModelProvider path={this.props.cq_path}>
+                return <ModelProvider path={this.props.cq_model_path}>
                     <WrappedComponent {...this.props}/>
                 </ModelProvider>
             }

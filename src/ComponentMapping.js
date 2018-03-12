@@ -45,7 +45,7 @@ ComponentMapping.map = function map (resourceTypes, clazz, editConfig) {
 
         wrappedMapFct.call(ComponentMapping, resourceTypes, innerClass);
 
-        return ModelProviderHelper.asModelProvider(innerClass);
+        return ModelProviderHelper.withModel(innerClass);
     };
 
 function MapTo(resourceTypes) {

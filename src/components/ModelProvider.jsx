@@ -71,6 +71,20 @@ class ModelProvider extends Component {
         this.decorateChildElements();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.path !== this.props.path) {
+            // Path has been updated.
+            const newPath = nextProps.path || '';
+            // Remove old listener associated with the old location
+            PageModelManager.removeListener(this.state.path, this.updateData.bind(this));
+            // Add new listener on the new location.
+            // We can not use state because it is not updated yet
+            PageModelManager.addListener(newPath, this.updateData.bind(this));
+            // Update state
+            this.setState({path : newPath}, this.updateData.bind(this));
+        }
+    }
+
     /**
      * Decorate a child {@link HTMLElement} with extra data attributes
      *
