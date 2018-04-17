@@ -25,6 +25,8 @@ const IN_EDITOR_SELECTOR = 'meta[property="cq:wcmmode"][content="edit"]';
 
 /**
  * Helper functions for interacting with the AEM environment
+ *
+ * @namespace Utils
  */
 const Utils = {
 
@@ -33,8 +35,8 @@ const Utils = {
      *
      * @returns {boolean}
      */
-    isInEditor () {
-        return !!document.querySelector(IN_EDITOR_SELECTOR);
+    isInEditor() {
+        return !!document.head.querySelector(IN_EDITOR_SELECTOR);
     }
 };
 

@@ -21,18 +21,21 @@ import ResponsiveColumnModelProvider from './ResponsiveColumnModelProvider';
 import Constants from '../Constants';
 import Utils from '../Utils';
 
+const CONTAINER_CLASS_NAMES = 'aem-container';
+const PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES + ' aem-Grid-newComponent';
+
 /**
  * Placeholder of the responsive grid component
  *
  * @class
+ * @extends React.Component
  * @private
  */
 class Placeholder extends Component {
 
-    PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES + ' aem-Grid-newComponent';
 
     render() {
-        return <div data-cq-content-path={this.props.cq_model && this.props.cq_model.path + "/*"} className={this.PLACEHOLDER_CLASS_NAMES} />
+        return <div data-cq-content-path={this.props.cq_model && this.props.cq_model[Constants.DATA_PATH_PROP] + "/*"} className={PLACEHOLDER_CLASS_NAMES} />
     }
 }
 
@@ -42,10 +45,13 @@ class Placeholder extends Component {
  * @class
  * @extends components.Container
  * @memberOf components
+ *
+ * @param {{}} props                                    - the provided component properties
+ * @param {{}} [props.cq_model]                         - the page model configuration object
+ * @param {string} [props.cq_model.gridClassNames]      - the grid class names as provided by the content services
+ * @param {string} [props.cq_model.classNames]          - the class names as provided by the content services
  */
 class ResponsiveGrid extends Container {
-
-    CONTAINER_CLASS_NAME = 'aem-container';
 
     constructor(props) {
         super(props);
@@ -76,7 +82,7 @@ class ResponsiveGrid extends Container {
             return '';
         }
 
-        let classNames = this.CONTAINER_CLASS_NAME;
+        let classNames = CONTAINER_CLASS_NAMES;
 
         if (this.props.cq_model.classNames) {
             classNames += ' ' + this.props.cq_model.classNames;

@@ -18,21 +18,52 @@ import React, { Component } from 'react';
 import ModelProvider from "./components/ModelProvider";
 
 /**
- * Helper that facilitate the use of the {@link ModelProvider} component
- * @type {{withModel: (function(*))}}
+ * Composition class that wraps the provided component and decorating it with a ModelProvider.
+ * This class is used internally by the {@link ModelProviderHelper#withModel} function to wrap the provided component into a {@link ModelProvider} component
+ *
+ * @typedef {{}} CompositeModelProvider
+ * @class
+ * @extends React.Component
+ * @memberOf ModelProviderHelper
+ *
+ * @property {{}} props                               - the provided component properties
+ * @property {string} props.cq_model_data_path        - relative path of the current configuration in the overall page model
+ * @property {string} props.cq_model_page_path        - absolute path of the containing page
+ * @property {boolean} props.cq_model_force_reload    - should the cache be ignored
+ */
+
+/**
+ * Helper that facilitates the use of the {@link ModelProvider} component
+ *
+ * @module
+ * @type {Object}
+ * @namespace ModelProviderHelper
+ *
+ * @param {function} withModel
  */
 const ModelProviderHelper = {
 
     /**
      * Returns a composite component where a {@link ModelProvider} component wraps the provided component
      *
-     * @param WrappedComponent
-     * @returns {CompositeModelProvider}
+     * @type {Function}
+     * @param {React.Component} WrappedComponent            - component to be wrapped
+     * @param {{}} [config]                                 - configuration object
+     * @param {boolean} [config.forceReload=undefined]      - should the model cache be ignored when processing the component
+     * @returns {CompositeModelProvider}                    - the wrapped component
      */
-    withModel(WrappedComponent) {
+    withModel(WrappedComponent, config) {
+
+        /**
+         * @type CompositeModelProvider
+         */
         return class CompositeModelProvider extends Component {
             render() {
-                return <ModelProvider path={this.props.cq_model_path}>
+                config = config || {};
+                // The reload can be forced either via the withModel function property or locally via the tag's property
+                let forceReload = this.props.cq_model_force_reload || config.forceReload;
+
+                return <ModelProvider data_path={this.props.cq_model_data_path} page_path={this.props.cq_model_page_path} force_reload={forceReload}>
                     <WrappedComponent {...this.props}/>
                 </ModelProvider>
             }

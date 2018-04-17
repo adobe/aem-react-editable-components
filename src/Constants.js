@@ -15,8 +15,12 @@
  * from Adobe Systems Incorporated.
  */
 
+import {Constants as PMConstants} from '@adobe/cq-spa-page-model-manager';
+
 /**
  * Useful variables for interacting with CQ/AEM components
+ *
+ * @namespace Constants
  */
 const Constants = {
 
@@ -32,21 +36,42 @@ const Constants = {
      *
      * @type {string}
      */
-    TYPE_PROP: ':type',
+    TYPE_PROP: PMConstants.TYPE_PROP,
 
     /**
      * List of child items of an item
      *
      * @type {string}
      */
-    ITEMS_PROP: ':items',
+    ITEMS_PROP: PMConstants.ITEMS_PROP,
 
     /**
      * Order in which the items should be listed
      *
      * @type {string}
      */
-    ITEMS_ORDER_PROP: ':itemsOrder'
+    ITEMS_ORDER_PROP: PMConstants.ITEMS_ORDER_PROP,
+
+    /**
+     * Path of a page
+     *
+     * @type {string}
+     */
+    PAGE_PATH_PROP: PMConstants.PAGE_PATH_PROP,
+
+    /**
+     * List of child pages of an page
+     *
+     * @type {string}
+     */
+    PAGES_PROP: PMConstants.PAGES_PROP,
+
+    /**
+     * Path of the resource in the model
+     *
+     * @type {string}
+     */
+    DATA_PATH_PROP: ':dataPath'
 };
 
 export default Constants;

@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = function(config) {
     config.set({
         // base path, that will be used to resolve files and exclude
@@ -20,7 +22,6 @@ module.exports = function(config) {
         // process es6 files
         preprocessors: {
             'tests/test-context.js': [ 'webpack', 'sourcemap' ]
-
         },
 
         coverageReporter: {
@@ -74,12 +75,16 @@ module.exports = function(config) {
         autoWatch: true,
 
         // browsers ('Chrome', 'ChromeCanary', 'Firefox', 'Opera', 'Safari', 'PhantomJS', 'IE')
-        browsers: [ 'ChromeHeadless' ],
+        browsers: [ 'Chrome' ],
+
+        customLaunchers: {
+            Chrome_with_debugging: {
+                base: 'Chrome',
+                chromeDataDir: path.resolve(__dirname, '.chrome')
+            }
+        },
 
         // if browser does not capture in given timeout [ms], kill it
-        captureTimeout: 60000,
-
-        // continuous Integration mode (if true, it capture browsers, run tests and exit)
-        singleRun: true
+        captureTimeout: 60000
     });
 };

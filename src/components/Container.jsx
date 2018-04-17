@@ -14,16 +14,23 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Constants from '../Constants';
-import { ComponentMapping } from '../ComponentMapping';
+import {ComponentMapping} from '../ComponentMapping';
 import ModelProvider from "./ModelProvider";
 
 /**
- * Container component that provides the common features required by all containers such as the dynamic inclusion of child components
+ * Container component that provides the common features required by all containers such as the dynamic inclusion of child components.
+ * <p>The Container supports content items as well as child pages</p>
  *
  * @class
+ * @extends React.Component
  * @memberOf components
+ *
+ *
+ * @param {{}} props                                - the provided component properties
+ * @param {{}} [props.cq_model]                     - the page model configuration object
+ * @param {string} [props.cq_model.:dataPath]       - relative path of the current configuration in the overall page model
  */
 class Container extends Component {
 
@@ -31,23 +38,170 @@ class Container extends Component {
      * Wrapper class in which the content is eventually wrapped
      *
      * @returns {ModelProvider}
+     *
+     * @protected
      */
     get modelProvider() {
         return ModelProvider;
     }
 
     /**
-     * Returns the path of the current resource
+     * Returns the path of the page the current component is part of
      *
-     * @returns {string|boolean}
+     * @returns {*}
+     *
+     * @protected
      */
-    get path() {
-        return this.props && this.props.cq_model && this.props.cq_model.path;
+    getPagePath() {
+        return this.props && this.props.cq_model && this.props.cq_model[Constants.PAGE_PATH_PROP] || this.props.cq_model_page_path;
     }
 
+    /**
+     * Returns the {@link React.Component} mapped to the type of the item
+     * @param {{}} item     - item of the model
+     * @returns {boolean}
+     *
+     * @protected
+     */
+    getDynamicComponent(item) {
+        if (!item) {
+            return false;
+        }
+
+        // console.debug("Container.js", "add item", item.path, item, that);
+        const type = item[Constants.TYPE_PROP];
+
+        if (!type) {
+            // console.debug("Container.js", "no type", item, that);
+            return false;
+        }
+
+        // Get the constructor of the component to later be dynamically instantiated
+        return ComponentMapping.get(type);
+    }
+
+    /**
+     * Returns the component optionally wrapped into the current ModelProvider implementation
+     *
+     * @param {string} field                    - name of the field where the item is located
+     * @param {string} itemKey                  - map key where the item is located in the field
+     * @param {string} containerDataPath        - relative path of the item's container
+     * @param {function} propertiesCallback     - properties to dynamically decorate the wrapper element with
+     * @returns {React.Component}
+     *
+     * @protected
+     */
+    getWrappedDynamicComponent(field, itemKey, containerDataPath, propertiesCallback) {
+        if (!this.props.cq_model[field]) {
+            return false;
+        }
+
+        const item = this.props.cq_model[field][itemKey];
+
+        if (!item) {
+            return false;
+        }
+
+        item[Constants.DATA_PATH_PROP] = containerDataPath + itemKey;
+
+        const DynamicComponent = this.getDynamicComponent(item);
+
+        if (!DynamicComponent) {
+            // console.debug("Container.js", "no dynamic component", item, that);
+            return false;
+        }
+
+        let Wrapper = this.modelProvider;
+
+        if (Wrapper) {
+            propertiesCallback = propertiesCallback || function noOp(){return {}};
+
+            return <Wrapper key={item[Constants.DATA_PATH_PROP]} {...propertiesCallback()}><DynamicComponent cq_model={item} cq_model_page_path={this.props.cq_model_page_path} cq_model_data_path={this.props.cq_model_data_path}/></Wrapper>
+        }
+
+        return <DynamicComponent cq_model={item} cq_model_page_path={this.props.cq_model_page_path} cq_model_data_path={this.props.cq_model_data_path}/>;
+    }
+
+    /**
+     * Returns a list of item instances
+     *
+     * @param {string} field                - name of the field where the item is located
+     * @param fieldOrder                    - name of the field that contains the order in which the items are listed
+     * @param containerDataPath             - relative path of the item's container
+     * @returns {React.Component[]}
+     *
+     * @protected
+     */
+    getDynamicItemComponents(field, fieldOrder, containerDataPath) {
+        let dynamicComponents =  [];
+
+        this.props.cq_model && this.props.cq_model[fieldOrder] && this.props.cq_model[fieldOrder].forEach(itemKey => {
+            dynamicComponents.push(this.getWrappedDynamicComponent(field, itemKey, containerDataPath,  () => {
+                let dataPath = containerDataPath + itemKey;
+                // either the model contains page path fields or we use the propagated value
+                let pagePath = this.getPagePath();
+
+                return {
+                    data_path: dataPath,
+                    page_path: pagePath
+                }
+            }));
+        });
+
+        return dynamicComponents || [];
+    }
+
+    /**
+     * Returns a list of page instances
+     *
+     * @param {string} field                - name of the field where the item is located
+     * @param containerDataPath             - relative path of the item's container
+     * @returns {React.Component[]}
+     *
+     * @protected
+     */
+    getDynamicPageComponents(field, containerDataPath) {
+        if (!this.props.cq_model || !this.props.cq_model[field]) {
+            return [];
+        }
+
+        let dynamicComponents = [];
+
+        const model = this.props.cq_model[field];
+
+        for (let itemKey in model) {
+            if (model.hasOwnProperty(itemKey)) {
+                dynamicComponents.push(this.getWrappedDynamicComponent(field, itemKey, containerDataPath, () => {
+                    return {
+                        page_path: itemKey
+                    }
+                }));
+            }
+        }
+
+        return dynamicComponents || [];
+    }
+
+    /**
+     * Returns the path of the current resource
+     *
+     * @returns {string|undefined}
+     *
+     * @protected
+     */
+    get path() {
+        return this.props && this.props.cq_model && this.props.cq_model[Constants.DATA_PATH_PROP];
+    }
+
+    /**
+     * Returns a list of child components
+     *
+     * @returns {Array.<React.Component>}
+     *
+     * @protected
+     */
     get innerContent() {
-        let that = this;
-        let containerPath = this.path || this.props.path || '';
+        let containerPath = this.path || this.props.data_path || '';
 
         // Prepare container path for concatenation
         if ('/' === containerPath) {
@@ -56,34 +210,9 @@ class Container extends Component {
 
         containerPath = containerPath.length > 0 ? containerPath + '/' : containerPath;
 
-        return this.props.cq_model && this.props.cq_model[Constants.ITEMS_ORDER_PROP].map(itemKey => {
-            const item = that.props.cq_model[Constants.ITEMS_PROP][itemKey];
-            item.path = containerPath + itemKey;
+        let dynamicComponents = this.getDynamicItemComponents(Constants.ITEMS_PROP, Constants.ITEMS_ORDER_PROP, containerPath);
 
-            // console.debug("Container.js", "add item", item.path, item, that);
-            const type = item[Constants.TYPE_PROP];
-
-            if (!type) {
-                // console.debug("Container.js", "no type", item, that);
-                return false;
-            }
-
-            // Get the constructor of the component to later be dynamically instantiated
-            const DynamicComponent = ComponentMapping.get(type);
-
-            if (!DynamicComponent) {
-                // console.debug("Container.js", "no dynamic component", item, that);
-                return false;
-            }
-
-            let Wrapper = this.modelProvider;
-
-            if (Wrapper) {
-                return <Wrapper key={item.path} path={item.path}><DynamicComponent cq_model={item}/></Wrapper>
-            }
-
-            return <DynamicComponent cq_model={item}/>;
-        });
+        return dynamicComponents.concat(this.getDynamicPageComponents(Constants.PAGES_PROP, containerPath));
     }
 
     render() {

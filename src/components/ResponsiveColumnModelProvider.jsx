@@ -16,16 +16,16 @@
  */
 import ModelProvider from './ModelProvider';
 
+const RESPONSIVE_COLUMN_CLASS_NAME_PATTERN = /aem-GridColumn([^ ])*/g;
+
 /**
- * Model provider specific to the components considered as responsive columns
+ * Model provider specific to the components identified as responsive columns
  *
  * @class
  * @extends ModelProvider
  * @memberOf components
  */
 class ResponsiveColumnModelProvider extends ModelProvider {
-
-    RESPONSIVE_COLUMN_CLASS_NAME_PATTERN = /aem-GridColumn([^ ])*/g;
 
     /**
      * @inheritDoc
@@ -38,7 +38,7 @@ class ResponsiveColumnModelProvider extends ModelProvider {
         }
 
         // Remove all the column class names
-        element.className = element.className.replace(this.RESPONSIVE_COLUMN_CLASS_NAME_PATTERN, '');
+        element.className = element.className.replace(RESPONSIVE_COLUMN_CLASS_NAME_PATTERN, '');
 
         let columnClassNames = this.state.cq_model.columnClassNames.split(' ');
 

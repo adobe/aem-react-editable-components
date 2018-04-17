@@ -22,3 +22,6 @@ out/
 
 # code coverage
 coverage/
+
+# for temporary dependencies
+*.tgz
