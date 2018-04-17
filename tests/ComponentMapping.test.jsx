@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MapTo } from '../index';
+import { ComponentMapping, MapTo, PageModelManager } from '../index';
 
 describe('ComponentMapping & EditableComponentComposer', () => {
 
@@ -47,6 +47,8 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
     let observerConfig = { attributes: true, subtree: true };
 
+    let sandbox = sinon.createSandbox();
+
     before(() => {
         let metaEditor = document.createElement('meta');
         metaEditor.setAttribute('property', 'cq:wcmmode');
@@ -55,6 +57,9 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     beforeEach(() => {
+        sandbox.stub(PageModelManager, 'getData')
+            .withArgs({pagePath: '', dataPath: '', forceReload: undefined}).resolves({});
+
         ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
         rootNode = document.createElement('div');
@@ -68,8 +73,11 @@ describe('ComponentMapping & EditableComponentComposer', () => {
             observer.disconnect();
         }
 
-        rootNode.innerHTML = '';
-        delete rootNode.dataset.cqEditor;
+        sandbox.restore();
+
+        if (rootNode) {
+            document.body.removeChild(rootNode);
+        }
     });
 
     describe('decoration ->', () => {

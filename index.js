@@ -26,7 +26,7 @@ module.exports = {
     MapTo: require('./dist/ComponentMapping').MapTo,
     withModel: require('./dist/ModelProviderHelper').default.withModel,
     ModelProvider: require('./dist/components/ModelProvider').default,
-    PageModelManager: require('@adobe/cq-spa-page-model-manager').default,
+    PageModelManager: require('@adobe/cq-spa-page-model-manager').PageModelManager,
     Constants: require('./dist/Constants').default,
     Utils: require('./dist/Utils').default
 };

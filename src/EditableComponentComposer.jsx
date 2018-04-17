@@ -36,7 +36,7 @@ import Utils from './Utils';
  */
 const EditableComponentComposer = {
 
-    PLACE_HOLDER_CLASS_NAME: 'cq-placeholder',
+    PLACEHOLDER_CLASS_NAME: 'cq-placeholder',
 
     DRAG_DROP_REGEX: /cq-dd-([^ ])+/g,
 
@@ -68,14 +68,14 @@ const EditableComponentComposer = {
                 }
 
                 if (this.usePlaceholder()) {
-                    if (!element.classList.contains(EditableComponentComposer.PLACE_HOLDER_CLASS_NAME)) {
-                        element.classList.add(EditableComponentComposer.PLACE_HOLDER_CLASS_NAME);
+                    if (!element.classList.contains(EditableComponentComposer.PLACEHOLDER_CLASS_NAME)) {
+                        element.classList.add(EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
                     }
 
                     element.dataset.emptytext = editConfig.emptyLabel;
                     // console.debug('EditableComponentComposer.js', 'set as placeholder', element, prevProps, this.props, this);
                 } else {
-                    element.classList.remove(EditableComponentComposer.PLACE_HOLDER_CLASS_NAME);
+                    element.classList.remove(EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
                     delete element.dataset.emptytext;
                     // console.debug('EditableComponentComposer.js', 'set as none placeholder', element, prevProps, this.props, this);
                 }
