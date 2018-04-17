@@ -1,9 +1,0 @@
-.idea
-.gitignore
-.jsdoc_conf.json
-karma.conf.js
-src/
-tests/
-out/
-coverage/
-node_modules/

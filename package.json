@@ -1,8 +1,28 @@
 {
-  "name": "@cq/cq-react-editable-components",
+  "name": "@adobe/cq-react-editable-components",
   "version": "0.0.22",
-  "description": "Registry providing the React components that enable the authoring capabilities when used in conjunction with the page editor",
+  "auto-changelog": {
+    "template": "templates/CHANGELOG.hbs"
+  },
+  "bugs": {
+    "url": "https://www.adobe.com/go/aem6_4_support_en"
+  },
+  "engines": {
+    "npm": ">=5.5.1 <6.0.0"
+  },
+  "files": [
+    "dist/"
+  ],
+  "homepage": "https://www.adobe.com/go/aem6_4_docs_spa_en",
+  "keywords": [
+    "the official", "adobe", "aem", "spa editor",
+    "experience manager", "marketing cloud",
+    "cq",
+    "in-context editing", "in-place editing", "spa authoring",
+    "reactjs", "pwa"
+  ],
   "main": "index.js",
+  "private": true,
   "scripts": {
     "linter": "eslint --ext .js,.jsx .",
     "linter:fix": "eslint --ext .js,.jsx . --fix",
@@ -10,21 +30,16 @@
     "test-debug": "npm run build && karma start --browsers=Chrome --single-run=false --auto-watch",
     "build": "babel src --out-dir dist",
     "docs": "jsdoc -c ./jsdoc_conf.json",
+    "generateDocs": "doxdox 'src/**/*.+(js|jsx)' --layout markdown --output DOCUMENTATION.md",
     "prepublishOnly": "npm-auto-version npm run build",
     "postpublish": "git commit -am 'publish latest version' && git push origin && git push origin --tags"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@git.corp.adobe.com:CQ/cq-react-editable-components.git"
-  },
   "author": "Adobe Systems Inc.",
-  "publishConfig": {
-    "registry": "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-cq-spa-release-local"
-  },
   "license": "Apache-2.0",
   "dependencies": {
-    "@cq/cq-spa-component-mapping": "^0.0.5",
-    "@cq/cq-spa-page-model-manager": "^0.0.19",
+    "@adobe/cq-spa-component-mapping": "^0.0.5",
+    "@adobe/cq-spa-page-model-manager": "^0.0.19",
+    "auto-changelog": "^1.4.5",
     "babel-polyfill": "^6.9.1",
     "custom-event-polyfill": "^0.3.0",
     "react": "^16.2.0",
@@ -49,6 +64,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^3.5.0",
+    "doxdox": "^2.0.3",
     "eslint": "4.3.0",
     "eslint-plugin-babel": "4.1.2",
     "inject-loader": "2.0.1",
