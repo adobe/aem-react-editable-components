@@ -37,7 +37,7 @@
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/cq-spa-component-mapping": "^0.0.5",
+    "@adobe/cq-spa-component-mapping": "^0.0.9",
     "@adobe/cq-spa-page-model-manager": "^0.0.19",
     "auto-changelog": "^1.4.5",
     "babel-polyfill": "^6.9.1",
