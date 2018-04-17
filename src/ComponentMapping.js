@@ -14,7 +14,7 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
-import { ComponentMapping } from '@cq/cq-spa-component-mapping';
+import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
 import EditableComponentComposer from "./EditableComponentComposer";
 import ModelProviderHelper from "./ModelProviderHelper";
 

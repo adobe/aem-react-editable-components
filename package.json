@@ -15,14 +15,20 @@
   ],
   "homepage": "https://www.adobe.com/go/aem6_4_docs_spa_en",
   "keywords": [
-    "the official", "adobe", "aem", "spa editor",
-    "experience manager", "marketing cloud",
+    "the official",
+    "adobe",
+    "aem",
+    "spa editor",
+    "experience manager",
+    "marketing cloud",
     "cq",
-    "in-context editing", "in-place editing", "spa authoring",
-    "reactjs", "pwa"
+    "in-context editing",
+    "in-place editing",
+    "spa authoring",
+    "reactjs",
+    "pwa"
   ],
   "main": "index.js",
-  "private": true,
   "scripts": {
     "linter": "eslint --ext .js,.jsx .",
     "linter:fix": "eslint --ext .js,.jsx . --fix",
@@ -31,19 +37,16 @@
     "build": "babel src --out-dir dist",
     "docs": "jsdoc -c ./jsdoc_conf.json",
     "generateDocs": "doxdox 'src/**/*.+(js|jsx)' --layout markdown --output DOCUMENTATION.md",
-    "prepublishOnly": "npm-auto-version npm run build",
+    "prepublishOnly": "npm-auto-version && npm run build && npm run docs && npm run generateDocs",
     "postpublish": "git commit -am 'publish latest version' && git push origin && git push origin --tags"
   },
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/cq-spa-component-mapping": "^0.0.9",
-    "@adobe/cq-spa-page-model-manager": "^0.0.19",
-    "auto-changelog": "^1.4.5",
+    "@adobe/cq-spa-component-mapping": "0.0.9",
+    "@adobe/cq-spa-page-model-manager": "^0.0.20",
     "babel-polyfill": "^6.9.1",
-    "custom-event-polyfill": "^0.3.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "custom-event-polyfill": "^0.3.0"
   },
   "eslintConfig": {
     "parserOptions": {
@@ -53,6 +56,7 @@
   },
   "peerDependencies": {},
   "devDependencies": {
+    "auto-changelog": "^1.4.6",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.9.1",
     "babel-eslint": "7.2.3",
@@ -83,6 +87,8 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^3.2.0",
     "npm-auto-version": "^1.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-test-renderer": "^16.2.0",
     "sinon": "^4.1.3",
     "sinon-chai": "^2.14.0",
