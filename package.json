@@ -15,11 +15,18 @@
   ],
   "homepage": "https://www.adobe.com/go/aem6_4_docs_spa_en",
   "keywords": [
-    "the official", "adobe", "aem", "spa editor",
-    "experience manager", "marketing cloud",
+    "the official",
+    "adobe",
+    "aem",
+    "spa editor",
+    "experience manager",
+    "marketing cloud",
     "cq",
-    "in-context editing", "in-place editing", "spa authoring",
-    "reactjs", "pwa"
+    "in-context editing",
+    "in-place editing",
+    "spa authoring",
+    "reactjs",
+    "pwa"
   ],
   "main": "index.js",
   "scripts": {
