@@ -22,7 +22,6 @@
     "reactjs", "pwa"
   ],
   "main": "index.js",
-  "private": true,
   "scripts": {
     "linter": "eslint --ext .js,.jsx .",
     "linter:fix": "eslint --ext .js,.jsx . --fix",
@@ -31,15 +30,14 @@
     "build": "npm run linter && babel src --out-dir dist",
     "docs": "jsdoc -c ./jsdoc_conf.json",
     "generateDocs": "doxdox 'src/**/*.+(js|jsx)' --layout markdown --output DOCUMENTATION.md",
-    "prepublishOnly": "npm-auto-version npm run build",
+    "prepublishOnly": "npm-auto-version && npm run build && npm run docs && npm run generateDocs",
     "postpublish": "git commit -am 'publish latest version' && git push origin && git push origin --tags"
   },
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
   "dependencies": {
     "@adobe/cq-spa-component-mapping": "^0.0.9",
-    "@adobe/cq-spa-page-model-manager": "^0.0.19",
-    "auto-changelog": "^1.4.5",
+    "@adobe/cq-spa-page-model-manager": "^0.0.20",
     "babel-polyfill": "^6.9.1",
     "custom-event-polyfill": "^0.3.0"
   },
@@ -54,6 +52,7 @@
   },
   "peerDependencies": {},
   "devDependencies": {
+    "auto-changelog": "^1.4.6",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.9.1",
