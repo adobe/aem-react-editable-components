@@ -838,6 +838,44 @@ Returns a composite component where a {@link ModelProvider} component wraps the 
     
 
     
+#### EDIT_MODE()
+
+The editor is in one of the edition modes
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### PREVIEW_MODE()
+
+The editor is in preview mode
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+
+    
 #### Utils()
 
 Helper functions for interacting with the AEM environment
