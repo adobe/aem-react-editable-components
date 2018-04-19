@@ -143,7 +143,7 @@ class ModelProvider extends Component {
         if (this.isPageModel() && pagePath) {
             childAttrs.cqPagePath = pagePath;
         } else {
-            childAttrs.cqContentPath = this.state.data_path;
+            childAttrs.cqDataPath = this.state.data_path;
         }
 
         Object.keys(childAttrs).forEach(attr => element.dataset[attr] = childAttrs[attr]);

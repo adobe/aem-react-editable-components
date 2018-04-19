@@ -35,7 +35,7 @@ class Placeholder extends Component {
 
 
     render() {
-        return <div data-cq-content-path={this.props.cq_model && this.props.cq_model[Constants.DATA_PATH_PROP] + "/*"} className={PLACEHOLDER_CLASS_NAMES} />
+        return <div data-cq-data-path={this.props.cq_model && this.props.cq_model[Constants.DATA_PATH_PROP] + "/*"} className={PLACEHOLDER_CLASS_NAMES} />
     }
 }
 

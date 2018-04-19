@@ -156,15 +156,15 @@ describe('ResponsiveGrid ->', () => {
         }
 
         it('should have a placeholder in WCM edit mode', done => {
-            testPlaceholder('edit', {'data-cq-content-path': RESPONSIVE_GRID_MODEL_PATH + '/*'}, done);
+            testPlaceholder('edit', {'data-cq-data-path': RESPONSIVE_GRID_MODEL_PATH + '/*'}, done);
         });
 
         it('should have a placeholder in WCM preview mode', done => {
-            testPlaceholder('preview', {'data-cq-content-path': RESPONSIVE_GRID_MODEL_PATH + '/*'}, done);
+            testPlaceholder('preview', {'data-cq-data-path': RESPONSIVE_GRID_MODEL_PATH + '/*'}, done);
         });
 
         it('shouldn\'t have a placeholder', done => {
-            testPlaceholder(undefined, {'data-cq-content-path': undefined}, done);
+            testPlaceholder(undefined, {'data-cq-data-path': undefined}, done);
         });
     });
 
