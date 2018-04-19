@@ -20,7 +20,7 @@ describe('ModelProvider ->', () => {
 
     const NO_VALUE = 'none';
 
-    const DATA_ATTRIBUTE_CONTENT_PATH = 'data-cq-content-path';
+    const DATA_ATTRIBUTE_DATA_PATH = 'data-cq-data-path';
 
     const DATA_ATTRIBUTE_PAGE_PATH = 'data-cq-page-path';
 
@@ -177,7 +177,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly without parameter', done => {
             ReactDOM.render(<ModelProvider><div></div></ModelProvider>, rootNode);
 
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: SITE_MODEL_PATH, [DATA_ATTRIBUTE_CONTENT_PATH]: undefined}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: SITE_MODEL_PATH, [DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
@@ -187,7 +187,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ModelProvider data_path={path}><div></div></ModelProvider>, rootNode);
 
             // Expect {path}.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: path}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: path}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
@@ -195,7 +195,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ModelProvider key={'test'}><div></div></ModelProvider>, rootNode);
 
             // Expect empty path.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: undefined}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
@@ -205,7 +205,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ModelProvider key={'test'} data_path={path}><div></div></ModelProvider>, rootNode);
 
             // Expect {path}.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: path}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: path}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
@@ -221,7 +221,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ModelProvider key={'test'} page_path={CHILD_PAGE_PATH} data_path={CHILD_PAGE_ITEM_MODEL_0101_PATH}><div></div></ModelProvider>, rootNode);
 
             // Expect {path}.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: undefined, [DATA_ATTRIBUTE_CONTENT_PATH]: CHILD_PAGE_ITEM_MODEL_0101_PATH}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: undefined, [DATA_ATTRIBUTE_DATA_PATH]: CHILD_PAGE_ITEM_MODEL_0101_PATH}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
@@ -304,7 +304,7 @@ describe('ModelProvider ->', () => {
                     <div id={INNER_COMPONENT_ID}/>
                 </ModelProvider>, rootNode);
 
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, done);
             observer.observe(rootNode, config);
 
             expect(instance.props.data_path).to.equal(CHILD10_PATH);
@@ -318,7 +318,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ModelWrappedComponent cq_model_data_path={CHILD10_PATH}/>, rootNode);
 
             // Expect child10 path & value.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
             observer.observe(rootNode, config);
 
             function step2() {
@@ -327,7 +327,7 @@ describe('ModelProvider ->', () => {
                 ReactDOM.render(<ModelWrappedComponent now={Date.now()}/>, rootNode);
 
                 // Path prop removed - Expect no path and no value.
-                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: undefined}, '#' + INNER_COMPONENT_ID, done);
+                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, '#' + INNER_COMPONENT_ID, done);
                 observer.observe(rootNode, config);
             }
         });
@@ -340,7 +340,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ExportedTestComponent cq_model_data_path={CHILD10_PATH}/>, rootNode);
 
             // Expect child10 path & value.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
             observer.observe(rootNode, config);
 
             function step2() {
@@ -349,7 +349,7 @@ describe('ModelProvider ->', () => {
                 ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
 
                 // Path prop removed - Expect no path and no value.
-                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: undefined}, '#' + INNER_COMPONENT_ID, done);
+                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, '#' + INNER_COMPONENT_ID, done);
                 observer.observe(rootNode, config);
             }
         });
@@ -362,7 +362,7 @@ describe('ModelProvider ->', () => {
             ReactDOM.render(<ExportedTestComponent cq_model_data_path={CHILD10_PATH}/>, rootNode);
 
             // Expect child10 path & value.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
             observer.observe(rootNode, config);
 
             function step2() {
@@ -370,7 +370,7 @@ describe('ModelProvider ->', () => {
                 ReactDOM.render(<ExportedTestComponent cq_model_data_path={CHILD11_PATH}/>, rootNode);
 
                 // Expect child11 path & value.
-                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_CONTENT_PATH]: CHILD11_PATH}, '#' + INNER_COMPONENT_ID, done);
+                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD11_PATH}, '#' + INNER_COMPONENT_ID, done);
                 observer.observe(rootNode, config);
             }
         });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {getVerifyObserver} from '../Utils';
+import {getVerifyObserver, getDataAttributesObserver} from '../Utils';
 import { ComponentMapping, MapTo, PageModelManager, Constants } from '../../index';
 
 require('../../dist/components/ResponsiveGrid');
@@ -9,6 +9,7 @@ describe('ResponsiveGrid ->', () => {
 
     const RESPONSIVE_GRID_RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
     const TEST_COLUMN_RESOURCE_TYPE = 'test/column/component';
+    const WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';
     const RESPONSIVE_GRID_CLASS_NAME = 'aem-Grid';
     const RESPONSIVE_GRID_CLASS_NAMES = RESPONSIVE_GRID_CLASS_NAME + ' aem-Grid--12 aem-Grid--default--12';
     const RESPONSIVE_COLUMN_CLASS_NAME = 'aem-GridColumn';
@@ -68,38 +69,39 @@ describe('ResponsiveGrid ->', () => {
 
     let rootNode;
 
-    let metaEditor;
+    let wcmMeta;
 
     let observerConfig = { attributes: true, subtree: true };
 
     let sandbox = sinon.createSandbox();
 
-    before(() => {
-        metaEditor = document.createElement('meta');
-        metaEditor.setAttribute('property', 'cq:wcmmode');
-        metaEditor.setAttribute('content', 'edit');
-        document.head.appendChild(metaEditor);
-    });
-
     beforeEach(() => {
+        rootNode = document.createElement('div');
+        document.body.appendChild(rootNode);
+
+        wcmMeta = document.head.querySelector(WCM_MODE_META_SELECTOR);
+
+        if (!wcmMeta) {
+            wcmMeta = document.createElement('meta');
+            wcmMeta.setAttribute('property', 'cq:wcmmode');
+            wcmMeta.setAttribute('content', 'edit');
+            document.head.appendChild(wcmMeta);
+        }
+
         sandbox.stub(PageModelManager, 'getData').withArgs({pagePath: '', dataPath: CHILD_01_MODEL_PATH, forceReload: undefined}).resolves(RESPONSIVE_COLUMN_MODEL);
 
         MapTo(TEST_COLUMN_RESOURCE_TYPE)(ComponentChild, EditConfig);
 
-        rootNode = document.createElement('div');
-        document.body.appendChild(rootNode);
-
         ResponsiveGrid = ComponentMapping.get(RESPONSIVE_GRID_RESOURCE_TYPE);
+
     });
 
     afterEach(() => {
         sandbox.restore();
-        rootNode.innerHTML = '';
-        delete rootNode.dataset.cqEditor;
-    });
-
-    after(() => {
-        document.head.removeChild(metaEditor);
+        document.body.removeChild(rootNode);
+        document.head.removeChild(wcmMeta);
+        rootNode = null;
+        wcmMeta = null;
     });
 
     describe('grid class names ->', () => {
@@ -134,18 +136,16 @@ describe('ResponsiveGrid ->', () => {
 
     describe('placeholder ->', () => {
 
-        it('should have a placeholder', done => {
-            let observer = getVerifyObserver(function (mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'data-cq-content-path' && mutation.target.dataset.cqContentPath === RESPONSIVE_GRID_MODEL_PATH + '/*') {
-                    assert.isTrue(mutation.target.classList.contains('new'));
-                    assert.isTrue(mutation.target.classList.contains('section'));
-                    assert.isTrue(mutation.target.classList.contains('aem-Grid-newComponent'));
-
-                    return true;
-                }
-
-                return false;
-            }, done);
+        /**
+         * Tests the integrity of the responsive grid placeholder
+         *
+         * @param {string} wcmMode     - WCM mode in which to test the placeholder
+         * @param {{}} attributes      - data attributes to be verified on the target element
+         * @param {function} done
+         */
+        function testPlaceholder(wcmMode, attributes, done) {
+            wcmMeta.content = wcmMode;
+            let observer = getDataAttributesObserver(attributes, '.new.section.aem-Grid-newComponent', done);
 
             observer.observe(rootNode, observerConfig);
 
@@ -153,8 +153,19 @@ describe('ResponsiveGrid ->', () => {
 
             // Provoke update
             ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cq_model={RESPONSIVE_GRID_MODEL}/>, rootNode);
+        }
+
+        it('should have a placeholder in WCM edit mode', done => {
+            testPlaceholder('edit', {'data-cq-data-path': RESPONSIVE_GRID_MODEL_PATH + '/*'}, done);
         });
 
+        it('should have a placeholder in WCM preview mode', done => {
+            testPlaceholder('preview', {'data-cq-data-path': RESPONSIVE_GRID_MODEL_PATH + '/*'}, done);
+        });
+
+        it('shouldn\'t have a placeholder', done => {
+            testPlaceholder(undefined, {'data-cq-data-path': undefined}, done);
+        });
     });
 
     describe('column class names ->', () => {
