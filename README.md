@@ -53,7 +53,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.25*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.26*
 
 
 
@@ -834,6 +834,44 @@ Returns a composite component where a {@link ModelProvider} component wraps the 
 
 ### src/Utils.js
 
+
+    
+
+    
+#### EDIT_MODE()
+
+The editor is in one of the edition modes
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### PREVIEW_MODE()
+
+The editor is in preview mode
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
 
     
 
