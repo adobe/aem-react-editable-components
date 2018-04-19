@@ -20,7 +20,7 @@ import Constants from '../Constants';
 import {PageModelManager} from '@adobe/cq-spa-page-model-manager';
 
 /**
- * Wrapper component responsible for synchronizing a child component with a give portion of the page model.
+ * Wrapper component responsible for synchronizing a child component with a given portion of the page model.
  * <p>The ModelProvider supports content items as well as child pages</p>
  *
  * @class

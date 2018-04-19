@@ -1,27 +1,15 @@
-# [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.24*
+
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.25*
 
 
 
 ### src/ComponentMapping.js
 
 
-#### wrappedMapFct()  *private method*
+    
 
-Wrapped function
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-
-#### ComponentMapping.map(resourceTypes, clazz[, editConfig, config]) 
+    
+#### ComponentMapping.map(resourceTypes, clazz[, editConfig, config])
 
 Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
 
@@ -47,12 +35,14 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 - `class`  - the resulting decorated Class
 
 
+    
 
 
 ### src/components/Container.jsx
 
 
-#### new Container(props) 
+    
+#### new Container(props)
 
 Container component that provides the common features required by all containers such as the dynamic inclusion of child components.
 <p>The Container supports content items as well as child pages</p>
@@ -77,8 +67,10 @@ Container component that provides the common features required by all containers
 - `Void`
 
 
+    
 
-#### Container.modelProvider() 
+    
+#### Container.modelProvider()
 
 Wrapper class in which the content is eventually wrapped
 
@@ -93,8 +85,10 @@ Wrapper class in which the content is eventually wrapped
 - `ModelProvider`  
 
 
+    
 
-#### Container.getPagePath() 
+    
+#### Container.getPagePath()
 
 Returns the path of the page the current component is part of
 
@@ -109,8 +103,10 @@ Returns the path of the page the current component is part of
 -  
 
 
+    
 
-#### Container.getDynamicComponent(item) 
+    
+#### Container.getDynamicComponent(item)
 
 Returns the {@link React.Component} mapped to the type of the item
 
@@ -132,8 +128,10 @@ Returns the {@link React.Component} mapped to the type of the item
 - `boolean`  
 
 
+    
 
-#### Container.getWrappedDynamicComponent(field, itemKey, containerDataPath, propertiesCallback) 
+    
+#### Container.getWrappedDynamicComponent(field, itemKey, containerDataPath, propertiesCallback)
 
 Returns the component optionally wrapped into the current ModelProvider implementation
 
@@ -158,8 +156,10 @@ Returns the component optionally wrapped into the current ModelProvider implemen
 - `React.Component`  
 
 
+    
 
-#### Container.getDynamicItemComponents(field, fieldOrder, containerDataPath) 
+    
+#### Container.getDynamicItemComponents(field, fieldOrder, containerDataPath)
 
 Returns a list of item instances
 
@@ -183,8 +183,10 @@ Returns a list of item instances
 - `Array.&lt;React.Component&gt;`  
 
 
+    
 
-#### Container.getDynamicPageComponents(field, containerDataPath) 
+    
+#### Container.getDynamicPageComponents(field, containerDataPath)
 
 Returns a list of page instances
 
@@ -207,8 +209,10 @@ Returns a list of page instances
 - `Array.&lt;React.Component&gt;`  
 
 
+    
 
-#### Container.path() 
+    
+#### Container.path()
 
 Returns the path of the current resource
 
@@ -223,8 +227,10 @@ Returns the path of the current resource
 - `string`  
 
 
+    
 
-#### Container.innerContent() 
+    
+#### Container.innerContent()
 
 Returns a list of child components
 
@@ -239,14 +245,16 @@ Returns a list of child components
 - `Array.&lt;React.Component&gt;`  
 
 
+    
 
 
 ### src/components/ModelProvider.jsx
 
 
-#### new ModelProvider(props) 
+    
+#### new ModelProvider(props)
 
-Wrapper component responsible for synchronizing a child component with a give portion of the page model.
+Wrapper component responsible for synchronizing a child component with a given portion of the page model.
 <p>The ModelProvider supports content items as well as child pages</p>
 
 
@@ -270,8 +278,10 @@ Wrapper component responsible for synchronizing a child component with a give po
 - `Void`
 
 
+    
 
-#### ModelProvider.updateData() 
+    
+#### ModelProvider.updateData()
 
 Updates the state and data of the current Object
 
@@ -286,8 +296,10 @@ Updates the state and data of the current Object
 - `Void`
 
 
+    
 
-#### ModelProvider.getPagePath() 
+    
+#### ModelProvider.getPagePath()
 
 Returns the provided page path property
 
@@ -302,8 +314,10 @@ Returns the provided page path property
 - `string`  
 
 
+    
 
-#### ModelProvider.isPageModel() 
+    
+#### ModelProvider.isPageModel()
 
 Does the current component has the model of a page
 
@@ -318,8 +332,10 @@ Does the current component has the model of a page
 - `boolean`  
 
 
+    
 
-#### ModelProvider.decorateChildElement(element) 
+    
+#### ModelProvider.decorateChildElement(element)
 
 Decorate a child {@link HTMLElement} with extra data attributes
 
@@ -341,8 +357,10 @@ Decorate a child {@link HTMLElement} with extra data attributes
 - `Void`
 
 
+    
 
-#### ModelProvider.decorateChildElements() 
+    
+#### ModelProvider.decorateChildElements()
 
 Decorate all the child {@link HTMLElement}s with extra data attributes
 
@@ -357,8 +375,10 @@ Decorate all the child {@link HTMLElement}s with extra data attributes
 - `Void`
 
 
+    
 
-#### ModelProvider.getData() 
+    
+#### ModelProvider.getData()
 
 Returns the model data from the page model
 
@@ -373,12 +393,14 @@ Returns the model data from the page model
 - `Promise`  
 
 
+    
 
 
 ### src/components/ResponsiveColumnModelProvider.jsx
 
 
-#### new ResponsiveColumnModelProvider() 
+    
+#### new ResponsiveColumnModelProvider()
 
 Model provider specific to the components identified as responsive columns
 
@@ -393,8 +415,10 @@ Model provider specific to the components identified as responsive columns
 - `Void`
 
 
+    
 
-#### ResponsiveColumnModelProvider.decorateChildElement() 
+    
+#### ResponsiveColumnModelProvider.decorateChildElement()
 
 
 
@@ -409,28 +433,16 @@ Model provider specific to the components identified as responsive columns
 - `Void`
 
 
+    
 
 
 ### src/components/ResponsiveGrid.jsx
 
 
-#### new Placeholder()  *private method*
+    
 
-Placeholder of the responsive grid component
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-
-#### new ResponsiveGrid(props) 
+    
+#### new ResponsiveGrid(props)
 
 Container that provides the capabilities of the responsive grid
 
@@ -455,8 +467,10 @@ Container that provides the capabilities of the responsive grid
 - `Void`
 
 
+    
 
-#### ResponsiveGrid.gridClassNames() 
+    
+#### ResponsiveGrid.gridClassNames()
 
 Returns the class names of the grid element
 
@@ -471,8 +485,10 @@ Returns the class names of the grid element
 - `string` `boolean`  
 
 
+    
 
-#### ResponsiveGrid.classNames() 
+    
+#### ResponsiveGrid.classNames()
 
 Provides the class names of the grid wrapper
 
@@ -487,8 +503,10 @@ Provides the class names of the grid wrapper
 - `string`  
 
 
+    
 
-#### ResponsiveGrid.placeholder() 
+    
+#### ResponsiveGrid.placeholder()
 
 Returns the content of the responsive grid placeholder
 
@@ -503,8 +521,10 @@ Returns the content of the responsive grid placeholder
 - `[object Object]`  
 
 
+    
 
-#### ResponsiveGrid.modelProvider() 
+    
+#### ResponsiveGrid.modelProvider()
 
 
 
@@ -519,12 +539,14 @@ Returns the content of the responsive grid placeholder
 - `ResponsiveColumnModelProvider`  
 
 
+    
 
 
 ### src/Constants.js
 
 
-#### Constants() 
+    
+#### Constants()
 
 Useful variables for interacting with CQ/AEM components
 
@@ -539,8 +561,10 @@ Useful variables for interacting with CQ/AEM components
 - `Void`
 
 
+    
 
-#### NEW_SECTION_CLASS_NAMES() 
+    
+#### NEW_SECTION_CLASS_NAMES()
 
 Class names associated with a new section component
 
@@ -555,8 +579,10 @@ Class names associated with a new section component
 - `Void`
 
 
+    
 
-#### TYPE_PROP() 
+    
+#### TYPE_PROP()
 
 Type of the item
 
@@ -571,8 +597,10 @@ Type of the item
 - `Void`
 
 
+    
 
-#### ITEMS_PROP() 
+    
+#### ITEMS_PROP()
 
 List of child items of an item
 
@@ -587,8 +615,10 @@ List of child items of an item
 - `Void`
 
 
+    
 
-#### ITEMS_ORDER_PROP() 
+    
+#### ITEMS_ORDER_PROP()
 
 Order in which the items should be listed
 
@@ -603,8 +633,10 @@ Order in which the items should be listed
 - `Void`
 
 
+    
 
-#### PAGE_PATH_PROP() 
+    
+#### PAGE_PATH_PROP()
 
 Path of a page
 
@@ -619,8 +651,10 @@ Path of a page
 - `Void`
 
 
+    
 
-#### PAGES_PROP() 
+    
+#### PAGES_PROP()
 
 List of child pages of an page
 
@@ -635,8 +669,10 @@ List of child pages of an page
 - `Void`
 
 
+    
 
-#### DATA_PATH_PROP() 
+    
+#### DATA_PATH_PROP()
 
 Path of the resource in the model
 
@@ -651,30 +687,16 @@ Path of the resource in the model
 - `Void`
 
 
+    
 
 
 ### src/EditableComponentComposer.jsx
 
 
-#### EditableComponentComposer()  *private method*
+    
 
-Helper class for composing producing a component that can be authored
-
-Higher-Order Component pattern
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-
-#### compose(WrappedComponent, editConfig) 
+    
+#### compose(WrappedComponent, editConfig)
 
 Decorate the given component with properties carried by the editConfig object
 
@@ -697,12 +719,14 @@ Decorate the given component with properties carried by the editConfig object
 - `CompositePlaceholder`  the wrapping component
 
 
+    
 
 
 ### src/ModelProviderHelper.jsx
 
 
-#### ModelProviderHelper(withModel) 
+    
+#### ModelProviderHelper(withModel)
 
 Helper that facilitates the use of the {@link ModelProvider} component
 
@@ -724,8 +748,10 @@ Helper that facilitates the use of the {@link ModelProvider} component
 - `Void`
 
 
+    
 
-#### withModel(WrappedComponent[, config]) 
+    
+#### withModel(WrappedComponent[, config])
 
 Returns a composite component where a {@link ModelProvider} component wraps the provided component
 
@@ -749,28 +775,16 @@ Returns a composite component where a {@link ModelProvider} component wraps the 
 - `CompositeModelProvider`  - the wrapped component
 
 
+    
 
 
 ### src/Utils.js
 
 
-#### IN_EDITOR_SELECTOR()  *private method*
+    
 
-Selector that identifies the page is being authored by the page editor
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-
-#### Utils() 
+    
+#### Utils()
 
 Helper functions for interacting with the AEM environment
 
@@ -785,8 +799,10 @@ Helper functions for interacting with the AEM environment
 - `Void`
 
 
+    
 
-#### isInEditor() 
+    
+#### isInEditor()
 
 Is the app used in the context of the AEM Page editor
 
@@ -801,6 +817,5 @@ Is the app used in the context of the AEM Page editor
 - `boolean`  
 
 
+    
 
-
-*Documentation generated with [doxdox](https://github.com/neogeek/doxdox).*
