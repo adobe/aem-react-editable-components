@@ -35,18 +35,19 @@
     "test": "npm run build && karma start --browsers=ChromeHeadless --single-run=true",
     "test-debug": "npm run build && karma start --browsers=Chrome_with_debugging",
     "build": "npm run linter && babel src --out-dir dist",
-    "docs": "jsdoc -c ./jsdoc_conf.json",
-    "generateDocs": "doxdox 'src/**/*.+(js|jsx)' --layout markdown --output DOCUMENTATION.md",
-    "prepublishOnly": "npm-auto-version && npm run build && npm run docs && npm run generateDocs",
+    "docs": "jsdoc -c ./jsdoc_conf.json && doxdox \"src/**/*.+(js|jsx)\" --layout templates/DOCUMENTATION.hbs --output DOCUMENTATION.md",
+    "readme": "node_modules/markdown-include/bin/cli.js markdown-include.config.json",
+    "prepublishOnly": "npm-auto-version && npm run build && npm run docs && npm run readme",
     "postpublish": "git commit -am 'publish latest version' && git push origin && git push origin --tags"
   },
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/cq-spa-component-mapping": "^0.0.9",
-    "@adobe/cq-spa-page-model-manager": "^0.0.20",
+    "@adobe/cq-spa-component-mapping": "0.0.10",
+    "@adobe/cq-spa-page-model-manager": "0.0.21",
     "babel-polyfill": "^6.9.1",
-    "custom-event-polyfill": "^0.3.0"
+    "custom-event-polyfill": "^0.3.0",
+    "markdown-include": "^0.4.3"
   },
   "eslintConfig": {
     "parserOptions": {
