@@ -16,12 +16,36 @@
  */
 
 /**
- * Selector that identifies the page is being authored by the page editor
+ * Selector that identifies the node that contains the WCM mode state
  *
  * @type {string}
  * @private
  */
-const IN_EDITOR_SELECTOR = 'meta[property="cq:wcmmode"][content="edit"]';
+const WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';
+
+/**
+ * The editor is in one of the edition modes
+ */
+const EDIT_MODE = 'edit';
+
+/**
+ * The editor is in preview mode
+ */
+const PREVIEW_MODE = 'preview';
+
+/**
+ * Returns the current WCM mode
+ *
+ * <p>Note that the value isn't, as of the date of this writing, updated by the editor</p>
+ *
+ * @returns {string|undefined}
+ *
+ * @private
+ */
+function getWCMMode() {
+    const wcmModeMeta = document.head.querySelector(WCM_MODE_META_SELECTOR);
+    return wcmModeMeta && wcmModeMeta.content;
+}
 
 /**
  * Helper functions for interacting with the AEM environment
@@ -36,7 +60,8 @@ const Utils = {
      * @returns {boolean}
      */
     isInEditor() {
-        return !!document.head.querySelector(IN_EDITOR_SELECTOR);
+        const wcmMode = getWCMMode();
+        return wcmMode && (EDIT_MODE === wcmMode || PREVIEW_MODE === wcmMode);
     }
 };
 
