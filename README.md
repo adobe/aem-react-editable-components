@@ -53,7 +53,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.27*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.28*
 
 
 
@@ -919,11 +919,11 @@ The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is al
 
 ## Changelog 
 
-### 0.0.27 - 20 April 2018
+### 0.0.28 - 20 April 2018
 
 Initial public release of cq-react-editable-components. Including:
-* `@adobe/cq-spa-component-mapping#0.0.10` 
-* `@adobe/cq-spa-page-model-manager#0.0.21`.
+* `@adobe/cq-spa-component-mapping#0.0.15` 
+* `@adobe/cq-spa-page-model-manager#0.0.22`.
 * Updated Base React Components with support for multiple pages:
   * `Container` supports page and items inclusion
   * `ModelProvider` generates `data-cq-page-path` and `data-cq-data-path` attributes (previously: `data-cq-content-path`) respectively from the `cq_model_data_path` and `cq_model_page_path` properties (previously: `cq_model_path`)

@@ -1,6 +1,6 @@
 {
   "name": "@adobe/cq-react-editable-components",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "auto-changelog": {
     "template": "templates/CHANGELOG.hbs"
   },
@@ -43,8 +43,8 @@
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
   "dependencies": {
-    "@adobe/cq-spa-component-mapping": "0.0.10",
-    "@adobe/cq-spa-page-model-manager": "0.0.21",
+    "@adobe/cq-spa-component-mapping": "0.0.15",
+    "@adobe/cq-spa-page-model-manager": "0.0.22",
     "babel-polyfill": "^6.9.1",
     "custom-event-polyfill": "^0.3.0",
     "markdown-include": "^0.4.3"
