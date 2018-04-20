@@ -919,7 +919,7 @@ The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is al
 
 ## Changelog 
 
-### v0.0.24 - 17 April 2018
+### 0.0.27 - 20 April 2018
 
 Initial public release of cq-react-editable-components. Including:
 * `@adobe/cq-spa-component-mapping#0.0.10` 
