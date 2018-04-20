@@ -1,4 +1,4 @@
-### v0.0.24 - 17 April 2018
+### 0.0.27 - 20 April 2018
 
 Initial public release of cq-react-editable-components. Including:
 * `@adobe/cq-spa-component-mapping#0.0.10` 
