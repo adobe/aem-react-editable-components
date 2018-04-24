@@ -21,6 +21,10 @@ import {PageModelManager} from '@adobe/cq-spa-page-model-manager';
 
 /**
  * Wrapper component responsible for synchronizing a child component with a given portion of the page model.
+ * The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the data_path / page_path properties of the component.
+ * Those properties are then output in the form of data attributes (data-cq-page-path and data-cq-data-path) to allow the editor to understand to which AEM resource this component corresponds.
+ *
+ * When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cq_model parameter.
  * <p>The ModelProvider supports content items as well as child pages</p>
  *
  * @class
