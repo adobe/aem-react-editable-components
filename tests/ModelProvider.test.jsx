@@ -71,9 +71,9 @@ describe('ModelProvider ->', () => {
 
     const CHILD_PAGE_MODEL = {
         ":type": "we-retail-react/components/structure/page",
-        ":pagePath": CHILD_PAGE_PATH,
-        ":pageTitle": "Child page",
+        ":path": CHILD_PAGE_PATH,
         "itemsOrder": ["child0101"],
+        ":hierarchyType": "page",
         "items": {
             "child0101": CHILD_PAGE_ITEM_MODEL_0101
         }
@@ -92,9 +92,9 @@ describe('ModelProvider ->', () => {
         ":items": {
             "root": ITEM_MODEL_ROUTE
         },
-        ":pagePath": SITE_MODEL_PATH,
-        ":pageTitle": "Site",
-        ":pages": {
+        ":path": SITE_MODEL_PATH,
+        ":hierarchyType": "page",
+        ":children": {
             "/content/react-page/page": CHILD_PAGE_MODEL
         },
         ":type": "we-retail-react/components/structure/page"

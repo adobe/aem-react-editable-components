@@ -53,25 +53,30 @@ const Constants = {
     ITEMS_ORDER_PROP: PMConstants.ITEMS_ORDER_PROP,
 
     /**
-     * Path of a page
+     * Path of the item
      *
      * @type {string}
      */
-    PAGE_PATH_PROP: PMConstants.PAGE_PATH_PROP,
+    PATH_PROP: PMConstants.PATH_PROP,
 
     /**
-     * List of child pages of an page
+     * Children of an item
      *
      * @type {string}
      */
-    PAGES_PROP: PMConstants.PAGES_PROP,
+    CHILDREN_PROP: PMConstants.CHILDREN_PROP,
 
     /**
      * Path of the resource in the model
      *
      * @type {string}
      */
-    DATA_PATH_PROP: ':dataPath'
+    DATA_PATH_PROP: ':dataPath',
+
+    /**
+     * Hierarchical type of the item
+     */
+    HIERARCHY_TYPE_PROP: ':hierarchyType'
 };
 
 export default Constants;

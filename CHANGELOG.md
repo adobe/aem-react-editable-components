@@ -1,3 +1,10 @@
+### 0.0.29 - 15 May 2018
+
+Public release of `cq-spa-page-model-manager`, which provides:
+
+ * Support for the latest version of the `com.adobe.cq.export.json.hierarchy` API
+    * Support and usage of the `:path` and `:children` fields to identify a page and its child pages
+
 ### 0.0.28 - 20 April 2018
 
 Initial public release of cq-react-editable-components. Including:

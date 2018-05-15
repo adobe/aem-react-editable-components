@@ -40,7 +40,10 @@ class Placeholder extends Component {
 }
 
 /**
- * Container that provides the capabilities of the responsive grid
+ * Container that provides the capabilities of the responsive grid.
+ *
+ * Like the Container component, the ResponsiveGrid dynamically resolves and includes child component classes.
+ * Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that will - on top of providing access to the model - also decorate the rendered elements with class names relative to the layout.
  *
  * @class
  * @extends components.Container

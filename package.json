@@ -44,7 +44,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@adobe/cq-spa-component-mapping": "0.0.15",
-    "@adobe/cq-spa-page-model-manager": "0.0.22",
+    "@adobe/cq-spa-page-model-manager": "0.0.23",
     "babel-polyfill": "^6.9.1",
     "custom-event-polyfill": "^0.3.0",
     "markdown-include": "^0.4.3"
