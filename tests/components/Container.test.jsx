@@ -32,16 +32,16 @@ describe('Container ->', () => {
         ":items": {
             "child02": ITEM_MODEL_2
         },
-        ":pagePath": "/content/site/page1",
-        ":pageTitle": "Page 1",
-        ":pages": {}
+        ":path": "/content/site/page1",
+        ":hierarchyType": "page",
+        ":children": {}
     };
 
     const CHILD_PAGE_INJECT_MODEL = {
         ":type": PAGE_RESOURCE_TYPE,
-        ":pagePath": "/content/inject/page",
-        ":pageTitle": "Injected Page",
-        ":pages": {}
+        ":path": "/content/inject/page",
+        ":hierarchyType": "page",
+        ":children": {}
     };
 
     const PAGE_CONTAINER_MODEL = {
@@ -50,9 +50,9 @@ describe('Container ->', () => {
             "child01": ITEM_MODEL
         },
         ":type": PAGE_RESOURCE_TYPE,
-        ":pagePath": "/content/site",
-        ":pageTitle": "Site",
-        ":pages": {
+        ":path": "/content/site",
+        ":hierarchyType": "page",
+        ":children": {
             "/content/site/page1": CHILD_PAGE_MODEL_1,
             "/content/inject/page": CHILD_PAGE_INJECT_MODEL
         }

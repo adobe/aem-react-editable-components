@@ -373,7 +373,7 @@ Returns the provided page path property
     
 #### ModelProvider.isPageModel()
 
-Does the current component has the model of a page
+Does the current component has a page model
 
 
 
@@ -690,9 +690,9 @@ Order in which the items should be listed
     
 
     
-#### PAGE_PATH_PROP()
+#### PATH_PROP()
 
-Path of a page
+Path of the item
 
 
 
@@ -708,9 +708,9 @@ Path of a page
     
 
     
-#### PAGES_PROP()
+#### CHILDREN_PROP()
 
-List of child pages of an page
+Children of the item
 
 
 

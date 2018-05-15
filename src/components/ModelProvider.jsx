@@ -17,6 +17,7 @@
 import React, {Component, Children} from 'react';
 import {render, findDOMNode} from 'react-dom';
 import Constants from '../Constants';
+import HierarchyConstants from '../HierarchyConstants';
 import {PageModelManager} from '@adobe/cq-spa-page-model-manager';
 
 /**
@@ -111,20 +112,20 @@ class ModelProvider extends Component {
      * @protected
      */
     getPagePath() {
-        // 1. The model is a page and exposes its path
-        // 2. The path is provided as a property
-        return (this.state && this.state.cq_model && this.state.cq_model[Constants.PAGE_PATH_PROP]) || this.props && this.props.page_path || '';
+        // 1. The model is hierarchical
+        // 2. The page path is provided as a property
+        return (this.state && this.state.cq_model && this.state.cq_model[Constants.PATH_PROP]) || this.props && this.props.page_path || '';
     }
 
     /**
-     * Does the current component has the model of a page
+     * Does the current component has a page model
      *
      * @returns {boolean}
      *
      * @protected
      */
     isPageModel() {
-        return !!(this.state && this.state.cq_model && this.state.cq_model.hasOwnProperty(Constants.PAGE_PATH_PROP));
+        return !!(this.state && this.state.cq_model && this.state.cq_model.hasOwnProperty(Constants.HIERARCHY_TYPE_PROP) && this.state.cq_model[Constants.HIERARCHY_TYPE_PROP] === HierarchyConstants.hierarchyType.page);
     }
 
     /**
@@ -141,11 +142,11 @@ class ModelProvider extends Component {
 
         let childAttrs = {};
 
-        let pagePath = this.getPagePath();
+        let path = this.getPagePath();
 
         // a child page isn't a piece of content of the parent page
-        if (this.isPageModel() && pagePath) {
-            childAttrs.cqPagePath = pagePath;
+        if (this.isPageModel() && path) {
+            childAttrs.cqPagePath = path;
         } else {
             childAttrs.cqDataPath = this.state.data_path;
         }

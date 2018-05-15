@@ -16,6 +16,7 @@
  */
 import React, {Component} from 'react';
 import Constants from '../Constants';
+import HierarchyConstants from '../HierarchyConstants';
 import {ComponentMapping} from '../ComponentMapping';
 import ModelProvider from "./ModelProvider";
 
@@ -53,7 +54,7 @@ class Container extends Component {
      * @protected
      */
     getPagePath() {
-        return this.props && this.props.cq_model && this.props.cq_model[Constants.PAGE_PATH_PROP] || this.props.cq_model_page_path;
+        return this.props && this.props.cq_model && this.props.cq_model[Constants.PATH_PROP] || this.props.cq_model_page_path;
     }
 
     /**
@@ -125,18 +126,16 @@ class Container extends Component {
     /**
      * Returns a list of item instances
      *
-     * @param {string} field                - name of the field where the item is located
-     * @param fieldOrder                    - name of the field that contains the order in which the items are listed
      * @param containerDataPath             - relative path of the item's container
      * @returns {React.Component[]}
      *
      * @protected
      */
-    getDynamicItemComponents(field, fieldOrder, containerDataPath) {
+    getDynamicItemComponents(containerDataPath) {
         let dynamicComponents =  [];
 
-        this.props.cq_model && this.props.cq_model[fieldOrder] && this.props.cq_model[fieldOrder].forEach(itemKey => {
-            dynamicComponents.push(this.getWrappedDynamicComponent(field, itemKey, containerDataPath,  () => {
+        this.props.cq_model && this.props.cq_model[Constants.ITEMS_ORDER_PROP] && this.props.cq_model[Constants.ITEMS_ORDER_PROP].forEach(itemKey => {
+            dynamicComponents.push(this.getWrappedDynamicComponent(Constants.ITEMS_PROP, itemKey, containerDataPath,  () => {
                 let dataPath = containerDataPath + itemKey;
                 // either the model contains page path fields or we use the propagated value
                 let pagePath = this.getPagePath();
@@ -154,24 +153,23 @@ class Container extends Component {
     /**
      * Returns a list of page instances
      *
-     * @param {string} field                - name of the field where the item is located
      * @param containerDataPath             - relative path of the item's container
      * @returns {React.Component[]}
      *
      * @protected
      */
-    getDynamicPageComponents(field, containerDataPath) {
-        if (!this.props.cq_model || !this.props.cq_model[field]) {
+    getDynamicPageComponents(containerDataPath) {
+        if (!this.props.cq_model || this.props.cq_model[Constants.HIERARCHY_TYPE_PROP] !== HierarchyConstants.hierarchyType.page || !this.props.cq_model[Constants.CHILDREN_PROP]) {
             return [];
         }
 
         let dynamicComponents = [];
 
-        const model = this.props.cq_model[field];
+        const model = this.props.cq_model[Constants.CHILDREN_PROP];
 
         for (let itemKey in model) {
             if (model.hasOwnProperty(itemKey)) {
-                dynamicComponents.push(this.getWrappedDynamicComponent(field, itemKey, containerDataPath, () => {
+                dynamicComponents.push(this.getWrappedDynamicComponent(Constants.CHILDREN_PROP, itemKey, containerDataPath, () => {
                     return {
                         page_path: itemKey
                     }
@@ -210,9 +208,9 @@ class Container extends Component {
 
         containerPath = containerPath.length > 0 ? containerPath + '/' : containerPath;
 
-        let dynamicComponents = this.getDynamicItemComponents(Constants.ITEMS_PROP, Constants.ITEMS_ORDER_PROP, containerPath);
+        let dynamicComponents = this.getDynamicItemComponents(containerPath);
 
-        return dynamicComponents.concat(this.getDynamicPageComponents(Constants.PAGES_PROP, containerPath));
+        return dynamicComponents.concat(this.getDynamicPageComponents(containerPath));
     }
 
     render() {
