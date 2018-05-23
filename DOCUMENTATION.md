@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.28*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.29*
 
 
 
@@ -159,7 +159,7 @@ Returns the component optionally wrapped into the current ModelProvider implemen
     
 
     
-#### Container.getDynamicItemComponents(field, fieldOrder, containerDataPath)
+#### Container.getDynamicItemComponents(containerDataPath)
 
 Returns a list of item instances
 
@@ -170,8 +170,6 @@ Returns a list of item instances
 
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
-| field | `string`  | - name of the field where the item is located | &nbsp; |
-| fieldOrder |  | - name of the field that contains the order in which the items are listed | &nbsp; |
 | containerDataPath |  | - relative path of the item's container | &nbsp; |
 
 
@@ -186,7 +184,7 @@ Returns a list of item instances
     
 
     
-#### Container.getDynamicPageComponents(field, containerDataPath)
+#### Container.getDynamicPageComponents(containerDataPath)
 
 Returns a list of page instances
 
@@ -197,7 +195,6 @@ Returns a list of page instances
 
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
-| field | `string`  | - name of the field where the item is located | &nbsp; |
 | containerDataPath |  | - relative path of the item's container | &nbsp; |
 
 
@@ -255,6 +252,10 @@ Returns a list of child components
 #### new ModelProvider(props)
 
 Wrapper component responsible for synchronizing a child component with a given portion of the page model.
+The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the data_path / page_path properties of the component.
+Those properties are then output in the form of data attributes (data-cq-page-path and data-cq-data-path) to allow the editor to understand to which AEM resource this component corresponds.
+
+When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cq_model parameter.
 <p>The ModelProvider supports content items as well as child pages</p>
 
 
@@ -444,7 +445,10 @@ Model provider specific to the components identified as responsive columns
     
 #### new ResponsiveGrid(props)
 
-Container that provides the capabilities of the responsive grid
+Container that provides the capabilities of the responsive grid.
+
+Like the Container component, the ResponsiveGrid dynamically resolves and includes child component classes.
+Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that will - on top of providing access to the model - also decorate the rendered elements with class names relative to the layout.
 
 
 
@@ -689,6 +693,24 @@ Path of the resource in the model
 
     
 
+    
+#### HIERARCHY_TYPE_PROP()
+
+Hierarchical type of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
 
 ### src/EditableComponentComposer.jsx
 
@@ -717,6 +739,64 @@ Decorate the given component with properties carried by the editConfig object
 
 
 - `CompositePlaceholder`  the wrapping component
+
+
+    
+
+
+### src/HierarchyConstants.js
+
+
+    
+#### HierarchyConstants()
+
+Hierarchical types
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### hierarchyType()
+
+Type of hierarchy
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### page()
+
+Hierarchical page type
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
 
 
     
