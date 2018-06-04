@@ -54,7 +54,7 @@ describe('ResponsiveGrid ->', () => {
          * @inheritDoc
          */
         isEmpty: function() {
-            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+            return !this.props || !this.props.cqModel || !this.props.cqModel.src || this.props.cqModel.src.trim().length < 1;
         }
     };
 
@@ -109,7 +109,7 @@ describe('ResponsiveGrid ->', () => {
         it('should contain the expected class names', done => {
             let classNames = RESPONSIVE_GRID_CLASS_NAMES.split(' ');
 
-            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cq_model={RESPONSIVE_GRID_MODEL}/>, rootNode);
+            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cqModel={RESPONSIVE_GRID_MODEL}/>, rootNode);
 
             let responsiveNode = rootNode.querySelector('.' + RESPONSIVE_GRID_CONTAINER_CLASS_NAME);
 
@@ -152,7 +152,7 @@ describe('ResponsiveGrid ->', () => {
             ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID}/>, rootNode);
 
             // Provoke update
-            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cq_model={RESPONSIVE_GRID_MODEL}/>, rootNode);
+            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cqModel={RESPONSIVE_GRID_MODEL}/>, rootNode);
         }
 
         it('should have a placeholder in WCM edit mode', done => {
@@ -190,7 +190,7 @@ describe('ResponsiveGrid ->', () => {
             ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID}/>, rootNode);
 
             // Provoke update
-            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cq_model={RESPONSIVE_GRID_MODEL}/>, rootNode);
+            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cqModel={RESPONSIVE_GRID_MODEL}/>, rootNode);
         });
 
     });

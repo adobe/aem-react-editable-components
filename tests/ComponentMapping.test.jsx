@@ -28,7 +28,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
          * @inheritDoc
          */
         isEmpty: function() {
-            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+            return !this.props || !this.props.cqModel || !this.props.cqModel.src || this.props.cqModel.src.trim().length < 1;
         }
     };
 

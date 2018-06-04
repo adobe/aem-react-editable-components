@@ -27,9 +27,9 @@ import ModelProvider from "./components/ModelProvider";
  * @memberOf ModelProviderHelper
  *
  * @property {{}} props                               - the provided component properties
- * @property {string} props.cq_model_data_path        - relative path of the current configuration in the overall page model
- * @property {string} props.cq_model_page_path        - absolute path of the containing page
- * @property {boolean} props.cq_model_force_reload    - should the cache be ignored
+ * @property {string} props.cqModelDataPath        - relative path of the current configuration in the overall page model
+ * @property {string} props.cqModelPagePath        - absolute path of the containing page
+ * @property {boolean} props.cqModelForceReload    - should the cache be ignored
  */
 
 /**
@@ -61,9 +61,9 @@ const ModelProviderHelper = {
             render() {
                 config = config || {};
                 // The reload can be forced either via the withModel function property or locally via the tag's property
-                let forceReload = this.props.cq_model_force_reload || config.forceReload;
+                let forceReload = this.props.cqModelForceReload || config.forceReload;
 
-                return <ModelProvider data_path={this.props.cq_model_data_path} page_path={this.props.cq_model_page_path} force_reload={forceReload}>
+                return <ModelProvider dataPath={this.props.cqModelDataPath} pagePath={this.props.cqModelPagePath} forceReload={forceReload}>
                     <WrappedComponent {...this.props}/>
                 </ModelProvider>
             }

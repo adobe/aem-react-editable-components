@@ -68,7 +68,7 @@ describe('Container ->', () => {
     class ComponentChild extends Component {
 
         render() {
-            return <div className={ITEM_CLASS_NAME}>{this.props.cq_model && this.props.cq_model.title}</div>;
+            return <div className={ITEM_CLASS_NAME}>{this.props.cqModel && this.props.cqModel.title}</div>;
         }
     }
     class Page extends Container {

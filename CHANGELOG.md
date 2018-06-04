@@ -1,3 +1,15 @@
+###
+
+* **BREAKING CHANGE** `props` that are passed to Components renamed:
+  * `cq_model` => `cqModel`
+  * `cq_model_page_path` => `cqModelPagePath`
+  * `cq_model_data_path` => `cqModelDataPath`
+ 
+* **BREAKING CHANGE** ModelProvider `props` renamed:
+  * `data_path` => `dataPath`
+  * `page_path` => `pagePath`
+  * `force_reload` => `forceReload`
+
 ### 0.0.29 - 15 May 2018
 
 Public release of `cq-spa-page-model-manager`, which provides:

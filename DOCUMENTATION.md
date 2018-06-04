@@ -55,8 +55,8 @@ Container component that provides the common features required by all containers
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.cq_model | `[object Object]`  | - the page model configuration object | *Optional* |
-| props.cq_model.:dataPath | `string`  | - relative path of the current configuration in the overall page model | *Optional* |
+| props.cqModel | `[object Object]`  | - the page model configuration object | *Optional* |
+| props.cqModel.:dataPath | `string`  | - relative path of the current configuration in the overall page model | *Optional* |
 
 
 
@@ -252,10 +252,10 @@ Returns a list of child components
 #### new ModelProvider(props)
 
 Wrapper component responsible for synchronizing a child component with a given portion of the page model.
-The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the data_path / page_path properties of the component.
+The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the dataPath / pagePath properties of the component.
 Those properties are then output in the form of data attributes (data-cq-page-path and data-cq-data-path) to allow the editor to understand to which AEM resource this component corresponds.
 
-When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cq_model parameter.
+When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cqModel parameter.
 <p>The ModelProvider supports content items as well as child pages</p>
 
 
@@ -266,9 +266,9 @@ When the model gets updated the wrapped component gets re-rendered with the late
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.data_path | `string`  | - relative path of the current configuration in the overall page model | &nbsp; |
-| props.page_path | `string`  | - absolute path of the containing page | &nbsp; |
-| props.force_reload | `boolean`  | - should the cache be ignored | &nbsp; |
+| props.dataPath | `string`  | - relative path of the current configuration in the overall page model | &nbsp; |
+| props.pagePath | `string`  | - absolute path of the containing page | &nbsp; |
+| props.forceReload | `boolean`  | - should the cache be ignored | &nbsp; |
 
 
 
@@ -458,9 +458,9 @@ Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that wi
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.cq_model | `[object Object]`  | - the page model configuration object | *Optional* |
-| props.cq_model.gridClassNames | `string`  | - the grid class names as provided by the content services | *Optional* |
-| props.cq_model.classNames | `string`  | - the class names as provided by the content services | *Optional* |
+| props.cqModel | `[object Object]`  | - the page model configuration object | *Optional* |
+| props.cqModel.gridClassNames | `string`  | - the grid class names as provided by the content services | *Optional* |
+| props.cqModel.classNames | `string`  | - the class names as provided by the content services | *Optional* |
 
 
 
