@@ -8,7 +8,7 @@ describe('ModelProvider ->', () => {
 
     const STATIC_PAGE_MODEL_URL = '/content/react-page.json';
 
-    const SITE_MODEL_PATH = '/content/react-page';
+    const APP_MODEL_PATH = '/content/react-page';
 
     const CHILD_PAGE_PATH = '/content/react-page/page';
 
@@ -92,7 +92,7 @@ describe('ModelProvider ->', () => {
         ":items": {
             "root": ITEM_MODEL_ROUTE
         },
-        ":path": SITE_MODEL_PATH,
+        ":path": APP_MODEL_PATH,
         ":hierarchyType": "page",
         ":children": {
             "/content/react-page/page": CHILD_PAGE_MODEL
@@ -201,7 +201,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly without parameter', done => {
             ReactDOM.render(<ModelProvider><Dummy /></ModelProvider>, rootNode);
 
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: SITE_MODEL_PATH, [DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: APP_MODEL_PATH, [DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 

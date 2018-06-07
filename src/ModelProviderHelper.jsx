@@ -61,7 +61,7 @@ const ModelProviderHelper = {
             render() {
                 config = config || {};
                 // The reload can be forced either via the withModel function property or locally via the tag's property
-                let forceReload = this.props.cqModelForceReload || config.forceReload;
+                const forceReload = this.props.cqModelForceReload || config.forceReload;
 
                 return <ModelProvider dataPath={this.props.cqModelDataPath} pagePath={this.props.cqModelPagePath} forceReload={forceReload}>
                     <WrappedComponent {...this.props}/>

@@ -147,7 +147,7 @@ class ModelProvider extends Component {
         // a child page isn't a piece of content of the parent page
         if (this.isPageModel() && path) {
             childAttrs.cqPagePath = path;
-        } else {
+        } else if (this.state.dataPath) {
             childAttrs.cqDataPath = this.state.dataPath;
         }
 
