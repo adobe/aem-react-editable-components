@@ -38,11 +38,15 @@
     "build": "npm run linter && babel src --out-dir dist",
     "docs": "jsdoc -c ./jsdoc_conf.json && doxdox \"src/**/*.+(js|jsx)\" --layout templates/DOCUMENTATION.hbs --output DOCUMENTATION.md",
     "readme": "node_modules/markdown-include/bin/cli.js markdown-include.config.json",
-    "prepublishOnly": "npm-auto-version && npm run build && npm run docs && npm run readme",
-    "postpublish": "git commit -am 'publish latest version' && git push origin && git push origin --tags"
+    "preversion": "npm run build && npm run test && npm run docs && npm run readme",
+    "version": "git add -A",
+    "postversion": "git push && git push --tags"
   },
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-cq-spa-release-local"
+  },
   "dependencies": {
     "@adobe/cq-spa-component-mapping": "0.0.15",
     "@adobe/cq-spa-page-model-manager": "0.0.23-beta.0",
