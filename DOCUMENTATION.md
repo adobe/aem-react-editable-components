@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.29*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.30-alpha.0*
 
 
 
@@ -660,25 +660,7 @@ Path of the item
     
 #### CHILDREN_PROP()
 
-Children of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### DATA_PATH_PROP()
-
-Path of the resource in the model
+Children of an item
 
 
 
@@ -697,6 +679,24 @@ Path of the resource in the model
 #### HIERARCHY_TYPE_PROP()
 
 Hierarchical type of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### DATA_PATH_PROP()
+
+Path of the resource in the model
 
 
 
