@@ -48,7 +48,7 @@
     "registry": "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-cq-spa-release-local"
   },
   "dependencies": {
-    "@adobe/cq-spa-component-mapping": "0.0.15",
+    "@adobe/cq-spa-component-mapping": "0.0.15-beta.1",
     "@adobe/cq-spa-page-model-manager": "0.0.23-beta.0",
     "babel-polyfill": "^6.9.1",
     "custom-event-polyfill": "^0.3.0",
