@@ -53,7 +53,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.29*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.30*
 
 
 
@@ -109,8 +109,8 @@ Container component that provides the common features required by all containers
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.cq_model | `[object Object]`  | - the page model configuration object | *Optional* |
-| props.cq_model.:dataPath | `string`  | - relative path of the current configuration in the overall page model | *Optional* |
+| props.cqModel | `[object Object]`  | - the page model configuration object | *Optional* |
+| props.cqModel.:dataPath | `string`  | - relative path of the current configuration in the overall page model | *Optional* |
 
 
 
@@ -306,10 +306,10 @@ Returns a list of child components
 #### new ModelProvider(props)
 
 Wrapper component responsible for synchronizing a child component with a given portion of the page model.
-The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the data_path / page_path properties of the component.
+The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the dataPath / pagePath properties of the component.
 Those properties are then output in the form of data attributes (data-cq-page-path and data-cq-data-path) to allow the editor to understand to which AEM resource this component corresponds.
 
-When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cq_model parameter.
+When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cqModel parameter.
 <p>The ModelProvider supports content items as well as child pages</p>
 
 
@@ -320,9 +320,9 @@ When the model gets updated the wrapped component gets re-rendered with the late
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.data_path | `string`  | - relative path of the current configuration in the overall page model | &nbsp; |
-| props.page_path | `string`  | - absolute path of the containing page | &nbsp; |
-| props.force_reload | `boolean`  | - should the cache be ignored | &nbsp; |
+| props.dataPath | `string`  | - relative path of the current configuration in the overall page model | &nbsp; |
+| props.pagePath | `string`  | - absolute path of the containing page | &nbsp; |
+| props.forceReload | `boolean`  | - should the cache be ignored | &nbsp; |
 
 
 
@@ -512,9 +512,9 @@ Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that wi
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.cq_model | `[object Object]`  | - the page model configuration object | *Optional* |
-| props.cq_model.gridClassNames | `string`  | - the grid class names as provided by the content services | *Optional* |
-| props.cq_model.classNames | `string`  | - the class names as provided by the content services | *Optional* |
+| props.cqModel | `[object Object]`  | - the page model configuration object | *Optional* |
+| props.cqModel.gridClassNames | `string`  | - the grid class names as provided by the content services | *Optional* |
+| props.cqModel.classNames | `string`  | - the class names as provided by the content services | *Optional* |
 
 
 
@@ -730,9 +730,9 @@ Children of an item
     
 
     
-#### DATA_PATH_PROP()
+#### HIERARCHY_TYPE_PROP()
 
-Path of the resource in the model
+Hierarchical type of the item
 
 
 
@@ -748,9 +748,9 @@ Path of the resource in the model
     
 
     
-#### HIERARCHY_TYPE_PROP()
+#### DATA_PATH_PROP()
 
-Hierarchical type of the item
+Path of the resource in the model
 
 
 
@@ -998,6 +998,20 @@ Is the app used in the context of the AEM Page editor
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
 ## Changelog 
+
+### 0.0.30 - 20 June 2018
+
+* **BREAKING CHANGE** `props` that are passed to Components renamed:
+  * `cq_model` => `cqModel`
+  * `cq_model_page_path` => `cqModelPagePath`
+  * `cq_model_data_path` => `cqModelDataPath`
+* Responsive grid placeholder not displayed when entering the editor via the preview model
+* Change routing method to support History API by default (hash routing support has been removed)
+ 
+* **BREAKING CHANGE** ModelProvider `props` renamed:
+  * `data_path` => `dataPath`
+  * `page_path` => `pagePath`
+  * `force_reload` => `forceReload`
 
 ### 0.0.29 - 15 May 2018
 

@@ -4,6 +4,8 @@ import { ComponentMapping, MapTo, PageModelManager } from '../index';
 
 describe('ComponentMapping & EditableComponentComposer', () => {
 
+    const DEFAULT_CONTENT_PATH = window.location.pathname.replace(/\.htm(l)?$/,'');
+
     const DRAG_DROP_CLASS_NAME = 'cq-dd-';
 
     const PLACE_HOLDER_CLASS_NAME = 'cq-placeholder';
@@ -28,7 +30,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
          * @inheritDoc
          */
         isEmpty: function() {
-            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+            return !this.props || !this.props.cqModel || !this.props.cqModel.src || this.props.cqModel.src.trim().length < 1;
         }
     };
 
@@ -58,7 +60,8 @@ describe('ComponentMapping & EditableComponentComposer', () => {
 
     beforeEach(() => {
         sandbox.stub(PageModelManager, 'getData')
-            .withArgs({pagePath: '', dataPath: '', forceReload: undefined}).resolves({});
+            .withArgs({pagePath: '', dataPath: '', forceReload: undefined}).resolves({})
+            .withArgs({pagePath: DEFAULT_CONTENT_PATH, dataPath: '', forceReload: undefined}).resolves({});
 
         ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 

@@ -5,6 +5,8 @@
 /build
 /temp
 /dist
+/.chrome
+/package
 
 # dependency directories
 node_modules/

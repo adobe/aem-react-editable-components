@@ -68,7 +68,7 @@ describe('Container ->', () => {
     class ComponentChild extends Component {
 
         render() {
-            return <div className={ITEM_CLASS_NAME}>{this.props.cq_model && this.props.cq_model.title}</div>;
+            return <div className={ITEM_CLASS_NAME}>{this.props.cqModel && this.props.cqModel.title}</div>;
         }
     }
     class Page extends Container {
@@ -130,12 +130,12 @@ describe('Container ->', () => {
                 const items = rootNode.querySelectorAll('.' + ITEM_CLASS_NAME);
                 const pages = rootNode.querySelectorAll('.' + PAGE_CLASS_NAME);
 
-                if (!items || items.length < 2 || CHILD_ITEM_TITLE_1 !== items[0].innerText || CHILD_ITEM_TITLE_2 !== items[1].innerText) {
+                if (!items || items.length !== 2 || CHILD_ITEM_TITLE_1 !== items[0].innerText || CHILD_ITEM_TITLE_2 !== items[1].innerText) {
                     return false;
                 }
 
                 // Expected number of child pages
-                if (!pages || pages.length < 2) {
+                if (!pages || pages.length !== 2) {
                     return false;
                 }
 

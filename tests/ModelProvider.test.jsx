@@ -8,7 +8,7 @@ describe('ModelProvider ->', () => {
 
     const STATIC_PAGE_MODEL_URL = '/content/react-page.json';
 
-    const SITE_MODEL_PATH = '/content/react-page';
+    const APP_MODEL_PATH = '/content/react-page';
 
     const CHILD_PAGE_PATH = '/content/react-page/page';
 
@@ -92,7 +92,7 @@ describe('ModelProvider ->', () => {
         ":items": {
             "root": ITEM_MODEL_ROUTE
         },
-        ":path": SITE_MODEL_PATH,
+        ":path": APP_MODEL_PATH,
         ":hierarchyType": "page",
         ":children": {
             "/content/react-page/page": CHILD_PAGE_MODEL
@@ -126,16 +126,40 @@ describe('ModelProvider ->', () => {
          * @inheritDoc
          */
         isEmpty: function() {
-            return !this.props || !this.props.cq_model || !this.props.cq_model.src || this.props.cq_model.src.trim().length < 1;
+            return !this.props || !this.props.cqModel || !this.props.cqModel.src || this.props.cqModel.src.trim().length < 1;
         }
     };
 
+    /**
+     * React warn if a non-standard DOM attribute is used on a native DOM node.
+     *
+     * When the HTML div element is wrapped to be a React Component it is no longer a DOM node and camelCase properties
+     * can be passed to props.
+     *
+     * If instead of the <ModelProvider><Dummy /></ModelProvider> the <ModelProvider><div /></ModelProvider> notation
+     * is used, the following error might be shown in the browser console:
+     *
+     *      Warning: React does not recognize the `camelCaseProp` prop on a DOM element. If you intentionally want it to
+     *      appear in the DOM as a custom attribute, spell it as lowercase `camelcaseprop` instead. If you accidentally
+     *      passed it from a parent component, remove it from the DOM element.
+     *          in div (created by ModelProvider)
+     *          in ModelProvider
+     *
+     * for every camelCase property passed in props.
+     *
+     * See also: https://github.com/facebook/react/issues/10590
+     */
+    class Dummy extends Component {
+        render() {
+            return <div id={INNER_COMPONENT_ID}>Abc</div>;
+        }
+    }
     class TestComponent extends Component {
         render () {
             let value = NO_VALUE;
 
-            if (this.props.cq_model) {
-                value = this.props.cq_model.value || NO_VALUE;
+            if (this.props.cqModel) {
+                value = this.props.cqModel.value || NO_VALUE;
             }
 
             return <div id={INNER_COMPONENT_ID} data-value={value}/>;
@@ -175,16 +199,16 @@ describe('ModelProvider ->', () => {
     describe('Tag instantiation ->', () => {
 
         it('should initialize properly without parameter', done => {
-            ReactDOM.render(<ModelProvider><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider><Dummy /></ModelProvider>, rootNode);
 
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: SITE_MODEL_PATH, [DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
+            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: APP_MODEL_PATH, [DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
         it('should initialize properly with a path parameter', done => {
             const path = 'root';
 
-            ReactDOM.render(<ModelProvider data_path={path}><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider dataPath={path}><Dummy /></ModelProvider>, rootNode);
 
             // Expect {path}.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: path}, undefined, done);
@@ -192,7 +216,7 @@ describe('ModelProvider ->', () => {
         });
 
         it('should initialize properly with a key parameter', done => {
-            ReactDOM.render(<ModelProvider key={'test'}><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider key={'test'}><Dummy /></ModelProvider>, rootNode);
 
             // Expect empty path.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
@@ -202,7 +226,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly with a path and a key parameter', done => {
             const path = 'root';
 
-            ReactDOM.render(<ModelProvider key={'test'} data_path={path}><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider key={'test'} dataPath={path}><Dummy /></ModelProvider>, rootNode);
 
             // Expect {path}.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: path}, undefined, done);
@@ -210,7 +234,7 @@ describe('ModelProvider ->', () => {
         });
 
         it('should request the model for a page', done => {
-            ReactDOM.render(<ModelProvider key={'test'} page_path={CHILD_PAGE_PATH}><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider key={'test'} pagePath={CHILD_PAGE_PATH}><Dummy /></ModelProvider>, rootNode);
 
             // Expect {path}.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: CHILD_PAGE_PATH}, undefined, done);
@@ -218,7 +242,7 @@ describe('ModelProvider ->', () => {
         });
 
         it('should request the model for an item in a page', done => {
-            ReactDOM.render(<ModelProvider key={'test'} page_path={CHILD_PAGE_PATH} data_path={CHILD_PAGE_ITEM_MODEL_0101_PATH}><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider key={'test'} pagePath={CHILD_PAGE_PATH} dataPath={CHILD_PAGE_ITEM_MODEL_0101_PATH}><Dummy /></ModelProvider>, rootNode);
 
             // Expect {path}.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: undefined, [DATA_ATTRIBUTE_DATA_PATH]: CHILD_PAGE_ITEM_MODEL_0101_PATH}, undefined, done);
@@ -226,7 +250,7 @@ describe('ModelProvider ->', () => {
         });
 
         it('should force reload the model', done => {
-            ReactDOM.render(<ModelProvider key={'test'} page_path={CHILD_PAGE_PATH} data_path={CHILD_PAGE_ITEM_MODEL_0101_PATH} force_reload={true}><div></div></ModelProvider>, rootNode);
+            ReactDOM.render(<ModelProvider key={'test'} pagePath={CHILD_PAGE_PATH} dataPath={CHILD_PAGE_ITEM_MODEL_0101_PATH} forceReload={true}><Dummy /></ModelProvider>, rootNode);
 
             if (!PageModelManager.getData.calledWithExactly({pagePath: CHILD_PAGE_PATH, dataPath: CHILD_PAGE_ITEM_MODEL_0101_PATH, forceReload: true})) {
                 done(new Error('force load not enabled'));
@@ -245,7 +269,7 @@ describe('ModelProvider ->', () => {
 
             const ModelTestComponent = withModel(TestComponent);
 
-            ReactDOM.render(<ModelTestComponent cq_model_page_path={CHILD_PAGE_PATH} cq_model_data_path={CHILD_PAGE_ITEM_MODEL_0101_PATH}/>, rootNode);
+            ReactDOM.render(<ModelTestComponent cqModelPagePath={CHILD_PAGE_PATH} cqModelDataPath={CHILD_PAGE_ITEM_MODEL_0101_PATH}/>, rootNode);
 
             if (!PageModelManager.getData.calledWithExactly({pagePath: CHILD_PAGE_PATH, dataPath: CHILD_PAGE_ITEM_MODEL_0101_PATH, forceReload: undefined})) {
                 done(new Error('force load not enabled'));
@@ -264,7 +288,7 @@ describe('ModelProvider ->', () => {
 
             const ModelTestComponent = withModel(TestComponent, {forceReload: true});
 
-            ReactDOM.render(<ModelTestComponent cq_model_page_path={CHILD_PAGE_PATH} cq_model_data_path={CHILD_PAGE_ITEM_MODEL_0101_PATH}/>, rootNode);
+            ReactDOM.render(<ModelTestComponent cqModelPagePath={CHILD_PAGE_PATH} cqModelDataPath={CHILD_PAGE_ITEM_MODEL_0101_PATH}/>, rootNode);
 
             if (!PageModelManager.getData.calledWithExactly({pagePath: CHILD_PAGE_PATH, dataPath: CHILD_PAGE_ITEM_MODEL_0101_PATH, forceReload: true})) {
                 done(new Error('force load not enabled'));
@@ -283,7 +307,7 @@ describe('ModelProvider ->', () => {
 
             const ModelTestComponent = withModel(TestComponent);
 
-            ReactDOM.render(<ModelTestComponent cq_model_page_path={CHILD_PAGE_PATH} cq_model_data_path={CHILD_PAGE_ITEM_MODEL_0101_PATH} cq_model_force_reload={true}/>, rootNode);
+            ReactDOM.render(<ModelTestComponent cqModelPagePath={CHILD_PAGE_PATH} cqModelDataPath={CHILD_PAGE_ITEM_MODEL_0101_PATH} cqModelForceReload={true}/>, rootNode);
 
             if (!PageModelManager.getData.calledWithExactly({pagePath: CHILD_PAGE_PATH, dataPath: CHILD_PAGE_ITEM_MODEL_0101_PATH, forceReload: true})) {
                 done(new Error('force load not enabled'));
@@ -300,14 +324,14 @@ describe('ModelProvider ->', () => {
             let config = { attributes: true, subtree: true, childList: true };
 
             let instance = ReactDOM.render(
-                <ModelProvider data_path={CHILD10_PATH}>
-                    <div id={INNER_COMPONENT_ID}/>
+                <ModelProvider dataPath={CHILD10_PATH}>
+                    <Dummy />
                 </ModelProvider>, rootNode);
 
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, done);
             observer.observe(rootNode, config);
 
-            expect(instance.props.data_path).to.equal(CHILD10_PATH);
+            expect(instance.props.dataPath).to.equal(CHILD10_PATH);
         });
 
         it('should return a component wrapped in a model provider', done => {
@@ -315,7 +339,7 @@ describe('ModelProvider ->', () => {
 
             let config = { attributes: true, subtree: true, childList: true };
 
-            ReactDOM.render(<ModelWrappedComponent cq_model_data_path={CHILD10_PATH}/>, rootNode);
+            ReactDOM.render(<ModelWrappedComponent cqModelDataPath={CHILD10_PATH}/>, rootNode);
 
             // Expect child10 path & value.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
@@ -337,7 +361,7 @@ describe('ModelProvider ->', () => {
 
             const ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
-            ReactDOM.render(<ExportedTestComponent cq_model_data_path={CHILD10_PATH}/>, rootNode);
+            ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD10_PATH}/>, rootNode);
 
             // Expect child10 path & value.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
@@ -359,7 +383,7 @@ describe('ModelProvider ->', () => {
 
             const ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
-            ReactDOM.render(<ExportedTestComponent cq_model_data_path={CHILD10_PATH}/>, rootNode);
+            ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD10_PATH}/>, rootNode);
 
             // Expect child10 path & value.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
@@ -367,7 +391,7 @@ describe('ModelProvider ->', () => {
 
             function step2() {
                 observer.disconnect();
-                ReactDOM.render(<ExportedTestComponent cq_model_data_path={CHILD11_PATH}/>, rootNode);
+                ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD11_PATH}/>, rootNode);
 
                 // Expect child11 path & value.
                 observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD11_PATH}, '#' + INNER_COMPONENT_ID, done);

@@ -35,7 +35,7 @@ class Placeholder extends Component {
 
 
     render() {
-        return <div data-cq-data-path={this.props.cq_model && this.props.cq_model[Constants.DATA_PATH_PROP] + "/*"} className={PLACEHOLDER_CLASS_NAMES} />
+        return <div data-cq-data-path={this.props.cqModel && this.props.cqModel[Constants.DATA_PATH_PROP] + "/*"} className={PLACEHOLDER_CLASS_NAMES} />
     }
 }
 
@@ -50,9 +50,9 @@ class Placeholder extends Component {
  * @memberOf components
  *
  * @param {{}} props                                    - the provided component properties
- * @param {{}} [props.cq_model]                         - the page model configuration object
- * @param {string} [props.cq_model.gridClassNames]      - the grid class names as provided by the content services
- * @param {string} [props.cq_model.classNames]          - the class names as provided by the content services
+ * @param {{}} [props.cqModel]                         - the page model configuration object
+ * @param {string} [props.cqModel.gridClassNames]      - the grid class names as provided by the content services
+ * @param {string} [props.cqModel.classNames]          - the class names as provided by the content services
  */
 class ResponsiveGrid extends Container {
 
@@ -60,7 +60,7 @@ class ResponsiveGrid extends Container {
         super(props);
 
         this.state = {
-            cq_model: props.cq_model,
+            cqModel: props.cqModel,
             classNames: '',
             gridClassNames: ''
         };
@@ -72,7 +72,7 @@ class ResponsiveGrid extends Container {
      * @returns {string|boolean}
      */
     get gridClassNames() {
-        return this.props && this.props.cq_model && this.props.cq_model.gridClassNames;
+        return this.props && this.props.cqModel && this.props.cqModel.gridClassNames;
     }
 
     /**
@@ -81,18 +81,18 @@ class ResponsiveGrid extends Container {
      * @returns {string}
      */
     get classNames() {
-        if (!this.props || !this.props.cq_model) {
+        if (!this.props || !this.props.cqModel) {
             return '';
         }
 
         let classNames = CONTAINER_CLASS_NAMES;
 
-        if (this.props.cq_model.classNames) {
-            classNames += ' ' + this.props.cq_model.classNames;
+        if (this.props.cqModel.classNames) {
+            classNames += ' ' + this.props.cqModel.classNames;
         }
 
-        if (this.props.cq_model.columnClassNames) {
-            classNames += ' ' + this.props.cq_model.columnClassNames;
+        if (this.props.cqModel.columnClassNames) {
+            classNames += ' ' + this.props.cqModel.columnClassNames;
         }
 
         return classNames;

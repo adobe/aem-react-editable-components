@@ -30,8 +30,8 @@ import ModelProvider from "./ModelProvider";
  *
  *
  * @param {{}} props                                - the provided component properties
- * @param {{}} [props.cq_model]                     - the page model configuration object
- * @param {string} [props.cq_model.:dataPath]       - relative path of the current configuration in the overall page model
+ * @param {{}} [props.cqModel]                     - the page model configuration object
+ * @param {string} [props.cqModel.:dataPath]       - relative path of the current configuration in the overall page model
  */
 class Container extends Component {
 
@@ -54,7 +54,7 @@ class Container extends Component {
      * @protected
      */
     getPagePath() {
-        return this.props && this.props.cq_model && this.props.cq_model[Constants.PATH_PROP] || this.props.cq_model_page_path;
+        return this.props && this.props.cqModel && this.props.cqModel[Constants.PATH_PROP] || this.props.cqModelPagePath;
     }
 
     /**
@@ -93,11 +93,11 @@ class Container extends Component {
      * @protected
      */
     getWrappedDynamicComponent(field, itemKey, containerDataPath, propertiesCallback) {
-        if (!this.props.cq_model[field]) {
+        if (!this.props.cqModel[field]) {
             return false;
         }
 
-        const item = this.props.cq_model[field][itemKey];
+        const item = this.props.cqModel[field][itemKey];
 
         if (!item) {
             return false;
@@ -117,10 +117,10 @@ class Container extends Component {
         if (Wrapper) {
             propertiesCallback = propertiesCallback || function noOp(){return {}};
 
-            return <Wrapper key={item[Constants.DATA_PATH_PROP]} {...propertiesCallback()}><DynamicComponent cq_model={item} cq_model_page_path={this.props.cq_model_page_path} cq_model_data_path={this.props.cq_model_data_path}/></Wrapper>
+            return <Wrapper key={item[Constants.DATA_PATH_PROP]} {...propertiesCallback()}><DynamicComponent cqModel={item} cqModelPagePath={this.props.cqModelPagePath} cqModelDataPath={this.props.cqModelDataPath}/></Wrapper>
         }
 
-        return <DynamicComponent cq_model={item} cq_model_page_path={this.props.cq_model_page_path} cq_model_data_path={this.props.cq_model_data_path}/>;
+        return <DynamicComponent cqModel={item} cqModelPagePath={this.props.cqModelPagePath} cqModelDataPath={this.props.cqModelDataPath}/>;
     }
 
     /**
@@ -134,15 +134,15 @@ class Container extends Component {
     getDynamicItemComponents(containerDataPath) {
         let dynamicComponents =  [];
 
-        this.props.cq_model && this.props.cq_model[Constants.ITEMS_ORDER_PROP] && this.props.cq_model[Constants.ITEMS_ORDER_PROP].forEach(itemKey => {
+        this.props.cqModel && this.props.cqModel[Constants.ITEMS_ORDER_PROP] && this.props.cqModel[Constants.ITEMS_ORDER_PROP].forEach(itemKey => {
             dynamicComponents.push(this.getWrappedDynamicComponent(Constants.ITEMS_PROP, itemKey, containerDataPath,  () => {
                 let dataPath = containerDataPath + itemKey;
                 // either the model contains page path fields or we use the propagated value
                 let pagePath = this.getPagePath();
 
                 return {
-                    data_path: dataPath,
-                    page_path: pagePath
+                    dataPath: dataPath,
+                    pagePath: pagePath
                 }
             }));
         });
@@ -159,19 +159,19 @@ class Container extends Component {
      * @protected
      */
     getDynamicPageComponents(containerDataPath) {
-        if (!this.props.cq_model || this.props.cq_model[Constants.HIERARCHY_TYPE_PROP] !== HierarchyConstants.hierarchyType.page || !this.props.cq_model[Constants.CHILDREN_PROP]) {
+        if (!this.props.cqModel || this.props.cqModel[Constants.HIERARCHY_TYPE_PROP] !== HierarchyConstants.hierarchyType.page || !this.props.cqModel[Constants.CHILDREN_PROP]) {
             return [];
         }
 
         let dynamicComponents = [];
 
-        const model = this.props.cq_model[Constants.CHILDREN_PROP];
+        const model = this.props.cqModel[Constants.CHILDREN_PROP];
 
         for (let itemKey in model) {
             if (model.hasOwnProperty(itemKey)) {
                 dynamicComponents.push(this.getWrappedDynamicComponent(Constants.CHILDREN_PROP, itemKey, containerDataPath, () => {
                     return {
-                        page_path: itemKey
+                        pagePath: itemKey
                     }
                 }));
             }
@@ -188,7 +188,7 @@ class Container extends Component {
      * @protected
      */
     get path() {
-        return this.props && this.props.cq_model && this.props.cq_model[Constants.DATA_PATH_PROP];
+        return this.props && this.props.cqModel && this.props.cqModel[Constants.DATA_PATH_PROP];
     }
 
     /**
@@ -199,7 +199,7 @@ class Container extends Component {
      * @protected
      */
     get innerContent() {
-        let containerPath = this.path || this.props.data_path || '';
+        let containerPath = this.path || this.props.dataPath || '';
 
         // Prepare container path for concatenation
         if ('/' === containerPath) {

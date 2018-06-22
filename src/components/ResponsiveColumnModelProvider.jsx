@@ -33,14 +33,14 @@ class ResponsiveColumnModelProvider extends ModelProvider {
     decorateChildElement(element) {
         super.decorateChildElement(element);
 
-        if (!element || !this.state.cq_model || !this.state.cq_model.columnClassNames) {
+        if (!element || !this.state.cqModel || !this.state.cqModel.columnClassNames) {
             return;
         }
 
         // Remove all the column class names
         element.className = element.className.replace(RESPONSIVE_COLUMN_CLASS_NAME_PATTERN, '');
 
-        let columnClassNames = this.state.cq_model.columnClassNames.split(' ');
+        let columnClassNames = this.state.cqModel.columnClassNames.split(' ');
 
         columnClassNames.forEach(className => {
             if (!element.classList.contains(className)) {
