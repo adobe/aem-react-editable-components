@@ -1,6 +1,6 @@
 {
   "name": "@adobe/cq-react-editable-components",
-  "version": "0.0.30-beta.3",
+  "version": "0.0.31-beta.0",
   "auto-changelog": {
     "template": "templates/CHANGELOG.hbs"
   },
