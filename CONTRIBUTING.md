@@ -1,4 +1,4 @@
-# cq-react-editable-base-components
+# spa-react-editable-components
 React components that provide the base authoring capabilities when used in conjunction with the page editor.
 
 
