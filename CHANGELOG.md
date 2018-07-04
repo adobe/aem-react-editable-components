@@ -1,9 +1,11 @@
-###
+### 0.0.30 - 20 June 2018
 
 * **BREAKING CHANGE** `props` that are passed to Components renamed:
   * `cq_model` => `cqModel`
   * `cq_model_page_path` => `cqModelPagePath`
   * `cq_model_data_path` => `cqModelDataPath`
+* Responsive grid placeholder not displayed when entering the editor via the preview model
+* Change routing method to support History API by default (hash routing support has been removed)
  
 * **BREAKING CHANGE** ModelProvider `props` renamed:
   * `data_path` => `dataPath`
