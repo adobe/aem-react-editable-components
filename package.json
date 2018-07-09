@@ -41,7 +41,8 @@
     "docs-readme": "npm run docs && npm run readme",
     "preversion": "npm run build && npm run test && npm run docs-readme",
     "version": "npm run docs-readme && git add -A",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "tmprelease": "node release.js"
   },
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
@@ -108,6 +109,8 @@
     "react-test-renderer": "^16.2.0",
     "sinon": "^4.5.0",
     "sinon-chai": "^2.14.0",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "readline-sync": "^1.4.9",
+    "executive": "1.6.3"
   }
 }
