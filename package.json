@@ -40,7 +40,7 @@
     "readme": "node_modules/markdown-include/bin/cli.js markdown-include.config.json",
     "docs-readme": "npm run docs && npm run readme",
     "preversion": "npm run build && npm run test && npm run docs-readme",
-    "version": "npm run docs-readme && git add -A",
+    "version": "npm run docs-readme && git add DOCUMENTATION.md README.md package.json",
     "postversion": "git push && git push --tags",
     "tmprelease": "node release.js"
   },
