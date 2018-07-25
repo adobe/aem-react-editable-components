@@ -9,12 +9,11 @@
         "istanbul",
         {
           "include": [
-            "src/**.*"
+            "src"
           ],
           "exclude": [
-            "dist/**.*",
-            "node_modules/**.*",
-            "tests/**.*"
+            "dist",
+            "tests"
           ]
         }
       ]]

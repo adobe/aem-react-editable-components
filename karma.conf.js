@@ -28,7 +28,7 @@ module.exports = function(config) {
             dir: 'coverage',
             includeAllSources: true,
             reporters: [
-                {type:'text-summary'},
+                {type:'text'},
                 {type: 'html'}
             ]
         },
