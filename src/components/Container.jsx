@@ -105,7 +105,7 @@ class Container extends Component {
             return <Wrapper key={key} {...propertiesCallback() }><DynamicComponent cqModel={item} cqModelPagePath={this.props.cqModelPagePath} cqModelDataPath={this.props.cqModelDataPath}/></Wrapper>
         }
 
-        return <DynamicComponent cqModel={isLayoutComponent} cqModelPagePath={this.props.cqModelPagePath} cqModelDataPath={this.props.cqModelDataPath}/>;
+        return <DynamicComponent cqModel={item} cqModelPagePath={this.props.cqModelPagePath} cqModelDataPath={this.props.cqModelDataPath}/>;
     }
 
     /**

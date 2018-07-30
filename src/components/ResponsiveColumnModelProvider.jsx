@@ -19,6 +19,7 @@ import React from 'react';
 import Constants from '../Constants';
 
 const RESPONSIVE_COLUMN_CLASS_NAME_PATTERN = /aem-GridColumn([^ ])*/g;
+const RESPONSIVEGRID_TYPE = "wcm/foundation/components/responsivegrid";
 
 /**
  * Model provider specific to the components identified as responsive columns
@@ -34,8 +35,8 @@ class ResponsiveColumnModelProvider extends ModelProvider {
         return childAttrs;
     }
 
-    get childIsResponsiveGrid() {
-        return this.state.cqModel && this.state.cqModel[Constants.TYPE_PROP] === 'wcm/foundation/components/responsivegrid';
+    get wrapComponent() {
+        return this.state.cqModel && this.state.cqModel[Constants.TYPE_PROP] === RESPONSIVEGRID_TYPE;
     }
 
     render() {
@@ -44,7 +45,7 @@ class ResponsiveColumnModelProvider extends ModelProvider {
         }
         // List and clone the children to passing the data as properties
         let cloneEl = React.cloneElement(this.props.children, { ref: this.state.dataPath, cqModel: this.state.cqModel, cqModelPagePath: this.state.pagePath, cqModelDataPath: this.state.dataPath });
-        if (!this.childIsResponsiveGrid) {
+        if (!this.wrapComponent) {
             return <div { ...this.childAttrs }>
                 { cloneEl }
             </div>;
