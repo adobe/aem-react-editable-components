@@ -32,7 +32,19 @@ const EDIT_MODE = 'edit';
  * The editor is in preview mode
  */
 const PREVIEW_MODE = 'preview';
-
+/**
+ * Returns if we are in the browser context or not by checking for the 
+ * existance of the window object
+ *
+ * @returns {Boolean} the result of the check of the existance of the window object
+ */
+function isBrowser() {
+    try {
+        return typeof window !== 'undefined';
+    }catch(e){ 
+        return false;
+    }
+}
 /**
  * Returns the current WCM mode
  *
@@ -43,8 +55,11 @@ const PREVIEW_MODE = 'preview';
  * @private
  */
 function getWCMMode() {
-    const wcmModeMeta = document.head.querySelector(WCM_MODE_META_SELECTOR);
-    return wcmModeMeta && wcmModeMeta.content;
+    if (isBrowser()){
+        const wcmModeMeta = document.head.querySelector(WCM_MODE_META_SELECTOR);
+        return wcmModeMeta && wcmModeMeta.content;
+    }
+    return false;
 }
 
 /**

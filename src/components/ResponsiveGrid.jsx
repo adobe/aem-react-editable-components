@@ -55,7 +55,6 @@ class Placeholder extends Component {
  * @param {string} [props.cqModel.classNames]          - the class names as provided by the content services
  */
 class ResponsiveGrid extends Container {
-
     constructor(props) {
         super(props);
 
@@ -119,7 +118,7 @@ class ResponsiveGrid extends Container {
 
     render() {
         return (
-            <div className={this.classNames}>
+            <div className={this.classNames} { ...this.childAttrs }>
                 <div className={this.gridClassNames}>
                     {this.innerContent}
                     {this.placeholder}

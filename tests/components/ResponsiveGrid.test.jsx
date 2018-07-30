@@ -170,27 +170,20 @@ describe('ResponsiveGrid ->', () => {
 
     describe('column class names ->', () => {
 
-        it('should contain the expected class names', done => {
-            let classNames = RESPONSIVE_COLUMN_CLASS_NAMES.split(' ');
-
-            let observer = getVerifyObserver(function (mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS && mutation.target.classList.contains(RESPONSIVE_COLUMN_CLASS_NAME)) {
-                    classNames.forEach(className => {
-                        assert.isTrue(mutation.target.classList.contains(className), 'the Responsive Column doesn\'t contain the expected class names');
-                    });
-
-                    return true;
-                }
-
-                return false;
-            }, done);
-
-            observer.observe(rootNode, observerConfig);
-
-            ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID}/>, rootNode);
-
-            // Provoke update
+        it('should contain the expected class names', () => {
             ReactDOM.render(<ResponsiveGrid id={RESPONSIVE_GRID_ID} cqModel={RESPONSIVE_GRID_MODEL}/>, rootNode);
+            let node = rootNode.firstElementChild;
+            node = node.firstElementChild;
+            let nodeClasses = node.classList;
+            let checkClasses = (targetClasses, testClasses) => {
+                testClasses.forEach(className => {
+                    expect(targetClasses.contains(className)).to.equal(true);
+                });    
+            }
+
+            checkClasses(node.classList, RESPONSIVE_GRID_CLASS_NAMES.split(' '));
+            checkClasses(node.firstElementChild.classList, RESPONSIVE_COLUMN_CLASS_NAMES.split(' '));
+            
         });
 
     });

@@ -47,7 +47,7 @@ class ModelProvider extends Component {
             pagePath: props && props.pagePath ? props.pagePath : '',
             cqModel: props && props.cqModel
         };
-
+        this.state.childAttrs = this.childAttrs;
         this.updateData();
     }
 
@@ -83,10 +83,6 @@ class ModelProvider extends Component {
     componentWillUnmount() {
         // Clean up listener
         PageModelManager.removeListener({pagePath: this.state.pagePath, dataPath: this.state.dataPath, callback: this.updateData.bind(this)});
-    }
-
-    componentDidUpdate() {
-        this.decorateChildElements();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -128,41 +124,20 @@ class ModelProvider extends Component {
         return !!(this.state && this.state.cqModel && this.state.cqModel.hasOwnProperty(Constants.HIERARCHY_TYPE_PROP) && this.state.cqModel[Constants.HIERARCHY_TYPE_PROP] === HierarchyConstants.hierarchyType.page);
     }
 
-    /**
-     * Decorate a child {@link HTMLElement} with extra data attributes
-     *
-     * @param {HTMLElement} element     - Element to be decorated
-     *
-     * @protected
-     */
-    decorateChildElement(element) {
-        if (!element) {
-            return;
-        }
-
-        let childAttrs = {};
+    get childAttrs() {
+        let attrs = {};
 
         let path = this.getPagePath();
 
         // a child page isn't a piece of content of the parent page
         if (this.isPageModel() && path) {
-            childAttrs.cqPagePath = path;
+            attrs["data-cq-page-path"] = path;
         } else if (this.state.dataPath) {
-            childAttrs.cqDataPath = this.state.dataPath;
+            attrs["data-cq-data-path"] = this.state.dataPath;
         }
-
-        Object.keys(childAttrs).forEach(attr => element.dataset[attr] = childAttrs[attr]);
+        return attrs;
     }
 
-    /**
-     * Decorate all the child {@link HTMLElement}s with extra data attributes
-     *
-     * @protected
-     */
-    decorateChildElements() {
-        // for each child ref find DOM node and set attrs
-        Object.keys(this.refs).forEach(ref => this.decorateChildElement(findDOMNode(this.refs[ref])))
-    }
 
     /**
      * Returns the model data from the page model
@@ -180,7 +155,8 @@ class ModelProvider extends Component {
             return null;
         }
         // List and clone the children to passing the data as properties
-        return React.cloneElement(this.props.children, { ref: this.state.dataPath, cqModel: this.state.cqModel, cqModelPagePath: this.state.pagePath, cqModelDataPath: this.state.dataPath });
+        let element = React.cloneElement(this.props.children, { ref: this.state.dataPath, cqModel: this.state.cqModel, cqModelPagePath: this.state.pagePath, cqModelDataPath: this.state.dataPath });
+        return <div { ...this.childAttrs }>{ element } </div>;
     }
 }
 

@@ -200,37 +200,34 @@ describe('ModelProvider ->', () => {
 
         it('should initialize properly without parameter', done => {
             ReactDOM.render(<ModelProvider><Dummy /></ModelProvider>, rootNode);
-
+            let renderedNode = rootNode.firstElementChild;
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: APP_MODEL_PATH, [DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
-        it('should initialize properly with a path parameter', done => {
+        it('should initialize properly with a path parameter', () => {
             const path = 'root';
 
             ReactDOM.render(<ModelProvider dataPath={path}><Dummy /></ModelProvider>, rootNode);
-
             // Expect {path}.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: path}, undefined, done);
-            observer.observe(rootNode, observerConfig);
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(path);
         });
 
         it('should initialize properly with a key parameter', done => {
             ReactDOM.render(<ModelProvider key={'test'}><Dummy /></ModelProvider>, rootNode);
-
             // Expect empty path.
             observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, undefined, done);
             observer.observe(rootNode, observerConfig);
         });
 
-        it('should initialize properly with a path and a key parameter', done => {
+        it('should initialize properly with a path and a key parameter', () => {
             const path = 'root';
 
             ReactDOM.render(<ModelProvider key={'test'} dataPath={path}><Dummy /></ModelProvider>, rootNode);
 
-            // Expect {path}.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: path}, undefined, done);
-            observer.observe(rootNode, observerConfig);
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(path);
         });
 
         it('should request the model for a page', done => {
@@ -241,12 +238,11 @@ describe('ModelProvider ->', () => {
             observer.observe(rootNode, observerConfig);
         });
 
-        it('should request the model for an item in a page', done => {
+        it('should request the model for an item in a page', () => {
             ReactDOM.render(<ModelProvider key={'test'} pagePath={CHILD_PAGE_PATH} dataPath={CHILD_PAGE_ITEM_MODEL_0101_PATH}><Dummy /></ModelProvider>, rootNode);
 
-            // Expect {path}.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_PAGE_PATH]: undefined, [DATA_ATTRIBUTE_DATA_PATH]: CHILD_PAGE_ITEM_MODEL_0101_PATH}, undefined, done);
-            observer.observe(rootNode, observerConfig);
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(CHILD_PAGE_ITEM_MODEL_0101_PATH);
         });
 
         it('should force reload the model', done => {
@@ -320,7 +316,7 @@ describe('ModelProvider ->', () => {
 
     describe('decoration ->', () => {
 
-        it('should decorate the inner content', done => {
+        it('should decorate the inner content', () => {
             let config = { attributes: true, subtree: true, childList: true };
 
             let instance = ReactDOM.render(
@@ -328,75 +324,53 @@ describe('ModelProvider ->', () => {
                     <Dummy />
                 </ModelProvider>, rootNode);
 
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, done);
-            observer.observe(rootNode, config);
-
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(CHILD10_PATH);
             expect(instance.props.dataPath).to.equal(CHILD10_PATH);
         });
 
-        it('should return a component wrapped in a model provider', done => {
+        it('should return a component wrapped in a model provider', () => {
             const ModelWrappedComponent = withModel(TestComponent);
 
             let config = { attributes: true, subtree: true, childList: true };
 
             ReactDOM.render(<ModelWrappedComponent cqModelDataPath={CHILD10_PATH}/>, rootNode);
 
-            // Expect child10 path & value.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
-            observer.observe(rootNode, config);
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(CHILD10_PATH);
 
-            function step2() {
-                observer.disconnect();
-                // Produce an update instead of a replacement
-                ReactDOM.render(<ModelWrappedComponent now={Date.now()}/>, rootNode);
+            // Produce an update instead of a replacement
+            ReactDOM.render(<ModelWrappedComponent now={Date.now()}/>, rootNode);
 
-                // Path prop removed - Expect no path and no value.
-                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, '#' + INNER_COMPONENT_ID, done);
-                observer.observe(rootNode, config);
-            }
+            renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.hasAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(false);
         });
 
-        it('should return a component wrapped in a model provider using the MapTo function', done => {
+        it('should return a component wrapped in a model provider using the MapTo function', () => {
             let config = { attributes: true, subtree: true, childList: true };
 
             const ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
             ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD10_PATH}/>, rootNode);
-
-            // Expect child10 path & value.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
-            observer.observe(rootNode, config);
-
-            function step2() {
-                observer.disconnect();
-                // Produce an update instead of a replacement
-                ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
-
-                // Path prop removed - Expect no path and no value.
-                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: undefined}, '#' + INNER_COMPONENT_ID, done);
-                observer.observe(rootNode, config);
-            }
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(CHILD10_PATH);
+            // Produce an update instead of a replacement
+            ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
+            renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.hasAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(false);
         });
 
-        it('should update value when path changes', done => {
+        it('should update value when path changes', () => {
             let config = { attributes: true, subtree: true, childList: true };
 
             const ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
             ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD10_PATH}/>, rootNode);
-
-            // Expect child10 path & value.
-            observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD10_PATH}, '#' + INNER_COMPONENT_ID, step2);
-            observer.observe(rootNode, config);
-
-            function step2() {
-                observer.disconnect();
-                ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD11_PATH}/>, rootNode);
-
-                // Expect child11 path & value.
-                observer = getDataAttributesObserver({[DATA_ATTRIBUTE_DATA_PATH]: CHILD11_PATH}, '#' + INNER_COMPONENT_ID, done);
-                observer.observe(rootNode, config);
-            }
+            let renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(CHILD10_PATH);
+            ReactDOM.render(<ExportedTestComponent cqModelDataPath={CHILD11_PATH}/>, rootNode);
+            renderedNode = rootNode.firstElementChild;
+            expect(renderedNode.getAttribute(DATA_ATTRIBUTE_DATA_PATH)).to.equal(CHILD11_PATH);
         });
 
     });

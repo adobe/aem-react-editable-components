@@ -15,6 +15,8 @@
  * from Adobe Systems Incorporated.
  */
 import ModelProvider from './ModelProvider';
+import React from 'react';
+import Constants from '../Constants';
 
 const RESPONSIVE_COLUMN_CLASS_NAME_PATTERN = /aem-GridColumn([^ ])*/g;
 
@@ -26,27 +28,29 @@ const RESPONSIVE_COLUMN_CLASS_NAME_PATTERN = /aem-GridColumn([^ ])*/g;
  * @memberOf components
  */
 class ResponsiveColumnModelProvider extends ModelProvider {
+    get childAttrs() {
+        let childAttrs = super.childAttrs;
+        childAttrs['className'] = this.state.cqModel.columnClassNames;
+        return childAttrs;
+    }
 
-    /**
-     * @inheritDoc
-     */
-    decorateChildElement(element) {
-        super.decorateChildElement(element);
+    get childIsResponsiveGrid() {
+        return this.state.cqModel && this.state.cqModel[Constants.TYPE_PROP] === 'wcm/foundation/components/responsivegrid';
+    }
 
-        if (!element || !this.state.cqModel || !this.state.cqModel.columnClassNames) {
-            return;
+    render() {
+        if (!this.props.children || this.props.children.length < 1) {
+            return null;
         }
-
-        // Remove all the column class names
-        element.className = element.className.replace(RESPONSIVE_COLUMN_CLASS_NAME_PATTERN, '');
-
-        let columnClassNames = this.state.cqModel.columnClassNames.split(' ');
-
-        columnClassNames.forEach(className => {
-            if (!element.classList.contains(className)) {
-                element.classList.add(className);
-            }
-        });
+        // List and clone the children to passing the data as properties
+        let cloneEl = React.cloneElement(this.props.children, { ref: this.state.dataPath, cqModel: this.state.cqModel, cqModelPagePath: this.state.pagePath, cqModelDataPath: this.state.dataPath });
+        if (!this.childIsResponsiveGrid) {
+            return <div { ...this.childAttrs }>
+                { cloneEl }
+            </div>;
+        } else {
+            return cloneEl
+        }
     }
 }
 
