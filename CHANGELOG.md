@@ -1,3 +1,5 @@
+* **BREAKING CHANGE** 'dragDropName' support removed for EditConfig in ComponentMapping
+
 ### 0.0.30 - 20 June 2018
 
 * **BREAKING CHANGE** `props` that are passed to Components renamed:

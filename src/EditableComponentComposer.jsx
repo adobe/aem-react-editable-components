@@ -22,8 +22,7 @@ import Utils from './Utils';
  * Configuration object in charge of providing the necessary data expected by the page editor to initiate the authoring. The provided data will be decorating the associated component
  *
  * @typedef {{}} EditConfig
- * @property {String} [dragDropName]       If defined, adds a specific class name enabling the drag and drop functionality
- * @property {String} emptyLabel           Label to be displayed by the placeholder when the component is empty. Optionally returns an empty text value
+  * @property {String} emptyLabel           Label to be displayed by the placeholder when the component is empty. Optionally returns an empty text value
  * @property {function} isEmpty            Should the component be considered empty. The function is called using the context of the wrapper component giving you access to the component model
  */
 
@@ -37,10 +36,6 @@ import Utils from './Utils';
 const EditableComponentComposer = {
 
     PLACEHOLDER_CLASS_NAME: 'cq-placeholder',
-
-    DRAG_DROP_REGEX: /cq-dd-([^ ])+/g,
-
-    DRAG_DROP_CLASS_NAME: 'cq-dd-',
 
     /**
      * Decorate the given component with properties carried by the editConfig object
@@ -58,13 +53,6 @@ const EditableComponentComposer = {
 
                 if (!element) {
                     return;
-                }
-
-                // Remove previous drag and drop class names
-                element.className = element.className.replace(EditableComponentComposer.DRAG_DROP_REGEX, '');
-
-                if (editConfig.dragDropName && editConfig.dragDropName.trim().length > 0) {
-                    element.classList.add(EditableComponentComposer.DRAG_DROP_CLASS_NAME + editConfig.dragDropName);
                 }
 
                 if (this.usePlaceholder()) {
