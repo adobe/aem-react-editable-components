@@ -124,7 +124,7 @@ Container component that provides the common features required by all containers
     
 
     
-#### Container.modelProvider()
+#### Container.modelProviderClass()
 
 Wrapper class in which the content is eventually wrapped
 
@@ -582,7 +582,7 @@ Returns the content of the responsive grid placeholder
     
 
     
-#### ResponsiveGrid.modelProvider()
+#### ResponsiveGrid.modelProviderClass()
 
 
 
@@ -912,7 +912,7 @@ Returns a composite component where a {@link ModelProvider} component wraps the 
     
 
 
-### src/Utils.js
+### src/ModelUtils.js
 
 
     
@@ -956,7 +956,7 @@ The editor is in preview mode
     
 
     
-#### Utils()
+#### ModelUtils()
 
 Helper functions for interacting with the AEM environment
 

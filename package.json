@@ -33,9 +33,9 @@
     "linter": "eslint --ext .js,.jsx .",
     "linter:fix": "eslint --ext .js,.jsx . --fix",
     "install:link-deps": "npm install && npm link @adobe/cq-spa-page-model-manager && npm link @adobe/cq-spa-component-mapping",
-    "test": "BABEL_ENV=test npm run build && karma start --browsers=ChromeHeadless --single-run=true",
-    "test-debug": "BABEL_ENV=test npm run build && karma start --browsers=Chrome_with_debugging",
-    "build": "npm run linter && babel src --out-dir dist",
+    "test": "npm run build && NODE_ENV=test karma start --browsers=ChromeHeadless --single-run=true",
+    "test-debug": "npm run build && NODE_ENV=test karma start --browsers=Chrome_with_debugging",
+    "build": "npm run linter && webpack",
     "docs": "jsdoc -c ./jsdoc_conf.json && doxdox \"src/**/*.+(js|jsx)\" --layout templates/DOCUMENTATION.hbs --output DOCUMENTATION.md",
     "readme": "node_modules/markdown-include/bin/cli.js markdown-include.config.json",
     "docs-readme": "npm run docs && npm run readme",
@@ -49,7 +49,6 @@
   "publishConfig": {
     "registry": "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-cq-spa-release-local"
   },
-  "dependencies": {},
   "eslintConfig": {
     "parserOptions": {
       "ecmaVersion": 2015,
@@ -61,34 +60,35 @@
   },
   "peerDependencies": {
     "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.0",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.1",
     "babel-polyfill": "^6.26.0",
-    "custom-event-polyfill": "^0.3.0"
+    "custom-event-polyfill": "^1.0.6"
   },
   "devDependencies": {
     "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.0",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.1",
     "ajv": "^5.0.0",
-    "auto-changelog": "^1.4.6",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "7.2.3",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^7.1.5",
     "babel-plugin-istanbul": "^4.1.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-polyfill": "^6.9.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "chai": "^3.5.0",
     "custom-event-polyfill": "^0.3.0",
     "doxdox": "^2.0.3",
     "eslint": "4.3.0",
     "eslint-plugin-babel": "4.1.2",
-    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-react": "^7.11.1",
+    "executive": "1.6.3",
     "inject-loader": "2.0.1",
     "istanbul": "^0.4.5",
+    "istanbul-instrumenter-loader": "^3.0.1",
     "jsdoc": "^3.5.5",
     "json-loader": "^0.5.7",
     "karma": "^0.13.22",
@@ -104,13 +104,14 @@
     "markdown-include": "^0.4.3",
     "mocha": "^5.1.0",
     "npm-auto-version": "^1.0.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "react-test-renderer": "^16.2.0",
+    "readline-sync": "^1.4.9",
     "sinon": "^4.5.0",
     "sinon-chai": "^2.14.0",
-    "webpack": "^3.11.0",
-    "readline-sync": "^1.4.9",
-    "executive": "1.6.3"
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
   }
 }

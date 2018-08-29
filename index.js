@@ -10,23 +10,18 @@
  *  governing permissions and limitations under the License.
  *
  */
-
-require('./dist/components/ResponsiveColumnModelProvider');
-require('./dist/components/ResponsiveGrid');
-require('./dist/EditableComponentComposer');
+require('./src/components/ResponsiveGrid');
 
 /**
  * Contains all the base components
  * @namespace components
  */
 
-module.exports = {
-    ComponentMapping: require('./dist/ComponentMapping').ComponentMapping,
-    Container: require('./dist/components/Container').default,
-    MapTo: require('./dist/ComponentMapping').MapTo,
-    withModel: require('./dist/ModelProviderHelper').default.withModel,
-    ModelProvider: require('./dist/components/ModelProvider').default,
-    PageModelManager: require('@adobe/cq-spa-page-model-manager').PageModelManager,
-    Constants: require('./dist/Constants').default,
-    Utils: require('./dist/Utils').default
-};
+export { ComponentMapping, MapTo } from './src/ComponentMapping';
+export { Container } from './src/components/Container';
+export { ResponsiveGrid } from './src/components/ResponsiveGrid';
+export { EditorContext, withEditorContext } from './src/EditorContext';
+export { Page } from './src/components/Page';
+export { ModelProvider, withModel } from './src/components/ModelProvider';
+export { default as Constants } from "./src/Constants";
+export { default as Utils } from "./src/Utils";

@@ -14,7 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
-
 import {Constants as PMConstants} from '@adobe/cq-spa-page-model-manager';
 
 /**

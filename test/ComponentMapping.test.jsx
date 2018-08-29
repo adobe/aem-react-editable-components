@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MapTo, PageModelManager } from '../index';
+import { ComponentMapping, MapTo } from '../index';
+import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
 
 describe('ComponentMapping & EditableComponentComposer', () => {
 
@@ -59,9 +60,15 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     beforeEach(() => {
+<<<<<<< HEAD:test/ComponentMapping.test.jsx
+        sandbox.stub(ModelManagerService, 'getData')
+            .withArgs({path: '', forceReload: undefined}).resolves({})
+            .withArgs({path: DEFAULT_CONTENT_PATH, forceReload: undefined}).resolves({});
+=======
         sandbox.stub(PageModelManager, 'getData')
             .withArgs({pagePath: '', dataPath: '', forceReload: undefined}).resolves({})
             .withArgs({pagePath: DEFAULT_CONTENT_PATH, dataPath: '', forceReload: undefined}).resolves({});
+>>>>>>> master:tests/ComponentMapping.test.jsx
 
         ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
@@ -84,48 +91,6 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     describe('decoration ->', () => {
-
-        it('should decorate the mapped component with drag and drop class names', done => {
-            function observe (mutationsList) {
-                for(let mutation of mutationsList) {
-                    if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS) {
-                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + EditConfig.dragDropName), 'Component not decorated with drag-drop class name');
-                        done();
-                        break;
-                    }
-                }
-            }
-
-            observer = new MutationObserver(observe);
-
-            observer.observe(rootNode, observerConfig);
-
-            ReactDOM.render(<WrappedTestComponent/>, rootNode);
-
-            // Produce an update instead of a replacement
-            ReactDOM.render(<WrappedTestComponent now={Date.now()}/>, rootNode);
-        });
-
-        it('should decorate the exported mapped component with drag and drop class names', done => {
-            function observe (mutationsList) {
-                for(let mutation of mutationsList) {
-                    if (mutation.type === 'attributes' && mutation.attributeName === ATTRIBUTE_CLASS) {
-                        assert.isTrue(mutation.target.classList.contains(DRAG_DROP_CLASS_NAME + EditConfig.dragDropName), 'Component not decorated with drag-drop class name');
-                        done();
-                        break;
-                    }
-                }
-            }
-
-            observer = new MutationObserver(observe);
-
-            observer.observe(rootNode, observerConfig);
-
-            ReactDOM.render(<ExportedTestComponent/>, rootNode);
-
-            // Produce an update instead of a replacement
-            ReactDOM.render(<ExportedTestComponent now={Date.now()}/>, rootNode);
-        });
 
         it('should decorate the mapped component with image placeholder class names and empty text attribute', done => {
             let hasPlaceholderClassName = false;

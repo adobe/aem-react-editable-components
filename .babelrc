@@ -1,8 +1,5 @@
 {
-  "presets": ["env", "react", "stage-0"],
-  "plugins": [
-    "transform-react-jsx"
-  ],
+  "presets": ["env", "react", "stage-2"],
   "env": {
     "test": {
       "plugins": [[
@@ -13,7 +10,7 @@
           ],
           "exclude": [
             "dist",
-            "tests"
+            "test"
           ]
         }
       ]]

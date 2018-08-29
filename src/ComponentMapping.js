@@ -16,7 +16,8 @@
  */
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
 import EditableComponentComposer from "./EditableComponentComposer";
-import ModelProviderHelper from "./ModelProviderHelper";
+import { withModel } from "./components/ModelProvider";
+import { withEditorContext } from "./EditorContext";
 
 /**
  * Wrapped function
@@ -30,23 +31,25 @@ let wrappedMapFct = ComponentMapping.map;
  * Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
  *
  * @param {string[]} resourceTypes                      - list of resource types for which to use the given <i>clazz</i>
- * @param {class} clazz                                 - class to be instantiated for the given resource types
+ * @param {React.Component} component                   - class to be instantiated for the given resource types
  * @param {EditConfig} [editConfig]                     - configuration object for enabling the edition capabilities
  * @param {{}} [config]                                 - general configuration object
  * @param {boolean} [config.forceReload=undefined]      - should the model cache be ignored when processing the component
- * @returns {class}                                     - the resulting decorated Class
+ * @returns {React.Component}                           - the resulting decorated Class
  */
-ComponentMapping.map = function map (resourceTypes, clazz, editConfig, config) {
+ComponentMapping.map = function map (resourceTypes, component, editConfig, config) {
         config = config || {};
-        let innerClass = clazz;
+        let innerComponent = component;
 
         if (editConfig) {
-            innerClass = EditableComponentComposer.compose(clazz, editConfig);
+            innerComponent = EditableComponentComposer.compose(innerComponent, editConfig);
         }
 
-        wrappedMapFct.call(ComponentMapping, resourceTypes, innerClass);
+        innerComponent = withEditorContext(withModel(innerComponent, config));
 
-        return ModelProviderHelper.withModel(innerClass, config);
+        wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
+        
+        return innerComponent;
     };
 
 function MapTo(resourceTypes) {

@@ -40,15 +40,16 @@ const EditableComponentComposer = {
     /**
      * Decorate the given component with properties carried by the editConfig object
      *
-     * @param {Component} WrappedComponent  {@link React.Component} to be rendered
-     * @param {EditConfig} editConfig       Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component
-     * @returns {CompositePlaceholder}      the wrapping component
+     * @param {React.Component} WrappedComponent    {@link React.Component} to be rendered
+     * @param {EditConfig} editConfig               Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component
+     * @returns {CompositePlaceholder}              the wrapping component
      */
     compose: function (WrappedComponent, editConfig) {
 
         return class CompositePlaceholder extends Component {
 
-            decoratePlaceholder(prevProps, prevState) {
+            decoratePlaceholder() {
+                // eslint-disable-next-line react/no-find-dom-node
                 let element = ReactDOM.findDOMNode(this);
 
                 if (!element) {
@@ -56,21 +57,23 @@ const EditableComponentComposer = {
                 }
 
                 if (this.usePlaceholder()) {
+                    element.dataset.emptytext = editConfig.emptyLabel;
+
                     if (!element.classList.contains(EditableComponentComposer.PLACEHOLDER_CLASS_NAME)) {
                         element.classList.add(EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
                     }
-
-                    element.dataset.emptytext = editConfig.emptyLabel;
-                    // console.debug('EditableComponentComposer.js', 'set as placeholder', element, prevProps, this.props, this);
                 } else {
                     element.classList.remove(EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
                     delete element.dataset.emptytext;
-                    // console.debug('EditableComponentComposer.js', 'set as none placeholder', element, prevProps, this.props, this);
                 }
             }
 
-            componentDidUpdate(prevProps, prevState) {
-                this.decoratePlaceholder(prevProps, prevState);
+            componentDidUpdate() {
+                this.decoratePlaceholder();
+            }
+
+            componentDidMount() {
+                this.decoratePlaceholder();
             }
 
             usePlaceholder() {

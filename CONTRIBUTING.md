@@ -46,6 +46,12 @@ Run `npm install` to get all node_modules that are necessary for development.
 $ npm run build
 ```
 
+### Watch to rebuild
+
+```sh
+$ npm run build -- --watch
+```
+
 ### Test
 
 ```sh
@@ -67,3 +73,7 @@ The documents will be generated in the `/out` folder
 ```sh
 $ auto-changelog
 ```
+
+### Links and transitive dependencies
+
+See the related [wiki page](https://wiki.corp.adobe.com/display/WEM/SPA+-+Working+with+NPM+modules+that+have+a+transitive+dependency)
