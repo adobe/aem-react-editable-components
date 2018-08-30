@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ModelProvider, withModel } from '../src/components/ModelProvider';
-import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
+import { ModelManager } from '@adobe/cq-spa-page-model-manager';
 
 
 describe('ModelProvider ->', () => {
@@ -122,10 +122,10 @@ describe('ModelProvider ->', () => {
     }
 
     beforeEach(() => {
-        sandbox.stub(ModelManagerService, 'addListener');
-        sandbox.stub(ModelManagerService, 'getData');
+        sandbox.stub(ModelManager, 'addListener');
+        sandbox.stub(ModelManager, 'getData');
 
-        sandbox.stub(ModelManagerService, 'initialize').withArgs(STATIC_PAGE_MODEL_URL).resolves(PAGE_MODEL);
+        sandbox.stub(ModelManager, 'initialize').withArgs(STATIC_PAGE_MODEL_URL).resolves(PAGE_MODEL);
 
         rootNode = document.createElement('div');
         rootNode.className = ROOT_NODE_CLASS_NAME;
@@ -149,7 +149,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly without parameter', () => {
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(ModelManagerService.addListener.calledWith(undefined, sinon.match.func)).to.equal(true);
+            expect(ModelManager.addListener.calledWith(undefined, sinon.match.func)).to.equal(true);
 
             let childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -159,7 +159,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly with a path parameter', () => {
             ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(ModelManagerService.addListener.calledWith(TEST_PAGE_PATH, sinon.match.func)).to.equal(true);
+            expect(ModelManager.addListener.calledWith(TEST_PAGE_PATH, sinon.match.func)).to.equal(true);
 
             let childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -170,21 +170,21 @@ describe('ModelProvider ->', () => {
     describe('Get data ->', () => {
 
         it('should request the data with undefined parameters', () => {
-            ModelManagerService.addListener.callsArg(1);
-            ModelManagerService.getData.resolves({});
+            ModelManager.addListener.callsArg(1);
+            ModelManager.getData.resolves({});
 
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(ModelManagerService.getData.calledWith({path: undefined, forceReload: undefined})).to.equal(true);
+            expect(ModelManager.getData.calledWith({path: undefined, forceReload: undefined})).to.equal(true);
         });
 
         it('should request the data with the provided attributes', () => {
-            ModelManagerService.addListener.callsArg(1);
-            ModelManagerService.getData.resolves({});
+            ModelManager.addListener.callsArg(1);
+            ModelManager.getData.resolves({});
 
             ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} cqForceReload={true} wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(ModelManagerService.getData.calledWith({path: TEST_PAGE_PATH, forceReload: true})).to.equal(true);
+            expect(ModelManager.getData.calledWith({path: TEST_PAGE_PATH, forceReload: true})).to.equal(true);
         });
     });
 
@@ -194,7 +194,7 @@ describe('ModelProvider ->', () => {
             let DummyWithModel = withModel(Dummy);
             ReactDOM.render(<DummyWithModel></DummyWithModel>, rootNode);
 
-            expect(ModelManagerService.addListener.calledWith(undefined, sinon.match.func)).to.equal(true);
+            expect(ModelManager.addListener.calledWith(undefined, sinon.match.func)).to.equal(true);
 
             let childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -205,7 +205,7 @@ describe('ModelProvider ->', () => {
             let DummyWithModel = withModel(Dummy);
             ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
 
-            expect(ModelManagerService.addListener.calledWith(TEST_PAGE_PATH, sinon.match.func)).to.equal(true);
+            expect(ModelManager.addListener.calledWith(TEST_PAGE_PATH, sinon.match.func)).to.equal(true);
 
             let childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 

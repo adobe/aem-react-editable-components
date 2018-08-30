@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ComponentMapping, MapTo } from '../index';
-import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
+import { ModelManager } from '@adobe/cq-spa-page-model-manager';
 
 describe('ComponentMapping & EditableComponentComposer', () => {
 
@@ -60,7 +60,7 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     beforeEach(() => {
-        sandbox.stub(ModelManagerService, 'getData')
+        sandbox.stub(ModelManager, 'getData')
             .withArgs({path: '', forceReload: undefined}).resolves({})
             .withArgs({path: DEFAULT_CONTENT_PATH, forceReload: undefined}).resolves({});
 
