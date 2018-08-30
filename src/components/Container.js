@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { ComponentMapping } from "../ComponentMapping";
 import Constants from "../Constants";
-import InternalUtils from "../InternalUtils";
 
 const CONTAINER_CLASS_NAMES = "aem-container";
 const PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES;
@@ -45,7 +44,7 @@ export class Container extends Component {
         }
 
         this.props.cqItemsOrder.map((itemKey) => {
-            let itemProps = InternalUtils.modelToProps(this.props.cqItems[itemKey]);
+            let itemProps = this.props.cqItems[itemKey];
 
             if (itemProps) {
                 let ItemComponent = ComponentMapping.get(itemProps.cqType);

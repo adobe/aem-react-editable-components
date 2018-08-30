@@ -17,7 +17,6 @@
 import React from "react";
 import { ComponentMapping } from "../ComponentMapping";
 import { Container } from "./Container";
-import InternalUtils from "../InternalUtils";
 
 const NN_JCR_CONTENT = "jcr:content";
 const PAGE_CLASS_NAMES = "aem-page";
@@ -62,7 +61,7 @@ export class Page extends Container {
         }
 
         Object.keys(this.props.cqChildren).map((itemKey) => {
-            let itemProps = InternalUtils.modelToProps(this.props.cqChildren[itemKey]);
+            let itemProps = this.props.cqChildren[itemKey];
 
             let ItemComponent = ComponentMapping.get(itemProps.cqType);
 

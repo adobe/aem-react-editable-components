@@ -23,11 +23,11 @@ describe('ResponsiveGrid ->', () => {
 
     const ITEMS = {
         "component1": {
-            ":type": COMPONENT_TYPE1,
+            "cqType": COMPONENT_TYPE1,
             "id": "c1"
         },
         "component2": {
-            ":type": COMPONENT_TYPE2,
+            "cqType": COMPONENT_TYPE2,
             "id": "c2"
         }
     };

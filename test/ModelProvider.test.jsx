@@ -17,52 +17,52 @@ describe('ModelProvider ->', () => {
     const ROOT_NODE_CLASS_NAME = 'root-class';
 
     const ITEM_MODEL_0010 = {
-        ":type": "test/components/componentchild0",
+        "cqType": "test/components/componentchild0",
         "value" : "value0010"
     };
 
     const ITEM_MODEL_0011 = {
-        ":type": "test/components/componentchild1",
+        "cqType": "test/components/componentchild1",
         "value" : "value0011"
     };
 
     const ITEM_MODEL_0000 = {
         "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--default--12",
         "columnCount": 12,
-        ":itemsOrder": ["child0010", "child0011"],
-        ":items": {
+        "cqItemsOrder": ["child0010", "child0011"],
+        "cqItems": {
             "child0010": ITEM_MODEL_0010,
             "child0011": ITEM_MODEL_0011
         },
-        ":type": "wcm/foundation/components/responsivegrid"
+        "cqType": "wcm/foundation/components/responsivegrid"
     };
 
     const ITEM_MODEL_0001 = {
-        ":type": "test/components/componentchild1",
+        "cqType": "test/components/componentchild1",
         "value" : "Value0012"
     };
 
     const ITEM_MODEL_ROUTE = {
         "gridClassNames": "aem-Grid aem-Grid--12 aem-Grid--default--12",
         "columnCount": 12,
-        ":itemsOrder": ["child0000", "child0001"],
-        ":items": {
+        "cqItemsOrder": ["child0000", "child0001"],
+        "cqItems": {
             "child0000": ITEM_MODEL_0000,
             "child0001": ITEM_MODEL_0001
         },
-        ":type": "wcm/foundation/components/responsivegrid"
+        "cqType": "wcm/foundation/components/responsivegrid"
     };
 
     const CHILD_PAGE_ITEM_MODEL_0101 = {
-        ":type": "wcm/foundation/components/image"
+        "cqType": "wcm/foundation/components/image"
     };
 
     const CHILD_PAGE_MODEL = {
-        ":type": "we-retail-react/components/structure/page",
-        ":path": CHILD_PAGE_PATH,
-        "itemsOrder": ["child0101"],
-        ":hierarchyType": "page",
-        "items": {
+        "cqType": "we-retail-react/components/structure/page",
+        "cqPath": CHILD_PAGE_PATH,
+        "cqItemsOrder": ["child0101"],
+        "cqHierarchyType": "page",
+        "cqItems": {
             "child0101": CHILD_PAGE_ITEM_MODEL_0101
         }
     };
@@ -74,18 +74,18 @@ describe('ModelProvider ->', () => {
         "templateName": "sample-template",
         "cssClassNames": "page",
         "language": "en-US",
-        ":itemsOrder": [
+        "cqItemsOrder": [
             "root"
         ],
-        ":items": {
+        "cqItems": {
             "root": ITEM_MODEL_ROUTE
         },
-        ":path": APP_MODEL_PATH,
-        ":hierarchyType": "page",
-        ":children": {
+        "cqPath": APP_MODEL_PATH,
+        "cqHierarchyType": "page",
+        "cqChildren": {
             "/content/react-page/page": CHILD_PAGE_MODEL
         },
-        ":type": "we-retail-react/components/structure/page"
+        "cqType": "we-retail-react/components/structure/page"
     };
 
     const INNER_COMPONENT_ID = 'innerContent';
