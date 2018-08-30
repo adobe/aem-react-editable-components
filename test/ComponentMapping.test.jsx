@@ -60,15 +60,9 @@ describe('ComponentMapping & EditableComponentComposer', () => {
     });
 
     beforeEach(() => {
-<<<<<<< HEAD:test/ComponentMapping.test.jsx
         sandbox.stub(ModelManagerService, 'getData')
             .withArgs({path: '', forceReload: undefined}).resolves({})
             .withArgs({path: DEFAULT_CONTENT_PATH, forceReload: undefined}).resolves({});
-=======
-        sandbox.stub(PageModelManager, 'getData')
-            .withArgs({pagePath: '', dataPath: '', forceReload: undefined}).resolves({})
-            .withArgs({pagePath: DEFAULT_CONTENT_PATH, dataPath: '', forceReload: undefined}).resolves({});
->>>>>>> master:tests/ComponentMapping.test.jsx
 
         ExportedTestComponent = MapTo(TEST_COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
 
