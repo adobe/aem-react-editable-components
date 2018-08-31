@@ -16,6 +16,7 @@
  */
 import React, { Component } from "react";
 import { ModelManager } from "@adobe/cq-spa-page-model-manager";
+import InternalUtils from "../InternalUtils";
 
 export class ModelProvider extends Component {
 
@@ -31,7 +32,7 @@ export class ModelProvider extends Component {
 
     updateData() {
         ModelManager.getData({path: this.props.cqPath, forceReload: this.props.cqForceReload}).then((data) => {
-            this.setState(data);
+            this.setState(InternalUtils.modelToProps(data));
         });
     }
 

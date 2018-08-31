@@ -1,12 +1,5 @@
 # LATEST
 
-* Property prefix rename (colon to cqCamelCase)
-   * `:items` to `cqItems`
-   * `:itemsOrder` to `cqItemsOrder`
-   * `:type` to `cqType`
-   * `:path` to `cqPath`
-   * `:hierarchyType` to `cqHierarchyType`
-
 * **BREAKING CHANGE** Refactoring of the Container, ResponsiveGrid and Placeholders to improve extensibility
 * **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed 
 * Support for latest `cq-spa-page-model-manager` API

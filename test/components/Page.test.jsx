@@ -22,11 +22,11 @@ describe('Page ->', () => {
 
     const ITEMS = {
         "component1": {
-            "cqType": COMPONENT_TYPE1,
+            ":type": COMPONENT_TYPE1,
             "id": "c1"
         },
         "component2": {
-            "cqType": COMPONENT_TYPE2,
+            ":type": COMPONENT_TYPE2,
             "id": "c2"
         }
     };
@@ -35,14 +35,14 @@ describe('Page ->', () => {
 
     const CHILDREN = {
         "page1": {
-            "cqType": PAGE_TYPE1,
+            ":type": PAGE_TYPE1,
             "id": "p1",
-            "cqPath": "child/page1"
+            ":path": "child/page1"
         },
         "page2": {
-            "cqType": PAGE_TYPE2,
+            ":type": PAGE_TYPE2,
             "id": "p2",
-            "cqPath": "child/page2"
+            ":path": "child/page2"
         }
     };
 
