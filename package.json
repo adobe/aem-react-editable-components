@@ -11,6 +11,7 @@
     "npm": ">=5.5.1 <6.0.0"
   },
   "files": [
+    "index.js",
     "dist/"
   ],
   "homepage": "https://www.adobe.com/go/aem6_4_docs_spa_en",
@@ -28,7 +29,7 @@
     "reactjs",
     "pwa"
   ],
-  "main": "index.js",
+  "main": "dist/cq-react-editable-components.js",
   "scripts": {
     "linter": "eslint --ext .js,.jsx .",
     "linter:fix": "eslint --ext .js,.jsx . --fix",
@@ -39,7 +40,7 @@
     "docs": "jsdoc -c ./jsdoc_conf.json && doxdox \"src/**/*.+(js|jsx)\" --layout templates/DOCUMENTATION.hbs --output DOCUMENTATION.md",
     "readme": "node_modules/markdown-include/bin/cli.js markdown-include.config.json",
     "docs-readme": "npm run docs && npm run readme",
-    "preversion": "npm run test && npm run build && npm run docs-readme",
+    "preversion": "npm run test && npm run build --mode=production && npm run docs-readme",
     "version": "npm run docs-readme && git add DOCUMENTATION.md README.md package.json",
     "postversion": "git push origin && git push origin --tags",
     "tmprelease": "node release.js"
@@ -58,8 +59,10 @@
       }
     }
   },
+  "dependencies": {
+    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0"
+  },
   "peerDependencies": {
-    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0",
     "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.1",
     "babel-polyfill": "^6.26.0",
     "custom-event-polyfill": "^1.0.6"
@@ -80,7 +83,8 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^3.5.0",
-    "custom-event-polyfill": "^0.3.0",
+    "clone": "^2.1.2",
+    "custom-event-polyfill": "^1.0.6",
     "doxdox": "^2.0.3",
     "eslint": "4.3.0",
     "eslint-plugin-babel": "4.1.2",
@@ -112,6 +116,7 @@
     "sinon": "^4.5.0",
     "sinon-chai": "^2.14.0",
     "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }

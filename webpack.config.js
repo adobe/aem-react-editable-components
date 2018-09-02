@@ -1,6 +1,7 @@
 var path = require('path');
 
-var withCoverage = process.env.NODE_ENV === 'test';
+var isEnvironmentTest = process.env.NODE_ENV === 'test';
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: './index.js',
@@ -24,7 +25,7 @@ module.exports = {
                     }
                 },
                 enforce: 'post',
-            }].concat(withCoverage ?
+            }].concat(isEnvironmentTest ?
             {
                 test: /\.js$|\.jsx$/,
                 include: path.resolve(__dirname, 'src'),
@@ -38,7 +39,10 @@ module.exports = {
                 enforce: 'post'
             } : [])
     },
+    externals: [!isEnvironmentTest ? nodeExternals({
+        whitelist: ['@adobe/cq-spa-component-mapping']
+    }) : ''],
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx']
     }
 };
