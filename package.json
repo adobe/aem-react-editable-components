@@ -63,13 +63,12 @@
     "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0"
   },
   "peerDependencies": {
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.2",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.3",
     "babel-polyfill": "^6.26.0",
     "custom-event-polyfill": "^1.0.6"
   },
   "devDependencies": {
-    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.2",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.3",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -84,6 +83,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^3.5.0",
     "clone": "^2.1.2",
+    "cross-fetch": "^2.2.2",
     "custom-event-polyfill": "^1.0.6",
     "doxdox": "^2.0.3",
     "eslint": "4.3.0",
