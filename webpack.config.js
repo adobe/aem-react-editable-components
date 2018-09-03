@@ -2,6 +2,7 @@ var path = require('path');
 
 var isEnvironmentTest = process.env.NODE_ENV === 'test';
 var nodeExternals = require('webpack-node-externals');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: './index.js',
@@ -44,5 +45,8 @@ module.exports = {
     }) : ''],
     resolve: {
         extensions: ['.js', '.jsx']
-    }
+    },
+    plugins: [
+        new CleanWebpackPlugin(['dist'])
+    ]
 };
