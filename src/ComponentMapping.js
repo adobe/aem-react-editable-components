@@ -14,8 +14,9 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
+import React from "react";
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
-import EditableComponentComposer from "./EditableComponentComposer";
+import { withEmptyPlaceholder } from "./EditableComponentComposer";
 import { withModel } from "./components/ModelProvider";
 import { withEditorContext } from "./EditorContext";
 
@@ -42,7 +43,7 @@ ComponentMapping.map = function map (resourceTypes, component, editConfig, confi
         let innerComponent = component;
 
         if (editConfig) {
-            innerComponent = EditableComponentComposer.compose(innerComponent, editConfig);
+            innerComponent = withEmptyPlaceholder(innerComponent, editConfig);
         }
 
         innerComponent = withEditorContext(withModel(innerComponent, config));
@@ -58,4 +59,13 @@ function MapTo(resourceTypes) {
     };
 }
 
-export {ComponentMapping, MapTo};
+const ComponentMappingContext = React.createContext(ComponentMapping);
+
+const withComponentMappingContext = (Component) => {
+    return (props) => (
+        <ComponentMappingContext.Consumer>
+            {componentMapping =>  <Component {...props} componentMapping={componentMapping} />}
+        </ComponentMappingContext.Consumer>)
+};
+
+export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext};

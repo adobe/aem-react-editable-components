@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import { ComponentMapping } from "../ComponentMapping";
 import Constants from "../Constants";
 import InternalUtils from "../InternalUtils";
 
@@ -30,6 +29,12 @@ export class ContainerPlaceholder extends Component {
 
 export class Container extends Component {
 
+    static get propTypes() {
+        return {
+            componentMapping: PropTypes.object.isRequired
+        };
+    }
+
     /**
      * Returns the child components of this Container.
      * It will iterate over all the items and instantiate the child components if a Mapping is found
@@ -48,7 +53,7 @@ export class Container extends Component {
             let itemProps = InternalUtils.modelToProps(this.props.cqItems[itemKey]);
 
             if (itemProps) {
-                let ItemComponent = ComponentMapping.get(itemProps.cqType);
+                let ItemComponent = this.props.componentMapping && this.props.componentMapping.get(itemProps.cqType);
 
                 if (ItemComponent) {
                     childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));

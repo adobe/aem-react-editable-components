@@ -16,8 +16,9 @@
  */
 
 import React from "react";
+import Utils from "./Utils";
 
-export const EditorContext = React.createContext(false);
+export const EditorContext = React.createContext(Utils.isInEditor());
 
 export const withEditorContext = (Component) => {
   return (props) => (

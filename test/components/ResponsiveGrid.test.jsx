@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
+import { ComponentMapping } from '../../src/ComponentMapping';
 import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
 import { ResponsiveGrid } from '../../src/components/ResponsiveGrid';
 
@@ -70,7 +70,7 @@ describe('ResponsiveGrid ->', () => {
     describe('Grid class names ->', () => {
 
         it('should add the grid class names', () => {
-            ReactDOM.render(<ResponsiveGrid gridClassNames={GRID_CLASS_NAMES}></ResponsiveGrid>, rootNode);
+            ReactDOM.render(<ResponsiveGrid componentMapping={ComponentMapping} gridClassNames={GRID_CLASS_NAMES}></ResponsiveGrid>, rootNode);
 
             let gridElement = rootNode.querySelector('.' + GRID_CLASS_NAMES);
 
@@ -82,7 +82,7 @@ describe('ResponsiveGrid ->', () => {
     describe('Placeholder ->', () => {
 
         it('should add the expected placeholder class names', () => {
-            ReactDOM.render(<ResponsiveGrid isInEditor={true} cqPath={CONTAINER_PATH} gridClassNames={GRID_CLASS_NAMES}></ResponsiveGrid>, rootNode);
+            ReactDOM.render(<ResponsiveGrid componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH} gridClassNames={GRID_CLASS_NAMES}></ResponsiveGrid>, rootNode);
 
             let gridPlaceholder = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAMES + CONTAINER_PLACEHOLDER_SELECTOR + CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR);
 
@@ -96,7 +96,7 @@ describe('ResponsiveGrid ->', () => {
         it('should add the expected column class names', () => {
             ComponentMapping.get.returns(ComponentChild);
 
-            ReactDOM.render(<ResponsiveGrid isInEditor={true} columnClassNames={COLUMN_CLASS_NAMES} cqPath={CONTAINER_PATH} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER} gridClassNames={GRID_CLASS_NAMES}></ResponsiveGrid>, rootNode);
+            ReactDOM.render(<ResponsiveGrid componentMapping={ComponentMapping} isInEditor={true} columnClassNames={COLUMN_CLASS_NAMES} cqPath={CONTAINER_PATH} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER} gridClassNames={GRID_CLASS_NAMES}></ResponsiveGrid>, rootNode);
 
             let childItem1 = rootNode.querySelector('.' + COLUMN_1_CLASS_NAMES + ITEM1_DATA_ATTRIBUTE_SELECTOR);
             let childItem2 = rootNode.querySelector('.' + COLUMN_2_CLASS_NAMES + ITEM2_DATA_ATTRIBUTE_SELECTOR);

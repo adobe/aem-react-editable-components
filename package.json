@@ -59,10 +59,8 @@
       }
     }
   },
-  "dependencies": {
-    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0"
-  },
   "peerDependencies": {
+    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.0",
     "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.3"
   },
   "optionalDependencies": {

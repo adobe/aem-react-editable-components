@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
+import { ComponentMapping, ComponentMappingContext, withComponentMappingContext } from '../../src/ComponentMapping';
 import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
 import { Page } from '../../src/components/Page';
 import { EditorContext, withEditorContext } from '../../src/EditorContext';
@@ -61,7 +61,8 @@ describe('Page ->', () => {
     beforeEach(() => {
         sandbox.stub(ComponentMapping, 'get');
 
-        EditorContextPage = withEditorContext(Page);
+        EditorContextPage = withComponentMappingContext(withEditorContext(Page));
+        EditorContextPage.test = true;
 
         rootNode = document.createElement('div');
         rootNode.className = ROOT_CLASS_NAME;
@@ -82,7 +83,7 @@ describe('Page ->', () => {
         it('should add the expected children', () => {
             ComponentMapping.get.returns(ChildComponent);
 
-            ReactDOM.render(<Page cqPath={PAGE_PATH} cqChildren={CHILDREN} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Page>, rootNode);
+            ReactDOM.render(<Page componentMapping={ComponentMapping} cqPath={PAGE_PATH} cqChildren={CHILDREN} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Page>, rootNode);
 
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE1)).to.equal(true);
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE2)).to.equal(true);
@@ -106,7 +107,10 @@ describe('Page ->', () => {
             ComponentMapping.get.withArgs(PAGE_TYPE1).returns(EditorContextPage);
             ComponentMapping.get.withArgs(PAGE_TYPE2).returns(EditorContextPage);
 
-            ReactDOM.render(<EditorContext.Provider value={ true }><Page isInEditor={true} cqPath={PAGE_PATH} cqChildren={CHILDREN} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Page></EditorContext.Provider>, rootNode);
+            ReactDOM.render(
+                <EditorContext.Provider value={ true }>
+                    <Page componentMapping={ComponentMapping} isInEditor={true} cqPath={PAGE_PATH} cqChildren={CHILDREN} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Page>
+                </EditorContext.Provider>, rootNode);
 
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE1)).to.equal(true);
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE2)).to.equal(true);

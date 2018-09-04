@@ -1,5 +1,5 @@
 import { Container } from './Container';
-import { MapTo } from '../ComponentMapping';
+import { MapTo, withComponentMappingContext } from '../ComponentMapping';
 
 const PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
@@ -49,4 +49,4 @@ export class ResponsiveGrid extends Container {
     }
 }
 
-MapTo('wcm/foundation/components/responsivegrid')(ResponsiveGrid);
+MapTo('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid));

@@ -33,9 +33,8 @@ import Utils from './Utils';
  *
  * @private
  */
-const EditableComponentComposer = {
+const PLACEHOLDER_CLASS_NAME = 'cq-placeholder';
 
-    PLACEHOLDER_CLASS_NAME: 'cq-placeholder',
 
     /**
      * Decorate the given component with properties carried by the editConfig object
@@ -44,47 +43,46 @@ const EditableComponentComposer = {
      * @param {EditConfig} editConfig               Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component
      * @returns {CompositePlaceholder}              the wrapping component
      */
-    compose: function (WrappedComponent, editConfig) {
+const withEmptyPlaceholder = function (WrappedComponent, editConfig) {
 
-        return class CompositePlaceholder extends Component {
+    return class CompositePlaceholder extends Component {
 
-            decoratePlaceholder() {
-                // eslint-disable-next-line react/no-find-dom-node
-                let element = ReactDOM.findDOMNode(this);
+        decoratePlaceholder() {
+            // eslint-disable-next-line react/no-find-dom-node
+            let element = ReactDOM.findDOMNode(this);
 
-                if (!element) {
-                    return;
+            if (!element) {
+                return;
+            }
+
+            if (this.usePlaceholder()) {
+                element.dataset.emptytext = editConfig.emptyLabel;
+
+                if (!element.classList.contains(PLACEHOLDER_CLASS_NAME)) {
+                    element.classList.add(PLACEHOLDER_CLASS_NAME);
                 }
-
-                if (this.usePlaceholder()) {
-                    element.dataset.emptytext = editConfig.emptyLabel;
-
-                    if (!element.classList.contains(EditableComponentComposer.PLACEHOLDER_CLASS_NAME)) {
-                        element.classList.add(EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
-                    }
-                } else {
-                    element.classList.remove(EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
-                    delete element.dataset.emptytext;
-                }
+            } else {
+                element.classList.remove(PLACEHOLDER_CLASS_NAME);
+                delete element.dataset.emptytext;
             }
+        }
 
-            componentDidUpdate() {
-                this.decoratePlaceholder();
-            }
+        componentDidUpdate() {
+            this.decoratePlaceholder();
+        }
 
-            componentDidMount() {
-                this.decoratePlaceholder();
-            }
+        componentDidMount() {
+            this.decoratePlaceholder();
+        }
 
-            usePlaceholder() {
-                return Utils.isInEditor() && editConfig && typeof editConfig.isEmpty === 'function' && editConfig.isEmpty.call(this);
-            }
+        usePlaceholder() {
+            return Utils.isInEditor() && editConfig && typeof editConfig.isEmpty === 'function' && editConfig.isEmpty.call(this);
+        }
 
-            render() {
-                return <WrappedComponent {...this.props}/>;
-            }
+        render() {
+            return <WrappedComponent {...this.props}/>;
         }
     }
 };
 
-export default EditableComponentComposer;
+export { withEmptyPlaceholder, PLACEHOLDER_CLASS_NAME };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import EditableComponentComposer from '../src/EditableComponentComposer';
+import { withEmptyPlaceholder, PLACEHOLDER_CLASS_NAME } from '../src/EditableComponentComposer';
 import Utils from '../src/Utils';
 
 describe('EditableComponentComposer ->', () => {
@@ -51,11 +51,11 @@ describe('EditableComponentComposer ->', () => {
 
             Utils.isInEditor.returns(true);
 
-            let EditableComponent = EditableComponentComposer.compose(ChildComponent, EDIT_CONFIG);
+            let EditableComponent = withEmptyPlaceholder(ChildComponent, EDIT_CONFIG);
 
             ReactDOM.render(<EditableComponent></EditableComponent>, rootNode);
 
-            let node = rootNode.querySelector('.' + EditableComponentComposer.PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
+            let node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
 
             expect(node).to.exist;
         });
@@ -69,15 +69,15 @@ describe('EditableComponentComposer ->', () => {
 
             Utils.isInEditor.returns(true);
 
-            let EditableComponent = EditableComponentComposer.compose(ChildComponent, EDIT_CONFIG);
+            let EditableComponent = withEmptyPlaceholder(ChildComponent, EDIT_CONFIG);
 
             ReactDOM.render(<EditableComponent></EditableComponent>, rootNode);
 
-            let node = rootNode.querySelector('.' + EditableComponentComposer.PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
+            let node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
 
             expect(node).not.to.exist;
 
-            node = rootNode.querySelector('.' + EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
+            node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME);
 
             expect(node).to.exist;
         });
@@ -92,11 +92,11 @@ describe('EditableComponentComposer ->', () => {
 
             Utils.isInEditor.returns(true);
 
-            let EditableComponent = EditableComponentComposer.compose(ChildComponent, EDIT_CONFIG);
+            let EditableComponent = withEmptyPlaceholder(ChildComponent, EDIT_CONFIG);
 
             ReactDOM.render(<EditableComponent></EditableComponent>, rootNode);
 
-            let node = rootNode.querySelector('.' + EditableComponentComposer.PLACEHOLDER_CLASS_NAME);
+            let node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME);
 
             expect(node).not.to.exist;
 

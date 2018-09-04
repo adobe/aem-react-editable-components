@@ -17,7 +17,7 @@ require('./src/components/ResponsiveGrid');
  * @namespace components
  */
 
-export { ComponentMapping, MapTo } from './src/ComponentMapping';
+export { ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext } from './src/ComponentMapping';
 export { Container } from './src/components/Container';
 export { ResponsiveGrid } from './src/components/ResponsiveGrid';
 export { EditorContext, withEditorContext } from './src/EditorContext';

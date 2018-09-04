@@ -15,7 +15,6 @@
  * from Adobe Systems Incorporated.
  */
 import React from "react";
-import { ComponentMapping } from "../ComponentMapping";
 import { Container } from "./Container";
 import InternalUtils from "../InternalUtils";
 
@@ -64,7 +63,7 @@ export class Page extends Container {
         Object.keys(this.props.cqChildren).map((itemKey) => {
             let itemProps = InternalUtils.modelToProps(this.props.cqChildren[itemKey]);
 
-            let ItemComponent = ComponentMapping.get(itemProps.cqType);
+            let ItemComponent = this.props.componentMapping && this.props.componentMapping.get(itemProps.cqType);
 
             if (ItemComponent) {
                 pages.push(<ItemComponent key={ itemProps.cqPath } {...itemProps} cqPath={ itemProps.cqPath }></ItemComponent>);
