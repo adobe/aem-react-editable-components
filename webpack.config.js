@@ -41,7 +41,9 @@ module.exports = {
             } : [])
     },
     externals: [!isEnvironmentTest ? nodeExternals({
-        whitelist: ['@adobe/cq-spa-component-mapping']
+        modulesFromFile: {
+            exclude: ['dependencies']
+        }
     }) : ''],
     resolve: {
         extensions: ['.js', '.jsx']
