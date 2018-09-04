@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.5*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.6*
 
 
 
@@ -497,24 +497,6 @@ Hierarchical type of the item
 
     
 
-    
-#### DATA_PATH_PROP()
-
-Path of the resource in the model
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
 
 ### src/EditableComponentComposer.js
 
@@ -522,7 +504,7 @@ Path of the resource in the model
     
 
     
-#### compose(WrappedComponent, editConfig)
+#### withEmptyPlaceholder(WrappedComponent, editConfig)
 
 Decorate the given component with properties carried by the editConfig object
 
