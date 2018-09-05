@@ -37,13 +37,13 @@ const PLACEHOLDER_CLASS_NAME = 'cq-placeholder';
 
 
     /**
-     * Decorate the given component with properties carried by the editConfig object
+     * Wrapped the HTMLNodeElement of the given component with properties carried by the editConfig object.
      *
      * @param {React.Component} WrappedComponent    {@link React.Component} to be rendered
      * @param {EditConfig} editConfig               Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component
      * @returns {CompositePlaceholder}              the wrapping component
      */
-const withEmptyPlaceholder = function (WrappedComponent, editConfig) {
+const withEditConfig = function (WrappedComponent, editConfig) {
 
     return class CompositePlaceholder extends Component {
 
@@ -85,4 +85,4 @@ const withEmptyPlaceholder = function (WrappedComponent, editConfig) {
     }
 };
 
-export { withEmptyPlaceholder, PLACEHOLDER_CLASS_NAME };
+export { withEditConfig, PLACEHOLDER_CLASS_NAME };

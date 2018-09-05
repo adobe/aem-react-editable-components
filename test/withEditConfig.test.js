@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { withEmptyPlaceholder, PLACEHOLDER_CLASS_NAME } from '../src/EditableComponentComposer';
+import { withEditConfig, PLACEHOLDER_CLASS_NAME } from '../src/withEditConfig';
 import Utils from '../src/Utils';
 
-describe('EditableComponentComposer ->', () => {
+describe('withEditConfig ->', () => {
 
     const ROOT_CLASS_NAME = 'root-class';
     const CHILD_COMPONENT_CLASS_NAME = 'child-class';
@@ -51,7 +51,7 @@ describe('EditableComponentComposer ->', () => {
 
             Utils.isInEditor.returns(true);
 
-            let EditableComponent = withEmptyPlaceholder(ChildComponent, EDIT_CONFIG);
+            let EditableComponent = withEditConfig(ChildComponent, EDIT_CONFIG);
 
             ReactDOM.render(<EditableComponent></EditableComponent>, rootNode);
 
@@ -69,7 +69,7 @@ describe('EditableComponentComposer ->', () => {
 
             Utils.isInEditor.returns(true);
 
-            let EditableComponent = withEmptyPlaceholder(ChildComponent, EDIT_CONFIG);
+            let EditableComponent = withEditConfig(ChildComponent, EDIT_CONFIG);
 
             ReactDOM.render(<EditableComponent></EditableComponent>, rootNode);
 
@@ -92,7 +92,7 @@ describe('EditableComponentComposer ->', () => {
 
             Utils.isInEditor.returns(true);
 
-            let EditableComponent = withEmptyPlaceholder(ChildComponent, EDIT_CONFIG);
+            let EditableComponent = withEditConfig(ChildComponent, EDIT_CONFIG);
 
             ReactDOM.render(<EditableComponent></EditableComponent>, rootNode);
 

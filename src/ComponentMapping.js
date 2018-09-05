@@ -16,7 +16,7 @@
  */
 import React from "react";
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
-import { withEmptyPlaceholder } from "./EditableComponentComposer";
+import { withEditConfig } from "./withEditConfig";
 import { withModel } from "./components/ModelProvider";
 import { withEditorContext } from "./EditorContext";
 
@@ -43,7 +43,7 @@ ComponentMapping.map = function map (resourceTypes, component, editConfig, confi
         let innerComponent = component;
 
         if (editConfig) {
-            innerComponent = withEmptyPlaceholder(innerComponent, editConfig);
+            innerComponent = withEditConfig(innerComponent, editConfig);
         }
 
         innerComponent = withEditorContext(withModel(innerComponent, config));

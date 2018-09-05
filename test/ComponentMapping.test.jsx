@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { ComponentMapping, MapTo } from '../index';
 import { ModelManager } from '@adobe/cq-spa-page-model-manager';
 
-describe('ComponentMapping & EditableComponentComposer', () => {
+describe('ComponentMapping & withEditConfig', () => {
 
     const DEFAULT_CONTENT_PATH = window.location.pathname.replace(/\.htm(l)?$/,'');
 

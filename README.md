@@ -552,38 +552,6 @@ Hierarchical type of the item
     
 
 
-### src/EditableComponentComposer.js
-
-
-    
-
-    
-#### withEmptyPlaceholder(WrappedComponent, editConfig)
-
-Decorate the given component with properties carried by the editConfig object
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| WrappedComponent | `React.Component`  | {@link React.Component} to be rendered | &nbsp; |
-| editConfig | `EditConfig`  | Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `CompositePlaceholder`  the wrapping component
-
-
-    
-
-
 ### src/HierarchyConstants.js
 
 
@@ -760,6 +728,38 @@ Is the app used in the context of the AEM Page editor
 
 
 - `boolean`  
+
+
+    
+
+
+### src/withEditConfig.js
+
+
+    
+
+    
+#### withEditConfig(WrappedComponent, editConfig)
+
+Decorate the given component with properties carried by the editConfig object
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| WrappedComponent | `React.Component`  | {@link React.Component} to be rendered | &nbsp; |
+| editConfig | `EditConfig`  | Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `CompositePlaceholder`  the wrapping component
 
 
     
