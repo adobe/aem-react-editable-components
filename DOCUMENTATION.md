@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.6*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.7*
 
 
 
@@ -687,7 +687,7 @@ Is the app used in the context of the AEM Page editor
     
 #### withEditConfig(WrappedComponent, editConfig)
 
-Decorate the given component with properties carried by the editConfig object
+Wrapped the HTMLNodeElement of the given component with properties carried by the editConfig object.
 
 
 
