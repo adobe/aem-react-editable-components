@@ -11,7 +11,6 @@
     "npm": ">=5.5.1 <6.0.0"
   },
   "files": [
-    "index.js",
     "dist/"
   ],
   "homepage": "https://www.adobe.com/go/aem6_4_docs_spa_en",
