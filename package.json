@@ -59,7 +59,7 @@
     }
   },
   "peerDependencies": {
-    "@adobe/cq-spa-component-mapping": "~1.0.0-rc.1",
+    "@adobe/cq-spa-component-mapping": "~1.0.0-rc.3",
     "@adobe/cq-spa-page-model-manager": "~1.0.0-rc.1"
   },
   "optionalDependencies": {
@@ -67,7 +67,7 @@
     "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {
-    "@adobe/cq-spa-component-mapping": "~1.0.0-rc.1",
+    "@adobe/cq-spa-component-mapping": "~1.0.0-rc.3",
     "@adobe/cq-spa-page-model-manager": "~1.0.0-rc.1",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
