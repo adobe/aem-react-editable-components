@@ -63,7 +63,7 @@ export class Page extends Container {
         Object.keys(this.props.cqChildren).map((itemKey) => {
             let itemProps = InternalUtils.modelToProps(this.props.cqChildren[itemKey]);
 
-            let ItemComponent = this.props.componentMapping && this.props.componentMapping.get(itemProps.cqType);
+            let ItemComponent = this.state.componentMapping.get(itemProps.cqType);
 
             if (ItemComponent) {
                 pages.push(<ItemComponent key={ itemProps.cqPath } {...itemProps} cqPath={ itemProps.cqPath }></ItemComponent>);

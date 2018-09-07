@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import Constants from "../Constants";
 import InternalUtils from "../InternalUtils";
+import { ComponentMapping } from "../ComponentMapping";
 
 const CONTAINER_CLASS_NAMES = "aem-container";
 const PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES;
@@ -29,9 +30,11 @@ export class ContainerPlaceholder extends Component {
 
 export class Container extends Component {
 
-    static get propTypes() {
-        return {
-            componentMapping: PropTypes.object.isRequired
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            componentMapping: this.props.componentMapping || ComponentMapping
         };
     }
 
@@ -53,7 +56,7 @@ export class Container extends Component {
             let itemProps = InternalUtils.modelToProps(this.props.cqItems[itemKey]);
 
             if (itemProps) {
-                let ItemComponent = this.props.componentMapping && this.props.componentMapping.get(itemProps.cqType);
+                let ItemComponent = this.state.componentMapping.get(itemProps.cqType);
 
                 if (ItemComponent) {
                     childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));
