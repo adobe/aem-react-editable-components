@@ -45,6 +45,10 @@ Run `npm install` to get all node_modules that are necessary for development.
 ```sh
 $ npm run build
 ```
+or
+```sh
+$ npm run build:production
+```
 
 ### Watch to rebuild
 
@@ -59,7 +63,7 @@ $ npm run test
 ```
 or
 ```sh
-$ npm run test-debug
+$ npm run test:debug
 ```
 
 ### Generate docs
