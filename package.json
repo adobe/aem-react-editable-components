@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@adobe/cq-spa-component-mapping": "~0.0.17-beta.2",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.8",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.11",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
