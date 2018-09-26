@@ -9,7 +9,7 @@
 
 ## Installation
 ```
-npm install @adobe/cq-react-editable-components@beta
+npm install @adobe/cq-react-editable-components
 ```
 
 ## Usage
