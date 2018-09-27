@@ -60,16 +60,16 @@
     }
   },
   "peerDependencies": {
-    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.2",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.11"
+    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.3",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.12"
   },
   "optionalDependencies": {
     "custom-event-polyfill": "^1.0.6",
     "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {
-    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.2",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.11",
+    "@adobe/cq-spa-component-mapping": "~0.0.17-beta.3",
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.12",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
