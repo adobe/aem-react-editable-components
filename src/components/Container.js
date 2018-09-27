@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import Constants from "../Constants";
-import InternalUtils from "../InternalUtils";
+import Utils from "../Utils";
 import { ComponentMapping } from "../ComponentMapping";
+import {EditableComponent} from "./EditableComponent";
 
 const CONTAINER_CLASS_NAMES = "aem-container";
 const PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES;
@@ -28,6 +29,11 @@ export class ContainerPlaceholder extends Component {
     }
 }
 
+/**
+ * Container component.
+ *
+ * Provides access to items.
+ */
 export class Container extends Component {
 
     constructor(props) {
@@ -53,7 +59,7 @@ export class Container extends Component {
         }
 
         this.props.cqItemsOrder.map((itemKey) => {
-            let itemProps = InternalUtils.modelToProps(this.props.cqItems[itemKey]);
+            let itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
 
             if (itemProps) {
                 let ItemComponent = this.state.componentMapping.get(itemProps.cqType);
@@ -77,9 +83,9 @@ export class Container extends Component {
      */
     connectComponentWithItem(ChildComponent, itemProps, itemKey) {
         let itemPath = this.getItemPath(itemKey);
-        return <div { ...this.getItemComponentProps(itemProps, itemKey, itemPath)}>
-            <ChildComponent key={ itemPath } {...itemProps} cqPath={ itemPath }/>
-        </div>
+        return <EditableComponent {...itemProps} key={ itemPath } cqPath={itemPath} isInEditor={this.props.isInEditor} containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}>
+            <ChildComponent {...itemProps} key={ itemPath } cqPath={ itemPath }/>
+        </EditableComponent>
     }
 
     /**
@@ -90,18 +96,8 @@ export class Container extends Component {
      * @param   {String} itemPath The path of the item
      * @returns {Object} The map of properties to be added
      */
-    getItemComponentProps(item, itemKey, itemPath) {
-        let attrs =  {
-            key: itemPath
-        };
-
-        if (!this.props.isInEditor || (item.hasOwnProperty("cqItems") && item.hasOwnProperty("cqItemsOrder"))) {
-            return attrs;
-        }
-
-        attrs["data-cq-data-path"] = itemPath;
-
-        return attrs;
+    getItemComponentProps() {
+        return {};
     }
 
     /**
@@ -125,7 +121,7 @@ export class Container extends Component {
         };
 
         if (this.props.isInEditor) {
-            attrs["data-cq-data-path"] = this.props.cqPath;
+            attrs[Constants.DATA_PATH_ATTR] = this.props.cqPath;
         }
 
         return attrs;
@@ -158,10 +154,10 @@ export class Container extends Component {
 
     render() {
         return (
-            <div {...this.containerProps}>
+            <EditableComponent {...this.props} containerProps={this.containerProps}>
                 { this.childComponents }
                 { this.placeholderComponent }
-            </div>
+            </EditableComponent>
         )
     }
 }

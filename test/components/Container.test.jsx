@@ -33,7 +33,7 @@ describe('Container ->', () => {
     class ComponentChild extends Component {
 
         render() {
-            return <div id={this.props && this.props.id} className={ITEM_CLASS_NAME}></div>;
+            return <div id={this.props && this.props.id} className={ITEM_CLASS_NAME}/>;
         }
     }
 
@@ -63,7 +63,7 @@ describe('Container ->', () => {
         it('should add the expected components', () => {
             ComponentMapping.get.returns(ComponentChild);
 
-            ReactDOM.render(<Container componentMapping={ComponentMapping} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Container>, rootNode);
+            ReactDOM.render(<Container componentMapping={ComponentMapping} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}/>, rootNode);
 
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE1)).to.equal(true);
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE2)).to.equal(true);
@@ -76,7 +76,7 @@ describe('Container ->', () => {
         });
 
         it('should add a placeholder with data attribute when in WCM edit mode', () => {
-            ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH}></Container>, rootNode);
+            ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH}/>, rootNode);
 
             let containerPlaceholder = rootNode.querySelector(CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR + CONTAINER_PLACEHOLDER_SELECTOR);
 
@@ -84,7 +84,7 @@ describe('Container ->', () => {
         });
 
         it('should not add a placeholder when not in WCM edit mode', () => {
-            ReactDOM.render(<Container componentMapping={ComponentMapping}></Container>, rootNode);
+            ReactDOM.render(<Container componentMapping={ComponentMapping}/>, rootNode);
 
             let containerPlaceholder = rootNode.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
 
@@ -94,7 +94,7 @@ describe('Container ->', () => {
         it('should add a data attribute on the children when in WCM edit mode', () => {
             ComponentMapping.get.returns(ComponentChild);
 
-            ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Container>, rootNode);
+            ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}/>, rootNode);
 
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE1)).to.equal(true);
             expect(ComponentMapping.get.calledWith(COMPONENT_TYPE2)).to.equal(true);
@@ -115,7 +115,7 @@ describe('Container ->', () => {
     describe('Data attributes ->', () => {
 
         it('should not add a the cq-data-path attribute if not in WCM edit mode', () => {
-            ReactDOM.render(<Container componentMapping={ComponentMapping} cqPath={CONTAINER_PATH}></Container>, rootNode);
+            ReactDOM.render(<Container componentMapping={ComponentMapping} cqPath={CONTAINER_PATH}/>, rootNode);
 
             let container = rootNode.querySelector('[data-cq-data-path="/container"]');
 
@@ -123,7 +123,7 @@ describe('Container ->', () => {
         });
 
         it('should add a the cq-data-path attribute if in WCM edit mode', () => {
-            ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH}></Container>, rootNode);
+            ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH}/>, rootNode);
 
             let container = rootNode.querySelector('[data-cq-data-path="/container"]');
 

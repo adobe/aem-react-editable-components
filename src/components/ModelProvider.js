@@ -16,8 +16,13 @@
  */
 import React, { Component } from "react";
 import { ModelManager } from "@adobe/cq-spa-page-model-manager";
-import InternalUtils from "../InternalUtils";
+import Utils from "../Utils";
 
+/**
+ * Wraps a portion of the page model into a Component.
+ *
+ * Fetches content from AEM (using ModelManager) and inject it into the passed React Component.
+ */
 export class ModelProvider extends Component {
 
     constructor(props) {
@@ -32,7 +37,7 @@ export class ModelProvider extends Component {
 
     updateData() {
         ModelManager.getData({path: this.props.cqPath, forceReload: this.props.cqForceReload}).then((data) => {
-            this.setState(InternalUtils.modelToProps(data));
+            this.setState(Utils.modelToProps(data));
         });
     }
 
@@ -51,7 +56,7 @@ export class ModelProvider extends Component {
     }
 }
 
- export const withModel = function(WrappedComponent, config) {
+export const withModel = function(WrappedComponent, config) {
 
     /**
      * @type CompositeModelProvider

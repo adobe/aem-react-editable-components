@@ -16,7 +16,6 @@
  */
 import React from "react";
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
-import { withEditConfig } from "./withEditConfig";
 import { withModel } from "./components/ModelProvider";
 import { withEditorContext } from "./EditorContext";
 
@@ -27,6 +26,32 @@ import { withEditorContext } from "./EditorContext";
  * @private
  */
 let wrappedMapFct = ComponentMapping.map;
+
+let editConfigMap = {};
+
+/**
+ * Stores the given {@link EditConfig} for the given resource types
+ * @param {string[]} resourceTypes
+ * @param {EditConfig} editConfig
+ */
+function storeEditConfig(resourceTypes, editConfig) {
+    if (editConfig) {
+        if (Array.isArray(resourceTypes)) {
+            resourceTypes.forEach((resourceType) => editConfigMap[resourceType] = editConfig);
+        } else {
+            editConfigMap[resourceTypes] = editConfig;
+        }
+    }
+}
+
+/**
+ * Returns the {@link EditConfig} object registered for the given resource type
+ * @param {string} resourceType - Resource type the {@link EditConfig} has been registered with
+ * @return {*}
+ */
+function getEditConfig(resourceType) {
+    return editConfigMap && resourceType && editConfigMap[resourceType];
+}
 
 /**
  * Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
@@ -42,9 +67,7 @@ ComponentMapping.map = function map (resourceTypes, component, editConfig, confi
         config = config || {};
         let innerComponent = component;
 
-        if (editConfig) {
-            innerComponent = withEditConfig(innerComponent, editConfig);
-        }
+        storeEditConfig(resourceTypes, editConfig);
 
         innerComponent = withEditorContext(withModel(innerComponent, config));
 
@@ -68,4 +91,4 @@ const withComponentMappingContext = (Component) => {
         </ComponentMappingContext.Consumer>)
 };
 
-export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext};
+export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext, storeEditConfig, getEditConfig};

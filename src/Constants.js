@@ -24,6 +24,11 @@ import {Constants as PMConstants} from '@adobe/cq-spa-page-model-manager';
 const Constants = {
 
     /**
+     * Name of the data-cq-data-path data attribute
+     */
+    DATA_PATH_ATTR: 'data-cq-data-path',
+
+    /**
      * Class names associated with a new section component
      *
      * @type {string}

@@ -16,7 +16,8 @@
  */
 import React from "react";
 import { Container } from "./Container";
-import InternalUtils from "../InternalUtils";
+import Utils from "../Utils";
+import Constants from "../Constants";
 
 const NN_JCR_CONTENT = "jcr:content";
 const PAGE_CLASS_NAMES = "aem-page";
@@ -43,7 +44,7 @@ export class Page extends Container {
             return attrs;
         }
 
-        attrs["data-cq-data-path"] = this.props.cqPath;
+        attrs[Constants.DATA_PATH_ATTR] = this.props.cqPath;
 
         return attrs;
     }
@@ -61,7 +62,7 @@ export class Page extends Container {
         }
 
         Object.keys(this.props.cqChildren).map((itemKey) => {
-            let itemProps = InternalUtils.modelToProps(this.props.cqChildren[itemKey]);
+            let itemProps = Utils.modelToProps(this.props.cqChildren[itemKey]);
 
             let ItemComponent = this.state.componentMapping.get(itemProps.cqType);
 
