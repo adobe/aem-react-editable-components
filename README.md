@@ -53,11 +53,62 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.9*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.10*
 
 
 
 ### src/ComponentMapping.js
+
+
+    
+
+    
+#### storeEditConfig(resourceTypes, editConfig)
+
+Stores the given {@link EditConfig} for the given resource types
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| resourceTypes | `Array.<string>`  |  | &nbsp; |
+| editConfig | `EditConfig`  |  | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### getEditConfig(resourceType)
+
+Returns the {@link EditConfig} object registered for the given resource type
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| resourceType | `string`  | - Resource type the {@link EditConfig} has been registered with | &nbsp; |
+
+
+
+
+##### Returns
+
+
+-  
 
 
     
@@ -98,7 +149,27 @@ Map a React component with the given resource types. If an {@link EditConfig} is
     
 
     
-#### ContainerPlaceholder.childComponents()
+#### new Container()
+
+Container component.
+
+Provides access to items.
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### Container.childComponents()
 
 Returns the child components of this Container.
 It will iterate over all the items and instantiate the child components if a Mapping is found
@@ -118,7 +189,7 @@ Instantiation is done my connecting the Component with the data of that item
     
 
     
-#### ContainerPlaceholder.connectComponentWithItem(ChildComponent, itemProps, itemKey)
+#### Container.connectComponentWithItem(ChildComponent, itemProps, itemKey)
 
 Connects a child component with the item data
 
@@ -145,7 +216,7 @@ Connects a child component with the item data
     
 
     
-#### ContainerPlaceholder.getItemComponentProps(item, itemKey, itemPath)
+#### Container.getItemComponentProps(item, itemKey, itemPath)
 
 Returns the properties to add on a specific child component
 
@@ -172,7 +243,7 @@ Returns the properties to add on a specific child component
     
 
     
-#### ContainerPlaceholder.getItemPath(itemKey)
+#### Container.getItemPath(itemKey)
 
 Computes the path of the current item
 
@@ -197,7 +268,7 @@ Computes the path of the current item
     
 
     
-#### ContainerPlaceholder.containerProps()
+#### Container.containerProps()
 
 The properties that will be injected in the root element of the container
 
@@ -215,7 +286,7 @@ The properties that will be injected in the root element of the container
     
 
     
-#### ContainerPlaceholder.placeholderProps()
+#### Container.placeholderProps()
 
 The properties that will go on the placeholder component root element
 
@@ -233,7 +304,7 @@ The properties that will go on the placeholder component root element
     
 
     
-#### ContainerPlaceholder.placeholderComponent()
+#### Container.placeholderComponent()
 
 The placeholder component that will be added in editing
 
@@ -246,6 +317,126 @@ The placeholder component that will be added in editing
 
 
 - `Object`  React element to be instantiated as a placeholder
+
+
+    
+
+
+### src/components/EditableComponent.js
+
+
+    
+
+    
+#### new EditableComponent()
+
+The EditableComponent extends components with editing capabilities
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### EditableComponent.editConfig()
+
+Provides access to the {@link EditConfig} for the current child resource type
+
+
+
+
+
+
+##### Returns
+
+
+-  
+
+
+    
+
+    
+#### EditableComponent.editProps()
+
+Properties related to the edition of the component
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### EditableComponent.emptyPlaceholder()
+
+HTMLElement representing the empty placeholder
+
+
+
+
+
+
+##### Returns
+
+
+-  
+
+
+    
+
+    
+#### EditableComponent.useEmptyPlaceholder()
+
+Should an empty placeholder be added
+
+
+
+
+
+
+##### Returns
+
+
+- `boolean`  
+
+
+    
+
+
+### src/components/ModelProvider.js
+
+
+    
+#### new ModelProvider()
+
+Wraps a portion of the page model into a Component.
+
+Fetches content from AEM (using ModelManager) and inject it into the passed React Component.
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
 
 
     
@@ -411,6 +602,24 @@ Returns the properties to add on a specific child component
 #### Constants()
 
 Useful variables for interacting with CQ/AEM components
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### DATA_PATH_ATTR()
+
+Name of the data-cq-data-path data attribute
 
 
 
@@ -610,30 +819,6 @@ Hierarchical page type
     
 
 
-### src/InternalUtils.js
-
-
-    
-#### InternalUtils()
-
-Internal Helper functions for interacting with the AEM environment
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-
-
 ### src/Utils.js
 
 
@@ -731,36 +916,6 @@ Is the app used in the context of the AEM Page editor
 
 
     
-
-
-### src/withEditConfig.js
-
-
-    
-
-    
-#### withEditConfig(WrappedComponent, editConfig)
-
-Wrapped the HTMLNodeElement of the given component with properties carried by the editConfig object.
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| WrappedComponent | `React.Component`  | {@link React.Component} to be rendered | &nbsp; |
-| editConfig | `EditConfig`  | Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `CompositePlaceholder`  the wrapping component
-
 
     
 
