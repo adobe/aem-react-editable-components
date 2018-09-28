@@ -80,7 +80,6 @@ export class ModelProvider extends Component {
  *
  * @param WrappedComponent
  * @param {ModelConfig} modelConfig
- * @return {{new(): CompositeModelProvider, prototype: CompositeModelProvider}}
  */
 export const withModel = function(WrappedComponent, modelConfig) {
 

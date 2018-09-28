@@ -113,7 +113,6 @@ class EditableComponent extends Component {
  *
  * @param {React.Component} WrappedComponent
  * @param {EditConfig} [editConfig]
- * @return {{new(): CompositeEditableComponent, prototype: CompositeEditableComponent}}
  */
 function withEditable(WrappedComponent, editConfig) {
 

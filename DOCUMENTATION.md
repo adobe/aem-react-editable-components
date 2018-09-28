@@ -9,57 +9,6 @@
     
 
     
-#### storeEditConfig(resourceTypes, editConfig)
-
-Stores the given {@link EditConfig} for the given resource types
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| resourceTypes | `Array.<string>`  |  | &nbsp; |
-| editConfig | `EditConfig`  |  | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### getEditConfig(resourceType)
-
-Returns the {@link EditConfig} object registered for the given resource type
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| resourceType | `string`  | - Resource type the {@link EditConfig} has been registered with | &nbsp; |
-
-
-
-
-##### Returns
-
-
--  
-
-
-    
-
-    
 #### ComponentMapping.map(resourceTypes, component[, editConfig, config])
 
 Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
@@ -292,24 +241,6 @@ The EditableComponent extends components with editing capabilities
     
 
     
-#### EditableComponent.editConfig()
-
-Provides access to the {@link EditConfig} for the current child resource type
-
-
-
-
-
-
-##### Returns
-
-
--  
-
-
-    
-
-    
 #### EditableComponent.editProps()
 
 Properties related to the edition of the component
@@ -328,7 +259,7 @@ Properties related to the edition of the component
     
 
     
-#### EditableComponent.emptyPlaceholder()
+#### EditableComponent.emptyPlaceholderProps()
 
 HTMLElement representing the empty placeholder
 
@@ -359,6 +290,32 @@ Should an empty placeholder be added
 
 
 - `boolean`  
+
+
+    
+
+    
+#### withEditable(WrappedComponent[, editConfig])
+
+Returns a composition that provides edition capabilities to the component
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| WrappedComponent | `React.Component`  |  | &nbsp; |
+| editConfig | `EditConfig`  |  | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `Void`
 
 
     
