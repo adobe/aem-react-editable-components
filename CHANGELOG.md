@@ -1,4 +1,4 @@
-# 1.0.0 - 28 September 2018
+# 1.0.2 - 28 September 2018
 
 * **BREAKING CHANGE** Refactoring of the Container, ResponsiveGrid and Placeholders to improve extensibility
 * **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed 
