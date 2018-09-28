@@ -60,7 +60,7 @@
     }
   },
   "peerDependencies": {
-    "@adobe/cq-spa-component-mapping": "~1.0.2",
+    "@adobe/cq-spa-component-mapping": "~1.0.3",
     "@adobe/cq-spa-page-model-manager": "~1.0.0",
     "react-fast-compare": "^2.0.2"
   },
