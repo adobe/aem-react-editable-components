@@ -14,9 +14,11 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
+import React from "react";
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
-import EditableComponentComposer from "./EditableComponentComposer";
-import ModelProviderHelper from "./ModelProviderHelper";
+import { withModel } from "./components/ModelProvider";
+import { withEditorContext } from "./EditorContext";
+import { withEditable } from "./components/EditableComponent";
 
 /**
  * Wrapped function
@@ -30,23 +32,21 @@ let wrappedMapFct = ComponentMapping.map;
  * Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
  *
  * @param {string[]} resourceTypes                      - list of resource types for which to use the given <i>clazz</i>
- * @param {class} clazz                                 - class to be instantiated for the given resource types
+ * @param {React.Component} component                   - class to be instantiated for the given resource types
  * @param {EditConfig} [editConfig]                     - configuration object for enabling the edition capabilities
  * @param {{}} [config]                                 - general configuration object
  * @param {boolean} [config.forceReload=undefined]      - should the model cache be ignored when processing the component
- * @returns {class}                                     - the resulting decorated Class
+ * @returns {React.Component}                           - the resulting decorated Class
  */
-ComponentMapping.map = function map (resourceTypes, clazz, editConfig, config) {
+ComponentMapping.map = function map (resourceTypes, component, editConfig, config) {
         config = config || {};
-        let innerClass = clazz;
+        let innerComponent = component;
 
-        if (editConfig) {
-            innerClass = EditableComponentComposer.compose(clazz, editConfig);
-        }
+        innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), config));
 
-        wrappedMapFct.call(ComponentMapping, resourceTypes, innerClass);
-
-        return ModelProviderHelper.withModel(innerClass, config);
+        wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
+        
+        return innerComponent;
     };
 
 function MapTo(resourceTypes) {
@@ -55,4 +55,14 @@ function MapTo(resourceTypes) {
     };
 }
 
-export {ComponentMapping, MapTo};
+const ComponentMappingContext = React.createContext(ComponentMapping);
+
+const withComponentMappingContext = (Component) => {
+    return function ComponentMappingContextComponent(props) {
+        return <ComponentMappingContext.Consumer>
+            {componentMapping =>  <Component {...props} componentMapping={componentMapping} />}
+        </ComponentMappingContext.Consumer>
+    }
+};
+
+export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext};

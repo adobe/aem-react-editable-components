@@ -32,7 +32,19 @@ const EDIT_MODE = 'edit';
  * The editor is in preview mode
  */
 const PREVIEW_MODE = 'preview';
-
+/**
+ * Returns if we are in the browser context or not by checking for the 
+ * existance of the window object
+ *
+ * @returns {Boolean} the result of the check of the existance of the window object
+ */
+function isBrowser() {
+    try {
+        return typeof window !== 'undefined';
+    }catch(e){ 
+        return false;
+    }
+}
 /**
  * Returns the current WCM mode
  *
@@ -43,8 +55,11 @@ const PREVIEW_MODE = 'preview';
  * @private
  */
 function getWCMMode() {
-    const wcmModeMeta = document.head.querySelector(WCM_MODE_META_SELECTOR);
-    return wcmModeMeta && wcmModeMeta.content;
+    if (isBrowser()){
+        const wcmModeMeta = document.head.querySelector(WCM_MODE_META_SELECTOR);
+        return wcmModeMeta && wcmModeMeta.content;
+    }
+    return false;
 }
 
 /**
@@ -62,6 +77,34 @@ const Utils = {
     isInEditor() {
         const wcmMode = getWCMMode();
         return wcmMode && (EDIT_MODE === wcmMode || PREVIEW_MODE === wcmMode);
+    },
+
+    /**
+     * Transforms the item data to component properties
+     * It will replace ":" with "cq" and convert the name to CameCase
+     *
+     * @private
+     * @param   {Object} item - the item data
+     * @returns {Object} the transformed data
+     */
+    modelToProps(item) {
+        let keys = Object.getOwnPropertyNames(item);
+        let props = {};
+
+        keys.forEach((key) => {
+            let propKey = key;
+
+            if (propKey.startsWith(":")) {
+                // Transformation of internal properties namespaced with [:] to [cq]
+                // :myProperty => cqMyProperty
+                let tempKey = propKey.substr(1);
+                propKey = "cq" + tempKey.substr(0, 1).toUpperCase() + tempKey.substr(1);
+            }
+
+            props[propKey] = item[key];
+        });
+
+        return props;
     }
 };
 

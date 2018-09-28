@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.30*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.11*
 
 
 
@@ -9,7 +9,7 @@
     
 
     
-#### ComponentMapping.map(resourceTypes, clazz[, editConfig, config])
+#### ComponentMapping.map(resourceTypes, component[, editConfig, config])
 
 Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
 
@@ -21,7 +21,7 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
 | resourceTypes | `Array.<string>`  | - list of resource types for which to use the given <i>clazz</i> | &nbsp; |
-| clazz | `class`  | - class to be instantiated for the given resource types | &nbsp; |
+| component | `React.Component`  | - class to be instantiated for the given resource types | &nbsp; |
 | editConfig | `EditConfig`  | - configuration object for enabling the edition capabilities | *Optional* |
 | config | `[object Object]`  | - general configuration object | *Optional* |
 | config.forceReload&#x3D;undefined | `boolean`  | - should the model cache be ignored when processing the component | *Optional* |
@@ -32,31 +32,25 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 ##### Returns
 
 
-- `class`  - the resulting decorated Class
+- `React.Component`  - the resulting decorated Class
 
 
     
 
 
-### src/components/Container.jsx
+### src/components/Container.js
 
 
     
-#### new Container(props)
 
-Container component that provides the common features required by all containers such as the dynamic inclusion of child components.
-<p>The Container supports content items as well as child pages</p>
+    
+#### new Container()
+
+Container component.
+
+Provides access to items.
 
 
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.cqModel | `[object Object]`  | - the page model configuration object | *Optional* |
-| props.cqModel.:dataPath | `string`  | - relative path of the current configuration in the overall page model | *Optional* |
 
 
 
@@ -70,9 +64,11 @@ Container component that provides the common features required by all containers
     
 
     
-#### Container.modelProvider()
+#### Container.childComponents()
 
-Wrapper class in which the content is eventually wrapped
+Returns the child components of this Container.
+It will iterate over all the items and instantiate the child components if a Mapping is found
+Instantiation is done my connecting the Component with the data of that item
 
 
 
@@ -82,15 +78,190 @@ Wrapper class in which the content is eventually wrapped
 ##### Returns
 
 
-- `ModelProvider`  
+- `Array.&lt;Object&gt;`  An array with the components instantiated to JSX
 
 
     
 
     
-#### Container.getPagePath()
+#### Container.connectComponentWithItem(ChildComponent, itemProps, itemKey)
 
-Returns the path of the page the current component is part of
+Connects a child component with the item data
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| ChildComponent | `Component`  | the child component | &nbsp; |
+| itemProps | `Object`  | - the item data | &nbsp; |
+| itemKey | `String`  | - the name of the item in map | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `Object`  - the React element constructed by connecting the values of the input with the Component
+
+
+    
+
+    
+#### Container.getItemComponentProps(item, itemKey, itemPath)
+
+Returns the properties to add on a specific child component
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| item | `Object`  | The item data | &nbsp; |
+| itemKey | `String`  | The key of the item | &nbsp; |
+| itemPath | `String`  | The path of the item | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `Object`  The map of properties to be added
+
+
+    
+
+    
+#### Container.getItemPath(itemKey)
+
+Computes the path of the current item
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| itemKey | `String`  | - the key of the item | &nbsp; |
+
+
+
+
+##### Returns
+
+
+- `String`  - the computed path
+
+
+    
+
+    
+#### Container.containerProps()
+
+The properties that will be injected in the root element of the container
+
+
+
+
+
+
+##### Returns
+
+
+- `Object`  - The map of properties to be added
+
+
+    
+
+    
+#### Container.placeholderProps()
+
+The properties that will go on the placeholder component root element
+
+
+
+
+
+
+##### Returns
+
+
+- `Object`  - The map of properties to be added
+
+
+    
+
+    
+#### Container.placeholderComponent()
+
+The placeholder component that will be added in editing
+
+
+
+
+
+
+##### Returns
+
+
+- `Object`  React element to be instantiated as a placeholder
+
+
+    
+
+
+### src/components/EditableComponent.js
+
+
+    
+
+    
+#### new EditableComponent()
+
+The EditableComponent extends components with editing capabilities
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### EditableComponent.editProps()
+
+Properties related to the edition of the component
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### EditableComponent.emptyPlaceholderProps()
+
+HTMLElement representing the empty placeholder
 
 
 
@@ -106,221 +277,9 @@ Returns the path of the page the current component is part of
     
 
     
-#### Container.getDynamicComponent(item)
+#### EditableComponent.useEmptyPlaceholder()
 
-Returns the {@link React.Component} mapped to the type of the item
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| item | `[object Object]`  | - item of the model | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `boolean`  
-
-
-    
-
-    
-#### Container.getWrappedDynamicComponent(field, itemKey, containerDataPath, propertiesCallback)
-
-Returns the component optionally wrapped into the current ModelProvider implementation
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| field | `string`  | - name of the field where the item is located | &nbsp; |
-| itemKey | `string`  | - map key where the item is located in the field | &nbsp; |
-| containerDataPath | `string`  | - relative path of the item's container | &nbsp; |
-| propertiesCallback | `function`  | - properties to dynamically decorate the wrapper element with | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `React.Component`  
-
-
-    
-
-    
-#### Container.getDynamicItemComponents(containerDataPath)
-
-Returns a list of item instances
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| containerDataPath |  | - relative path of the item's container | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `Array.&lt;React.Component&gt;`  
-
-
-    
-
-    
-#### Container.getDynamicPageComponents(containerDataPath)
-
-Returns a list of page instances
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| containerDataPath |  | - relative path of the item's container | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `Array.&lt;React.Component&gt;`  
-
-
-    
-
-    
-#### Container.path()
-
-Returns the path of the current resource
-
-
-
-
-
-
-##### Returns
-
-
-- `string`  
-
-
-    
-
-    
-#### Container.innerContent()
-
-Returns a list of child components
-
-
-
-
-
-
-##### Returns
-
-
-- `Array.&lt;React.Component&gt;`  
-
-
-    
-
-
-### src/components/ModelProvider.jsx
-
-
-    
-#### new ModelProvider(props)
-
-Wrapper component responsible for synchronizing a child component with a given portion of the page model.
-The location of the portion of the page model corresponds to the location of the resource in the page and is accessible via the dataPath / pagePath properties of the component.
-Those properties are then output in the form of data attributes (data-cq-page-path and data-cq-data-path) to allow the editor to understand to which AEM resource this component corresponds.
-
-When the model gets updated the wrapped component gets re-rendered with the latest version of the model passed as the cqModel parameter.
-<p>The ModelProvider supports content items as well as child pages</p>
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.dataPath | `string`  | - relative path of the current configuration in the overall page model | &nbsp; |
-| props.pagePath | `string`  | - absolute path of the containing page | &nbsp; |
-| props.forceReload | `boolean`  | - should the cache be ignored | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ModelProvider.updateData()
-
-Updates the state and data of the current Object
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ModelProvider.getPagePath()
-
-Returns the provided page path property
-
-
-
-
-
-
-##### Returns
-
-
-- `string`  
-
-
-    
-
-    
-#### ModelProvider.isPageModel()
-
-Does the current component has a page model
+Should an empty placeholder be added
 
 
 
@@ -336,9 +295,9 @@ Does the current component has a page model
     
 
     
-#### ModelProvider.decorateChildElement(element)
+#### withEditable(WrappedComponent[, editConfig])
 
-Decorate a child {@link HTMLElement} with extra data attributes
+Returns a composition that provides edition capabilities to the component
 
 
 
@@ -347,7 +306,8 @@ Decorate a child {@link HTMLElement} with extra data attributes
 
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
-| element | `HTMLElement`  | - Element to be decorated | &nbsp; |
+| WrappedComponent | `React.Component`  |  | &nbsp; |
+| editConfig | `EditConfig`  |  | *Optional* |
 
 
 
@@ -360,68 +320,16 @@ Decorate a child {@link HTMLElement} with extra data attributes
 
     
 
-    
-#### ModelProvider.decorateChildElements()
 
-Decorate all the child {@link HTMLElement}s with extra data attributes
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
+### src/components/ModelProvider.js
 
 
     
+#### new ModelProvider()
 
-    
-#### ModelProvider.getData()
+Wraps a portion of the page model into a Component.
 
-Returns the model data from the page model
-
-
-
-
-
-
-##### Returns
-
-
-- `Promise`  
-
-
-    
-
-
-### src/components/ResponsiveColumnModelProvider.jsx
-
-
-    
-#### new ResponsiveColumnModelProvider()
-
-Model provider specific to the components identified as responsive columns
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ResponsiveColumnModelProvider.decorateChildElement()
-
-
+Fetches content from AEM (using ModelManager) and inject it into the passed React Component.
 
 
 
@@ -437,18 +345,70 @@ Model provider specific to the components identified as responsive columns
     
 
 
-### src/components/ResponsiveGrid.jsx
+### src/components/Page.js
+
+
+    
+#### new Page()
+
+The container for a Page.
+In editing we need to force that this doesn't render a placeholder
+
+It should add data-cq-page-path instead fo data-cq-data-path
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
 
 
     
 
     
-#### new ResponsiveGrid(props)
+#### Page.containerProps()
 
-Container that provides the capabilities of the responsive grid.
+The attributes that will be injected in the root element of the container
 
-Like the Container component, the ResponsiveGrid dynamically resolves and includes child component classes.
-Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that will - on top of providing access to the model - also decorate the rendered elements with class names relative to the layout.
+
+
+
+
+
+##### Returns
+
+
+- `Object`  - the attributes of the container
+
+
+    
+
+    
+#### Page.childPages()
+
+Returns the child pages of a page
+
+
+
+
+
+
+##### Returns
+
+
+- `Array`  
+
+
+    
+
+    
+#### Page.getItemPath(itemKey)
+
+Computes the path of the current item
 
 
 
@@ -457,10 +417,7 @@ Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that wi
 
 | Name | Type | Description |  |
 | ---- | ---- | ----------- | -------- |
-| props | `[object Object]`  | - the provided component properties | &nbsp; |
-| props.cqModel | `[object Object]`  | - the page model configuration object | *Optional* |
-| props.cqModel.gridClassNames | `string`  | - the grid class names as provided by the content services | *Optional* |
-| props.cqModel.classNames | `string`  | - the class names as provided by the content services | *Optional* |
+| itemKey | `String`  | - the key of the item | &nbsp; |
 
 
 
@@ -468,33 +425,19 @@ Instead of using a ModelProvider it uses a ResponsiveColumnModelProvider that wi
 ##### Returns
 
 
-- `Void`
+- `String`  - the computed path
 
 
     
 
-    
-#### ResponsiveGrid.gridClassNames()
 
-Returns the class names of the grid element
-
-
-
-
-
-
-##### Returns
-
-
-- `string` `boolean`  
+### src/components/ResponsiveGrid.js
 
 
     
+#### containerProps()
 
-    
-#### ResponsiveGrid.classNames()
-
-Provides the class names of the grid wrapper
+The attributes that will be injected in the root element of the container
 
 
 
@@ -504,15 +447,15 @@ Provides the class names of the grid wrapper
 ##### Returns
 
 
-- `string`  
+- `Object`  - the attributes of the container
 
 
     
 
     
-#### ResponsiveGrid.placeholder()
+#### placeholderProps()
 
-Returns the content of the responsive grid placeholder
+The properties that will go on the placeholder component root element
 
 
 
@@ -522,17 +465,26 @@ Returns the content of the responsive grid placeholder
 ##### Returns
 
 
-- `[object Object]`  
+- `Object`  - the properties as a map
 
 
     
 
     
-#### ResponsiveGrid.modelProvider()
+#### getItemComponentProps(item, itemKey, itemPath)
+
+Returns the properties to add on a specific child component
 
 
 
 
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| item | `Object`  | The item data | &nbsp; |
+| itemKey | `String`  | The key of the item | &nbsp; |
+| itemPath | `String`  | The path of the item | &nbsp; |
 
 
 
@@ -540,7 +492,7 @@ Returns the content of the responsive grid placeholder
 ##### Returns
 
 
-- `ResponsiveColumnModelProvider`  
+- `Object`  The map of properties to be added
 
 
     
@@ -553,6 +505,24 @@ Returns the content of the responsive grid placeholder
 #### Constants()
 
 Useful variables for interacting with CQ/AEM components
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### DATA_PATH_ATTR()
+
+Name of the data-cq-data-path data attribute
 
 
 
@@ -693,56 +663,6 @@ Hierarchical type of the item
 
     
 
-    
-#### DATA_PATH_PROP()
-
-Path of the resource in the model
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
-### src/EditableComponentComposer.jsx
-
-
-    
-
-    
-#### compose(WrappedComponent, editConfig)
-
-Decorate the given component with properties carried by the editConfig object
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| WrappedComponent | `Component`  | {@link React.Component} to be rendered | &nbsp; |
-| editConfig | `EditConfig`  | Configuration object responsible for carrying the authoring capabilities to decorate the wrapped component | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `CompositePlaceholder`  the wrapping component
-
-
-    
-
 
 ### src/HierarchyConstants.js
 
@@ -802,62 +722,6 @@ Hierarchical page type
     
 
 
-### src/ModelProviderHelper.jsx
-
-
-    
-#### ModelProviderHelper(withModel)
-
-Helper that facilitates the use of the {@link ModelProvider} component
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| withModel | `function`  |  | &nbsp; |
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### withModel(WrappedComponent[, config])
-
-Returns a composite component where a {@link ModelProvider} component wraps the provided component
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| WrappedComponent | `React.Component`  | - component to be wrapped | &nbsp; |
-| config | `[object Object]`  | - configuration object | *Optional* |
-| config.forceReload&#x3D;undefined | `boolean`  | - should the model cache be ignored when processing the component | *Optional* |
-
-
-
-
-##### Returns
-
-
-- `CompositeModelProvider`  - the wrapped component
-
-
-    
-
-
 ### src/Utils.js
 
 
@@ -900,6 +764,25 @@ The editor is in preview mode
     
 
     
+#### isBrowser()
+
+Returns if we are in the browser context or not by checking for the 
+existance of the window object
+
+
+
+
+
+
+##### Returns
+
+
+- `Boolean`  the result of the check of the existance of the window object
+
+
+    
+
+    
 
     
 #### Utils()
@@ -934,6 +817,8 @@ Is the app used in the context of the AEM Page editor
 
 - `boolean`  
 
+
+    
 
     
 

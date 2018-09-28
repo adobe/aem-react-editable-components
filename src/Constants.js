@@ -14,7 +14,6 @@
  * is strictly forbidden unless prior written permission is obtained
  * from Adobe Systems Incorporated.
  */
-
 import {Constants as PMConstants} from '@adobe/cq-spa-page-model-manager';
 
 /**
@@ -23,6 +22,11 @@ import {Constants as PMConstants} from '@adobe/cq-spa-page-model-manager';
  * @namespace Constants
  */
 const Constants = {
+
+    /**
+     * Name of the data-cq-data-path data attribute
+     */
+    DATA_PATH_ATTR: 'data-cq-data-path',
 
     /**
      * Class names associated with a new section component
@@ -69,14 +73,7 @@ const Constants = {
     /**
      * Hierarchical type of the item
      */
-    HIERARCHY_TYPE_PROP: PMConstants.HIERARCHY_TYPE_PROP,
-
-    /**
-     * Path of the resource in the model
-     *
-     * @type {string}
-     */
-    DATA_PATH_PROP: ':dataPath'
+    HIERARCHY_TYPE_PROP: PMConstants.HIERARCHY_TYPE_PROP
 };
 
 export default Constants;

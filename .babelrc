@@ -1,20 +1,16 @@
 {
-  "presets": ["env", "react", "stage-0"],
-  "plugins": [
-    "transform-react-jsx"
-  ],
+  "presets": ["env", "react", "stage-2"],
   "env": {
     "test": {
       "plugins": [[
         "istanbul",
         {
           "include": [
-            "src/**.*"
+            "src"
           ],
           "exclude": [
-            "dist/**.*",
-            "node_modules/**.*",
-            "tests/**.*"
+            "dist",
+            "test"
           ]
         }
       ]]
