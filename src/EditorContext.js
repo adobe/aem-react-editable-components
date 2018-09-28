@@ -21,8 +21,8 @@ import Utils from "./Utils";
 export const EditorContext = React.createContext(Utils.isInEditor());
 
 export const withEditorContext = (Component) => {
-  return (props) => (
-    <EditorContext.Consumer>
+  return function EditorContextComponent(props) {
+    return <EditorContext.Consumer>
        {isInEditor =>  <Component {...props} isInEditor={isInEditor} />}
-    </EditorContext.Consumer>)
+    </EditorContext.Consumer>}
 };

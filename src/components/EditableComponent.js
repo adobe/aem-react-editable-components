@@ -15,8 +15,8 @@
  * from Adobe Systems Incorporated.
  */
 import React, { Component } from 'react';
-import { getEditConfig } from "../ComponentMapping";
 import Constants from "../Constants";
+import isEqual from "react-fast-compare";
 
 /**
  * Class name used to identify the placeholder used to represent an empty component
@@ -30,18 +30,25 @@ const PLACEHOLDER_CLASS_NAME = 'cq-placeholder';
  */
 class EditableComponent extends Component {
 
-    /**
-     * Provides access to the {@link EditConfig} for the current child resource type
-     * @return {*}
-     */
-    get editConfig() {
-        const resourceType = this.props && this.props.cqType;
+    constructor(props) {
+        super(props);
 
-        if(!resourceType) {
-            return;
+        this.state = this.propsToState(props);
+    }
+
+    propsToState(props) {
+        // Keep private properties from being passed as state
+        // eslint-disable-next-line no-unused-vars
+        const { wrappedComponent, containerProps, editConfig, ...state } = props;
+
+        return state;
+
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!isEqual(prevProps, this.props)) {
+            this.setState(this.propsToState(this.props));
         }
-
-        return getEditConfig(resourceType);
     }
 
     /**
@@ -63,12 +70,15 @@ class EditableComponent extends Component {
      * HTMLElement representing the empty placeholder
      * @return {*}
      */
-    get emptyPlaceholder() {
+    get emptyPlaceholderProps() {
         if (!this.useEmptyPlaceholder()) {
             return;
         }
 
-        return <div data-emptytext={this.editConfig.emptyLabel} className={PLACEHOLDER_CLASS_NAME}/>;
+        return {
+            "data-emptytext": this.props.editConfig.emptyLabel,
+            className: PLACEHOLDER_CLASS_NAME
+        };
     }
 
     /**
@@ -77,15 +87,45 @@ class EditableComponent extends Component {
      * @return {boolean}
      */
     useEmptyPlaceholder() {
-        return this.props.isInEditor && this.props.children && this.editConfig && typeof this.editConfig.isEmpty === 'function' && this.editConfig.isEmpty(this.props);
+        return this.props.isInEditor && this.props.editConfig && typeof this.props.editConfig.isEmpty === 'function' && this.props.editConfig.isEmpty(this.props);
     }
 
     render() {
+        let WrappedComponent = this.props.wrappedComponent;
+
         return <div {...this.editProps} {...this.props.containerProps}>
-            {this.props.children}
-            {this.emptyPlaceholder}
+                <WrappedComponent {...this.state}/>
+                <div {...this.emptyPlaceholderProps}/>
             </div>;
     }
 }
 
-export { EditableComponent, PLACEHOLDER_CLASS_NAME };
+/**
+ * Configuration object of the withEditable function
+ *
+ * @typedef {Object} EditConfig
+ * @property {boolean} [emptyLabel] - Label to be displayed on the overlay when the component is empty
+ * @property {function} [isEmpty] - Callback function to determine if the component is empty
+ */
+
+/**
+ * Returns a composition that provides edition capabilities to the component
+ *
+ * @param {React.Component} WrappedComponent
+ * @param {EditConfig} [editConfig]
+ * @return {{new(): CompositeEditableComponent, prototype: CompositeEditableComponent}}
+ */
+function withEditable(WrappedComponent, editConfig) {
+
+    /**
+     * Wrapping Editable Component
+     */
+    return class CompositeEditableComponent extends Component {
+
+        render() {
+            return <EditableComponent {...this.props} editConfig={editConfig} wrappedComponent={WrappedComponent}/>
+        }
+    }
+}
+
+export { withEditable, PLACEHOLDER_CLASS_NAME };

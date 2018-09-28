@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Constants from "../Constants";
 import Utils from "../Utils";
 import { ComponentMapping } from "../ComponentMapping";
-import {EditableComponent} from "./EditableComponent";
 
 const CONTAINER_CLASS_NAMES = "aem-container";
 const PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES;
@@ -83,9 +82,7 @@ export class Container extends Component {
      */
     connectComponentWithItem(ChildComponent, itemProps, itemKey) {
         let itemPath = this.getItemPath(itemKey);
-        return <EditableComponent {...itemProps} key={ itemPath } cqPath={itemPath} isInEditor={this.props.isInEditor} containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}>
-            <ChildComponent {...itemProps} key={ itemPath } cqPath={ itemPath }/>
-        </EditableComponent>
+        return <ChildComponent {...itemProps} key={itemPath} cqPath={itemPath} isInEditor={this.props.isInEditor} containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}/>
     }
 
     /**
@@ -154,10 +151,10 @@ export class Container extends Component {
 
     render() {
         return (
-            <EditableComponent {...this.props} containerProps={this.containerProps}>
+            <div {...this.containerProps}>
                 { this.childComponents }
                 { this.placeholderComponent }
-            </EditableComponent>
+            </div>
         )
     }
 }

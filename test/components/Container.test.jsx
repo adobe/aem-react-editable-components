@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { ComponentMapping } from '../../src/ComponentMapping';
 import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
 import { Container } from '../../src/components/Container';
+import { withEditable } from "../../src/components/EditableComponent";
 
 describe('Container ->', () => {
 
@@ -92,7 +93,7 @@ describe('Container ->', () => {
         });
 
         it('should add a data attribute on the children when in WCM edit mode', () => {
-            ComponentMapping.get.returns(ComponentChild);
+            ComponentMapping.get.returns(withEditable(ComponentChild));
 
             ReactDOM.render(<Container componentMapping={ComponentMapping} isInEditor={true} cqPath={CONTAINER_PATH} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}/>, rootNode);
 

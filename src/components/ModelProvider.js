@@ -17,6 +17,7 @@
 import React, { Component } from "react";
 import { ModelManager } from "@adobe/cq-spa-page-model-manager";
 import Utils from "../Utils";
+import isEqual from "react-fast-compare";
 
 /**
  * Wraps a portion of the page model into a Component.
@@ -28,11 +29,22 @@ export class ModelProvider extends Component {
     constructor(props) {
         super(props);
 
+        this.state = this.propsToState(props);
+    }
+
+    propsToState(props) {
         // Keep private properties from being passed as state
         // eslint-disable-next-line no-unused-vars
-        const { wrappedComponent, cqForceReload, ...localStates } = props;
+        const { wrappedComponent, cqForceReload, ...state } = props;
 
-        this.state = localStates;
+        return state;
+
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!isEqual(prevProps, this.props)) {
+            this.setState(this.propsToState(this.props));
+        }
     }
 
     updateData() {
@@ -52,20 +64,34 @@ export class ModelProvider extends Component {
 
     render() {
         let WrappedComponent = this.props.wrappedComponent;
+
         return (<WrappedComponent {...this.state}/>)
     }
 }
 
-export const withModel = function(WrappedComponent, config) {
+/**
+ * Configuration object of the withModel function
+ *
+ * @typedef {Object} ModelConfig
+ * @property {boolean} [forceReload] - Should the model be refreshed all the time
+ */
+
+/**
+ *
+ * @param WrappedComponent
+ * @param {ModelConfig} modelConfig
+ * @return {{new(): CompositeModelProvider, prototype: CompositeModelProvider}}
+ */
+export const withModel = function(WrappedComponent, modelConfig) {
 
     /**
      * @type CompositeModelProvider
      */
     return class CompositeModelProvider extends Component {
         render() {
-            config = config || {};
+            modelConfig = modelConfig || {};
             // The reload can be forced either via the withModel function property or locally via the tag's property
-            const forceReload = this.props.cqForceReload || config.forceReload;
+            const forceReload = this.props.cqForceReload || modelConfig.forceReload;
             return (<ModelProvider { ...this.props } cqForceReload={forceReload} wrappedComponent={ WrappedComponent }/>)
         }
     }

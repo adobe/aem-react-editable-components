@@ -18,6 +18,7 @@ import React from "react";
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
 import { withModel } from "./components/ModelProvider";
 import { withEditorContext } from "./EditorContext";
+import { withEditable } from "./components/EditableComponent";
 
 /**
  * Wrapped function
@@ -26,32 +27,6 @@ import { withEditorContext } from "./EditorContext";
  * @private
  */
 let wrappedMapFct = ComponentMapping.map;
-
-let editConfigMap = {};
-
-/**
- * Stores the given {@link EditConfig} for the given resource types
- * @param {string[]} resourceTypes
- * @param {EditConfig} editConfig
- */
-function storeEditConfig(resourceTypes, editConfig) {
-    if (editConfig) {
-        if (Array.isArray(resourceTypes)) {
-            resourceTypes.forEach((resourceType) => editConfigMap[resourceType] = editConfig);
-        } else {
-            editConfigMap[resourceTypes] = editConfig;
-        }
-    }
-}
-
-/**
- * Returns the {@link EditConfig} object registered for the given resource type
- * @param {string} resourceType - Resource type the {@link EditConfig} has been registered with
- * @return {*}
- */
-function getEditConfig(resourceType) {
-    return editConfigMap && resourceType && editConfigMap[resourceType];
-}
 
 /**
  * Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
@@ -67,9 +42,7 @@ ComponentMapping.map = function map (resourceTypes, component, editConfig, confi
         config = config || {};
         let innerComponent = component;
 
-        storeEditConfig(resourceTypes, editConfig);
-
-        innerComponent = withEditorContext(withModel(innerComponent, config));
+        innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), config));
 
         wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
         
@@ -85,10 +58,11 @@ function MapTo(resourceTypes) {
 const ComponentMappingContext = React.createContext(ComponentMapping);
 
 const withComponentMappingContext = (Component) => {
-    return (props) => (
-        <ComponentMappingContext.Consumer>
+    return function ComponentMappingContextComponent(props) {
+        return <ComponentMappingContext.Consumer>
             {componentMapping =>  <Component {...props} componentMapping={componentMapping} />}
-        </ComponentMappingContext.Consumer>)
+        </ComponentMappingContext.Consumer>
+    }
 };
 
-export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext, storeEditConfig, getEditConfig};
+export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext};

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ComponentMapping, MapTo, getEditConfig } from '../src/ComponentMapping';
+import { ComponentMapping, MapTo } from '../src/ComponentMapping';
 import { ModelManager } from '@adobe/cq-spa-page-model-manager';
 
 describe('ComponentMapping', () => {
@@ -33,13 +33,6 @@ describe('ComponentMapping', () => {
         let WrappedTestComponent = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
 
         expect(WrappedTestComponent).to.exist;
-    });
-
-    it('should store and retrieve EditConfigs', () => {
-        MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, EditConfig);
-        const StoredEditConfig = getEditConfig(COMPONENT_RESOURCE_TYPE);
-
-        expect(EditConfig).to.deep.equal(StoredEditConfig);
     });
 
 });

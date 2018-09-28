@@ -61,7 +61,8 @@
   },
   "peerDependencies": {
     "@adobe/cq-spa-component-mapping": "~0.0.17-beta.3",
-    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.12"
+    "@adobe/cq-spa-page-model-manager": "~0.0.25-beta.12",
+    "react-fast-compare": "^2.0.2"
   },
   "optionalDependencies": {
     "custom-event-polyfill": "^1.0.6",
@@ -112,6 +113,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-fast-compare": "^2.0.2",
     "react-test-renderer": "^16.2.0",
     "readline-sync": "^1.4.9",
     "sinon": "^4.5.0",
