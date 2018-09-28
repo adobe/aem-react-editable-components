@@ -4,6 +4,7 @@ import { ComponentMapping, ComponentMappingContext, withComponentMappingContext 
 import { ModelManagerService } from '@adobe/cq-spa-page-model-manager';
 import { Page } from '../../src/components/Page';
 import { EditorContext, withEditorContext } from '../../src/EditorContext';
+import { withEditable } from "../../src/components/EditableComponent";
 
 describe('Page ->', () => {
 
@@ -102,8 +103,9 @@ describe('Page ->', () => {
         });
 
         it('should add the expected children with data attributes when in WCM edit mode', () => {
-            ComponentMapping.get.withArgs(COMPONENT_TYPE1).returns(ChildComponent);
-            ComponentMapping.get.withArgs(COMPONENT_TYPE2).returns(ChildComponent);
+            let EditableChildComponent = withEditable(ChildComponent);
+            ComponentMapping.get.withArgs(COMPONENT_TYPE1).returns(EditableChildComponent);
+            ComponentMapping.get.withArgs(COMPONENT_TYPE2).returns(EditableChildComponent);
             ComponentMapping.get.withArgs(PAGE_TYPE1).returns(EditorContextPage);
             ComponentMapping.get.withArgs(PAGE_TYPE2).returns(EditorContextPage);
 

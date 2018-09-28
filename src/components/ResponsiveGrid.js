@@ -37,13 +37,9 @@ export class ResponsiveGrid extends Container {
      */
     getItemComponentProps(item, itemKey, itemPath) {
         let attrs = super.getItemComponentProps(item, itemKey, itemPath);
-        attrs.className = this.props.columnClassNames[itemKey];
 
-        if (!this.props.isInEditor || (item.hasOwnProperty('cqItems') && item.hasOwnProperty('cqItemsOrder'))) {
-            return attrs;
-        }
-
-        attrs['data-cq-data-path'] = itemPath;
+        attrs.className = attrs.className || '';
+        attrs.className += this.props.columnClassNames && this.props.columnClassNames[itemKey] ? ' ' + this.props.columnClassNames[itemKey] : '';
 
         return attrs;
     }

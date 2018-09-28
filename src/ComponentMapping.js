@@ -16,9 +16,9 @@
  */
 import React from "react";
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
-import { withEditConfig } from "./withEditConfig";
 import { withModel } from "./components/ModelProvider";
 import { withEditorContext } from "./EditorContext";
+import { withEditable } from "./components/EditableComponent";
 
 /**
  * Wrapped function
@@ -42,11 +42,7 @@ ComponentMapping.map = function map (resourceTypes, component, editConfig, confi
         config = config || {};
         let innerComponent = component;
 
-        if (editConfig) {
-            innerComponent = withEditConfig(innerComponent, editConfig);
-        }
-
-        innerComponent = withEditorContext(withModel(innerComponent, config));
+        innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), config));
 
         wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
         
@@ -62,10 +58,11 @@ function MapTo(resourceTypes) {
 const ComponentMappingContext = React.createContext(ComponentMapping);
 
 const withComponentMappingContext = (Component) => {
-    return (props) => (
-        <ComponentMappingContext.Consumer>
+    return function ComponentMappingContextComponent(props) {
+        return <ComponentMappingContext.Consumer>
             {componentMapping =>  <Component {...props} componentMapping={componentMapping} />}
-        </ComponentMappingContext.Consumer>)
+        </ComponentMappingContext.Consumer>
+    }
 };
 
 export {ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext};
