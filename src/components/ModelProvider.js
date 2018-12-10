@@ -79,7 +79,7 @@ export class ModelProvider extends Component {
 /**
  *
  * @param WrappedComponent
- * @param {ModelConfig} modelConfig
+ * @param {ModelConfig} [modelConfig]
  */
 export const withModel = function(WrappedComponent, modelConfig) {
 
