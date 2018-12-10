@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { withEditable, PLACEHOLDER_CLASS_NAME } from '../src/components/EditableComponent';
 import Utils from '../src/Utils';
-import { ModelManager } from '@adobe/cq-spa-page-model-manager';
 
 describe('EditableComponent ->', () => {
 
@@ -15,7 +14,7 @@ describe('EditableComponent ->', () => {
     const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
     const DATA_PATH_ATTRIBUTE_SELECTOR = '[data-cq-data-path="' + COMPONENT_PATH + '"]';
 
-    const props = {
+    const CQ_PROPS = {
         "cqType": COMPONENT_RESOURCE_TYPE,
         "cqPath": COMPONENT_PATH
     };
@@ -61,7 +60,7 @@ describe('EditableComponent ->', () => {
 
             let EditableComponent = withEditable(ChildComponent, EDIT_CONFIG);
 
-            ReactDOM.render(<EditableComponent isInEditor={true} {...props}/>, rootNode);
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
             let node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
 
@@ -79,7 +78,7 @@ describe('EditableComponent ->', () => {
 
             let EditableComponent = withEditable(ChildComponent, EDIT_CONFIG);
 
-            ReactDOM.render(<EditableComponent isInEditor={true} {...props}/>, rootNode);
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
             let node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
 
@@ -101,7 +100,7 @@ describe('EditableComponent ->', () => {
 
             let EditableComponent = withEditable(ChildComponent, EDIT_CONFIG);
 
-            ReactDOM.render(<EditableComponent isInEditor={false} {...props}/>, rootNode);
+            ReactDOM.render(<EditableComponent isInEditor={false} {...CQ_PROPS}/>, rootNode);
 
             let node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
 
@@ -122,7 +121,7 @@ describe('EditableComponent ->', () => {
 
             let EditableComponent = withEditable(ChildComponent, EDIT_CONFIG);
 
-            ReactDOM.render(<EditableComponent isInEditor={true} {...props}/>, rootNode);
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
             let node = rootNode.querySelector('.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
 
