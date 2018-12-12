@@ -53,7 +53,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *0.0.31-beta.11*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.0.3*
 
 
 
@@ -884,7 +884,7 @@ The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is al
 
 ## Changelog 
 
-# LATEST
+# 1.0.3 - 28 September 2018
 
 * **BREAKING CHANGE** Refactoring of the Container, ResponsiveGrid and Placeholders to improve extensibility
 * **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed 
