@@ -1,4 +1,8 @@
-# 1.0.3 - 28 September 2018
+### 1.0.4 - 13 December 2018
+
+* Support for latest `cq-spa-page-model-manager` and `cq-spa-component-mapping` API
+
+### 1.0.3 - 28 September 2018
 
 * **BREAKING CHANGE** Refactoring of the Container, ResponsiveGrid and Placeholders to improve extensibility
 * **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed 
