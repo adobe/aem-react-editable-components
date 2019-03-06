@@ -61,7 +61,7 @@
   },
   "peerDependencies": {
     "@adobe/cq-spa-component-mapping": "~1.0.3",
-    "@adobe/cq-spa-page-model-manager": "~1.0.5",
+    "@adobe/cq-spa-page-model-manager": "~1.0.6",
     "react-fast-compare": "^2.0.2"
   },
   "optionalDependencies": {
@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@adobe/cq-spa-component-mapping": "~1.0.3",
-    "@adobe/cq-spa-page-model-manager": "~1.0.5",
+    "@adobe/cq-spa-page-model-manager": "~1.0.6",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
