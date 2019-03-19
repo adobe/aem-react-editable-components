@@ -1,9 +1,9 @@
-import { Container } from './Container';
 import { MapTo, withComponentMappingContext } from '../ComponentMapping';
+import {AllowedComponentsContainer} from "./AllowedComponentsContainer";
 
 const PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
-export class ResponsiveGrid extends Container {
+export class ResponsiveGrid extends AllowedComponentsContainer {
 
     /**
      * The attributes that will be injected in the root element of the container
@@ -44,5 +44,11 @@ export class ResponsiveGrid extends Container {
         return attrs;
     }
 }
+
+ResponsiveGrid.defaultProps = {
+    title: 'Layout Container',
+    // Temporary property until CQ-4265892 is addressed, beware not rely it
+    _allowedComponentPlaceholderListEmptyLabel: 'No allowed components for Layout Container'
+};
 
 MapTo('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid));
