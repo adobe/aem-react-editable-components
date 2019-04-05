@@ -1,6 +1,6 @@
 {
   "name": "@adobe/cq-react-editable-components",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "auto-changelog": {
     "template": "templates/CHANGELOG.hbs"
   },
@@ -8,7 +8,7 @@
     "url": "https://www.adobe.com/go/aem6_4_support_en"
   },
   "engines": {
-    "npm": ">=5.5.1 <6.0.0"
+    "npm": ">=5.5.1"
   },
   "files": [
     "dist/"
@@ -47,9 +47,6 @@
   },
   "author": "Adobe Systems Inc.",
   "license": "Apache-2.0",
-  "publishConfig": {
-    "registry": "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-cq-spa-release-local"
-  },
   "eslintConfig": {
     "parserOptions": {
       "ecmaVersion": 2015,
@@ -61,7 +58,7 @@
   },
   "peerDependencies": {
     "@adobe/cq-spa-component-mapping": "~1.0.3",
-    "@adobe/cq-spa-page-model-manager": "~1.0.5",
+    "@adobe/cq-spa-page-model-manager": "~1.0.7",
     "react-fast-compare": "^2.0.2"
   },
   "optionalDependencies": {
@@ -70,7 +67,7 @@
   },
   "devDependencies": {
     "@adobe/cq-spa-component-mapping": "~1.0.3",
-    "@adobe/cq-spa-page-model-manager": "~1.0.5",
+    "@adobe/cq-spa-page-model-manager": "~1.0.7",
     "ajv": "^5.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",

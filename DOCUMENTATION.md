@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.0.4*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.1.0*
 
 
 
@@ -33,6 +33,48 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 
 
 - `React.Component`  - the resulting decorated Class
+
+
+    
+
+
+### src/components/AllowedComponentsContainer.js
+
+
+    
+#### new AllowedComponentPlaceholder()
+
+Placeholder for one Allowed Component
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+
+    
+#### new AllowedComponentsContainer()
+
+When applicable, the component exposes a list of allowed components
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
 
 
     

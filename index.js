@@ -19,6 +19,7 @@ require('./src/components/ResponsiveGrid');
 
 export { ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext } from './src/ComponentMapping';
 export { Container } from './src/components/Container';
+export { AllowedComponentsContainer } from './src/components/AllowedComponentsContainer';
 export { ResponsiveGrid } from './src/components/ResponsiveGrid';
 export { withEditable } from './src/components/EditableComponent';
 export { EditorContext, withEditorContext } from './src/EditorContext';
