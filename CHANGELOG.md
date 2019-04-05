@@ -1,3 +1,8 @@
+### 1.1.0 - 5 April 2019
+
+* **NEW FEATURE** Template Editor
+  * Give access to the list of Allowed Components from the ResponsiveGrid component
+
 ### 1.0.4 - 13 December 2018
 
 * Support for latest `cq-spa-page-model-manager` and `cq-spa-component-mapping` API
