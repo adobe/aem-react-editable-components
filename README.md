@@ -53,7 +53,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.0.4*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.1.0*
 
 
 
@@ -87,6 +87,48 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 
 
 - `React.Component`  - the resulting decorated Class
+
+
+    
+
+
+### src/components/AllowedComponentsContainer.js
+
+
+    
+#### new AllowedComponentPlaceholder()
+
+Placeholder for one Allowed Component
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+
+    
+#### new AllowedComponentsContainer()
+
+When applicable, the component exposes a list of allowed components
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
 
 
     
@@ -883,6 +925,11 @@ Is the app used in the context of the AEM Page editor
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
 ## Changelog 
+
+### 1.1.0 - 5 April 2019
+
+* **NEW FEATURE** Template Editor
+  * Give access to the list of Allowed Components from the ResponsiveGrid component
 
 ### 1.0.4 - 13 December 2018
 
