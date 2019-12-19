@@ -100,7 +100,7 @@ export class Container extends Component {
     /**
      * Computes the path of the current item
      *
-     * @param   {String} itemKey - the key of the item 
+     * @param   {String} itemKey - the key of the item
      * @returns {String} - the computed path
      */
     getItemPath(itemKey) {
@@ -143,7 +143,7 @@ export class Container extends Component {
      */
     get placeholderComponent() {
         if (!this.props.isInEditor) {
-            return;
+            return null;
         }
 
         return <ContainerPlaceholder { ...this.placeholderProps }/>

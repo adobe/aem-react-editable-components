@@ -1,3 +1,8 @@
+### 1.2.0 - 19 December 2019
+
+* Make `react-fast-compare` a dependency instead of a peer dependency
+* Remove optional dependencies
+
 ### 1.1.0 - 5 April 2019
 
 * **NEW FEATURE** Template Editor
@@ -10,7 +15,7 @@
 ### 1.0.3 - 28 September 2018
 
 * **BREAKING CHANGE** Refactoring of the Container, ResponsiveGrid and Placeholders to improve extensibility
-* **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed 
+* **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed
 * Support for latest `cq-spa-page-model-manager` API
 * **BREAKING CHANGE** 'dragDropName' support removed for EditConfig in ComponentMapping
 
@@ -23,7 +28,7 @@
   * `cq_model_data_path` => `cqModelDataPath`
 * Responsive grid placeholder not displayed when entering the editor via the preview model
 * Change routing method to support History API by default (hash routing support has been removed)
- 
+
 * **BREAKING CHANGE** ModelProvider `props` renamed:
   * `data_path` => `dataPath`
   * `page_path` => `pagePath`
@@ -39,7 +44,7 @@ Public release of `cq-spa-page-model-manager`, which provides:
 ### 0.0.28 - 20 April 2018
 
 Initial public release of cq-react-editable-components. Including:
-* `@adobe/cq-spa-component-mapping#0.0.15` 
+* `@adobe/cq-spa-component-mapping#0.0.15`
 * `@adobe/cq-spa-page-model-manager#0.0.22`.
 * Updated Base React Components with support for multiple pages:
   * `Container` supports page and items inclusion
