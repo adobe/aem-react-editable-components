@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.1.0*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.2.0*
 
 
 
@@ -34,6 +34,331 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 
 - `React.Component`  - the resulting decorated Class
 
+
+    
+
+
+### src/Constants.js
+
+
+    
+#### Constants()
+
+Useful variables for interacting with CQ/AEM components
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### DATA_PATH_ATTR()
+
+Name of the data-cq-data-path data attribute
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### NEW_SECTION_CLASS_NAMES()
+
+Class names associated with a new section component
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### TYPE_PROP()
+
+Type of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### ITEMS_PROP()
+
+List of child items of an item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### ITEMS_ORDER_PROP()
+
+Order in which the items should be listed
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### PATH_PROP()
+
+Path of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### CHILDREN_PROP()
+
+Children of an item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### HIERARCHY_TYPE_PROP()
+
+Hierarchical type of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+
+### src/HierarchyConstants.js
+
+
+    
+#### HierarchyConstants()
+
+Hierarchical types
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### hierarchyType()
+
+Type of hierarchy
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### page()
+
+Hierarchical page type
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+
+### src/Utils.js
+
+
+    
+
+    
+#### EDIT_MODE()
+
+The editor is in one of the edition modes
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### PREVIEW_MODE()
+
+The editor is in preview mode
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### isBrowser()
+
+Returns if we are in the browser context or not by checking for the 
+existance of the window object
+
+
+
+
+
+
+##### Returns
+
+
+- `Boolean`  the result of the check of the existance of the window object
+
+
+    
+
+    
+
+    
+#### Utils()
+
+Helper functions for interacting with the AEM environment
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### isInEditor()
+
+Is the app used in the context of the AEM Page editor
+
+
+
+
+
+
+##### Returns
+
+
+- `boolean`  
+
+
+    
 
     
 
@@ -536,331 +861,6 @@ Returns the properties to add on a specific child component
 
 - `Object`  The map of properties to be added
 
-
-    
-
-
-### src/Constants.js
-
-
-    
-#### Constants()
-
-Useful variables for interacting with CQ/AEM components
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### DATA_PATH_ATTR()
-
-Name of the data-cq-data-path data attribute
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### NEW_SECTION_CLASS_NAMES()
-
-Class names associated with a new section component
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### TYPE_PROP()
-
-Type of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ITEMS_PROP()
-
-List of child items of an item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ITEMS_ORDER_PROP()
-
-Order in which the items should be listed
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### PATH_PROP()
-
-Path of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### CHILDREN_PROP()
-
-Children of an item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### HIERARCHY_TYPE_PROP()
-
-Hierarchical type of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
-### src/HierarchyConstants.js
-
-
-    
-#### HierarchyConstants()
-
-Hierarchical types
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### hierarchyType()
-
-Type of hierarchy
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### page()
-
-Hierarchical page type
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
-### src/Utils.js
-
-
-    
-
-    
-#### EDIT_MODE()
-
-The editor is in one of the edition modes
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### PREVIEW_MODE()
-
-The editor is in preview mode
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### isBrowser()
-
-Returns if we are in the browser context or not by checking for the 
-existance of the window object
-
-
-
-
-
-
-##### Returns
-
-
-- `Boolean`  the result of the check of the existance of the window object
-
-
-    
-
-    
-
-    
-#### Utils()
-
-Helper functions for interacting with the AEM environment
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### isInEditor()
-
-Is the app used in the context of the AEM Page editor
-
-
-
-
-
-
-##### Returns
-
-
-- `boolean`  
-
-
-    
 
     
 
