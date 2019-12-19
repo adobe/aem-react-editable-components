@@ -27,7 +27,8 @@
   },
   "rules": {
     "no-console": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "react/prop-types": "off"
   },
   "extends": [
     "eslint:recommended",

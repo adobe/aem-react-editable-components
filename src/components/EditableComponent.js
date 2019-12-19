@@ -72,7 +72,7 @@ class EditableComponent extends Component {
      */
     get emptyPlaceholderProps() {
         if (!this.useEmptyPlaceholder()) {
-            return;
+            return null;
         }
 
         return {
