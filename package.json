@@ -38,6 +38,7 @@
     "test:debug": "npm run build && cross-env NODE_ENV=test karma start --browsers=Chrome_with_debugging",
     "build": "npm run linter && webpack",
     "build:production": "npm run linter && webpack --mode=production",
+    "build:types": "tsc -p tsconfig.build.types.json",
     "docs": "jsdoc -c ./jsdoc_conf.json && doxdox \"src/**/*.+(js|jsx)\" --layout templates/DOCUMENTATION.hbs --output DOCUMENTATION.md",
     "readme": "node node_modules/markdown-include/bin/cli.js markdown-include.config.json",
     "docs-readme": "npm run docs && npm run readme",
@@ -98,6 +99,7 @@
     "react-dom": "^16.12.0",
     "sinon": "^7.5.0",
     "sinon-chai": "^3.3.0",
+    "typescript": "^3.8.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
