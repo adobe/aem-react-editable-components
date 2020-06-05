@@ -53,43 +53,8 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.2.0*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.2.1*
 
-
-
-### src/ComponentMapping.js
-
-
-    
-
-    
-#### ComponentMapping.map(resourceTypes, component[, editConfig, config])
-
-Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
-
-
-
-
-##### Parameters
-
-| Name | Type | Description |  |
-| ---- | ---- | ----------- | -------- |
-| resourceTypes | `Array.<string>`  | - list of resource types for which to use the given <i>clazz</i> | &nbsp; |
-| component | `React.Component`  | - class to be instantiated for the given resource types | &nbsp; |
-| editConfig | `EditConfig`  | - configuration object for enabling the edition capabilities | *Optional* |
-| config | `[object Object]`  | - general configuration object | *Optional* |
-| config.forceReload&#x3D;undefined | `boolean`  | - should the model cache be ignored when processing the component | *Optional* |
-
-
-
-
-##### Returns
-
-
-- `React.Component`  - the resulting decorated Class
-
-
-    
 
 
 ### src/Constants.js
@@ -253,6 +218,41 @@ Hierarchical type of the item
 
 
 - `Void`
+
+
+    
+
+
+### src/ComponentMapping.js
+
+
+    
+
+    
+#### ComponentMapping.map(resourceTypes, component[, editConfig, config])
+
+Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
+
+
+
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+| resourceTypes | `Array.<string>`  | - list of resource types for which to use the given <i>clazz</i> | &nbsp; |
+| component | `React.Component`  | - class to be instantiated for the given resource types | &nbsp; |
+| editConfig | `EditConfig`  | - configuration object for enabling the edition capabilities | *Optional* |
+| config | `[object Object]`  | - general configuration object | *Optional* |
+| config.forceReload&#x3D;undefined | `boolean`  | - should the model cache be ignored when processing the component | *Optional* |
+
+
+
+
+##### Returns
+
+
+- `React.Component`  - the resulting decorated Class
 
 
     
@@ -925,6 +925,9 @@ Returns the properties to add on a specific child component
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
 ## Changelog 
+
+### 1.2.1 - 5 June 2020
+* Update to latest `cq-spa-page-model-manager`
 
 ### 1.2.0 - 19 December 2019
 

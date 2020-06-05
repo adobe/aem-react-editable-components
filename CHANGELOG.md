@@ -1,3 +1,6 @@
+### 1.2.1 - 5 June 2020
+* Update to latest `cq-spa-page-model-manager`
+
 ### 1.2.0 - 19 December 2019
 
 * Make `react-fast-compare` a dependency instead of a peer dependency
