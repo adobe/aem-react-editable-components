@@ -91,7 +91,7 @@ const Utils = {
 
         if (!item) {
             return {};
-        };
+        }
 
         let keys = Object.getOwnPropertyNames(item);
         let props = {};
