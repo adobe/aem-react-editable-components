@@ -88,6 +88,11 @@ const Utils = {
      * @returns {Object} the transformed data
      */
     modelToProps(item) {
+
+        if (!item) {
+            return {};
+        };
+
         let keys = Object.getOwnPropertyNames(item);
         let props = {};
 
