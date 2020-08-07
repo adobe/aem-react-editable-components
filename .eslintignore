@@ -1,0 +1,4 @@
+karma.conf.js
+webpack.config.js
+dist/
+coverage/

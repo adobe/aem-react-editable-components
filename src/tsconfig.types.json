@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+        "module": "es2015",
+        "target": "esnext",
+        "importHelpers": true,
+        "removeComments": false,
+        "declaration": true,
+        "declarationMap": true,
+        "declarationDir": "../dist",
+        "emitDeclarationOnly": true
+    },
+    "exclude": [
+        "./internal/umd.ts"
+    ]
+}

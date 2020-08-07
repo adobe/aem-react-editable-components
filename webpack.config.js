@@ -1,11 +1,11 @@
 var path = require('path');
-
-var isEnvironmentTest = process.env.NODE_ENV === 'test';
 var nodeExternals = require('webpack-node-externals');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const isEnvironmentTest = process.env.NODE_ENV === 'test';
+
 module.exports = {
-    entry: './index.js',
+    entry: './src/cq-react-editable-components.ts',
     mode: 'development',
     devtool: 'source-map',
     output: {
@@ -18,31 +18,22 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$|\.jsx$/,
+                test: /\.ts$|\.tsx$/,
                 exclude: /(node_modules|dist)/,
-                use: 'babel-loader',
+                use: 'ts-loader',
                 enforce: 'post',
-            }].concat(isEnvironmentTest ?
-            {
-                test: /\.js$|\.jsx$/,
-                include: path.resolve(__dirname, 'src'),
-                use: {
-                    loader: 'istanbul-instrumenter-loader',
-                    options: {
-                        esModules: true,
-                        presets: ["env", "react", "stage-2"]
-                    }
-                },
-                enforce: 'post'
-            } : [])
+            }
+        ]
     },
-    externals: [!isEnvironmentTest ? nodeExternals({
-        modulesFromFile: {
-            exclude: ['dependencies']
-        }
-    }) : ''],
+    externals: [
+        isEnvironmentTest ? '' : nodeExternals({
+            modulesFromFile: {
+                exclude: ['dependencies']
+            }
+        })
+    ],
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.ts', '.tsx']
     },
     plugins: [
         new CleanWebpackPlugin()
