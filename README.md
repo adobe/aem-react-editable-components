@@ -5,6 +5,8 @@
   * [API](#api)
   * [Documentation](#documentation)
   * [Changelog](#changelog)
+  * [Contributing](#contributing)
+  * [Licensing](#licensing)
 
 
 ## Installation
@@ -981,3 +983,10 @@ Initial public release of cq-react-editable-components. Including:
   * `Container` supports page and items inclusion
   * `ModelProvider` generates `data-cq-page-path` and `data-cq-data-path` attributes (previously: `data-cq-content-path`) respectively from the `cq_model_data_path` and `cq_model_page_path` properties (previously: `cq_model_path`)
 
+### Contributing !heading
+
+Contributions are welcomed! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
+
+### Licensing !heading
+
+This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.

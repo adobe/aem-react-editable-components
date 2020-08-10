@@ -1,83 +1,51 @@
-# spa-react-editable-components
-React components that provide the base authoring capabilities when used in conjunction with the page editor.
+# Contributing
 
+Thanks for choosing to contribute!
 
-## Artifactory setup
+The following are a set of guidelines to follow when contributing to this project.
 
-- Generate / get API key
-  - using adobenet credentials log in at https://artifactory.corp.adobe.com/artifactory/webapp/#/profile
-  - authorize yourself once more if additional options are locked
-  - in authentication settings section generate new API key (if it was not yet generated)
-  - copy key to clipboard
-  
-- Generate registry information
-```sh
-$ scope=adobe
-$ repository=cq-spa
-$ user=username # use your adobenet login here!
-$ key=$(pbpaste)
-$ curl -u "$user:$key" "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-${repository}-release/auth/${scope}"
-```
+## Code Of Conduct
 
-You should get output similar to:
-```
-@adobe:registry=https://artifactory.corp.adobe.com:443/artifactory/api/npm/npm-cq-spa-release/
-//artifactory.corp.adobe.com:443/artifactory/api/npm/npm-cq-spa-release/:_password=(...)
-//artifactory.corp.adobe.com:443/artifactory/api/npm/npm-cq-spa-release/:username=(username)
-//artifactory.corp.adobe.com:443/artifactory/api/npm/npm-cq-spa-release/:email=(username)@adobe.com
-//aortifactory.corp.adobe.com:443/artifactory/api/npm/npm-cq-spa-release/:always-auth=true
-```
+This project adheres to the Adobe [code of conduct](../CODE_OF_CONDUCT.md). By participating,
+you are expected to uphold this code. Please report unacceptable behavior to
+[Grp-opensourceoffice@adobe.com](mailto:Grp-opensourceoffice@adobe.com).
 
-If everything looks correct you should add given output to global npm configuration `~/.npmrc` (or to `.npmrc` in the root of the project)
-```sh
-$ curl -u "$user:$key" "https://artifactory.corp.adobe.com/artifactory/api/npm/npm-${repository}-release/auth/${scope}" >> ~/.npmrc
-```
+## Have A Question?
 
-Note that `npm-cq-spa-release` is a virtual repository that aggregates both the local private repository `npm-cq-spa-release-local` and the npm public repository https://registry.npmjs.org (see https://www.npmjs.com/search?q=cq-spa)
+Start by filing an issue. The existing committers on this project work to reach
+consensus around project direction and issue solutions within issue threads
+(when appropriate).
 
+## Contributor License Agreement
 
-## Development
+All third-party contributions to this project must be accompanied by a signed contributor
+license agreement. This gives Adobe permission to redistribute your contributions
+as part of the project. [Sign our CLA](https://opensource.adobe.com/cla.html). You
+only need to submit an Adobe CLA one time, so if you have submitted one previously,
+you are good to go!
 
-Run `npm install` to get all node_modules that are necessary for development.
+## Code Reviews
 
-### Build
+All submissions should come in the form of pull requests and need to be reviewed
+by project committers. Read [GitHub's pull request documentation](https://help.github.com/articles/about-pull-requests/)
+for more information on sending pull requests.
 
-```sh
-$ npm run build
-```
-or
-```sh
-$ npm run build:production
-```
+Lastly, please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when
+submitting a pull request!
 
-### Watch to rebuild
+## From Contributor To Committer
 
-```sh
-$ npm run build -- --watch
-```
+We love contributions from our community! If you'd like to go a step beyond contributor
+and become a committer with full write access and a say in the project, you must
+be invited to the project. The existing committers employ an internal nomination
+process that must reach lazy consensus (silence is approval) before invitations
+are issued. If you feel you are qualified and want to get more deeply involved,
+feel free to reach out to existing committers to have a conversation about that.
 
-### Test
+## Security Issues
 
-```sh
-$ npm run test
-```
-or
-```sh
-$ npm run test:debug
-```
+Security issues shouldn't be reported on this issue tracker. Instead, [file an issue to our security experts](https://helpx.adobe.com/security/alertus.html).
 
-### Generate docs
+## Developer Guidelines
 
-```sh
-$ npm run docs
-```
-The documents will be generated in the `/out` folder
-
-### Generate Changelog
-```sh
-$ auto-changelog
-```
-
-### Links and transitive dependencies
-
-See the related [wiki page](https://wiki.corp.adobe.com/display/WEM/SPA+-+Working+with+NPM+modules+that+have+a+transitive+dependency)
+* [Developer Guidelines](DEV_GUIDELINES.md)

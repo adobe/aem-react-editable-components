@@ -52,3 +52,11 @@ The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is al
 ## Changelog !heading 
 
 #include "CHANGELOG.md"
+
+### Contributing !heading
+
+Contributions are welcomed! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
+
+### Licensing !heading
+
+This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.
