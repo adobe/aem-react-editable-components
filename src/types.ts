@@ -13,7 +13,7 @@
 export { ComponentMapping, ComponentMappingContext, MapTo, withComponentMappingContext } from './ComponentMapping';
 export { AllowedComponentsContainer } from './components/allowedcomponents/AllowedComponentsContainer';
 export { Container } from './components/Container';
-export { withEditable } from './components/EditableComponent';
+export * from './components/EditableComponent';
 export { ModelProvider, withModel } from './components/ModelProvider';
 export { Page } from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';
