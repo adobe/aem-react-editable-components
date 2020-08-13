@@ -92,6 +92,7 @@
     "inject-loader": "2.0.1",
     "istanbul": "^0.4.5",
     "istanbul-instrumenter-loader": "^3.0.1",
+<<<<<<< Updated upstream
     "jsdoc": "^3.5.5",
     "json-loader": "^0.5.7",
     "karma": "^0.13.22",
@@ -117,6 +118,27 @@
     "sinon-chai": "^2.14.0",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
+=======
+    "jest": "^26.1.0",
+    "jest-environment-jsdom-fourteen": "^1.0.1",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-resolve": "^26.1.0",
+    "jest-watch-typeahead": "^0.6.0",
+    "jsdoc": "^3.6.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "ts-jest": "^26.1.1",
+    "ts-loader": "^8.0.2",
+    "ts-mockito": "^2.6.1",
+    "tslint": "^6.1.2",
+    "tslint-etc": "^1.11.1",
+    "tslint-no-toplevel-property-access": "0.0.2",
+    "tslint-no-unused-expression-chai": "^0.1.4",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+>>>>>>> Stashed changes
     "webpack-node-externals": "^1.7.2"
   }
 }
