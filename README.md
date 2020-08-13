@@ -5,6 +5,8 @@
   * [API](#api)
   * [Documentation](#documentation)
   * [Changelog](#changelog)
+  * [Contributing](#contributing)
+  * [Licensing](#licensing)
 
 
 ## Installation
@@ -53,8 +55,174 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.1.0*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.2.1*
 
+
+
+### src/Constants.js
+
+
+    
+#### Constants()
+
+Useful variables for interacting with CQ/AEM components
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### DATA_PATH_ATTR()
+
+Name of the data-cq-data-path data attribute
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### NEW_SECTION_CLASS_NAMES()
+
+Class names associated with a new section component
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### TYPE_PROP()
+
+Type of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### ITEMS_PROP()
+
+List of child items of an item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### ITEMS_ORDER_PROP()
+
+Order in which the items should be listed
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### PATH_PROP()
+
+Path of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### CHILDREN_PROP()
+
+Children of an item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### HIERARCHY_TYPE_PROP()
+
+Hierarchical type of the item
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
 
 
 ### src/ComponentMapping.js
@@ -88,6 +256,165 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 
 - `React.Component`  - the resulting decorated Class
 
+
+    
+
+
+### src/HierarchyConstants.js
+
+
+    
+#### HierarchyConstants()
+
+Hierarchical types
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### hierarchyType()
+
+Type of hierarchy
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### page()
+
+Hierarchical page type
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+
+### src/Utils.js
+
+
+    
+
+    
+#### EDIT_MODE()
+
+The editor is in one of the edition modes
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### PREVIEW_MODE()
+
+The editor is in preview mode
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### isBrowser()
+
+Returns if we are in the browser context or not by checking for the 
+existance of the window object
+
+
+
+
+
+
+##### Returns
+
+
+- `Boolean`  the result of the check of the existance of the window object
+
+
+    
+
+    
+
+    
+#### Utils()
+
+Helper functions for interacting with the AEM environment
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+    
+#### isInEditor()
+
+Is the app used in the context of the AEM Page editor
+
+
+
+
+
+
+##### Returns
+
+
+- `boolean`  
+
+
+    
 
     
 
@@ -594,337 +921,20 @@ Returns the properties to add on a specific child component
     
 
 
-### src/Constants.js
-
-
-    
-#### Constants()
-
-Useful variables for interacting with CQ/AEM components
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### DATA_PATH_ATTR()
-
-Name of the data-cq-data-path data attribute
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### NEW_SECTION_CLASS_NAMES()
-
-Class names associated with a new section component
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### TYPE_PROP()
-
-Type of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ITEMS_PROP()
-
-List of child items of an item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### ITEMS_ORDER_PROP()
-
-Order in which the items should be listed
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### PATH_PROP()
-
-Path of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### CHILDREN_PROP()
-
-Children of an item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### HIERARCHY_TYPE_PROP()
-
-Hierarchical type of the item
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
-### src/HierarchyConstants.js
-
-
-    
-#### HierarchyConstants()
-
-Hierarchical types
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### hierarchyType()
-
-Type of hierarchy
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### page()
-
-Hierarchical page type
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
-### src/Utils.js
-
-
-    
-
-    
-#### EDIT_MODE()
-
-The editor is in one of the edition modes
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### PREVIEW_MODE()
-
-The editor is in preview mode
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### isBrowser()
-
-Returns if we are in the browser context or not by checking for the 
-existance of the window object
-
-
-
-
-
-
-##### Returns
-
-
-- `Boolean`  the result of the check of the existance of the window object
-
-
-    
-
-    
-
-    
-#### Utils()
-
-Helper functions for interacting with the AEM environment
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-    
-#### isInEditor()
-
-Is the app used in the context of the AEM Page editor
-
-
-
-
-
-
-##### Returns
-
-
-- `boolean`  
-
-
-    
-
-    
-
-
 
 ## Documentation 
 
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
 ## Changelog 
+
+### 1.2.1 - 5 June 2020
+* Update to latest `cq-spa-page-model-manager`
+
+### 1.2.0 - 19 December 2019
+
+* Make `react-fast-compare` a dependency instead of a peer dependency
+* Remove optional dependencies
 
 ### 1.1.0 - 5 April 2019
 
@@ -938,7 +948,7 @@ The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is al
 ### 1.0.3 - 28 September 2018
 
 * **BREAKING CHANGE** Refactoring of the Container, ResponsiveGrid and Placeholders to improve extensibility
-* **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed 
+* **BREAKING CHANGE** Relocation of the columnClassNames field from the ResponsiveColumn to the ResponsiveGrid to respect the latest model representation, the field type changed
 * Support for latest `cq-spa-page-model-manager` API
 * **BREAKING CHANGE** 'dragDropName' support removed for EditConfig in ComponentMapping
 
@@ -951,7 +961,7 @@ The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is al
   * `cq_model_data_path` => `cqModelDataPath`
 * Responsive grid placeholder not displayed when entering the editor via the preview model
 * Change routing method to support History API by default (hash routing support has been removed)
- 
+
 * **BREAKING CHANGE** ModelProvider `props` renamed:
   * `data_path` => `dataPath`
   * `page_path` => `pagePath`
@@ -967,9 +977,16 @@ Public release of `cq-spa-page-model-manager`, which provides:
 ### 0.0.28 - 20 April 2018
 
 Initial public release of cq-react-editable-components. Including:
-* `@adobe/cq-spa-component-mapping#0.0.15` 
+* `@adobe/cq-spa-component-mapping#0.0.15`
 * `@adobe/cq-spa-page-model-manager#0.0.22`.
 * Updated Base React Components with support for multiple pages:
   * `Container` supports page and items inclusion
   * `ModelProvider` generates `data-cq-page-path` and `data-cq-data-path` attributes (previously: `data-cq-content-path`) respectively from the `cq_model_data_path` and `cq_model_page_path` properties (previously: `cq_model_path`)
 
+### Contributing !heading
+
+Contributions are welcomed! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
+
+### Licensing !heading
+
+This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.

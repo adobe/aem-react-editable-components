@@ -1,0 +1,38 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "globals": {
+    "CustomEvent": true,
+    "console": true,
+    "document": true,
+    "fetch": true,
+    "history": true,
+    "Promise": true,
+    "window": true,
+    "XMLHttpRequest": true,
+    "module": true,
+    "__dirname": true,
+    "require": true,
+    "arguments": true
+  },
+  "plugins": [
+    "eslint-plugin-react"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "no-console": "off",
+    "no-unused-vars": 0,
+    "@typescript-eslint/ban-ts-comment": 1,
+    "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/no-unused-vars": [ 1, { "varsIgnorePattern": "^_" } ],
+    "@typescript-eslint/no-explicit-any": 0,
+    "react/jsx-uses-vars": 2,
+    "no-prototype-builtins": 0
+  }
+}

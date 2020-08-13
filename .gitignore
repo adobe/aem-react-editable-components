@@ -1,3 +1,4 @@
+*.tsbuildinfo
 .idea
 *.iml
 .DS_Store

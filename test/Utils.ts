@@ -18,7 +18,7 @@ function matches(el, selector) {
  */
 function observe(verify, callback) {
     return function (mutationsList) {
-        for (let mutation of mutationsList) {
+        for (const mutation of mutationsList) {
             if (verify(mutation)) {
                 callback && callback();
                 break;
@@ -37,10 +37,10 @@ function observe(verify, callback) {
  */
 function observeProcess(process, verify, callback) {
     return function (mutationsList) {
-        let result = {};
+        const result = {};
 
-        for (let mutation of mutationsList) {
-            process(mutation,result);
+        for (const mutation of mutationsList) {
+            process(mutation, result);
         }
 
         verify(result);
@@ -58,15 +58,17 @@ function extractDataAttributeName(attributeName) {
     if (!attributeName) {
         return;
     }
+
     // Transforms the dash separated name into a camel case variable name
-    let tokens = attributeName.split("-");
+    const tokens = attributeName.split("-");
+
     // get rid of the data token
     if (attributeName.startsWith('data-')) {
         tokens.shift();
     }
 
     for (let i = 1, length = tokens.length; i < length; i++) {
-        let token = tokens[i];
+        const token = tokens[i];
         tokens[i] = token.substr(0, 1).toUpperCase() + token.substr(1);
     }
 
@@ -93,30 +95,32 @@ export function getVerifyObserver(verify, callback) {
  * @returns {MutationObserver}
  */
 export function getDataAttributesObserver(attributes, selector, callback) {
-    return new MutationObserver(observeProcess(
-        function (mutation, resultMap) {
-            resultMap = resultMap || {};
+    const process = function (mutation, resultMap) {
+        resultMap = resultMap || {};
 
-            if (mutation.type !== 'attributes') {
-                return;
-            }
+        if (mutation.type !== 'attributes') {
+            return;
+        }
 
-            for (let attributeName in attributes) {
-                if (mutation.attributeName === attributeName) {
-                    if (!selector || matches(mutation.target, selector)) {
-                        if (attributes.hasOwnProperty(attributeName)) {
-                            const dataAttributeName = extractDataAttributeName(attributeName);
-                            resultMap[attributeName] = mutation.target.dataset[dataAttributeName];
-                        }
+        for (const attributeName in attributes) {
+            if (mutation.attributeName === attributeName) {
+                if (!selector || matches(mutation.target, selector)) {
+                    if (attributes.hasOwnProperty(attributeName)) {
+                        const dataAttributeName = extractDataAttributeName(attributeName);
+                        resultMap[attributeName] = mutation.target.dataset[dataAttributeName];
                     }
                 }
             }
-        },
-        function (resultMap) {
-            for (let attributeName in attributes) {
-                if (attributes.hasOwnProperty(attributeName)) {
-                    expect(resultMap[attributeName]).to.equal(attributes[attributeName]);
-                }
+        }
+    };
+
+    const verify = function (resultMap) {
+        for (const attributeName in attributes) {
+            if (attributes.hasOwnProperty(attributeName)) {
+                expect(resultMap[attributeName]).to.equal(attributes[attributeName]);
             }
-        }, callback));
+        }
+    };
+
+    return new MutationObserver(observeProcess(process, verify, callback));
 }

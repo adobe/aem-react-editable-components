@@ -1,13 +1,24 @@
-import {withEditable} from "../../src/components/EditableComponent";
-import ReactDOM from "react-dom";
-import React, {Component} from "react";
-import Utils from "../../src/Utils";
-import {withModel} from "../../src/components/ModelProvider";
-import {withEditorContext} from "../../src/EditorContext";
-import {ModelManager} from "@adobe/cq-spa-page-model-manager";
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+import { ModelManager } from '@adobe/cq-spa-page-model-manager';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { withEditable } from '../../src/components/EditableComponent';
+import { withModel } from '../../src/components/ModelProvider';
+import { withEditorContext } from '../../src/EditorContext';
+import Utils from '../../src/Utils';
 
 describe('Composition and attribute propagation ->', () => {
-
     const ROOT_CLASS_NAME = 'root-class';
     const COMPONENT_RESOURCE_TYPE = '/component/resource/type';
     const COMPONENT_PATH = '/path/to/component';
@@ -15,11 +26,16 @@ describe('Composition and attribute propagation ->', () => {
     const DATA_ATTR_TO_PROPS = 'data-attr-to-props';
 
     const CQ_PROPS = {
-        "cqType": COMPONENT_RESOURCE_TYPE,
-        "cqPath": COMPONENT_PATH
+        'cqType': COMPONENT_RESOURCE_TYPE,
+        'cqPath': COMPONENT_PATH
     };
 
-    class ChildComponent extends Component {
+    interface DummyProps{
+        attrToProps: string;
+        id: string;
+    }
+
+    class ChildComponent extends Component<DummyProps> {
         render() {
             const attr = {
                 [DATA_ATTR_TO_PROPS]: this.props.attrToProps
@@ -29,22 +45,24 @@ describe('Composition and attribute propagation ->', () => {
         }
     }
 
-    let rootNode;
-
-    let sandbox = sinon.createSandbox();
+    let rootNode: any;
+    let isInEditorSpy: jest.SpyInstance;
+    let addListenerSpy: jest.SpyInstance;
+    let getDataSpy: jest.SpyInstance;
 
     beforeEach(() => {
         rootNode = document.createElement('div');
         rootNode.className = ROOT_CLASS_NAME;
         document.body.appendChild(rootNode);
-
-        sandbox.stub(Utils, 'isInEditor');
-        sandbox.stub(ModelManager, 'addListener');
-        sandbox.stub(ModelManager, 'getData');
+        isInEditorSpy = jest.spyOn(Utils, 'isInEditor').mockReturnValue(false);
+        addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
+        getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
     });
 
     afterEach(() => {
-        sandbox.restore();
+        isInEditorSpy.mockRestore();
+        addListenerSpy.mockRestore();
+        getDataSpy.mockRestore();
 
         if (rootNode) {
             document.body.appendChild(rootNode);
@@ -57,21 +75,20 @@ describe('Composition and attribute propagation ->', () => {
      *
      * @param CompositeComponent
      */
-    function testCompositionAttributePropagation(CompositeComponent) {
+    function testCompositionAttributePropagation(CompositeComponent: any) {
         ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={true}/>, rootNode);
 
         let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
 
-        expect(node).to.exist;
-        expect(node.dataset.attrToProps).to.equal('true');
+        expect(node).toBeDefined();
+        expect(node.dataset.attrToProps).toEqual('true');
 
         // Update the component with new properties
         ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={false}/>, rootNode);
 
         node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
-
-        expect(node).to.exist;
-        expect(node.dataset.attrToProps).to.equal('false');
+        expect(node).toBeDefined();
+        expect(node.dataset.attrToProps).toEqual('false');
     }
 
     describe('withEditable ->', () => {

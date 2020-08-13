@@ -1,0 +1,12 @@
+
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,
+        "baseUrl": ".",
+        "paths": {
+            "@adobe/cq-react-editable-components": [ "./" ],
+            "@adobe/cq-react-editable-components/*": [ "./*" ]
+        }
+    }
+}
