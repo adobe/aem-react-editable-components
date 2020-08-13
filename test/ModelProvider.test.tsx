@@ -153,5 +153,50 @@ describe('ModelProvider ->', () => {
 
             expect(childNode).toBeDefined();
         });
+
+        it('should render a subpage properly when page path is provided', () => {
+
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+            expect(childNode).toBeDefined();
+        });
+
+        it('should render components properly when component cqPath is provided', () => {
+
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+            expect(childNode).toBeDefined();
+        });
+
+        it('should render components properly when containing page path and path to item is provided', () => {
+
+            const PAGE_PATH = '/page/subpage';
+            const ITEM_PATH = 'root/paragraph';
+
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel pagePath={PAGE_PATH} itemPath={ITEM_PATH}></DummyWithModel>, rootNode);
+
+            expect(getDataSpy).toHaveBeenCalledWith({
+              path: `${PAGE_PATH}/jcr:content/${ITEM_PATH}`,
+              forceReload: false
+            });
+
+            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+            expect(childNode).toBeDefined();
+        });
     });
 });

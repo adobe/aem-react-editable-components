@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import { normalize as normalizePath } from 'path';
 import { Model, ModelManager } from '@adobe/cq-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
@@ -23,12 +24,20 @@ export interface ReloadableModelProperties {
     /**
      * Should the model be refreshed all the time
      */
-    forceReload: boolean;
+    forceReload?: boolean;
+    /**
+     * Should the component data be retrieved from the aem page model
+     * and passed down as props on componentMount
+     */
+    injectPropsOnInit?: boolean;
 }
 
 interface ModelProviderType extends ReloadForceAble {
     wrappedComponent: React.ComponentType<any>;
     cqPath?: string;
+    injectPropsOnInit?: boolean;
+    pagePath?: string;
+    itemPath?: string;
 }
 
 /**
@@ -38,12 +47,15 @@ interface ModelProviderType extends ReloadForceAble {
 export class ModelProvider extends Component<ModelProviderType, any> {
     constructor(props: ModelProviderType) {
         super(props);
+        this.getCQPath = this.getCQPath.bind(this);
+        this.updateData = this.updateData.bind(this);
+
         this.state = this.propsToState(props);
     }
 
     public propsToState(props: ModelProviderType) {
         // Keep private properties from being passed as state
-        const { wrappedComponent, cqForceReload, ...state } = props;
+        const { wrappedComponent, cqForceReload, injectPropsOnInit, ...state } = props;
 
         return state;
     }
@@ -54,19 +66,44 @@ export class ModelProvider extends Component<ModelProviderType, any> {
         }
     }
 
-    public updateData() {
-        ModelManager.getData({path: this.props.cqPath, forceReload: this.props.cqForceReload}).then((data: Model) => {
+    public updateData(cqPath?: string) {
+        const path = cqPath || this.props.cqPath;
+        ModelManager.getData({path, forceReload: this.props.cqForceReload}).then((data: Model) => {
             this.setState(Utils.modelToProps(data));
         });
     }
 
+    private getCQPath() {
+      const {
+        pagePath = '', itemPath = '', injectPropsOnInit
+      } = this.props;
+      let { cqPath } = this.props;
+
+      if (injectPropsOnInit && !cqPath) {
+          cqPath = (
+            itemPath ?
+              `${pagePath}/jcr:content/${itemPath}` :
+              pagePath
+          );
+
+          // Normalize path (replace multiple consecutive slashes with a single one).
+          cqPath = normalizePath(cqPath);
+          this.setState({ cqPath });
+      }
+      return cqPath;
+    }
+
     public componentDidMount() {
-        ModelManager.addListener(this.props.cqPath, this.updateData.bind(this));
+        const cqPath = this.getCQPath();
+        if (this.props.injectPropsOnInit) {
+          this.updateData(cqPath);
+        }
+        ModelManager.addListener(cqPath, this.updateData);
     }
 
     public componentWillUnmount() {
         // Clean up listener
-        ModelManager.removeListener(this.props.cqPath, this.updateData.bind(this));
+        ModelManager.removeListener(this.props.cqPath, this.updateData);
     }
 
     public render() {
@@ -86,12 +123,20 @@ export const withModel = (WrappedComponent: React.ComponentType<any>, modelConfi
      */
     return class CompositeModelProviderImpl extends Component<ReloadForceAble> {
         public render() {
-            const modelConfigToUse: ReloadableModelProperties = modelConfig || { forceReload: false };
+            const modelConfigToUse: ReloadableModelProperties = modelConfig || {};
 
             // The reload can be forced either via the withModel function property or locally via the tag's property
-            const forceReload = this.props.cqForceReload || modelConfigToUse.forceReload;
+            const forceReload = this.props.cqForceReload || modelConfigToUse.forceReload || false;
 
-            return <ModelProvider { ...this.props } cqForceReload={forceReload} wrappedComponent={ WrappedComponent } />;
+            const injectPropsOnInit = modelConfigToUse.injectPropsOnInit || false;
+
+            return (
+              <ModelProvider
+                { ...this.props }
+                cqForceReload={forceReload}
+                injectPropsOnInit={injectPropsOnInit}
+                wrappedComponent={ WrappedComponent } />
+            );
         }
     };
 };
