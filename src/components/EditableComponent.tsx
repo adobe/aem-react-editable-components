@@ -47,7 +47,7 @@ type EditableComponentModel<P extends MappedComponentProperties> = EditableCompo
 /**
  * The EditableComponent extends components with editing capabilities.
  */
-class EditableComponent<P extends MappedComponentProperties,S extends ContainerState> extends Component<EditableComponentModel<P>, S> {
+class EditableComponent<P extends MappedComponentProperties, S extends ContainerState> extends Component<EditableComponentModel<P>, S> {
     constructor(props: EditableComponentModel<P>) {
         super(props);
         this.state = this.propsToState(props);
@@ -133,7 +133,7 @@ export  function  withEditable<P extends MappedComponentProperties>(WrappedCompo
     /**
      * If not edit configuration is specified, provide a dummy that always returns false on isEmpty.
      */
-    const editConfigToUse:EditConfig<P> = editConfig ? editConfig : {
+    const editConfigToUse: EditConfig<P> = editConfig ? editConfig : {
         isEmpty(props: P): boolean {
             return false;
         }
@@ -147,7 +147,7 @@ export  function  withEditable<P extends MappedComponentProperties>(WrappedCompo
 
             type TypeToUse = EditableComponentProperties<P> & P;
 
-            const computedProps:TypeToUse = {
+            const computedProps: TypeToUse = {
                 ...this.props,
                 componentProperties: this.props,
                 editConfig: editConfigToUse,

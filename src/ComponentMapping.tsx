@@ -65,16 +65,16 @@ ComponentMapping.map =
 
 ComponentMapping.get = wrappedGetFct;
 
-type MapperFunction<P extends MappedComponentProperties> = (component:ComponentType<P>, editConfig?:EditConfig<P>) => void;
+type MapperFunction<P extends MappedComponentProperties> = (component: ComponentType<P>, editConfig?: EditConfig<P>) => void;
 
-const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]):MapperFunction<P> =>{
-    return (clazz: ComponentType<P>, config?:EditConfig<P>) => {
-        //@ts-ignore
-        return ComponentMapping.map(resourceTypes, clazz,config);
+const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
+    return (clazz: ComponentType<P>, config?: EditConfig<P>) => {
+        // @ts-ignore
+        return ComponentMapping.map(resourceTypes, clazz, config);
     };
 };
 
-type MappingContextFunction<P extends MappedComponentProperties> = (props:P) => JSX.Element;
+type MappingContextFunction<P extends MappedComponentProperties> = (props: P) => JSX.Element;
 
 
 const ComponentMappingContext: React.Context<typeof ComponentMapping> = React.createContext(ComponentMapping);
@@ -83,7 +83,7 @@ function withComponentMappingContext<P extends MappedComponentProperties>(Compon
     return function ComponentMappingContextComponent(props: P): JSX.Element {
         return (
             <ComponentMappingContext.Consumer>
-                { (componentMapping:ComponentMapping) => <Component {...props} componentMapping={componentMapping} /> }
+                { (componentMapping: ComponentMapping) => <Component {...props} componentMapping={componentMapping} /> }
             </ComponentMappingContext.Consumer>
         );
     };
