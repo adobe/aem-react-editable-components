@@ -15,7 +15,7 @@ import { MapTo, withComponentMappingContext, MappedComponentProperties } from '.
 import { AllowedComponentsContainer, AllowedComponentsProperties } from './allowedcomponents/AllowedComponentsContainer';
 import { ContainerState } from './Container';
 import { PlaceHolderModel } from './ContainerPlaceholder';
-import {EditConfig} from "./EditableComponent";
+import { EditConfig } from "./EditableComponent";
 
 const PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
