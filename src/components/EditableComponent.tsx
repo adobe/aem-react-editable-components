@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, {Component, ComponentType} from 'react';
+import React, { Component, ComponentType } from 'react';
 import isEqual from 'react-fast-compare';
 import { MappedComponentProperties } from '../ComponentMapping';
 import Constants from '../Constants';
