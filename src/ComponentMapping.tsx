@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, {ComponentType} from 'react';
+import React, { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
 import { EditConfig, withEditable } from './components/EditableComponent';
 import { ReloadableModelProperties, withModel } from './components/ModelProvider';
