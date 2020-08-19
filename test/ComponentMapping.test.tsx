@@ -11,12 +11,17 @@
  */
 
 import React, { Component } from 'react';
-import { ComponentMapping, MapTo } from '../src/ComponentMapping';
+import { ComponentMapping, MappedComponentProperties, MapTo } from '../src/ComponentMapping';
 import { EditConfig } from '../src/components/EditableComponent';
 
 describe('ComponentMapping', () => {
+
+    interface Props extends MappedComponentProperties{
+        src?:string
+    }
+
     const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
-    const editConfig: EditConfig = {
+    const editConfig: EditConfig<Props> = {
         emptyLabel: 'Image',
 
         isEmpty: function(props) {
@@ -24,7 +29,8 @@ describe('ComponentMapping', () => {
         }
     };
 
-    class TestComponent extends Component {
+
+    class TestComponent extends Component<Props> {
         render () {
             return <div/>;
         }

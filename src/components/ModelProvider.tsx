@@ -14,7 +14,7 @@ import { normalize as normalizePath } from 'path';
 import { Model, ModelManager } from '@adobe/cq-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
-import { ReloadForceAble } from '../ComponentMapping';
+import { ReloadForceAble, MappedComponentProperties } from '../ComponentMapping';
 import Utils from '../Utils';
 
 /**
@@ -117,11 +117,11 @@ export class ModelProvider extends Component<ModelProviderType, any> {
  * @param WrappedComponent
  * @param {ReloadableModelProperties} [modelConfig]
  */
-export const withModel = (WrappedComponent: React.ComponentType<any>, modelConfig?: ReloadableModelProperties) => {
+export const withModel = <P extends MappedComponentProperties>(WrappedComponent: React.ComponentType<P>, modelConfig?: ReloadableModelProperties) => {
     /**
      * @type CompositeModelProvider
      */
-    return class CompositeModelProviderImpl extends Component<ReloadForceAble> {
+    return class CompositeModelProviderImpl extends Component<P> {
         public render() {
             const modelConfigToUse: ReloadableModelProperties = modelConfig || {};
 
