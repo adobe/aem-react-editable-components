@@ -32,7 +32,7 @@ export interface ReloadableModelProperties {
     injectPropsOnInit?: boolean;
 }
 
-interface ModelProviderType extends ReloadForceAble {
+export interface ModelProviderType extends ReloadForceAble {
     wrappedComponent: React.ComponentType<any>;
     cqPath?: string;
     injectPropsOnInit?: boolean;
@@ -44,7 +44,7 @@ interface ModelProviderType extends ReloadForceAble {
  * Wraps a portion of the page model into a Component.
  * Fetches content from AEM (using ModelManager) and inject it into the passed React Component.
  */
-export class ModelProvider extends Component<ModelProviderType, any> {
+export class ModelProvider extends Component<ModelProviderType> {
     constructor(props: ModelProviderType) {
         super(props);
         this.getCQPath = this.getCQPath.bind(this);
