@@ -17,6 +17,7 @@ import { withEditable } from '../../src/components/EditableComponent';
 import { withModel } from '../../src/components/ModelProvider';
 import { withEditorContext } from '../../src/EditorContext';
 import Utils from '../../src/Utils';
+import { MappedComponentProperties } from '../../src/ComponentMapping';
 
 describe('Composition and attribute propagation ->', () => {
     const ROOT_CLASS_NAME = 'root-class';
@@ -25,15 +26,20 @@ describe('Composition and attribute propagation ->', () => {
     const CHILD_COMPONENT_CLASS_NAME = 'child-class';
     const DATA_ATTR_TO_PROPS = 'data-attr-to-props';
 
-    const CQ_PROPS = {
-        'cqType': COMPONENT_RESOURCE_TYPE,
-        'cqPath': COMPONENT_PATH
-    };
+   
 
-    interface DummyProps{
-        attrToProps: string;
+    interface DummyProps extends MappedComponentProperties{
+        cqType: string;
+        attrToProps?: string;
         id: string;
     }
+
+    const CQ_PROPS: DummyProps = {
+        'cqType': COMPONENT_RESOURCE_TYPE,
+        'cqPath': COMPONENT_PATH,
+        isInEditor: false,
+        id: ""
+    };
 
     class ChildComponent extends Component<DummyProps> {
         render() {
@@ -75,8 +81,8 @@ describe('Composition and attribute propagation ->', () => {
      *
      * @param CompositeComponent
      */
-    function testCompositionAttributePropagation(CompositeComponent: any) {
-        ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={true}/>, rootNode);
+    function testCompositionAttributePropagation(CompositeComponent: React.ComponentType<DummyProps>) {
+        ReactDOM.render(<CompositeComponent {...CQ_PROPS}  attrToProps={'true'}/>, rootNode);
 
         let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
 
@@ -84,7 +90,7 @@ describe('Composition and attribute propagation ->', () => {
         expect(node.dataset.attrToProps).toEqual('true');
 
         // Update the component with new properties
-        ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={false}/>, rootNode);
+        ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={'false'}/>, rootNode);
 
         node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
         expect(node).toBeDefined();

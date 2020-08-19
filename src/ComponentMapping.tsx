@@ -10,8 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+import React, { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/cq-spa-component-mapping';
-import React from 'react';
 import { EditConfig, withEditable } from './components/EditableComponent';
 import { ReloadableModelProperties, withModel } from './components/ModelProvider';
 import { withEditorContext } from './EditorContext';
@@ -53,7 +53,7 @@ export interface MappedComponentProperties extends ReloadForceAble {
  * @returns {React.Component} - the resulting decorated Class
  */
 ComponentMapping.map =
-    function map(resourceTypes: string[], component: any, editConfig?: EditConfig, config?: ReloadableModelProperties) {
+    function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: any, editConfig?: EditConfig<P>, config?: ReloadableModelProperties) {
         const configToUse: ReloadableModelProperties = config ? config : { forceReload: false };
         let innerComponent: any = component;
 
@@ -65,19 +65,25 @@ ComponentMapping.map =
 
 ComponentMapping.get = wrappedGetFct;
 
-function MapTo<P extends MappedComponentProperties>(resourceTypes: string | string[]): any {
-    return (clazz: React.ComponentType<any>) => {
-        return ComponentMapping.map(resourceTypes, clazz);
+type MapperFunction<P extends MappedComponentProperties> = (component: ComponentType<P>, editConfig?: EditConfig<P>) => void;
+
+const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
+    return (clazz: ComponentType<P>, config?: EditConfig<P>) => {
+        // @ts-ignore
+        return ComponentMapping.map(resourceTypes, clazz, config);
     };
-}
+};
+
+type MappingContextFunction<P extends MappedComponentProperties> = (props: P) => JSX.Element;
+
 
 const ComponentMappingContext: React.Context<typeof ComponentMapping> = React.createContext(ComponentMapping);
 
-function withComponentMappingContext(Component: React.ComponentType<any>): any {
-    return function ComponentMappingContextComponent(props: any): any {
+function withComponentMappingContext<P extends MappedComponentProperties>(Component: React.ComponentType<P>): MappingContextFunction<P>{
+    return function ComponentMappingContextComponent(props: P): JSX.Element {
         return (
             <ComponentMappingContext.Consumer>
-                { (componentMapping) => <Component {...props} componentMapping={componentMapping} /> }
+                { (componentMapping: ComponentMapping) => <Component {...props} componentMapping={componentMapping} /> }
             </ComponentMappingContext.Consumer>
         );
     };

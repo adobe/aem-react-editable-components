@@ -19,18 +19,18 @@ npm install @adobe/cq-react-editable-components
 This module provides generic React helpers and components supporting AEM authoring.    
 
 It also wraps and the following modules (React agnostic):
-* `@adobe/cq-spa-component-mapping` 
+* `@adobe/cq-spa-component-mapping`
 * `@adobe/cq-spa-page-model-manager`
 
 ### React Components
 
 The following components can be used to build React SPA aimed at being authored in AEM:
 
-* `ModelProvider`, which wraps a portion of the page model into a component 
+* `ModelProvider`, which wraps a portion of the page model into a component
 * `Container`, which offers dynamic inclusion of its children components
 * `ResponsiveGrid`, the default container grid component (already mapped to `wcm/foundation/components/responsivegrid`)
 
-### Map To 
+### Map To
 
 The `MapTo` helper can be used to directly associate resource type(s) with a given SPA component.
 
@@ -45,12 +45,59 @@ export default MapTo('my/resource/type')(MyComponent);
 
 ```
 
+### withModel
+
+The `withModel` helper can be used to fetch content from AEM (using ModelManager) and inject it into the passed React Component.
+```
+withModel(MyComponent, [config])
+```
+This helper also has accepts an optional second parameter for config.
+
+#### `config` params
+
+* `injectPropsOnInit` - This param can be used to retrieve AEM content for any passed component and inject it on component initialization. For e.g. this can be used if you need to render a paragraph within a page in an AEM application without rendering the entire application or even the containing page.
+However, ensure that ModelManager initialization has already been done for the root url.
+
+#### Usage
+The passed React component needs two props for injection to work -
+* parentPath: Path to the containing page
+* itemPath: Path to the item to be rendered
+
+To render content from a paragraph at path `root/responsivegrid/paragraph` within a page `content/home/subpage` -
+
+```
+import { MyAEMParagraph } from './Paragraph';
+
+...
+
+<MyAEMParagraph pagePath='content/home/subpage' itemPath='root/responsivegrid/paragraph' />
+
+...
+```
+If you need to render an entire subpage, `itemPath` need not be passed.
+
+
+`MyAEMParagraph` can then use `withModel` to create a wrapped `Paragraph` component which has been mapped to a resource type, and inject the corresponding content from the page model into it.
+
+```
+import { withModel, MapTo } from '@adobe/cq-react-editable-components';
+
+class Paragraph {
+    ...
+}
+
+export default MapTo('my/resource/type')(Paragraph);
+
+export const MyAEMParagraph =  withModel(Paragraph, { injectPropsOnInit: true });
+```
+
+
 ### Page Model Manager
 
 The `PageModelManager` API allows to manage the model representation of the AEM pages that are composing a SPA.
 
 The `ModelProvider` internally uses it to fetch content from AEM and inject it into a given React component. It also keeps the React component in sync when the content in AEM changes.
- 
+
 
 ## API
 
@@ -62,7 +109,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ### src/Constants.js
 
 
-    
+
 #### Constants()
 
 Useful variables for interacting with CQ/AEM components
@@ -78,9 +125,9 @@ Useful variables for interacting with CQ/AEM components
 - `Void`
 
 
-    
 
-    
+
+
 #### DATA_PATH_ATTR()
 
 Name of the data-cq-data-path data attribute
@@ -96,9 +143,9 @@ Name of the data-cq-data-path data attribute
 - `Void`
 
 
-    
 
-    
+
+
 #### NEW_SECTION_CLASS_NAMES()
 
 Class names associated with a new section component
@@ -114,9 +161,9 @@ Class names associated with a new section component
 - `Void`
 
 
-    
 
-    
+
+
 #### TYPE_PROP()
 
 Type of the item
@@ -132,9 +179,9 @@ Type of the item
 - `Void`
 
 
-    
 
-    
+
+
 #### ITEMS_PROP()
 
 List of child items of an item
@@ -150,9 +197,9 @@ List of child items of an item
 - `Void`
 
 
-    
 
-    
+
+
 #### ITEMS_ORDER_PROP()
 
 Order in which the items should be listed
@@ -168,9 +215,9 @@ Order in which the items should be listed
 - `Void`
 
 
-    
 
-    
+
+
 #### PATH_PROP()
 
 Path of the item
@@ -186,9 +233,9 @@ Path of the item
 - `Void`
 
 
-    
 
-    
+
+
 #### CHILDREN_PROP()
 
 Children of an item
@@ -204,9 +251,9 @@ Children of an item
 - `Void`
 
 
-    
 
-    
+
+
 #### HIERARCHY_TYPE_PROP()
 
 Hierarchical type of the item
@@ -222,15 +269,15 @@ Hierarchical type of the item
 - `Void`
 
 
-    
+
 
 
 ### src/ComponentMapping.js
 
 
-    
 
-    
+
+
 #### ComponentMapping.map(resourceTypes, component[, editConfig, config])
 
 Map a React component with the given resource types. If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
@@ -257,13 +304,13 @@ Map a React component with the given resource types. If an {@link EditConfig} is
 - `React.Component`  - the resulting decorated Class
 
 
-    
+
 
 
 ### src/HierarchyConstants.js
 
 
-    
+
 #### HierarchyConstants()
 
 Hierarchical types
@@ -279,9 +326,9 @@ Hierarchical types
 - `Void`
 
 
-    
 
-    
+
+
 #### hierarchyType()
 
 Type of hierarchy
@@ -297,9 +344,9 @@ Type of hierarchy
 - `Void`
 
 
-    
 
-    
+
+
 #### page()
 
 Hierarchical page type
@@ -315,15 +362,15 @@ Hierarchical page type
 - `Void`
 
 
-    
+
 
 
 ### src/Utils.js
 
 
-    
 
-    
+
+
 #### EDIT_MODE()
 
 The editor is in one of the edition modes
@@ -339,9 +386,9 @@ The editor is in one of the edition modes
 - `Void`
 
 
-    
 
-    
+
+
 #### PREVIEW_MODE()
 
 The editor is in preview mode
@@ -357,12 +404,12 @@ The editor is in preview mode
 - `Void`
 
 
-    
 
-    
+
+
 #### isBrowser()
 
-Returns if we are in the browser context or not by checking for the 
+Returns if we are in the browser context or not by checking for the
 existance of the window object
 
 
@@ -376,11 +423,11 @@ existance of the window object
 - `Boolean`  the result of the check of the existance of the window object
 
 
-    
 
-    
 
-    
+
+
+
 #### Utils()
 
 Helper functions for interacting with the AEM environment
@@ -396,9 +443,9 @@ Helper functions for interacting with the AEM environment
 - `Void`
 
 
-    
 
-    
+
+
 #### isInEditor()
 
 Is the app used in the context of the AEM Page editor
@@ -414,15 +461,15 @@ Is the app used in the context of the AEM Page editor
 - `boolean`  
 
 
-    
 
-    
+
+
 
 
 ### src/components/AllowedComponentsContainer.js
 
 
-    
+
 #### new AllowedComponentPlaceholder()
 
 Placeholder for one Allowed Component
@@ -438,11 +485,11 @@ Placeholder for one Allowed Component
 - `Void`
 
 
-    
 
-    
 
-    
+
+
+
 #### new AllowedComponentsContainer()
 
 When applicable, the component exposes a list of allowed components
@@ -458,15 +505,15 @@ When applicable, the component exposes a list of allowed components
 - `Void`
 
 
-    
+
 
 
 ### src/components/Container.js
 
 
-    
 
-    
+
+
 #### new Container()
 
 Container component.
@@ -484,9 +531,9 @@ Provides access to items.
 - `Void`
 
 
-    
 
-    
+
+
 #### Container.childComponents()
 
 Returns the child components of this Container.
@@ -504,9 +551,9 @@ Instantiation is done my connecting the Component with the data of that item
 - `Array.&lt;Object&gt;`  An array with the components instantiated to JSX
 
 
-    
 
-    
+
+
 #### Container.connectComponentWithItem(ChildComponent, itemProps, itemKey)
 
 Connects a child component with the item data
@@ -531,9 +578,9 @@ Connects a child component with the item data
 - `Object`  - the React element constructed by connecting the values of the input with the Component
 
 
-    
 
-    
+
+
 #### Container.getItemComponentProps(item, itemKey, itemPath)
 
 Returns the properties to add on a specific child component
@@ -558,9 +605,9 @@ Returns the properties to add on a specific child component
 - `Object`  The map of properties to be added
 
 
-    
 
-    
+
+
 #### Container.getItemPath(itemKey)
 
 Computes the path of the current item
@@ -583,9 +630,9 @@ Computes the path of the current item
 - `String`  - the computed path
 
 
-    
 
-    
+
+
 #### Container.containerProps()
 
 The properties that will be injected in the root element of the container
@@ -601,9 +648,9 @@ The properties that will be injected in the root element of the container
 - `Object`  - The map of properties to be added
 
 
-    
 
-    
+
+
 #### Container.placeholderProps()
 
 The properties that will go on the placeholder component root element
@@ -619,9 +666,9 @@ The properties that will go on the placeholder component root element
 - `Object`  - The map of properties to be added
 
 
-    
 
-    
+
+
 #### Container.placeholderComponent()
 
 The placeholder component that will be added in editing
@@ -637,15 +684,15 @@ The placeholder component that will be added in editing
 - `Object`  React element to be instantiated as a placeholder
 
 
-    
+
 
 
 ### src/components/EditableComponent.js
 
 
-    
 
-    
+
+
 #### new EditableComponent()
 
 The EditableComponent extends components with editing capabilities
@@ -661,9 +708,9 @@ The EditableComponent extends components with editing capabilities
 - `Void`
 
 
-    
 
-    
+
+
 #### EditableComponent.editProps()
 
 Properties related to the edition of the component
@@ -679,9 +726,9 @@ Properties related to the edition of the component
 - `Void`
 
 
-    
 
-    
+
+
 #### EditableComponent.emptyPlaceholderProps()
 
 HTMLElement representing the empty placeholder
@@ -697,9 +744,9 @@ HTMLElement representing the empty placeholder
 -  
 
 
-    
 
-    
+
+
 #### EditableComponent.useEmptyPlaceholder()
 
 Should an empty placeholder be added
@@ -715,9 +762,9 @@ Should an empty placeholder be added
 - `boolean`  
 
 
-    
 
-    
+
+
 #### withEditable(WrappedComponent[, editConfig])
 
 Returns a composition that provides edition capabilities to the component
@@ -741,13 +788,13 @@ Returns a composition that provides edition capabilities to the component
 - `Void`
 
 
-    
+
 
 
 ### src/components/ModelProvider.js
 
 
-    
+
 #### new ModelProvider()
 
 Wraps a portion of the page model into a Component.
@@ -765,13 +812,13 @@ Fetches content from AEM (using ModelManager) and inject it into the passed Reac
 - `Void`
 
 
-    
+
 
 
 ### src/components/Page.js
 
 
-    
+
 #### new Page()
 
 The container for a Page.
@@ -790,9 +837,9 @@ It should add data-cq-page-path instead fo data-cq-data-path
 - `Void`
 
 
-    
 
-    
+
+
 #### Page.containerProps()
 
 The attributes that will be injected in the root element of the container
@@ -808,9 +855,9 @@ The attributes that will be injected in the root element of the container
 - `Object`  - the attributes of the container
 
 
-    
 
-    
+
+
 #### Page.childPages()
 
 Returns the child pages of a page
@@ -826,9 +873,9 @@ Returns the child pages of a page
 - `Array`  
 
 
-    
 
-    
+
+
 #### Page.getItemPath(itemKey)
 
 Computes the path of the current item
@@ -851,13 +898,13 @@ Computes the path of the current item
 - `String`  - the computed path
 
 
-    
+
 
 
 ### src/components/ResponsiveGrid.js
 
 
-    
+
 #### containerProps()
 
 The attributes that will be injected in the root element of the container
@@ -873,9 +920,9 @@ The attributes that will be injected in the root element of the container
 - `Object`  - the attributes of the container
 
 
-    
 
-    
+
+
 #### placeholderProps()
 
 The properties that will go on the placeholder component root element
@@ -891,9 +938,9 @@ The properties that will go on the placeholder component root element
 - `Object`  - the properties as a map
 
 
-    
 
-    
+
+
 #### getItemComponentProps(item, itemKey, itemPath)
 
 Returns the properties to add on a specific child component
@@ -918,15 +965,15 @@ Returns the properties to add on a specific child component
 - `Object`  The map of properties to be added
 
 
-    
 
 
 
-## Documentation 
+
+## Documentation
 
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
-## Changelog 
+## Changelog
 
 ### 1.2.1 - 5 June 2020
 * Update to latest `cq-spa-page-model-manager`
