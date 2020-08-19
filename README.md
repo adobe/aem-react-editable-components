@@ -35,13 +35,52 @@ The following components can be used to build React SPA aimed at being authored 
 The `MapTo` helper can be used to directly associate resource type(s) with a given SPA component.
 
 ```
+import React, { Component } from 'react';
 import { MapTo } from '@adobe/cq-react-editable-components';
 
-class MyComponent {
+class MyComponent extends Component{
     ...
 }
 
 export default MapTo('my/resource/type')(MyComponent);
+
+```
+
+You may also use Functional Components:
+
+```
+import React from 'react';
+import { MapTo } from '@adobe/cq-react-editable-components';
+
+const MyComponent = (props) => {
+    return (<div> .... </div>);
+}
+
+export default MapTo('my/resource/type')(MyComponent);
+
+```
+
+
+TypeScript example with EditConfig (from version 1.3.0)
+
+```
+import React, { Component } from 'react';
+import { MapTo, MappedComponentProperties } from '@adobe/cq-react-editable-components';
+
+interface MyComponentProps extends MappedComponentProperties {
+    myProperty?:string
+}
+
+class MyComponent extends Component<MyComponentProps> {
+    ...
+}
+
+const MyComponentEditConfiguration:EditConfig<MyComponentProps> = {
+    emptyLabel: 'My Component is Empty!',
+    isEmpty: (props:MyComponentProps) => !!props.myProperty || props.myProperty.trim().length === 0
+}
+
+export default MapTo<MyComponentProps>('my/resource/type')(MyComponent, MyComponentEditConfiguration);
 
 ```
 
@@ -974,6 +1013,9 @@ Returns the properties to add on a specific child component
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
 ## Changelog
+
+### 1.2.1 - 5 June 2020
+* Add TypeScript support
 
 ### 1.2.1 - 5 June 2020
 * Update to latest `cq-spa-page-model-manager`
