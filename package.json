@@ -62,12 +62,12 @@
     "peerDependencies": {
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "@adobe/cq-spa-component-mapping": "file:../spa-component-mapping",
-        "@adobe/cq-spa-page-model-manager": "file:../spa-page-model-manager"
+        "@adobe/cq-spa-component-mapping": "~1.0.3",
+        "@adobe/cq-spa-page-model-manager": "~1.0.7"
     },
     "devDependencies": {
-        "@adobe/cq-spa-component-mapping": "file:../spa-component-mapping",
-        "@adobe/cq-spa-page-model-manager": "file:../spa-page-model-manager",
+        "@adobe/cq-spa-component-mapping": "~1.0.3",
+        "@adobe/cq-spa-page-model-manager": "~1.0.7",
         "@babel/cli": "^7.7.7",
         "@babel/core": "^7.7.7",
         "@babel/preset-env": "^7.7.7",
