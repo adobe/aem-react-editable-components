@@ -1,5 +1,5 @@
 ### 1.3.1 - 20 August 2020
-* Fix of types.buildinfo
+* Fix of types
 
 ### 1.3.0 - 20 August 2020
 * Update codebase to TypeScript
