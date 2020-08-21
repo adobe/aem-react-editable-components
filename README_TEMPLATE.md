@@ -24,13 +24,54 @@ The following components can be used to build React SPA aimed at being authored 
 The `MapTo` helper can be used to directly associate resource type(s) with a given SPA component.
 
 ```
+import React, { Component } from 'react';
 import { MapTo } from '@adobe/cq-react-editable-components';
 
-class MyComponent {
+class MyComponent extends Component{
     ...
 }
 
 export default MapTo('my/resource/type')(MyComponent);
+
+```
+
+You may also use Functional Components:
+
+```
+import React from 'react';
+import { MapTo } from '@adobe/cq-react-editable-components';
+
+class MyComponent {
+    ...
+const MyComponent = (props) => {
+    return (<div> .... </div>);
+}
+
+export default MapTo('my/resource/type')(MyComponent);
+
+```
+
+
+TypeScript example with EditConfig (from version 1.3.0)
+
+```
+import React, { Component } from 'react';
+import { MapTo, MappedComponentProperties } from '@adobe/cq-react-editable-components';
+
+interface MyComponentProps extends MappedComponentProperties {
+    myProperty?:string
+}
+
+class MyComponent extends Component<MyComponentProps> {
+    ...
+}
+
+const MyComponentEditConfiguration:EditConfig<MyComponentProps> = {
+    emptyLabel: 'My Component is Empty!',
+    isEmpty: (props:MyComponentProps) => !!props.myProperty || props.myProperty.trim().length === 0
+}
+
+export default MapTo<MyComponentProps>('my/resource/type')(MyComponent, MyComponentEditConfiguration);
 
 ```
 
