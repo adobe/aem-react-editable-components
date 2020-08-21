@@ -1,5 +1,5 @@
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.3.0*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.3.1*
 
 
 
@@ -10,6 +10,28 @@
 #### new Constants()
 
 Useful variables for interacting with CQ/AEM components.
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+
+### src/HierarchyConstants.ts
+
+
+    
+#### new HierarchyType()
+
+Hierarchical types
 
 
 
@@ -86,28 +108,6 @@ Is the app used in the context of the AEM Page editor.
 
 
     
-
-    
-
-
-### src/HierarchyConstants.ts
-
-
-    
-#### new HierarchyType()
-
-Hierarchical types
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
 
     
 

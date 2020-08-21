@@ -55,7 +55,7 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 ## API
 
 
-### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.3.0*
+### [@adobe/cq-react-editable-components](https://www.adobe.com/go/aem6_4_docs_spa_en) *1.3.1*
 
 
 
@@ -66,6 +66,28 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 #### new Constants()
 
 Useful variables for interacting with CQ/AEM components.
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+
+### src/HierarchyConstants.ts
+
+
+    
+#### new HierarchyType()
+
+Hierarchical types
 
 
 
@@ -146,34 +168,18 @@ Is the app used in the context of the AEM Page editor.
     
 
 
-### src/HierarchyConstants.ts
-
-
-    
-#### new HierarchyType()
-
-Hierarchical types
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
 
 ## Documentation 
 
 The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en) is already available, but if you are unable to solve your problem or you found a bug you can always [contact us](https://www.adobe.com/go/aem6_4_support_en) and ask for help!
 
 ## Changelog 
+
+### 1.3.1 - 20 August 2020
+* Fix of types
+
+### 1.3.0 - 20 August 2020
+* Update codebase to TypeScript
 
 ### 1.2.1 - 5 June 2020
 * Update to latest `cq-spa-page-model-manager`
