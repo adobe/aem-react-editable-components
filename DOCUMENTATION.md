@@ -25,28 +25,6 @@ Useful variables for interacting with CQ/AEM components.
     
 
 
-### src/HierarchyConstants.ts
-
-
-    
-#### new HierarchyType()
-
-Hierarchical types
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
-
-    
-
-
 ### src/Utils.ts
 
 
@@ -108,6 +86,28 @@ Is the app used in the context of the AEM Page editor.
 
 
     
+
+    
+
+
+### src/HierarchyConstants.ts
+
+
+    
+#### new HierarchyType()
+
+Hierarchical types
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
 
     
 
