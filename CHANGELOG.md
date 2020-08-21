@@ -1,3 +1,9 @@
+### 1.3.1 - 20 August 2020
+* Fix of types.buildinfo
+
+### 1.3.0 - 20 August 2020
+* Update codebase to TypeScript
+
 ### 1.2.1 - 5 June 2020
 * Update to latest `cq-spa-page-model-manager`
 
