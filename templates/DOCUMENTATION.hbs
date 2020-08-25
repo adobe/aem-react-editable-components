@@ -1,0 +1,81 @@
+{{!-- Based on https://github.com/neogeek/doxdox-plugin-markdown/blob/1d87dbeaa98c948b7e658794da6db8eb455a260a/template.hbs --}}
+
+{{#if pkg.homepage}}
+### [{{title}}]({{pkg.homepage}}) {{#if pkg.version}}*{{pkg.version}}*{{/if}}
+{{else}}
+### {{title}} {{#if pkg.version}}*{{pkg.version}}*{{/if}}
+{{/if}}
+
+{{#if description}}
+> {{description}}
+{{/if}}
+
+{{#each files}}
+
+### {{name}}
+
+{{#each methods}}
+
+{{#unless isPrivate}}
+    
+#### {{name}}({{params}})
+
+{{{description}}}
+
+{{{body}}}
+
+{{#if tags.param}}
+
+##### Parameters
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+{{#each tags.param}}
+| {{name}} | {{#each types}}`{{{.}}}` {{/each}} | {{{description}}} | {{#if isOptional}}*Optional*{{else}}&nbsp;{{/if}} |
+{{/each}}
+
+{{/if}}
+
+{{#if tags.property}}
+
+##### Properties
+
+| Name | Type | Description |  |
+| ---- | ---- | ----------- | -------- |
+{{#each tags.param}}
+| {{name}} | {{#each types}}`{{{.}}}` {{/each}} | {{{description}}} | {{#if isOptional}}*Optional*{{else}}&nbsp;{{/if}} |
+{{/each}}
+
+{{/if}}
+
+{{#if tags.example}}
+
+##### Examples
+
+{{#each tags.example}}
+```javascript
+{{{.}}}
+```
+{{/each}}
+
+{{/if}}
+
+##### Returns
+
+{{#if tags.return}}
+
+{{#each tags.return}}
+- {{#each types}}`{{.}}` {{/each}} {{{description}}}
+{{/each}}
+
+{{else}}
+
+- `Void`
+
+{{/if}}
+
+{{/unless}}
+    
+{{/each}}
+
+{{/each}}
