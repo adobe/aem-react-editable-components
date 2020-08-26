@@ -55,8 +55,6 @@ The `ModelProvider` internally uses it to fetch content from AEM and inject it i
 * [Technical documentation](https://www.adobe.com/go/aem6_5_docs_spa_en).
 * [Tutorial to get started](https://docs.adobe.com/content/help/en/experience-manager-learn/spa-react-tutorial/overview.html)
 
-
-
 ### Contributing
 
 Contributions are welcome! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
