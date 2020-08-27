@@ -3,6 +3,28 @@
 
 
 
+### src/Constants.ts
+
+
+    
+#### new Constants()
+
+Useful variables for interacting with CQ/AEM components.
+
+
+
+
+
+
+##### Returns
+
+
+- `Void`
+
+
+    
+
+
 ### src/HierarchyConstants.ts
 
 
@@ -86,28 +108,6 @@ Is the app used in the context of the AEM Page editor.
 
 
     
-
-    
-
-
-### src/Constants.ts
-
-
-    
-#### new Constants()
-
-Useful variables for interacting with CQ/AEM components.
-
-
-
-
-
-
-##### Returns
-
-
-- `Void`
-
 
     
 
