@@ -13,7 +13,7 @@
 import { Model } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import { ComponentMapping, MappedComponentProperties } from '../ComponentMapping';
-import Constants from '../Constants';
+import { Constants } from '../Constants';
 import Utils from '../Utils';
 import { ContainerPlaceholder, PlaceHolderModel } from './ContainerPlaceholder';
 

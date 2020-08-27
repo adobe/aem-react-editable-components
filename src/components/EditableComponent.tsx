@@ -13,7 +13,7 @@
 import React, { Component, ComponentType } from 'react';
 import isEqual from 'react-fast-compare';
 import { MappedComponentProperties } from '../ComponentMapping';
-import Constants from '../Constants';
+import { Constants } from '../Constants';
 import { ContainerState } from './Container';
 
 /**

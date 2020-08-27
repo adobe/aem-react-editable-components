@@ -12,7 +12,7 @@
 
 import React from 'react';
 import { Model } from '@adobe/aem-spa-page-model-manager';
-import Constants from '../Constants';
+import { Constants } from '../Constants';
 import Utils from '../Utils';
 import { Container, ContainerProperties, ContainerState } from './Container';
 import { ComponentMapping } from "../ComponentMapping";

@@ -17,51 +17,49 @@ import { Constants as PMConstants } from '@adobe/aem-spa-page-model-manager';
  *
  * @namespace Constants
  */
-class Constants {
+export class Constants {
 
     /**
      * Name of the data-cq-data-path data attribute.
      */
-    public static DATA_PATH_ATTR = 'data-cq-data-path';
+    public static readonly DATA_PATH_ATTR = 'data-cq-data-path';
 
     /**
      * Class names associated with a new section component.
      */
-    public static NEW_SECTION_CLASS_NAMES = 'new section';
+    public static readonly NEW_SECTION_CLASS_NAMES = 'new section';
 
     /**
      * Type of the item.
      */
-    public static TYPE_PROP = PMConstants.TYPE_PROP;
+    public static readonly TYPE_PROP = PMConstants.TYPE_PROP;
 
     /**
      * List of child items of an item.
      */
-    public static ITEMS_PROP = PMConstants.ITEMS_PROP;
+    public static readonly ITEMS_PROP = PMConstants.ITEMS_PROP;
 
     /**
      * Order in which the items should be listed.
      */
-    public static ITEMS_ORDER_PROP = PMConstants.ITEMS_ORDER_PROP;
+    public static readonly ITEMS_ORDER_PROP = PMConstants.ITEMS_ORDER_PROP;
 
     /**
      * Path of the item.
      */
-    public static PATH_PROP = PMConstants.PATH_PROP;
+    public static readonly PATH_PROP = PMConstants.PATH_PROP;
 
     /**
      * Children of an item.
      */
-    public static CHILDREN_PROP = PMConstants.CHILDREN_PROP;
+    public static readonly CHILDREN_PROP = PMConstants.CHILDREN_PROP;
 
     /**
      * Hierarchical type of the item.
      */
-    public static HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
+    public static readonly HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
 
     private constructor() {
         // hide constructor
     }
 }
-
-export default Constants;
