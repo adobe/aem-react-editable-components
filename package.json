@@ -35,7 +35,7 @@
     "main": "dist/aem-react-editable-components.js",
     "types": "dist/types.d.ts",
     "scripts": {
-        "clean": "rm -rf coverage/ dist/",
+        "clean": "rm -rf coverage/ dist/ src/tsconfig.types.tsbuildinfo",
         "linter": "eslint --ext .js,.jsx,.ts,.tsx . && tslint --project tsconfig.json",
         "linter:fix": "eslint --ext .js,.jsx,.ts,.tsx . --fix && tslint --project tsconfig.json --fix",
         "install:link-deps": "npm install && npm link @adobe/aem-spa-page-model-manager && npm link @adobe/aem-spa-component-mapping",
