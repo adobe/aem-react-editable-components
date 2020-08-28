@@ -9,7 +9,7 @@ module.exports = {
     mode: 'development',
     devtool: 'source-map',
     output: {
-        globalObject: `typeof self !== 'undefined' ? self : this`,
+        globalObject: `(function(){ try{ return typeof self !== 'undefined';}catch(err){return false;}})() ? self : this`,
         path: path.resolve(__dirname, 'dist'),
         filename: 'aem-react-editable-components.js',
         library: 'cqReactEditableComponents',
