@@ -7,6 +7,8 @@
             "esnext"
         ],
         "experimentalDecorators": true,
+        "incremental": true,
+        "tsBuildInfoFile": "./dist/tsconfig.types.tsbuildinfo",
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
