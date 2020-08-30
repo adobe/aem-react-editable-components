@@ -5,9 +5,6 @@
         "type": "git",
         "url": "https://github.com/adobe/aem-react-editable-components.git"
     },
-    "auto-changelog": {
-        "template": "templates/CHANGELOG.hbs"
-    },
     "bugs": {
         "url": "https://www.adobe.com/go/aem6_4_support_en"
     },
@@ -46,12 +43,10 @@
         "build:production": "WP_ARGS=--mode=production npm run build",
         "build:types": "tsc -p src/tsconfig.types.json",
         "docs": "doxdox \"src/**/*.+(ts|js|jsx)\" --layout templates/DOCUMENTATION.hbs --output DOCUMENTATION.md",
-        "readme": "node node_modules/markdown-include/bin/cli.js markdown-include.config.json",
-        "docs-readme": "npm run docs && npm run readme",
-        "preversion": "npm run test && npm run build:production && npm run docs-readme",
-        "version": "npm run docs-readme && git add DOCUMENTATION.md README.md package.json",
+        "preversion": "npm run test && npm run build:production && npm run docs",
+        "version": "npm run docs && git add -A",
         "postversion": "git push origin && git push origin --tags",
-        "tmprelease": "node release.js"
+        "semantic-release": "semantic-release"
     },
     "author": "Adobe Systems Inc.",
     "license": "Apache-2.0",
@@ -62,12 +57,15 @@
     "peerDependencies": {
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "@adobe/aem-spa-component-mapping": "~1.0.1",
-        "@adobe/aem-spa-page-model-manager": "~1.0.1"
+        "@adobe/aem-spa-component-mapping": "~1.0.4",
+        "@adobe/aem-spa-page-model-manager": "~1.0.3"
     },
     "devDependencies": {
-        "@adobe/aem-spa-component-mapping": "~1.0.1",
-        "@adobe/aem-spa-page-model-manager": "~1.0.1",
+        "@semantic-release/changelog": "^5.0.1",
+        "@semantic-release/git": "^9.0.0",
+        "@semantic-release/github": "^7.0.7",
+        "@adobe/aem-spa-component-mapping": "~1.0.4",
+        "@adobe/aem-spa-page-model-manager": "~1.0.3",
         "@babel/cli": "^7.7.7",
         "@babel/core": "^7.7.7",
         "@babel/preset-env": "^7.7.7",
@@ -88,6 +86,8 @@
         "babel-plugin-istanbul": "^5.2.0",
         "chai": "^4.2.0",
         "clean-webpack-plugin": "^3.0.0",
+        "commitizen": "^4.2.1",
+        "cz-conventional-changelog": "^3.3.0",
         "cross-env": "^7.0.2",
         "doxdox": "^3.0.0",
         "enzyme": "^3.11.0",
@@ -102,7 +102,7 @@
         "jest-resolve": "^26.1.0",
         "jest-watch-typeahead": "^0.6.0",
         "jsdoc": "^3.6.3",
-        "markdown-include": "^0.4.3",
+        "semantic-release": "^17.1.1",
         "prop-types": "^15.7.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
@@ -117,5 +117,10 @@
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11",
         "webpack-node-externals": "^1.7.2"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
 }
