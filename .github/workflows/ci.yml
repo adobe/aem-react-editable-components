@@ -1,19 +1,23 @@
-name: CI / CD
-on: [push, pull_request]
+name: Continuous Integration
+on: pull_request
 
 jobs:
   test:
     name: build & test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
       - run: npm run build:production
       - run: npm run test:coverage
-      - uses: hallee/eslint-action@1.0.3
+      - name: Lint
+        uses: hallee/eslint-action@1.0.3
         if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }}
         with:
           repo-token: ${{secrets.GITHUB_TOKEN}}
@@ -22,3 +26,5 @@ jobs:
         with:
           name: coverage
           path: coverage
+      - name: Code coverage
+        uses: codecov/codecov-action@v1
