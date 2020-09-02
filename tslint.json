@@ -1,13 +1,13 @@
 {
-    "extends": "tslint:latest",
-    "rules": {
-        "curly": true,
-        "max-line-length": false,
-        "interface-name": false,
-        "max-classes-per-file": [ true, 3, "exclude-class-expressions" ]
-    },
-    "jsRules": {
-        "curly": true
-    },
-    "rulesDirectory": []
+  "extends": "tslint:latest",
+  "rules": {
+    "curly": true,
+    "max-line-length": false,
+    "interface-name": false,
+    "max-classes-per-file": [ true, 3, "exclude-class-expressions" ]
+  },
+  "jsRules": {
+    "curly": true
+  },
+  "rulesDirectory": []
 }

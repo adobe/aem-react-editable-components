@@ -16,7 +16,10 @@ module.exports = {
         '/node_modules/',
         '/lib/',
         '/dist/',
-        '/node/'
+        '/node/',
+        'src/types.ts',
+        'src/types.d.ts',
+        'src/aem-react-editable-components.ts'
     ],
     moduleFileExtensions: [
         'ts',

@@ -6,10 +6,10 @@ on:
 
 jobs:
   release:
-    name: Release
+    name: Release and publish module
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout source code
         uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -17,7 +17,13 @@ jobs:
           node-version: 12
       - name: Install dependencies
         run: npm ci
-      - name: Release
+      - name: Run tests and do code coverage check
+        run: npm run test:coverage
+      - name: Build the project
+        run: npm run build:production
+      - name: Upload code coverage report to codecov.io
+        uses: codecov/codecov-action@v1
+      - name: Release module and publish it in github.com and npmjs.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
