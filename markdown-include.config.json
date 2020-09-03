@@ -1,7 +1,0 @@
-{
-  "build": "README.md",
-  "files": [ "README_TEMPLATE.md" ],
-  "tableOfContents": {
-    "heading": "# Table of contents"
-  }
-}
