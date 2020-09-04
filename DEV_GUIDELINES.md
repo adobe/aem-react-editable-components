@@ -1,45 +1,15 @@
-# aem-react-editable-components
+# Development
 
-Library that provides a mapping that associates a component class with a resource path
+Run `npm install` to get all node_modules that are necessary for development. Refer to scripts under `package.json` for more useful commands.
 
-## Development
-
-Run npm install to get all node_modules that are necessary for development.
-
-### Build
+## Build
 
 ```sh
 $ npm run build
 ```
 
-or
-
-```sh
-$ npm run build:production
-```
-
-### Test
+## Test
 
 ```sh
 $ npm run test
-```
-
-or
-
-```sh
-$ npm run test-debug
-```
-
-### Generate docs
-
-```sh
-$ npm run docs
-```
-
-The documents will be generated in the /out folder
-
-### Generate Changelog
-
-```sh
-$ auto-changelog
 ```

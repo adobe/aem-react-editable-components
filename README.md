@@ -1,10 +1,5 @@
-# Table of contents
-
-  * [Installation](#installation)
-  * [Usage](#usage)
-  * [Documentation](#documentation)
-    * [Contributing](#contributing)
-    * [Licensing](#licensing)
+# Spa React Editable Components [![codecov](https://codecov.io/gh/adobe/aem-react-editable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/adobe/aem-react-editable-components) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adobe_aem-react-editable-components&metric=alert_status)](https://sonarcloud.io/dashboard?id=adobe_aem-react-editable-components) [![Known Vulnerabilities](https://snyk.io/test/github/adobe/aem-react-editable-components/badge.svg)](https://snyk.io/test/github/adobe/aem-react-editable-components)
+This project provides the React components and integration layer to get you started with the Adobe Experience Manager Site Editor.
 
 
 ## Installation
@@ -12,49 +7,14 @@
 npm install @adobe/aem-react-editable-components
 ```
 
-## Usage
+## Documentation 
 
-This module provides generic React helpers and components supporting AEM authoring.    
+* [SPA Editor Overview](https://www.adobe.com/go/aem6_5_docs_spa_en)
+* [SPA Architecture](https://docs.adobe.com/content/help/en/experience-manager-65/developing/headless/spas/spa-architecture.html)
+* [Getting Started with the AEM SPA Editor and Angular](https://docs.adobe.com/content/help/en/experience-manager-learn/spa-angular-tutorial/overview.html)
+* [Getting Started with the AEM SPA Editor and React](https://docs.adobe.com/content/help/en/experience-manager-learn/spa-react-tutorial/overview.html)
 
-It also wraps and the following modules (React agnostic):
-* `@adobe/aem-spa-component-mapping` 
-* `@adobe/aem-spa-page-model-manager`
-
-### React Components
-
-The following components can be used to build React SPA aimed at being authored in AEM:
-
-* `ModelProvider`, which wraps a portion of the page model into a component 
-* `Container`, which offers dynamic inclusion of its children components
-* `ResponsiveGrid`, the default container grid component (already mapped to `wcm/foundation/components/responsivegrid`)
-
-### Map To 
-
-The `MapTo` helper can be used to directly associate resource type(s) with a given SPA component.
-
-```
-import { MapTo } from '@adobe/aem-react-editable-components';
-
-class MyComponent {
-    ...
-}
-
-export default MapTo('my/resource/type')(MyComponent);
-
-```
-
-### Page Model Manager
-
-The `PageModelManager` API allows to manage the model representation of the AEM pages that are composing a SPA.
-
-The `ModelProvider` internally uses it to fetch content from AEM and inject it into a given React component. It also keeps the React component in sync when the content in AEM changes.
- 
-
-## Documentation
-
-The [technical documentation](https://www.adobe.com/go/aem6_4_docs_spa_en).
-
-### Contributing
+## Contributing
 
 Contributions are welcome! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
 
