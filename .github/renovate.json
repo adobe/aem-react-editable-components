@@ -1,0 +1,35 @@
+{
+  "timezone": "Europe/Zurich",
+  "packageRules": [
+    {
+      "groupName": "@adobe fixes",
+      "updateTypes": ["patch", "pin", "digest", "minor"],
+      "automerge": true,
+      "packagePatterns": ["^@adobe/"],
+      "schedule": ["at any time"]
+    },
+    {
+      "groupName": "@adobe major",
+      "updateTypes": ["major"],
+      "packagePatterns": ["^@adobe/"],
+      "automerge": false,
+      "schedule": ["at any time"]
+    },
+    {
+      "groupName": "external fixes",
+      "updateTypes": ["patch", "pin", "digest", "minor"],
+      "automerge": true,
+      "schedule": ["after 1pm on Monday"],
+      "packagePatterns": ["^.+"],
+      "excludePackagePatterns": ["^@adobe/"]
+    },
+    {
+      "groupName": "external major",
+      "updateTypes": ["major"],
+      "automerge": false,
+      "packagePatterns": ["^.+"],
+      "excludePackagePatterns": ["^@adobe/"],
+      "schedule": ["after 1pm on Monday"]
+    }
+  ]
+}
