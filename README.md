@@ -7,6 +7,7 @@
 [![codecov](https://codecov.io/gh/adobe/aem-react-editable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/adobe/aem-react-editable-components)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adobe_aem-react-editable-components&metric=alert_status)](https://sonarcloud.io/dashboard?id=adobe_aem-react-editable-components)
 [![Known Vulnerabilities](https://snyk.io/test/github/adobe/aem-react-editable-components/badge.svg)](https://snyk.io/test/github/adobe/aem-react-editable-components)
+[![Dependencies](https://badges.renovateapi.com/github/adobe/aem-react-editable-components)](https://app.renovatebot.com/dashboard#github/adobe/aem-react-editable-components)
 
 This project provides the React components and integration layer to get you started with the Adobe Experience Manager Site Editor.
 
