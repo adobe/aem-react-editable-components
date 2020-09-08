@@ -79,6 +79,7 @@ type MappingContextFunction<P extends MappedComponentProperties> = (props: P) =>
 
 const ComponentMappingContext: React.Context<typeof ComponentMapping> = React.createContext(ComponentMapping);
 
+
 function withComponentMappingContext<P extends MappedComponentProperties>(Component: React.ComponentType<P>): MappingContextFunction<P>{
     return function ComponentMappingContextComponent(props: P): JSX.Element {
         return (

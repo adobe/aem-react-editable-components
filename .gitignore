@@ -9,6 +9,7 @@
 /dist
 /.chrome
 /package
+docs/
 
 # dependency directories
 node_modules/
