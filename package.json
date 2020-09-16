@@ -52,7 +52,7 @@
     "license": "Apache-2.0",
     "dependencies": {
         "prop-types": "^15.7.2",
-        "react-fast-compare": "^2.0.4"
+        "react-fast-compare": "^3.0.0"
     },
     "peerDependencies": {
         "react": "^16.13.1",
@@ -71,19 +71,19 @@
         "@babel/preset-env": "^7.7.7",
         "@babel/preset-react": "^7.7.4",
         "@testing-library/jest-dom": "^5.11.0",
-        "@testing-library/react": "^10.4.3",
+        "@testing-library/react": "^11.0.0",
         "@testing-library/user-event": "^12.0.11",
-        "@types/clone": "^0.1.30",
+        "@types/clone": "^2.0.0",
         "@types/enzyme": "^3.10.5",
         "@types/enzyme-adapter-react-16": "^1.0.6",
         "@types/jest": "^26.0.3",
         "@types/node": "^14.0.14",
         "@types/react": "^16.9.41",
         "@types/react-dom": "^16.9.8",
-        "@typescript-eslint/eslint-plugin": "^3.4.0",
-        "@typescript-eslint/parser": "^3.4.0",
+        "@typescript-eslint/eslint-plugin": "^4.0.0",
+        "@typescript-eslint/parser": "^4.0.0",
         "babel-loader": "^8.0.6",
-        "babel-plugin-istanbul": "^5.2.0",
+        "babel-plugin-istanbul": "^6.0.0",
         "chai": "^4.2.0",
         "clean-webpack-plugin": "^3.0.0",
         "commitizen": "^4.2.1",
@@ -91,7 +91,7 @@
         "cross-env": "^7.0.2",
         "enzyme": "^3.11.0",
         "enzyme-adapter-react-16": "^1.15.2",
-        "eslint": "^6.7.2",
+        "eslint": "^7.0.0",
         "eslint-plugin-react": "^7.20.3",
         "istanbul": "^0.4.5",
         "istanbul-instrumenter-loader": "^3.0.1",
@@ -112,10 +112,10 @@
         "tslint-no-toplevel-property-access": "0.0.2",
         "tslint-no-unused-expression-chai": "^0.1.4",
         "typedoc": "^0.19.1",
-        "typescript": "^3.9.5",
+        "typescript": "^4.0.0",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11",
-        "webpack-node-externals": "^1.7.2"
+        "webpack-node-externals": "^2.0.0"
     },
     "config": {
         "commitizen": {
