@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component, ComponentType } from 'react';
+import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import { MappedComponentProperties } from '../ComponentMapping';
 import { Constants } from '../Constants';
@@ -54,7 +54,7 @@ type EditableComponentModel<
 class EditableComponent<
   P extends MappedComponentProperties,
   S extends ContainerState
-> extends Component<EditableComponentModel<P>, S> {
+> extends React.Component<EditableComponentModel<P>, S> {
   constructor(props: EditableComponentModel<P>) {
     super(props);
     this.state = this.propsToState(props);
@@ -137,7 +137,7 @@ class EditableComponent<
  * @param {EditConfig} [editConfig]
  */
 export function withEditable<P extends MappedComponentProperties>(
-  WrappedComponent: ComponentType<P>,
+  WrappedComponent: React.ComponentType<P>,
   editConfig?: EditConfig<P>
 ) {
   /**
@@ -154,7 +154,7 @@ export function withEditable<P extends MappedComponentProperties>(
   /**
    * Wrapping Editable Component
    */
-  return class CompositeEditableComponent extends Component<P> {
+  return class CompositeEditableComponent extends React.Component<P> {
     public render(): JSX.Element {
       type TypeToUse = EditableComponentProperties<P> & P;
 

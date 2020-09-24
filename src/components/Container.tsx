@@ -11,7 +11,7 @@
  */
 
 import { Model } from '@adobe/aem-spa-page-model-manager';
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   ComponentMapping,
   MappedComponentProperties,
@@ -39,7 +39,7 @@ export interface ContainerState {
 export class Container<
   P extends ContainerProperties,
   S extends ContainerState
-> extends Component<P, S> {
+> extends React.Component<P, S> {
   public static defaultProps = {
     cqItems: {},
     cqItemsOrder: [],

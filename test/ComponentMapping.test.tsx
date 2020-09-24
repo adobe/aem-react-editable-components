@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   ComponentMapping,
   MappedComponentProperties,
@@ -32,7 +32,7 @@ describe('ComponentMapping', () => {
     },
   };
 
-  class TestComponent extends Component<Props> {
+  class TestComponent extends React.Component<Props> {
     render() {
       return <div />;
     }

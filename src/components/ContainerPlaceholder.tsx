@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 
 export interface PlaceHolderModel extends Object {
   placeholderClassNames: string;
@@ -25,7 +25,7 @@ export interface PlaceHolderModel extends Object {
  * @extends React.Component
  * @private
  */
-export class ContainerPlaceholder<P extends PlaceHolderModel> extends Component<
+export class ContainerPlaceholder<P extends PlaceHolderModel> extends React.Component<
   P
 > {
   public static get propTypes() {

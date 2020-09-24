@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { ComponentType } from 'react';
+import * as React from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { EditConfig, withEditable } from './components/EditableComponent';
 import {
@@ -77,14 +77,14 @@ ComponentMapping.map = function map<P extends MappedComponentProperties>(
 ComponentMapping.get = wrappedGetFct;
 
 type MapperFunction<P extends MappedComponentProperties> = (
-  component: ComponentType<P>,
+  component: React.ComponentType<P>,
   editConfig?: EditConfig<P>
 ) => void;
 
 const MapTo = <P extends MappedComponentProperties>(
   resourceTypes: string | string[]
 ): MapperFunction<P> => {
-  return (clazz: ComponentType<P>, config?: EditConfig<P>) => {
+  return (clazz: React.ComponentType<P>, config?: EditConfig<P>) => {
     // @ts-ignore
     return ComponentMapping.map(resourceTypes, clazz, config);
   };

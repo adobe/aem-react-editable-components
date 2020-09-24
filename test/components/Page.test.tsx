@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import {
   ComponentMapping,
@@ -88,7 +88,7 @@ describe('Page ->', () => {
     id: string;
   }
 
-  class ChildComponent extends Component<DummyProps> {
+  class ChildComponent extends React.Component<DummyProps> {
     render() {
       return (
         <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME}></div>

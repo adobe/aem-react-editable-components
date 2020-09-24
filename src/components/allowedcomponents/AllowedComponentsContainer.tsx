@@ -93,9 +93,9 @@ export class AllowedComponentsContainer<
             ._allowedComponentPlaceholderListEmptyLabel;
 
       if (_allowedComponentPlaceholderListEmptyLabel) {
-        // @ts-ignore
         return (
           <AllowedComponentPlaceholderList
+          // @ts-ignore
             title={title}
             emptyLabel={emptyLabel}
             components={allowedComponents.components}

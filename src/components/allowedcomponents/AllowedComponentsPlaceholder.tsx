@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 
 const ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES =
   'aem-AllowedComponent--component cq-placeholder placeholder';
@@ -27,7 +27,7 @@ export interface AllowedComponentPlaceHolderProperties {
 export class AllowedComponentPlaceholder<
   P extends AllowedComponentPlaceHolderProperties,
   S
-> extends Component<P, S> {
+> extends React.Component<P, S> {
   public static get propTypes() {
     return {
       emptyLabel: PropTypes.string,

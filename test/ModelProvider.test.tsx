@@ -11,7 +11,7 @@
  */
 
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
-import React, { Component } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { ModelProvider, withModel } from '../src/components/ModelProvider';
@@ -47,7 +47,7 @@ describe('ModelProvider ->', () => {
     className: string;
   }
 
-  class Dummy extends Component<DummyProps> {
+  class Dummy extends React.Component<DummyProps> {
     render() {
       return (
         <div id={INNER_COMPONENT_ID} className={this.props.className}>
@@ -185,8 +185,8 @@ describe('ModelProvider ->', () => {
     it('should initialize properly with a path parameter', () => {
       const DummyWithModel = withModel(Dummy);
 
-      // @ts-ignore
       ReactDOM.render(
+        // @ts-ignore
         <DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>,
         rootNode
       );
@@ -203,8 +203,8 @@ describe('ModelProvider ->', () => {
 
     it('should render a subpage properly when page path is provided', () => {
       const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-      // @ts-ignore
       ReactDOM.render(
+        // @ts-ignore
         <DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>,
         rootNode
       );
@@ -221,8 +221,8 @@ describe('ModelProvider ->', () => {
 
     it('should render components properly when component cqPath is provided', () => {
       const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-      // @ts-ignore
       ReactDOM.render(
+        // @ts-ignore
         <DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>,
         rootNode
       );
@@ -242,9 +242,9 @@ describe('ModelProvider ->', () => {
       const ITEM_PATH = 'root/paragraph';
 
       const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-      // @ts-ignore
       ReactDOM.render(
         <DummyWithModel
+        // @ts-ignore
           pagePath={PAGE_PATH}
           itemPath={ITEM_PATH}
         ></DummyWithModel>,

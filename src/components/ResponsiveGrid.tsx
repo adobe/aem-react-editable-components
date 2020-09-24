@@ -9,12 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { ComponentType } from 'react';
 
 import {
   MapTo,
   withComponentMappingContext,
-  MappedComponentProperties,
 } from '../ComponentMapping';
 import {
   AllowedComponentsContainer,

@@ -11,7 +11,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { PlaceHolderModel } from '../ContainerPlaceholder';
 import { AllowedComponent } from './AllowedComponentsContainer';
 import { AllowedComponentPlaceholder } from './AllowedComponentsPlaceholder';
@@ -36,7 +36,7 @@ export interface AllowedComponentPlaceholderListProperties {
 export class AllowedComponentPlaceholderList<
   P extends AllowedComponentPlaceholderListProperties,
   S
-> extends Component<P, S> {
+> extends React.Component<P, S> {
   public static get propTypes() {
     return {
       components: PropTypes.arrayOf(

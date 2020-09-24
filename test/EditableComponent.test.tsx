@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import {
@@ -43,7 +43,7 @@ describe('EditableComponent ->', () => {
     id?: string;
   }
 
-  class ChildComponent extends Component<ChildComponentProps> {
+  class ChildComponent extends React.Component<ChildComponentProps> {
     render() {
       const editorClassNames = this.props.isInEditor
         ? IN_EDITOR_CLASS_NAME

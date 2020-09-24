@@ -12,7 +12,7 @@
 
 import { normalize as normalizePath } from 'path';
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
-import React, { Component } from 'react';
+import * as React from 'react';
 import isEqual from 'react-fast-compare';
 import {
   ReloadForceAble,
@@ -47,7 +47,7 @@ export interface ModelProviderType extends ReloadForceAble {
  * Wraps a portion of the page model into a Component.
  * Fetches content from AEM (using ModelManager) and inject it into the passed React Component.
  */
-export class ModelProvider extends Component<ModelProviderType> {
+export class ModelProvider extends React.Component<ModelProviderType> {
   constructor(props: ModelProviderType) {
     super(props);
     this.getCQPath = this.getCQPath.bind(this);
@@ -128,7 +128,7 @@ export const withModel = <P extends MappedComponentProperties>(
   /**
    * @type CompositeModelProvider
    */
-  return class CompositeModelProviderImpl extends Component<P> {
+  return class CompositeModelProviderImpl extends React.Component<P> {
     public render() {
       const modelConfigToUse: ReloadableModelProperties = modelConfig || {};
 

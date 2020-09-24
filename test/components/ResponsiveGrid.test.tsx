@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import {
   ComponentMapping,
@@ -62,7 +62,7 @@ describe('ResponsiveGrid ->', () => {
     id: string;
   }
 
-  class ComponentChild extends Component<DummyProps> {
+  class ComponentChild extends React.Component<DummyProps> {
     render() {
       return (
         <div id={this.props && this.props.id} className={ITEM_CLASS_NAME} />

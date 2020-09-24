@@ -11,7 +11,7 @@
  */
 
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
-import React, { Component } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { withEditable } from '../../src/components/EditableComponent';
 import { withModel } from '../../src/components/ModelProvider';
@@ -39,7 +39,7 @@ describe('Composition and attribute propagation ->', () => {
     id: '',
   };
 
-  class ChildComponent extends Component<DummyProps> {
+  class ChildComponent extends React.Component<DummyProps> {
     render() {
       const attr = {
         [DATA_ATTR_TO_PROPS]: this.props.attrToProps,
