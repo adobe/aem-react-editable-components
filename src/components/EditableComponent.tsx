@@ -31,93 +31,103 @@ const PLACEHOLDER_CLASS_NAME = 'cq-placeholder';
  * @property {function} [isEmpty] - Callback function to determine if the component is empty
  */
 export interface EditConfig<P extends MappedComponentProperties> {
-    emptyLabel?: string;
-    isEmpty(props: P): boolean;
+  emptyLabel?: string;
+  isEmpty(props: P): boolean;
 }
 
-export interface EditableComponentProperties<P extends MappedComponentProperties>{
-    componentProperties: P
-    wrappedComponent: React.ComponentType<P>;
-    editConfig: EditConfig<P>;
-    containerProps?: { [key: string]: string };
+export interface EditableComponentProperties<
+  P extends MappedComponentProperties
+> {
+  componentProperties: P;
+  wrappedComponent: React.ComponentType<P>;
+  editConfig: EditConfig<P>;
+  containerProps?: { [key: string]: string };
 }
 
-type EditableComponentModel<P extends MappedComponentProperties> = EditableComponentProperties<P>;
+type EditableComponentModel<
+  P extends MappedComponentProperties
+> = EditableComponentProperties<P>;
 
 /**
  * The EditableComponent extends components with editing capabilities.
  */
-class EditableComponent<P extends MappedComponentProperties, S extends ContainerState> extends Component<EditableComponentModel<P>, S> {
-    constructor(props: EditableComponentModel<P>) {
-        super(props);
-        this.state = this.propsToState(props);
+class EditableComponent<
+  P extends MappedComponentProperties,
+  S extends ContainerState
+> extends Component<EditableComponentModel<P>, S> {
+  constructor(props: EditableComponentModel<P>) {
+    super(props);
+    this.state = this.propsToState(props);
+  }
+
+  public propsToState(props: EditableComponentModel<P>): any {
+    // Keep private properties from being passed as state
+    const { wrappedComponent, containerProps, editConfig, ...state } = props;
+
+    return state;
+  }
+
+  public componentDidUpdate(prevProps: EditableComponentModel<P>) {
+    if (!isEqual(prevProps, this.props)) {
+      this.setState(this.propsToState(this.props));
+    }
+  }
+
+  /**
+   * Properties related to the edition of the component.
+   */
+  get editProps(): { [key: string]: string } {
+    const eProps: { [key: string]: string } = {};
+
+    if (!this.props.componentProperties.isInEditor) {
+      return eProps;
     }
 
-    public propsToState(props: EditableComponentModel<P>): any {
-        // Keep private properties from being passed as state
-        const { wrappedComponent, containerProps, editConfig, ...state } = props;
+    eProps[Constants.DATA_PATH_ATTR] = this.props.componentProperties.cqPath;
 
-        return state;
+    return eProps;
+  }
+
+  /**
+   * HTMLElement representing the empty placeholder.
+   *
+   * @return {object}
+   */
+  get emptyPlaceholderProps() {
+    if (!this.useEmptyPlaceholder()) {
+      return null;
     }
 
-    public componentDidUpdate(prevProps: EditableComponentModel<P>) {
-        if (!isEqual(prevProps, this.props)) {
-            this.setState(this.propsToState(this.props));
-        }
-    }
+    return {
+      className: PLACEHOLDER_CLASS_NAME,
+      'data-emptytext': this.props.editConfig.emptyLabel,
+    };
+  }
 
-    /**
-     * Properties related to the edition of the component.
-     */
-    get editProps(): { [key: string]: string } {
-        const eProps: { [key: string]: string } = {};
+  /**
+   * Should an empty placeholder be added.
+   *
+   * @return {boolean}
+   */
+  public useEmptyPlaceholder() {
+    return (
+      this.props.componentProperties.isInEditor &&
+      typeof this.props.editConfig.isEmpty === 'function' &&
+      this.props.editConfig.isEmpty(this.props.componentProperties)
+    );
+  }
 
-        if (!this.props.componentProperties.isInEditor) {
-            return eProps;
-        }
+  public render() {
+    const WrappedComponent: React.ComponentType<any> = this.props
+      .wrappedComponent;
 
-        eProps[Constants.DATA_PATH_ATTR] = this.props.componentProperties.cqPath;
-
-        return eProps;
-    }
-
-    /**
-     * HTMLElement representing the empty placeholder.
-     *
-     * @return {object}
-     */
-    get emptyPlaceholderProps() {
-        if (!this.useEmptyPlaceholder()) {
-            return null;
-        }
-
-        return {
-            'className': PLACEHOLDER_CLASS_NAME,
-            'data-emptytext': this.props.editConfig.emptyLabel
-        };
-    }
-
-    /**
-     * Should an empty placeholder be added.
-     *
-     * @return {boolean}
-     */
-    public useEmptyPlaceholder() {
-        return this.props.componentProperties.isInEditor
-            && (typeof this.props.editConfig.isEmpty === 'function')
-            && this.props.editConfig.isEmpty(this.props.componentProperties);
-    }
-
-    public render() {
-        const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
-
-        return (
-            <div {...this.editProps} {...this.props.containerProps}>
-                <WrappedComponent {...this.state}/>
-                <div {...this.emptyPlaceholderProps}/>
-            </div>
-        );
-    }
+    return (
+      <div {...this.editProps} {...this.props.containerProps}>
+        <WrappedComponent {...this.state} />
+        <div {...this.emptyPlaceholderProps} />
+      </div>
+    );
+  }
 }
 
 /**
@@ -126,37 +136,38 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
  * @param {React.Component} WrappedComponent
  * @param {EditConfig} [editConfig]
  */
-export  function  withEditable<P extends MappedComponentProperties>(WrappedComponent: ComponentType<P>, editConfig?: EditConfig<P>) {
-
-
-
-    /**
-     * If not edit configuration is specified, provide a dummy that always returns false on isEmpty.
-     */
-    const editConfigToUse: EditConfig<P> = editConfig ? editConfig : {
+export function withEditable<P extends MappedComponentProperties>(
+  WrappedComponent: ComponentType<P>,
+  editConfig?: EditConfig<P>
+) {
+  /**
+   * If not edit configuration is specified, provide a dummy that always returns false on isEmpty.
+   */
+  const editConfigToUse: EditConfig<P> = editConfig
+    ? editConfig
+    : {
         isEmpty(props: P): boolean {
-            return false;
-        }
-    };
+          return false;
+        },
+      };
 
-    /**
-     * Wrapping Editable Component
-     */
-    return class CompositeEditableComponent extends Component<P> {
-        public render(): JSX.Element {
+  /**
+   * Wrapping Editable Component
+   */
+  return class CompositeEditableComponent extends Component<P> {
+    public render(): JSX.Element {
+      type TypeToUse = EditableComponentProperties<P> & P;
 
-            type TypeToUse = EditableComponentProperties<P> & P;
+      const computedProps: TypeToUse = {
+        ...this.props,
+        componentProperties: this.props,
+        editConfig: editConfigToUse,
+        wrappedComponent: WrappedComponent,
+      };
 
-            const computedProps: TypeToUse = {
-                ...this.props,
-                componentProperties: this.props,
-                editConfig: editConfigToUse,
-                wrappedComponent: WrappedComponent
-            };
-
-            return <EditableComponent {...computedProps} />;
-        }
-    };
+      return <EditableComponent {...computedProps} />;
+    }
+  };
 }
 
 export { PLACEHOLDER_CLASS_NAME };

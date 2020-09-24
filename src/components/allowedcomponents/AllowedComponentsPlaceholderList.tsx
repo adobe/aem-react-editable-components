@@ -20,11 +20,11 @@ const ALLOWED_PLACEHOLDER_CLASS_NAMES = 'aem-AllowedComponent--list';
 const ALLOWED_COMPONENT_TITLE_CLASS_NAMES = 'aem-AllowedComponent--title';
 
 export interface AllowedComponentPlaceholderListProperties {
-    title: string;
-    emptyLabel: string;
-    components: AllowedComponent[];
-    placeholderProps: PlaceHolderModel;
-    cqPath: string;
+  title: string;
+  emptyLabel: string;
+  components: AllowedComponent[];
+  placeholderProps: PlaceHolderModel;
+  cqPath: string;
 }
 /**
  * List of placeholder of the Allowed Component Container component.
@@ -33,31 +33,49 @@ export interface AllowedComponentPlaceholderListProperties {
  * @extends React.Component
  * @private
  */
-export class AllowedComponentPlaceholderList<P extends AllowedComponentPlaceholderListProperties, S> extends Component<P, S> {
-    public static get propTypes() {
-        return {
-            components: PropTypes.arrayOf(PropTypes.shape({
-                path: PropTypes.string,
-                title: PropTypes.string
-            })),
-            cqPath: PropTypes.string,
-            emptyLabel: PropTypes.string,
-            placeholderClassNames: PropTypes.string,
-            title: PropTypes.string
-        };
-    }
+export class AllowedComponentPlaceholderList<
+  P extends AllowedComponentPlaceholderListProperties,
+  S
+> extends Component<P, S> {
+  public static get propTypes() {
+    return {
+      components: PropTypes.arrayOf(
+        PropTypes.shape({
+          path: PropTypes.string,
+          title: PropTypes.string,
+        })
+      ),
+      cqPath: PropTypes.string,
+      emptyLabel: PropTypes.string,
+      placeholderClassNames: PropTypes.string,
+      title: PropTypes.string,
+    };
+  }
 
-    public render() {
-        const { components, placeholderProps, title, emptyLabel } = this.props;
-        const listLabel = (components && (components.length > 0)) ? title : emptyLabel;
+  public render() {
+    const { components, placeholderProps, title, emptyLabel } = this.props;
+    const listLabel = components && components.length > 0 ? title : emptyLabel;
 
-        return (
-            <div className={ALLOWED_PLACEHOLDER_CLASS_NAMES + ' ' + placeholderProps.placeholderClassNames}>
-                <div data-text={listLabel} className={ALLOWED_COMPONENT_TITLE_CLASS_NAMES} />
-                {components.map((component, i) =>
-                    <AllowedComponentPlaceholder key={i} path={component.path} emptyLabel={component.title} />,
-                )}
-            </div>
-        );
-    }
+    return (
+      <div
+        className={
+          ALLOWED_PLACEHOLDER_CLASS_NAMES +
+          ' ' +
+          placeholderProps.placeholderClassNames
+        }
+      >
+        <div
+          data-text={listLabel}
+          className={ALLOWED_COMPONENT_TITLE_CLASS_NAMES}
+        />
+        {components.map((component, i) => (
+          <AllowedComponentPlaceholder
+            key={i}
+            path={component.path}
+            emptyLabel={component.title}
+          />
+        ))}
+      </div>
+    );
+  }
 }

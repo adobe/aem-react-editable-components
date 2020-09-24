@@ -11,39 +11,43 @@
  */
 
 import React, { Component } from 'react';
-import { ComponentMapping, MappedComponentProperties, MapTo } from '../src/ComponentMapping';
+import {
+  ComponentMapping,
+  MappedComponentProperties,
+  MapTo,
+} from '../src/ComponentMapping';
 import { EditConfig } from '../src/components/EditableComponent';
 
 describe('ComponentMapping', () => {
+  interface Props extends MappedComponentProperties {
+    src?: string;
+  }
 
-    interface Props extends MappedComponentProperties{
-        src?:string
+  const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
+  const editConfig: EditConfig<Props> = {
+    emptyLabel: 'Image',
+
+    isEmpty: function (props) {
+      return !props || !props.src || props.src.trim().length < 1;
+    },
+  };
+
+  class TestComponent extends Component<Props> {
+    render() {
+      return <div />;
     }
+  }
 
-    const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
-    const editConfig: EditConfig<Props> = {
-        emptyLabel: 'Image',
+  it('should store and retrieve component', () => {
+    const spy = jest
+      .spyOn(document.head, 'querySelector')
+      .mockReturnValue({ content: 'edit' } as any);
 
-        isEmpty: function(props) {
-            return !props || !props.src || (props.src.trim().length < 1);
-        }
-    };
+    MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
 
+    const WrappedTestComponent = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
 
-    class TestComponent extends Component<Props> {
-        render () {
-            return <div/>;
-        }
-    }
-
-    it('should store and retrieve component', () => {
-        const spy = jest.spyOn(document.head, 'querySelector').mockReturnValue({ content: 'edit' } as any);
-
-        MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
-
-        const WrappedTestComponent = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
-
-        expect(WrappedTestComponent).toBeDefined();
-        spy.mockRestore();
-    });
+    expect(WrappedTestComponent).toBeDefined();
+    spy.mockRestore();
+  });
 });

@@ -14,8 +14,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export interface PlaceHolderModel extends Object {
-    placeholderClassNames: string;
-    cqPath: string;
+  placeholderClassNames: string;
+  cqPath: string;
 }
 
 /**
@@ -25,19 +25,26 @@ export interface PlaceHolderModel extends Object {
  * @extends React.Component
  * @private
  */
-export class ContainerPlaceholder<P extends PlaceHolderModel> extends Component<P> {
-    public static get propTypes() {
-        return {
-            cqPath: PropTypes.string,
-            placeholderClassNames: PropTypes.string,
-        };
-    }
+export class ContainerPlaceholder<P extends PlaceHolderModel> extends Component<
+  P
+> {
+  public static get propTypes() {
+    return {
+      cqPath: PropTypes.string,
+      placeholderClassNames: PropTypes.string,
+    };
+  }
 
-    constructor(props: P) {
-        super(props);
-    }
+  constructor(props: P) {
+    super(props);
+  }
 
-    public render() {
-        return <div data-cq-data-path={this.props.cqPath + '/*'} className={this.props.placeholderClassNames} />;
-    }
+  public render() {
+    return (
+      <div
+        data-cq-data-path={this.props.cqPath + '/*'}
+        className={this.props.placeholderClassNames}
+      />
+    );
+  }
 }

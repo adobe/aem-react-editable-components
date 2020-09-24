@@ -13,138 +13,192 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
-import { PLACEHOLDER_CLASS_NAME, withEditable } from '../src/components/EditableComponent';
+import {
+  PLACEHOLDER_CLASS_NAME,
+  withEditable,
+} from '../src/components/EditableComponent';
 import Utils from '../src/Utils';
 
 describe('EditableComponent ->', () => {
-    const ROOT_CLASS_NAME = 'root-class';
-    const COMPONENT_RESOURCE_TYPE = '/component/resource/type';
-    const COMPONENT_PATH = '/path/to/component';
-    const CHILD_COMPONENT_CLASS_NAME = 'child-class';
-    const IN_EDITOR_CLASS_NAME = 'in-editor-class';
-    const EMPTY_LABEL = 'Empty Label';
-    const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
-    const DATA_PATH_ATTRIBUTE_SELECTOR = '[data-cq-data-path="' + COMPONENT_PATH + '"]';
+  const ROOT_CLASS_NAME = 'root-class';
+  const COMPONENT_RESOURCE_TYPE = '/component/resource/type';
+  const COMPONENT_PATH = '/path/to/component';
+  const CHILD_COMPONENT_CLASS_NAME = 'child-class';
+  const IN_EDITOR_CLASS_NAME = 'in-editor-class';
+  const EMPTY_LABEL = 'Empty Label';
+  const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
+  const DATA_PATH_ATTRIBUTE_SELECTOR =
+    '[data-cq-data-path="' + COMPONENT_PATH + '"]';
 
-    const CQ_PROPS = {
-        'cqType': COMPONENT_RESOURCE_TYPE,
-        'cqPath': COMPONENT_PATH
-    };
+  const CQ_PROPS = {
+    cqType: COMPONENT_RESOURCE_TYPE,
+    cqPath: COMPONENT_PATH,
+  };
 
-    let rootNode: any;
-    let sandbox: jest.SpyInstance;
-    let isInEditor = false;
+  let rootNode: any;
+  let sandbox: jest.SpyInstance;
+  let isInEditor = false;
 
-    interface ChildComponentProps extends MappedComponentProperties {
-        id?: string
+  interface ChildComponentProps extends MappedComponentProperties {
+    id?: string;
+  }
+
+  class ChildComponent extends Component<ChildComponentProps> {
+    render() {
+      const editorClassNames = this.props.isInEditor
+        ? IN_EDITOR_CLASS_NAME
+        : '';
+
+      return (
+        <div
+          id={this.props.id}
+          className={CHILD_COMPONENT_CLASS_NAME + ' ' + editorClassNames}
+        />
+      );
     }
+  }
 
-    class ChildComponent extends Component<ChildComponentProps> {
-        render() {
-            const editorClassNames = this.props.isInEditor ? IN_EDITOR_CLASS_NAME : '';
+  beforeEach(() => {
+    sandbox = jest
+      .spyOn(Utils, 'isInEditor')
+      .mockImplementation(() => isInEditor);
+    rootNode = document.createElement('div');
+    rootNode.className = ROOT_CLASS_NAME;
+    document.body.appendChild(rootNode);
+  });
 
-            return <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME + ' ' + editorClassNames} />;
-        }
+  afterEach(() => {
+    sandbox.mockRestore();
+
+    if (rootNode) {
+      document.body.appendChild(rootNode);
+      rootNode = undefined;
     }
+  });
 
-    beforeEach(() => {
-        sandbox = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => isInEditor);
-        rootNode = document.createElement('div');
-        rootNode.className = ROOT_CLASS_NAME;
-        document.body.appendChild(rootNode);
+  describe('Component emptiness ->', () => {
+    it('should declare the component to be empty', () => {
+      const EDIT_CONFIG = {
+        isEmpty: function () {
+          return true;
+        },
+        emptyLabel: EMPTY_LABEL,
+      };
+
+      const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+      const element: JSX.Element = (
+        <EditableComponent isInEditor={true} {...CQ_PROPS} />
+      );
+
+      ReactDOM.render(element, rootNode);
+
+      const node = rootNode.querySelector(
+        DATA_PATH_ATTRIBUTE_SELECTOR +
+          ' .' +
+          CHILD_COMPONENT_CLASS_NAME +
+          ' + .' +
+          PLACEHOLDER_CLASS_NAME +
+          EMPTY_TEXT_SELECTOR
+      );
+
+      expect(node).toBeDefined();
     });
 
-    afterEach(() => {
-        sandbox.mockRestore();
+    it('should declare the component to be empty without providing a label', () => {
+      const EDIT_CONFIG = {
+        isEmpty: function () {
+          return true;
+        },
+      };
 
-        if (rootNode) {
-            document.body.appendChild(rootNode);
-            rootNode = undefined;
-        }
+      isInEditor = true;
+
+      const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+      ReactDOM.render(
+        <EditableComponent isInEditor={true} {...CQ_PROPS} />,
+        rootNode
+      );
+
+      let node = rootNode.querySelector(
+        DATA_PATH_ATTRIBUTE_SELECTOR +
+          ' .' +
+          PLACEHOLDER_CLASS_NAME +
+          EMPTY_TEXT_SELECTOR
+      );
+
+      expect(node).toBeNull();
+
+      node = rootNode.querySelector(
+        DATA_PATH_ATTRIBUTE_SELECTOR +
+          ' .' +
+          CHILD_COMPONENT_CLASS_NAME +
+          ' + .' +
+          PLACEHOLDER_CLASS_NAME
+      );
+
+      expect(node).toBeDefined();
     });
 
-    describe('Component emptiness ->', () => {
-        it('should declare the component to be empty', () => {
-            const EDIT_CONFIG = {
-                isEmpty: function () {
-                    return true;
-                },
-                emptyLabel: EMPTY_LABEL
-            };
+    it('should declare the component as not being in the editor', () => {
+      const EDIT_CONFIG = {
+        isEmpty: function () {
+          return true;
+        },
+      };
 
-            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
-            const element: JSX.Element = <EditableComponent isInEditor={true} {...CQ_PROPS} />;
+      isInEditor = true;
 
-            ReactDOM.render(element, rootNode);
+      const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
 
-            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
+      ReactDOM.render(
+        <EditableComponent isInEditor={false} {...CQ_PROPS} />,
+        rootNode
+      );
 
-            expect(node).toBeDefined();
-        });
+      let node = rootNode.querySelector(
+        '.' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR
+      );
 
-        it('should declare the component to be empty without providing a label', () => {
-            const EDIT_CONFIG = {
-                isEmpty: function () {
-                    return true;
-                }
-            };
+      expect(node).toBeNull();
 
-            isInEditor = true;
+      node = rootNode.querySelector(
+        DATA_PATH_ATTRIBUTE_SELECTOR +
+          ' .' +
+          CHILD_COMPONENT_CLASS_NAME +
+          ' + .' +
+          PLACEHOLDER_CLASS_NAME
+      );
 
-            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
-
-            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
-
-            let node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
-
-            expect(node).toBeNull();
-
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
-
-            expect(node).toBeDefined();
-        });
-
-        it('should declare the component as not being in the editor', () => {
-            const EDIT_CONFIG = {
-                isEmpty: function () {
-                    return true;
-                }
-            };
-
-            isInEditor = true;
-
-            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
-
-            ReactDOM.render(<EditableComponent isInEditor={false} {...CQ_PROPS}/>, rootNode);
-
-            let node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
-
-            expect(node).toBeNull();
-
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
-
-            expect(node).toBeNull();
-        });
-
-        it('should declare the component not to be empty', () => {
-            const EDIT_CONFIG = {
-                isEmpty: function () {
-                    return false;
-                },
-                emptyLabel: EMPTY_LABEL
-            };
-
-            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
-
-            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
-
-            let node = rootNode.querySelector('.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
-
-            expect(node).toBeNull();
-
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME);
-
-            expect(node).toBeDefined();
-        });
+      expect(node).toBeNull();
     });
+
+    it('should declare the component not to be empty', () => {
+      const EDIT_CONFIG = {
+        isEmpty: function () {
+          return false;
+        },
+        emptyLabel: EMPTY_LABEL,
+      };
+
+      const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+      ReactDOM.render(
+        <EditableComponent isInEditor={true} {...CQ_PROPS} />,
+        rootNode
+      );
+
+      let node = rootNode.querySelector(
+        '.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME
+      );
+
+      expect(node).toBeNull();
+
+      node = rootNode.querySelector(
+        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME
+      );
+
+      expect(node).toBeDefined();
+    });
+  });
 });

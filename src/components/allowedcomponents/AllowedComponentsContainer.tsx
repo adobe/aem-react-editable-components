@@ -18,75 +18,94 @@ import { AllowedComponentPlaceholderList } from './AllowedComponentsPlaceholderL
  * Component that is allowed to be used on the page by the editor
  */
 export interface AllowedComponent {
-    /**
-     * Path to the component under apps
-     */
-    path: string;
+  /**
+   * Path to the component under apps
+   */
+  path: string;
 
-    /**
-     * Title of the component
-     */
-    title: string;
+  /**
+   * Title of the component
+   */
+  title: string;
 }
 
 /**
  * AllowedComponents collection
  */
 export interface AllowedComponents {
-    applicable: boolean;
+  applicable: boolean;
 
-    /**
-     * List of allowed components
-     */
-    components: AllowedComponent[];
+  /**
+   * List of allowed components
+   */
+  components: AllowedComponent[];
 }
 
 /**
  * Properties for the allowed components container
  */
 export interface AllowedComponentsProperties extends ContainerProperties {
-    /**
-     * List of allowed components for the container
-     */
-    allowedComponents: AllowedComponents;
+  /**
+   * List of allowed components for the container
+   */
+  allowedComponents: AllowedComponents;
 
-    /**
-     *  Label to display when there are no allowed components
-     */
-    _allowedComponentPlaceholderListEmptyLabel?: string;
+  /**
+   *  Label to display when there are no allowed components
+   */
+  _allowedComponentPlaceholderListEmptyLabel?: string;
 
-    /**
-     * Title of the placeholder list
-     */
-    title: string;
+  /**
+   * Title of the placeholder list
+   */
+  title: string;
 }
 
 /**
  *  When applicable, the component exposes a list of allowed components
  *  This is used by the template editor
  */
-export class AllowedComponentsContainer<M extends AllowedComponentsProperties, S extends ContainerState> extends Container<M, S> {
-    public static defaultProps = {
-        // Temporary property until CQ-4265892 is addressed, beware not rely it
-        _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: ''
-    };
+export class AllowedComponentsContainer<
+  M extends AllowedComponentsProperties,
+  S extends ContainerState
+> extends Container<M, S> {
+  public static defaultProps = {
+    // Temporary property until CQ-4265892 is addressed, beware not rely it
+    _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
+    cqItems: {},
+    cqItemsOrder: [],
+    cqPath: '',
+  };
 
-    public render() {
-        const { allowedComponents, _allowedComponentPlaceholderListEmptyLabel, title, isInEditor } = this.props;
+  public render() {
+    const {
+      allowedComponents,
+      _allowedComponentPlaceholderListEmptyLabel,
+      title,
+      isInEditor,
+    } = this.props;
 
-        if (isInEditor && allowedComponents && allowedComponents.applicable) {
-            // @ts-ignore
-            const emptyLabel: string = _allowedComponentPlaceholderListEmptyLabel ? _allowedComponentPlaceholderListEmptyLabel : AllowedComponentsContainer.defaultProps._allowedComponentPlaceholderListEmptyLabel;
+    if (isInEditor && allowedComponents && allowedComponents.applicable) {
+      // @ts-ignore
+      const emptyLabel: string = _allowedComponentPlaceholderListEmptyLabel
+        ? _allowedComponentPlaceholderListEmptyLabel
+        : AllowedComponentsContainer.defaultProps
+            ._allowedComponentPlaceholderListEmptyLabel;
 
-            if (_allowedComponentPlaceholderListEmptyLabel) {
-                // @ts-ignore
-                return <AllowedComponentPlaceholderList title={title} emptyLabel={emptyLabel} components={allowedComponents.components} placeholderProps={this.placeholderProps} cqPath={this.props.cqPath}/>;
-            }
-        }
-
-        return super.render();
+      if (_allowedComponentPlaceholderListEmptyLabel) {
+        // @ts-ignore
+        return (
+          <AllowedComponentPlaceholderList
+            title={title}
+            emptyLabel={emptyLabel}
+            components={allowedComponents.components}
+            placeholderProps={this.placeholderProps}
+            cqPath={this.props.cqPath}
+          />
+        );
+      }
     }
+
+    return super.render();
+  }
 }

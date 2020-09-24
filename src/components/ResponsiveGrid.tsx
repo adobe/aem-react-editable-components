@@ -9,77 +9,96 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, {ComponentType} from 'react';
+import React, { ComponentType } from 'react';
 
-import { MapTo, withComponentMappingContext, MappedComponentProperties } from '../ComponentMapping';
-import { AllowedComponentsContainer, AllowedComponentsProperties } from './allowedcomponents/AllowedComponentsContainer';
+import {
+  MapTo,
+  withComponentMappingContext,
+  MappedComponentProperties,
+} from '../ComponentMapping';
+import {
+  AllowedComponentsContainer,
+  AllowedComponentsProperties,
+} from './allowedcomponents/AllowedComponentsContainer';
 import { ContainerState } from './Container';
 import { PlaceHolderModel } from './ContainerPlaceholder';
-import { EditConfig } from "./EditableComponent";
+import { EditConfig } from './EditableComponent';
 
 const PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
 export interface ResponsiveGridProperties extends AllowedComponentsProperties {
-    gridClassNames: string;
-    columnClassNames: { [key: string]: string };
+  gridClassNames: string;
+  columnClassNames: { [key: string]: string };
 }
 
-export class ResponsiveGrid<P extends ResponsiveGridProperties, S extends ContainerState> extends AllowedComponentsContainer<P, S> {
-    public static defaultProps = {
-        // Temporary property until CQ-4265892 is addressed, beware not rely it
-        _allowedComponentPlaceholderListEmptyLabel: 'No allowed components for Layout Container',
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: '',
-        title: 'Layout Container'
-    };
+export class ResponsiveGrid<
+  P extends ResponsiveGridProperties,
+  S extends ContainerState
+> extends AllowedComponentsContainer<P, S> {
+  public static defaultProps = {
+    // Temporary property until CQ-4265892 is addressed, beware not rely it
+    _allowedComponentPlaceholderListEmptyLabel:
+      'No allowed components for Layout Container',
+    cqItems: {},
+    cqItemsOrder: [],
+    cqPath: '',
+    title: 'Layout Container',
+  };
 
-    /**
-     * The attributes that will be injected in the root element of the container.
-     *
-     * @returns {Object} - the attributes of the container
-     */
-    get containerProps(): { [key: string]: string } {
-        const containerProps = super.containerProps;
+  /**
+   * The attributes that will be injected in the root element of the container.
+   *
+   * @returns {Object} - the attributes of the container
+   */
+  get containerProps(): { [key: string]: string } {
+    const containerProps = super.containerProps;
 
-        containerProps.className = (containerProps.className || '') + ' ' +  this.props.gridClassNames;
+    containerProps.className =
+      (containerProps.className || '') + ' ' + this.props.gridClassNames;
 
-        return containerProps;
-    }
+    return containerProps;
+  }
 
-    /**
-     * The properties that will go on the placeholder component root element
-     *
-     * @returns {Object} - the properties as a map
-     */
-    get placeholderProps(): PlaceHolderModel  {
-        const props = super.placeholderProps;
+  /**
+   * The properties that will go on the placeholder component root element
+   *
+   * @returns {Object} - the properties as a map
+   */
+  get placeholderProps(): PlaceHolderModel {
+    const props = super.placeholderProps;
 
-        props.placeholderClassNames = (props.placeholderClassNames || '') + ' ' +  PLACEHOLDER_CLASS_NAMES;
+    props.placeholderClassNames =
+      (props.placeholderClassNames || '') + ' ' + PLACEHOLDER_CLASS_NAMES;
 
-        return props;
-    }
+    return props;
+  }
 
-    /**
-     * Returns the properties to add on a specific child component
-     *
-     * @param   {Object} item     The item data
-     * @param   {String} itemKey  The key of the item
-     * @param   {String} itemPath The path of the item
-     * @returns {Object} The map of properties to be added
-     */
-    getItemComponentProps(item: any, itemKey: string, itemPath: string) {
-        const attrs = super.getItemComponentProps(item, itemKey, itemPath);
+  /**
+   * Returns the properties to add on a specific child component
+   *
+   * @param   {Object} item     The item data
+   * @param   {String} itemKey  The key of the item
+   * @param   {String} itemPath The path of the item
+   * @returns {Object} The map of properties to be added
+   */
+  getItemComponentProps(item: any, itemKey: string, itemPath: string) {
+    const attrs = super.getItemComponentProps(item, itemKey, itemPath);
 
-        attrs.className = attrs.className || '';
-        attrs.className += this.props.columnClassNames && this.props.columnClassNames[itemKey] ?  ' ' + this.props.columnClassNames[itemKey] : '';
+    attrs.className = attrs.className || '';
+    attrs.className +=
+      this.props.columnClassNames && this.props.columnClassNames[itemKey]
+        ? ' ' + this.props.columnClassNames[itemKey]
+        : '';
 
-        return attrs;
-    }
+    return attrs;
+  }
 }
 const config: EditConfig<ResponsiveGridProperties> = {
-    isEmpty(props: ResponsiveGridProperties): boolean {
-        return props.cqItemsOrder && props.cqItemsOrder.length > 0
-    }
-}
-MapTo<ResponsiveGridProperties>('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid), config);
+  isEmpty(props: ResponsiveGridProperties): boolean {
+    return props.cqItemsOrder && props.cqItemsOrder.length > 0;
+  },
+};
+MapTo<ResponsiveGridProperties>('wcm/foundation/components/responsivegrid')(
+  withComponentMappingContext(ResponsiveGrid),
+  config
+);

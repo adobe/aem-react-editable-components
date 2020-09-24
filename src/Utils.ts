@@ -95,7 +95,7 @@ const Utils = {
      *
      * @returns {boolean}
      */
-    isInEditor() {
+    isInEditor(): boolean {
         const wcmMode = getWCMMode();
 
         return wcmMode && ((WCMMode.EDIT === wcmMode) || (WCMMode.PREVIEW === wcmMode));
@@ -109,7 +109,7 @@ const Utils = {
      * @param {Object} item - the item data
      * @returns {Object} the transformed data
      */
-    modelToProps(item: Model) {
+    modelToProps(item: Model): any {
         const keys = Object.getOwnPropertyNames(item);
         const props: any = {};
 

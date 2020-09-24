@@ -13,27 +13,37 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-const ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES = 'aem-AllowedComponent--component cq-placeholder placeholder';
+const ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES =
+  'aem-AllowedComponent--component cq-placeholder placeholder';
 
 export interface AllowedComponentPlaceHolderProperties {
-    emptyLabel: string;
-    path: string;
+  emptyLabel: string;
+  path: string;
 }
 
 /**
  * Placeholder for one Allowed Component.
  */
-export class AllowedComponentPlaceholder<P extends AllowedComponentPlaceHolderProperties, S> extends Component<P, S> {
-    public static get propTypes() {
-        return {
-            emptyLabel: PropTypes.string,
-            path: PropTypes.string
-        };
-    }
+export class AllowedComponentPlaceholder<
+  P extends AllowedComponentPlaceHolderProperties,
+  S
+> extends Component<P, S> {
+  public static get propTypes() {
+    return {
+      emptyLabel: PropTypes.string,
+      path: PropTypes.string,
+    };
+  }
 
-    public render() {
-        const { path, emptyLabel } = this.props;
+  public render() {
+    const { path, emptyLabel } = this.props;
 
-        return <div data-cq-data-path={path} data-emptytext={emptyLabel} className={ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES} />;
-    }
+    return (
+      <div
+        data-cq-data-path={path}
+        data-emptytext={emptyLabel}
+        className={ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES}
+      />
+    );
+  }
 }
