@@ -13,8 +13,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
-import { PLACEHOLDER_CLASS_NAME, withEditable } from '../src/components/EditableComponent';
+import { withEditable } from '../src/components/EditableComponent';
 import Utils from '../src/Utils';
+import { Constants } from "../src/Constants";
 
 describe('EditableComponent ->', () => {
     const ROOT_CLASS_NAME = 'root-class';
@@ -77,7 +78,7 @@ describe('EditableComponent ->', () => {
 
             ReactDOM.render(element, rootNode);
 
-            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
+            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR);
 
             expect(node).toBeDefined();
         });
@@ -95,11 +96,11 @@ describe('EditableComponent ->', () => {
 
             ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
-            let node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
+            let node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR);
 
             expect(node).toBeNull();
 
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
+            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
 
             expect(node).toBeDefined();
         });
@@ -117,11 +118,11 @@ describe('EditableComponent ->', () => {
 
             ReactDOM.render(<EditableComponent isInEditor={false} {...CQ_PROPS}/>, rootNode);
 
-            let node = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
+            let node = rootNode.querySelector('.' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR);
 
             expect(node).toBeNull();
 
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
+            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
 
             expect(node).toBeNull();
         });
@@ -138,7 +139,7 @@ describe('EditableComponent ->', () => {
 
             ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
-            let node = rootNode.querySelector('.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
+            let node = rootNode.querySelector('.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
 
             expect(node).toBeNull();
 

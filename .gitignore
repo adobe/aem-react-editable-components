@@ -1,33 +1,7 @@
-*.tsbuildinfo
-.idea
-*.iml
-.DS_Store
-.npmrc
-/build
-/node
-/temp
-/dist
-/.chrome
-/package
-docs/
-
-# dependency directories
 node_modules/
-jspm_packages/
-
-# logs
-logs
-*.log
-npm-debug.log*
-
-# npm cache directory
-.npm
-
-# jsdoc
-out/
-
-# code coverage
+dist/
 coverage/
+*.log
 
 # for temporary dependencies
 *.tgz

@@ -21,8 +21,6 @@ export interface PlaceHolderModel extends Object {
 /**
  * Placeholder of the Container component.
  *
- * @class
- * @extends React.Component
  * @private
  */
 export class ContainerPlaceholder<P extends PlaceHolderModel> extends Component<P> {

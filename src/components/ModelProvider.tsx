@@ -13,15 +13,15 @@
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
-import { ReloadForceAble, MappedComponentProperties } from '../ComponentMapping';
+import { MappedComponentProperties, ReloadForceAble } from '../ComponentMapping';
 import Utils from '../Utils';
 
 /**
  * Configuration object of the withModel function.
  */
 export interface ReloadableModelProperties {
-    /**
-     * Should the model be refreshed all the time
+    /*
+     * Should the model cache be ignored when processing the component.
      */
     forceReload?: boolean;
     /**
@@ -31,9 +31,12 @@ export interface ReloadableModelProperties {
     injectPropsOnInit?: boolean;
 }
 
+/*
+ * @private
+ */
 export interface ModelProviderType extends ReloadForceAble {
     wrappedComponent: React.ComponentType<any>;
-    cqPath?: string;
+    cqPath: string;
     injectPropsOnInit?: boolean;
     pagePath?: string;
     itemPath?: string;
@@ -42,12 +45,13 @@ export interface ModelProviderType extends ReloadForceAble {
 /**
  * Wraps a portion of the page model into a Component.
  * Fetches content from AEM (using ModelManager) and inject it into the passed React Component.
+ *
+ * @private
  */
 export class ModelProvider extends Component<ModelProviderType> {
     constructor(props: ModelProviderType) {
         super(props);
         this.updateData = this.updateData.bind(this);
-
         this.state = this.propsToState(props);
     }
 
@@ -64,6 +68,10 @@ export class ModelProvider extends Component<ModelProviderType> {
         }
     }
 
+    /**
+     * Update model based on given resource path.
+     * @param cqPath resource path
+     */
     public updateData(cqPath?: string) {
         const path = cqPath || this.props.cqPath;
         if (!path) {
@@ -92,9 +100,7 @@ export class ModelProvider extends Component<ModelProviderType> {
     }
 
     public componentWillUnmount(): void {
-        const { cqPath = '' } = this.props;
-        // Clean up listener
-        ModelManager.removeListener(cqPath, this.updateData);
+        ModelManager.removeListener(this.props.cqPath, this.updateData);
     }
 
     public render() {
@@ -105,21 +111,14 @@ export class ModelProvider extends Component<ModelProviderType> {
 }
 
 /**
- * @param WrappedComponent
- * @param {ReloadableModelProperties} [modelConfig]
+ * @param WrappedComponent React representation for the AEM resource types.
+ * @param modelConfig General configuration object.
  */
-export const withModel = <P extends MappedComponentProperties>(WrappedComponent: React.ComponentType<P>, modelConfig?: ReloadableModelProperties) => {
-    /**
-     * @type CompositeModelProvider
-     */
+export const withModel = <P extends MappedComponentProperties>(WrappedComponent: React.ComponentType<P>, modelConfig: ReloadableModelProperties = {}) => {
     return class CompositeModelProviderImpl extends Component<P> {
         public render() {
-            const modelConfigToUse: ReloadableModelProperties = modelConfig || {};
-
-            // The reload can be forced either via the withModel function property or locally via the tag's property
-            const forceReload = this.props.cqForceReload || modelConfigToUse.forceReload || false;
-
-            const injectPropsOnInit = modelConfigToUse.injectPropsOnInit || false;
+            const forceReload = this.props.cqForceReload || modelConfig.forceReload || false;
+            const injectPropsOnInit = modelConfig.injectPropsOnInit || false;
 
             return (
               <ModelProvider

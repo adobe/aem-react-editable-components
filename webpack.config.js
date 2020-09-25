@@ -5,14 +5,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isEnvironmentTest = process.env.NODE_ENV === 'test';
 
 module.exports = {
-    entry: './src/aem-react-editable-components.ts',
+    entry: './src/types.ts',
     mode: 'development',
     devtool: 'source-map',
     output: {
         globalObject: `(function(){ try{ return typeof self !== 'undefined';}catch(err){return false;}})() ? self : this`,
         path: path.resolve(__dirname, 'dist'),
         filename: 'aem-react-editable-components.js',
-        library: 'cqReactEditableComponents',
+        library: 'aemReactEditableComponents',
         libraryTarget: 'umd'
     },
     module: {

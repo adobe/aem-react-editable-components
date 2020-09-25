@@ -13,8 +13,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+/**
+ * @private
+ */
 const ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES = 'aem-AllowedComponent--component cq-placeholder placeholder';
 
+/**
+ * @private
+ */
 export interface AllowedComponentPlaceHolderProperties {
     emptyLabel: string;
     path: string;
@@ -22,6 +28,7 @@ export interface AllowedComponentPlaceHolderProperties {
 
 /**
  * Placeholder for one Allowed Component.
+ * @private
  */
 export class AllowedComponentPlaceholder<P extends AllowedComponentPlaceHolderProperties, S> extends Component<P, S> {
     public static get propTypes() {

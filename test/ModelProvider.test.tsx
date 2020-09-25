@@ -85,9 +85,10 @@ describe('ModelProvider ->', () => {
         });
 
         it('should initialize properly without parameter', () => {
+            // @ts-expect-error
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith('',expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
 
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -97,7 +98,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly with a path parameter', () => {
             ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH,expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
 
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -113,6 +114,7 @@ describe('ModelProvider ->', () => {
 
         it('should subscribe on the data with undefined parameters', () => {
             getDataSpy.mockResolvedValue({});
+            // @ts-expect-error
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
             expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
@@ -122,12 +124,12 @@ describe('ModelProvider ->', () => {
             getDataSpy.mockResolvedValue({});
             ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} cqForceReload={true} wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith( TEST_PAGE_PATH, expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
         });
     });
 
     describe('withModel ->', () => {
-        beforeEach(()=>{
+        beforeEach(() => {
             addListenerSpy.mockReset();
         });
 

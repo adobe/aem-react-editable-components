@@ -17,9 +17,6 @@ import Utils from '../Utils';
 import { Container, ContainerProperties, ContainerState } from './Container';
 import { ComponentMapping } from "../ComponentMapping";
 
-const NN_JCR_CONTENT = 'jcr:content';
-const PAGE_CLASS_NAMES = 'aem-page';
-
 export interface PageModel extends Model {
     ':type': string;
     'id': string;
@@ -30,11 +27,7 @@ export interface PageModel extends Model {
 export interface PageProperties extends ContainerProperties {
     cqChildren: { [key: string]: PageModel };
 }
-/**
- * The container for a Page.
- * In editing we need to force that this doesn't render a placeholder.
- * It should add data-cq-page-path instead fo data-cq-data-path.
- */
+
 export class Page<P extends PageProperties, S extends ContainerState> extends Container<P, S> {
     public static defaultProps = {
         cqChildren: {},
@@ -46,37 +39,27 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
     constructor(props: P) {
         super(props);
 
-        // @ts-ignore
         this.state = {
             componentMapping: this.props.componentMapping || ComponentMapping
-        };
+        } as Readonly<S>;
     }
 
-    /**
-     * The attributes that will be injected in the root element of the container
-     *
-     * @returns {Object} - the attributes of the container
-     */
     get containerProps(): { [key: string]: string } {
-        const attrs: { [key: string]: string } = {
-            className: PAGE_CLASS_NAMES
+        const props: { [key: string]: string } = {
+            className: Constants._PAGE_CLASS_NAMES
         };
 
-        if (!this.props.isInEditor) {
-            return attrs;
+        if (this.props.isInEditor) {
+            props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
         }
 
-        attrs[Constants.DATA_PATH_ATTR] = this.props.cqPath;
-
-        return attrs;
+        return props;
     }
 
     /**
-     * Returns the child pages of a page
-     *
-     * @return {Array}
+     * @returns The child pages of a page.
      */
-    get childPages() {
+    get childPages(): JSX.Element[] {
         const pages: JSX.Element[] = [];
 
         if (!this.props.cqChildren) {
@@ -99,14 +82,8 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
         return pages;
     }
 
-    /**
-     * Computes the path of the current item.
-     *
-     * @param {String} itemKey - the key of the item
-     * @returns {String} - the computed path
-     */
     public getItemPath(itemKey: string) {
-        return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + NN_JCR_CONTENT + '/' + itemKey) : itemKey;
+        return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + Constants.JCR_CONTENT + '/' + itemKey) : itemKey;
     }
 
     public render() {

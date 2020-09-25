@@ -17,18 +17,10 @@ import { Constants } from '../Constants';
 import { ContainerState } from './Container';
 
 /**
- * Class name used to identify the placeholder used to represent an empty component.
- *
- * @private
- */
-const PLACEHOLDER_CLASS_NAME = 'cq-placeholder';
-
-/**
  * Configuration object of the withEditable function.
  *
- * @typedef {Object} EditConfig
- * @property {boolean} [emptyLabel] - Label to be displayed on the overlay when the component is empty
- * @property {function} [isEmpty] - Callback function to determine if the component is empty
+ * @property emptyLabel Label to be displayed on the overlay when the component is empty.
+ * @property isEmpty Callback function to determine if the component is empty.
  */
 export interface EditConfig<P extends MappedComponentProperties> {
     emptyLabel?: string;
@@ -36,7 +28,7 @@ export interface EditConfig<P extends MappedComponentProperties> {
 }
 
 export interface EditableComponentProperties<P extends MappedComponentProperties>{
-    componentProperties: P
+    componentProperties: P;
     wrappedComponent: React.ComponentType<P>;
     editConfig: EditConfig<P>;
     containerProps?: { [key: string]: string };
@@ -45,7 +37,7 @@ export interface EditableComponentProperties<P extends MappedComponentProperties
 type EditableComponentModel<P extends MappedComponentProperties> = EditableComponentProperties<P>;
 
 /**
- * The EditableComponent extends components with editing capabilities.
+ * The EditableComponent provides components with editing capabilities.
  */
 class EditableComponent<P extends MappedComponentProperties, S extends ContainerState> extends Component<EditableComponentModel<P>, S> {
     constructor(props: EditableComponentModel<P>) {
@@ -67,7 +59,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
     }
 
     /**
-     * Properties related to the edition of the component.
+     * Properties related to the editing of the component.
      */
     get editProps(): { [key: string]: string } {
         const eProps: { [key: string]: string } = {};
@@ -81,18 +73,13 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         return eProps;
     }
 
-    /**
-     * HTMLElement representing the empty placeholder.
-     *
-     * @return {object}
-     */
-    get emptyPlaceholderProps() {
+    protected get emptyPlaceholderProps() {
         if (!this.useEmptyPlaceholder()) {
             return null;
         }
 
         return {
-            'className': PLACEHOLDER_CLASS_NAME,
+            'className': Constants._PLACEHOLDER_CLASS_NAMES,
             'data-emptytext': this.props.editConfig.emptyLabel
         };
     }
@@ -100,7 +87,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
     /**
      * Should an empty placeholder be added.
      *
-     * @return {boolean}
+     * @return
      */
     public useEmptyPlaceholder() {
         return this.props.componentProperties.isInEditor
@@ -121,36 +108,23 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
 }
 
 /**
- * Returns a composition that provides edition capabilities to the component.
+ * Returns a component wrapper that provides editing capabilities to the component.
  *
- * @param {React.Component} WrappedComponent
- * @param {EditConfig} [editConfig]
+ * @param WrappedComponent
+ * @param editConfig
  */
-export  function  withEditable<P extends MappedComponentProperties>(WrappedComponent: ComponentType<P>, editConfig?: EditConfig<P>) {
+export function withEditable<P extends MappedComponentProperties>(WrappedComponent: ComponentType<P>, editConfig?: EditConfig<P>) {
 
+    const defaultEditConfig: EditConfig<P> = editConfig ? editConfig : {isEmpty: (props: P) => false};
 
-
-    /**
-     * If not edit configuration is specified, provide a dummy that always returns false on isEmpty.
-     */
-    const editConfigToUse: EditConfig<P> = editConfig ? editConfig : {
-        isEmpty(props: P): boolean {
-            return false;
-        }
-    };
-
-    /**
-     * Wrapping Editable Component
-     */
     return class CompositeEditableComponent extends Component<P> {
         public render(): JSX.Element {
-
             type TypeToUse = EditableComponentProperties<P> & P;
 
             const computedProps: TypeToUse = {
                 ...this.props,
                 componentProperties: this.props,
-                editConfig: editConfigToUse,
+                editConfig: defaultEditConfig,
                 wrappedComponent: WrappedComponent
             };
 
@@ -158,5 +132,3 @@ export  function  withEditable<P extends MappedComponentProperties>(WrappedCompo
         }
     };
 }
-
-export { PLACEHOLDER_CLASS_NAME };
