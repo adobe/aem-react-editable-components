@@ -68,29 +68,34 @@ export class ModelProvider extends Component<ModelProviderType> {
 
     public updateData(cqPath?: string) {
         const path = cqPath || this.props.cqPath;
-        ModelManager.getData({path, forceReload: this.props.cqForceReload}).then((data: Model) => {
-            this.setState(Utils.modelToProps(data));
-        });
+        if (path) {
+            ModelManager.getData({ path, forceReload: this.props.cqForceReload}).then((data: Model) => {
+              if (data && (Object.keys(data).length > 0)) {
+                  const props = Utils.modelToProps(data);
+                  this.setState(props);
+              }
+          });
+        }
     }
 
-    private getCQPath() {
-      const {
-        pagePath = '', itemPath = '', injectPropsOnInit
-      } = this.props;
-      let { cqPath } = this.props;
+    private getCQPath(): string {
+        const {
+            pagePath = '', itemPath = '', injectPropsOnInit
+        } = this.props;
+        let { cqPath = '' } = this.props;
 
-      if (injectPropsOnInit && !cqPath) {
-          cqPath = (
-            itemPath ?
-              `${pagePath}/jcr:content/${itemPath}` :
-              pagePath
-          );
+        if (injectPropsOnInit && !cqPath) {
+            cqPath = (
+                itemPath ?
+                `${pagePath}/jcr:content/${itemPath}` :
+                pagePath
+            );
 
-          // Normalize path (replace multiple consecutive slashes with a single one).
-          cqPath = normalizePath(cqPath);
-          this.setState({ cqPath });
-      }
-      return cqPath;
+            // Normalize path (replace multiple consecutive slashes with a single one).
+            cqPath = normalizePath(cqPath);
+            this.setState({ cqPath });
+        }
+        return cqPath;
     }
 
     public componentDidMount() {
@@ -102,8 +107,9 @@ export class ModelProvider extends Component<ModelProviderType> {
     }
 
     public componentWillUnmount() {
+        const cqPath = this.getCQPath();
         // Clean up listener
-        ModelManager.removeListener(this.props.cqPath, this.updateData);
+        ModelManager.removeListener(cqPath, this.updateData);
     }
 
     public render() {
