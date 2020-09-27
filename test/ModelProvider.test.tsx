@@ -86,7 +86,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly without parameter', () => {
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(undefined,expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('',expect.any(Function));
 
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -114,7 +114,7 @@ describe('ModelProvider ->', () => {
             getDataSpy.mockResolvedValue({});
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(undefined, expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
         });
 
         it('should subscribe on the data with the provided attributes', () => {
@@ -134,7 +134,7 @@ describe('ModelProvider ->', () => {
             const DummyWithModel: any = withModel(Dummy);
             ReactDOM.render(<DummyWithModel></DummyWithModel>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(undefined, expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
 
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
