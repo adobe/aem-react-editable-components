@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import { normalize as normalizePath } from 'path';
 import { Model } from '@adobe/aem-spa-page-model-manager';
 
 class NotImplementedError extends Error {
@@ -52,7 +53,7 @@ export enum WCMMode {
  *
  * @returns {Boolean} the result of the check of the existance of the window object
  */
-function isBrowser() {
+function isBrowser(): boolean {
     try {
         return typeof window !== 'undefined';
     } catch (e) {
@@ -86,6 +87,17 @@ function getWCMMode(): WCMMode | boolean {
     return false;
 }
 
+interface ComponentProps {
+    pagePath?: string;
+    itemPath?: string;
+    cqPath?: string;
+    /**
+     * Should the component data be retrieved from the aem page model
+     * and passed down as props on componentMount
+     */
+    injectPropsOnInit?: boolean;
+}
+
 /**
  * Helper functions for interacting with the AEM environment.
  */
@@ -95,7 +107,7 @@ const Utils = {
      *
      * @returns {boolean}
      */
-    isInEditor() {
+    isInEditor(): boolean {
         const wcmMode = getWCMMode();
 
         return wcmMode && ((WCMMode.EDIT === wcmMode) || (WCMMode.PREVIEW === wcmMode));
@@ -129,6 +141,32 @@ const Utils = {
         });
 
         return props;
+    },
+
+    /**
+     * Determines the cqPath of a component given its props
+     *
+     * @private
+     * @returns cqPath of the component
+     */
+    getCQPath(componentProps: ComponentProps): string {
+        const {
+            pagePath = '', itemPath = '', injectPropsOnInit
+        } = componentProps;
+
+        let { cqPath = '' } = componentProps;
+
+        if (injectPropsOnInit && !cqPath) {
+            cqPath = (
+                itemPath ?
+                `${pagePath}/jcr:content/${itemPath}` :
+                pagePath
+            );
+
+            // Normalize path (replace multiple consecutive slashes with a single one).
+            cqPath = normalizePath(cqPath);
+        }
+        return cqPath;
     }
 };
 

@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-import { normalize as normalizePath } from 'path';
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
@@ -47,7 +46,6 @@ export interface ModelProviderType extends ReloadForceAble {
 export class ModelProvider extends Component<ModelProviderType> {
     constructor(props: ModelProviderType) {
         super(props);
-        this.getCQPath = this.getCQPath.bind(this);
         this.updateData = this.updateData.bind(this);
 
         this.state = this.propsToState(props);
@@ -60,7 +58,7 @@ export class ModelProvider extends Component<ModelProviderType> {
         return state;
     }
 
-    public componentDidUpdate(prevProps: ModelProviderType) {
+    public componentDidUpdate(prevProps: ModelProviderType): void {
         if (!isEqual(prevProps, this.props)) {
             this.setState(this.propsToState(this.props));
         }
@@ -68,46 +66,33 @@ export class ModelProvider extends Component<ModelProviderType> {
 
     public updateData(cqPath?: string) {
         const path = cqPath || this.props.cqPath;
-        if (path) {
-            ModelManager.getData({ path, forceReload: this.props.cqForceReload}).then((data: Model) => {
-              if (data && (Object.keys(data).length > 0)) {
-                  const props = Utils.modelToProps(data);
-                  this.setState(props);
-              }
-          });
+        if (!path) {
+            return;
         }
+
+        ModelManager.getData({ path, forceReload: this.props.cqForceReload}).then((data: Model) => {
+          if (data && (Object.keys(data).length > 0)) {
+              const props = Utils.modelToProps(data);
+              this.setState(props);
+          }
+        });
     }
 
-    private getCQPath(): string {
-        const {
-            pagePath = '', itemPath = '', injectPropsOnInit
-        } = this.props;
-        let { cqPath = '' } = this.props;
+    public componentDidMount(): void {
+        const { pagePath, itemPath, injectPropsOnInit } = this.props;
+        let { cqPath } = this.props;
 
-        if (injectPropsOnInit && !cqPath) {
-            cqPath = (
-                itemPath ?
-                `${pagePath}/jcr:content/${itemPath}` :
-                pagePath
-            );
+        cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
+        this.setState({ cqPath });
 
-            // Normalize path (replace multiple consecutive slashes with a single one).
-            cqPath = normalizePath(cqPath);
-            this.setState({ cqPath });
-        }
-        return cqPath;
-    }
-
-    public componentDidMount() {
-        const cqPath = this.getCQPath();
         if (this.props.injectPropsOnInit) {
           this.updateData(cqPath);
         }
         ModelManager.addListener(cqPath, this.updateData);
     }
 
-    public componentWillUnmount() {
-        const cqPath = this.getCQPath();
+    public componentWillUnmount(): void {
+        const { cqPath = '' } = this.props;
         // Clean up listener
         ModelManager.removeListener(cqPath, this.updateData);
     }
