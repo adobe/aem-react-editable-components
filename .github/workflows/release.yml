@@ -41,7 +41,7 @@ jobs:
       - name: Release module and publish it in github.com and npmjs.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.ADOBE_BOT_NPM_TOKEN }}
         run: npm run semantic-release
       - name: Build documentation
         run: npm run docs
