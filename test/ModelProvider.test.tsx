@@ -20,6 +20,7 @@ describe('ModelProvider ->', () => {
     const TEST_PAGE_PATH = '/page/jcr:content/root';
     const ROOT_NODE_CLASS_NAME = 'root-class';
     const INNER_COMPONENT_ID = 'innerContent';
+    const TEST_COMPONENT_MODEL = { ':type': 'test/components/componentchild' };
 
     let rootNode: any;
     let observer: any;
@@ -60,7 +61,7 @@ describe('ModelProvider ->', () => {
     beforeEach(() => {
 
         addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
-        getDataSpy     = jest.spyOn(ModelManager, 'getData').mockResolvedValue({})
+        getDataSpy     = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
         initializeSpy  = jest.spyOn(ModelManager, 'initialize').mockResolvedValue({});
 
         rootNode = document.createElement('div');
@@ -86,7 +87,7 @@ describe('ModelProvider ->', () => {
         it('should initialize properly without parameter', () => {
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(undefined,expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('',expect.any(Function));
 
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -114,7 +115,7 @@ describe('ModelProvider ->', () => {
             getDataSpy.mockResolvedValue({});
             ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(undefined, expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
         });
 
         it('should subscribe on the data with the provided attributes', () => {
@@ -134,7 +135,7 @@ describe('ModelProvider ->', () => {
             const DummyWithModel: any = withModel(Dummy);
             ReactDOM.render(<DummyWithModel></DummyWithModel>, rootNode);
 
-            expect(addListenerSpy).toHaveBeenCalledWith(undefined, expect.any(Function));
+            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
 
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
@@ -197,6 +198,17 @@ describe('ModelProvider ->', () => {
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
             expect(childNode).toBeDefined();
+        });
+    });
+
+    describe('Unmount -> ', () => {
+        it('should remove listeners on unmount', () => {
+            const removeListenerSpy: jest.SpyInstance = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
+
+            ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
+
+            ReactDOM.unmountComponentAtNode(rootNode);
+            expect(removeListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
         });
     });
 });
