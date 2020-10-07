@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/adobe/aem-react-editable-components/compare/v1.0.5...v1.0.6) (2020-10-07)
+
+
+### Bug Fixes
+
+* update page-model-manager dependency ([4b0c9d2](https://github.com/adobe/aem-react-editable-components/commit/4b0c9d255d7e60da786f8c8b000fc496153a5014))
+
 ## [1.0.5](https://github.com/adobe/aem-react-editable-components/compare/v1.0.4...v1.0.5) (2020-10-07)
 
 
