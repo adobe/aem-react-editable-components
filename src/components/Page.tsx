@@ -52,6 +52,10 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
         };
     }
 
+    componentDidMount(): void {
+        Utils.fetchModelOnBackNav(this.props);
+    }
+
     /**
      * The attributes that will be injected in the root element of the container
      *

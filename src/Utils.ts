@@ -11,7 +11,7 @@
  */
 
 import { normalize as normalizePath } from 'path';
-import { Model } from '@adobe/aem-spa-page-model-manager';
+import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 
 class NotImplementedError extends Error {
     constructor(message: string) {
@@ -96,6 +96,7 @@ interface ComponentProps {
      * and passed down as props on componentMount
      */
     injectPropsOnInit?: boolean;
+    history?: any;
 }
 
 /**
@@ -167,7 +168,19 @@ const Utils = {
             cqPath = normalizePath(cqPath);
         }
         return cqPath;
-    }
+    },
+
+    fetchModelOnBackNav(componentProps: ComponentProps): void {
+        const { cqPath, history } = componentProps;
+
+        window.onpopstate = () => {
+            const currentPath = PathUtils.sanitize(history.location.pathname) || '';
+
+            if (cqPath !== currentPath) {
+                ModelManager.getData({ path: currentPath });
+            }
+        }
+    },
 };
 
 export default Utils;
