@@ -1,7 +1,0 @@
-organization=adobeinc
-projectKey=adobe_aem-react-editable-components
-serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.13024
-dashboardUrl=https://sonarcloud.io/dashboard?id=adobe_aem-react-editable-components&branch=master
-ceTaskId=AXUCL1Q7EST8bFcEVVfj
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXUCL1Q7EST8bFcEVVfj

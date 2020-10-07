@@ -31,3 +31,5 @@ coverage/
 
 # for temporary dependencies
 *.tgz
+.scannerwork
+
