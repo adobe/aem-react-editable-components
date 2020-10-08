@@ -12,6 +12,7 @@
 
 
 export * from './ComponentMapping';
+export * from './ComponentWrapper';
 export * from './components/allowedcomponents/AllowedComponentsContainer';
 export * from './components/Container';
 export * from './components/EditableComponent';

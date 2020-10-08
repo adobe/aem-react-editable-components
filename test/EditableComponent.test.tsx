@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { PLACEHOLDER_CLASS_NAME, withEditable } from '../src/components/EditableComponent';
 import Utils from '../src/Utils';
+import { Constants } from '../src/Constants'
 
 describe('EditableComponent ->', () => {
     const ROOT_CLASS_NAME = 'root-class';
@@ -25,6 +26,7 @@ describe('EditableComponent ->', () => {
     const EMPTY_LABEL = 'Empty Label';
     const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
     const DATA_PATH_ATTRIBUTE_SELECTOR = '[data-cq-data-path="' + COMPONENT_PATH + '"]';
+    const DATA_RESOURCE_TYPE_SELECTOR = '[' + Constants.DATA_CQ_RESOURCE_TYPE_ATTR + '="' + COMPONENT_RESOURCE_TYPE + '"]';
 
     const CQ_PROPS = {
         'cqType': COMPONENT_RESOURCE_TYPE,
@@ -79,7 +81,7 @@ describe('EditableComponent ->', () => {
 
             const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME + EMPTY_TEXT_SELECTOR);
 
-            expect(node).toBeDefined();
+            expect(node).not.toBeNull();
         });
 
         it('should declare the component to be empty without providing a label', () => {
@@ -101,7 +103,7 @@ describe('EditableComponent ->', () => {
 
             node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + PLACEHOLDER_CLASS_NAME);
 
-            expect(node).toBeDefined();
+            expect(node).not.toBeNull();
         });
 
         it('should declare the component as not being in the editor', () => {
@@ -144,7 +146,46 @@ describe('EditableComponent ->', () => {
 
             node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME);
 
-            expect(node).toBeDefined();
+            expect(node).not.toBeNull();
+        });
+    });
+
+    describe('Virtual Component ->', () => {
+
+        it('should have the data-cq-resource-type attribute set when virtual props is true', () => {
+            const EDIT_CONFIG = {
+                isEmpty: function () {
+                    return false;
+                },
+                emptyLabel: EMPTY_LABEL,
+                aemResourceType: COMPONENT_RESOURCE_TYPE
+            };
+
+            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+            ReactDOM.render(<EditableComponent isInEditor={true} virtual={true} {...CQ_PROPS}/>, rootNode);
+
+            const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
+
+            expect(node).not.toBeNull();
+        });
+
+        it('should not have the data-cq-resource-type attribute set when virtual props is false', () => {
+            const EDIT_CONFIG = {
+                isEmpty: function () {
+                    return false;
+                },
+                emptyLabel: EMPTY_LABEL,
+                aemResourceType: COMPONENT_RESOURCE_TYPE
+            };
+
+            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+            ReactDOM.render(<EditableComponent isInEditor={true} virtual={false} {...CQ_PROPS}/>, rootNode);
+
+            const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
+
+            expect(node).toBeNull();
         });
     });
 });

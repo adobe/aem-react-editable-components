@@ -29,10 +29,12 @@ const PLACEHOLDER_CLASS_NAME = 'cq-placeholder';
  * @typedef {Object} EditConfig
  * @property {boolean} [emptyLabel] - Label to be displayed on the overlay when the component is empty
  * @property {function} [isEmpty] - Callback function to determine if the component is empty
+ * @property {string} [aemResourceType] - AEM ResourceType to be added as an attribute on the editable component dom
  */
 export interface EditConfig<P extends MappedComponentProperties> {
     emptyLabel?: string;
     isEmpty(props: P): boolean;
+    aemResourceType?: string;
 }
 
 export interface EditableComponentProperties<P extends MappedComponentProperties>{
@@ -71,12 +73,17 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
      */
     get editProps(): { [key: string]: string } {
         const eProps: { [key: string]: string } = {};
+        const componentProperties: P = this.props.componentProperties;
 
-        if (!this.props.componentProperties.isInEditor) {
+        if (!componentProperties.isInEditor) {
             return eProps;
         }
 
-        eProps[Constants.DATA_PATH_ATTR] = this.props.componentProperties.cqPath;
+        eProps[Constants.DATA_PATH_ATTR] = componentProperties.cqPath;
+
+        if (this.props.editConfig.aemResourceType && componentProperties.virtual) {
+            eProps[Constants.DATA_CQ_RESOURCE_TYPE_ATTR] = this.props.editConfig.aemResourceType;
+        }
 
         return eProps;
     }

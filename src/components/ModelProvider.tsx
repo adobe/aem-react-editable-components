@@ -75,6 +75,10 @@ export class ModelProvider extends Component<ModelProviderType> {
               const props = Utils.modelToProps(data);
               this.setState(props);
           }
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                this.setState({"virtual": true});
+            }
         });
     }
 
