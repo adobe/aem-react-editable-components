@@ -26,8 +26,6 @@ describe('Composition and attribute propagation ->', () => {
     const CHILD_COMPONENT_CLASS_NAME = 'child-class';
     const DATA_ATTR_TO_PROPS = 'data-attr-to-props';
 
-
-
     interface DummyProps extends MappedComponentProperties{
         cqType: string;
         attrToProps?: string;

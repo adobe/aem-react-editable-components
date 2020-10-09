@@ -1,23 +1,27 @@
 /**
  * Does the provided element matches the given selector
  *
- * @param {HTMLElement} el      - element to be tested
- * @param {string} selector     - selector to be found
- * @returns {*}
+ * @param el to be tested
+ * @param selector selector to be found
  */
-function matches(el, selector) {
-    return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
+function matches(el: any, selector: any) {
+    return (el.matches
+            || el.matchesSelector
+            || el.msMatchesSelector
+            || el.mozMatchesSelector
+            || el.webkitMatchesSelector
+            || el.oMatchesSelector)
+        .call(el, selector);
 }
 
 /**
  * Generic observe function
  *
- * @param {function} verify     - function which verify the processed object
- * @param {function} callback   - function to be called when the verification succeed
- * @returns {Function}
+ * @param verify function which verify the processed object
+ * @param callback function to be called when the verification succeed
  */
-function observe(verify, callback) {
-    return function (mutationsList) {
+function observe(verify: any, callback: any) {
+    return function (mutationsList: any) {
         for (const mutation of mutationsList) {
             if (verify(mutation)) {
                 callback && callback();
@@ -30,13 +34,12 @@ function observe(verify, callback) {
 /**
  * Generic observe function
  *
- * @param {function} process    - function in charge of providing an object to the verify function
- * @param {function} verify     - function which verify the processed object
- * @param {function} callback   - function to be called when the verification succeed
- * @returns {Function}
+ * @param process function in charge of providing an object to the verify function
+ * @param verify function which verify the processed object
+ * @param callback function to be called when the verification succeed
  */
-function observeProcess(process, verify, callback) {
-    return function (mutationsList) {
+function observeProcess(process: any, verify: any, callback: any) {
+    return function (mutationsList: any) {
         const result = {};
 
         for (const mutation of mutationsList) {
@@ -52,9 +55,8 @@ function observeProcess(process, verify, callback) {
  * Returns a camel case string based on the provided dash separated attribute name
  *
  * @param attributeName
- * @returns {string|undefined}
  */
-function extractDataAttributeName(attributeName) {
+function extractDataAttributeName(attributeName: any) {
     if (!attributeName) {
         return;
     }
@@ -78,24 +80,22 @@ function extractDataAttributeName(attributeName) {
 /**
  * Returns a MutationObserver instance where a verify condition can be provided. When the condition is satisfied the callback function is called
  *
- * @param {function} verify     - function which verify the processed object
- * @param {function} callback   - function to be called when the verification succeed
- * @returns {MutationObserver}
+ * @param verify function which verify the processed object
+ * @param callback function to be called when the verification succeed
  */
-export function getVerifyObserver(verify, callback) {
+export function getVerifyObserver(verify: any, callback: any) {
     return new MutationObserver(observe(verify, callback));
 }
 
 /**
  * Observers if the provided map of data attributes is available on one of the target element of the list of mutations
  *
- * @param {{}} attributes           - map of attributes and value to be found on the target element
- * @param {string} [selector]       - selector for querying a specific element
- * @param {function} callback       - function to be called when the verification succeed
- * @returns {MutationObserver}
+ * @param attributes map of attributes and value to be found on the target element
+ * @param selector selector for querying a specific element
+ * @param callback function to be called when the verification succeed
  */
-export function getDataAttributesObserver(attributes, selector, callback) {
-    const process = function (mutation, resultMap) {
+export function getDataAttributesObserver(attributes: any, selector: any, callback: any) {
+    const process = function (mutation: any, resultMap: any) {
         resultMap = resultMap || {};
 
         if (mutation.type !== 'attributes') {
@@ -114,7 +114,7 @@ export function getDataAttributesObserver(attributes, selector, callback) {
         }
     };
 
-    const verify = function (resultMap) {
+    const verify = function (resultMap: any) {
         for (const attributeName in attributes) {
             if (attributes.hasOwnProperty(attributeName)) {
                 expect(resultMap[attributeName]).to.equal(attributes[attributeName]);
