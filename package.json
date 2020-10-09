@@ -34,8 +34,7 @@
     "scripts": {
         "clean": "rm -rf coverage/ dist/",
         "docs": "npm i && npx typedoc ./src --out ./dist/docs --mode file --excludePrivate --ignoreCompilerErrors",
-        "linter": "eslint --ext .js,.jsx,.ts,.tsx . && tslint --project tsconfig.json",
-        "linter:fix": "eslint --ext .js,.jsx,.ts,.tsx . --fix && tslint --project tsconfig.json --fix",
+        "linter": "eslint .",
         "install:link-deps": "npm install && npm link @adobe/aem-spa-page-model-manager && npm link @adobe/aem-spa-component-mapping",
         "test": "jest --clearCache && jest",
         "test:coverage": "jest --clearCache && jest --coverage",
