@@ -79,7 +79,7 @@ describe('ComponentWrapper', () => {
         }
     });
 
-    it('should have data-cq-resource-type attribute set when virtual props is true', () => {
+    it('should have data-cq-resource-type attribute set when using WrapAsAEMEditableComponent with config having aemResourceType and component virtual', () => {
         const WrappedTestComponent = WrapAsAEMEditableComponent(TestComponent, editConfig);
 
         expect(WrappedTestComponent).toBeDefined();
