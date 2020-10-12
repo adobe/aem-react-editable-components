@@ -96,6 +96,7 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      * @param itemPath
      * @returns The map of properties.
      */
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
         return {};
     }
