@@ -107,6 +107,7 @@ export function getVerifyObserver(verify: any, callback: any) {
  * @param selector selector for querying a specific element
  * @param callback function to be called when the verification succeed
  */
+/* eslint-disable no-prototype-builtins */
 export function getDataAttributesObserver(attributes: any, selector: any, callback: any) {
     const process = function (mutation: any, resultMap: any) {
         resultMap = resultMap || {};

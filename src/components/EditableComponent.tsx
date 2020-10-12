@@ -47,6 +47,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
 
     public propsToState(props: EditableComponentModel<P>): any {
         // Keep private properties from being passed as state
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         const { wrappedComponent, containerProps, editConfig, ...state } = props;
 
         return state;

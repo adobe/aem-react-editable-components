@@ -27,7 +27,7 @@
     "build": "npm run clean && npm run linter && webpack && npm run build:types",
     "clean": "rm -rf dist/",
     "docs": "npm i && npx typedoc --excludePrivate ./src --out ./dist/docs --mode file",
-    "linter": "eslint .; true",
+    "linter": "eslint .",
     "semantic-release": "semantic-release",
     "test:coverage": "jest --clearCache && jest --coverage",
     "test:debug": "jest --coverage --watchAll",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@adobe/aem-spa-component-mapping": "~1.0.7",
     "@adobe/aem-spa-page-model-manager": "~1.2.2",
-    "@adobe/eslint-config-editorxp": "^1.0.4",
+    "@adobe/eslint-config-editorxp": "^1.0.5",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.0.7",
@@ -94,7 +94,7 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@adobe/eslint-config-editorxp"
+      "@adobe/eslint-config-editorxp/react"
     ]
   }
 }

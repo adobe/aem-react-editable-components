@@ -57,6 +57,7 @@ export class ModelProvider extends Component<ModelProviderType> {
 
     public propsToState(props: ModelProviderType) {
         // Keep private properties from being passed as state
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         const { wrappedComponent, cqForceReload, injectPropsOnInit, ...state } = props;
 
         return state;
@@ -74,6 +75,7 @@ export class ModelProvider extends Component<ModelProviderType> {
      */
     public updateData(cqPath?: string) {
         const path = cqPath || this.props.cqPath;
+
         if (!path) {
             return;
         }
@@ -81,6 +83,7 @@ export class ModelProvider extends Component<ModelProviderType> {
         ModelManager.getData({ path, forceReload: this.props.cqForceReload}).then((data: Model) => {
           if (data && (Object.keys(data).length > 0)) {
               const props = Utils.modelToProps(data);
+
               this.setState(props);
           }
         });
