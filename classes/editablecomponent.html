@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The EditableComponent extends components with editing capabilities.</p>
+						<p>The EditableComponent provides components with editing capabilities.</p>
 					</div>
 				</div>
 			</section>
@@ -121,7 +121,7 @@
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="editablecomponent.html#editprops" class="tsd-kind-icon">edit<wbr>Props</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="editablecomponent.html#emptyplaceholderprops" class="tsd-kind-icon">empty<wbr>Placeholder<wbr>Props</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected"><a href="editablecomponent.html#emptyplaceholderprops" class="tsd-kind-icon">empty<wbr>Placeholder<wbr>Props</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -160,9 +160,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="allowedcomponentplaceholder.html">AllowedComponentPlaceholder</a>.<a href="allowedcomponentplaceholder.html#constructor">constructor</a></p>
+								<p>Overrides Component.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L50">src/components/EditableComponent.tsx:50</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L42">src/components/EditableComponent.tsx:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -183,7 +183,7 @@
 					<h3>context</h3>
 					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#context">context</a></p>
+						<p>Inherited from Component.context</p>
 						<ul>
 							<li>Defined in node_modules/@types/react/index.d.ts:476</li>
 						</ul>
@@ -211,7 +211,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> props</h3>
 					<div class="tsd-signature tsd-kind-icon">props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#editablecomponentmodel" class="tsd-signature-type">EditableComponentModel</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ReactNode</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#props">props</a></p>
+						<p>Inherited from Component.props</p>
 						<ul>
 							<li>Defined in node_modules/@types/react/index.d.ts:501</li>
 						</ul>
@@ -222,7 +222,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<h3>refs</h3>
 					<div class="tsd-signature tsd-kind-icon">refs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#refs">refs</a></p>
+						<p>Inherited from Component.refs</p>
 						<ul>
 							<li>Defined in node_modules/@types/react/index.d.ts:507</li>
 						</ul>
@@ -248,7 +248,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<h3>state</h3>
 					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#state">state</a></p>
+						<p>Inherited from Component.state</p>
 						<ul>
 							<li>Defined in node_modules/@types/react/index.d.ts:502</li>
 						</ul>
@@ -259,7 +259,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagOptional">Optional</span> context<wbr>Type</h3>
 					<div class="tsd-signature tsd-kind-icon">context<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Context</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#contexttype">contextType</a></p>
+						<p>Inherited from Component.contextType</p>
 						<ul>
 							<li>Defined in node_modules/@types/react/index.d.ts:458</li>
 						</ul>
@@ -299,12 +299,12 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L72">src/components/EditableComponent.tsx:72</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L64">src/components/EditableComponent.tsx:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Properties related to the edition of the component.</p>
+									<p>Properties related to the editing of the component.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
@@ -316,24 +316,19 @@ class Foo extends React.Component {
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected">
 					<a name="emptyplaceholderprops" class="tsd-anchor"></a>
-					<h3>empty<wbr>Placeholder<wbr>Props</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> empty<wbr>Placeholder<wbr>Props</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> emptyPlaceholderProps<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>className<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>data-emptytext<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L89">src/components/EditableComponent.tsx:89</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L76">src/components/EditableComponent.tsx:76</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>HTMLElement representing the empty placeholder.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>className<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>data-emptytext<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
 						</li>
 					</ul>
@@ -350,7 +345,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#unsafe_componentwillmount">UNSAFE_componentWillMount</a></p>
+								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillMount</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:712</li>
 								</ul>
@@ -388,7 +383,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#unsafe_componentwillreceiveprops">UNSAFE_componentWillReceiveProps</a></p>
+								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillReceiveProps</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:744</li>
 								</ul>
@@ -437,7 +432,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#unsafe_componentwillupdate">UNSAFE_componentWillUpdate</a></p>
+								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillUpdate</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:772</li>
 								</ul>
@@ -482,12 +477,12 @@ class Foo extends React.Component {
 					<a name="componentdidcatch" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> component<wbr>Did<wbr>Catch</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">component<wbr>Did<wbr>Catch<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><a href="notimplementederror.html#error" class="tsd-signature-type">Error</a>, errorInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ErrorInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">component<wbr>Did<wbr>Catch<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, errorInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ErrorInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentdidcatch">componentDidCatch</a></p>
+								<p>Inherited from ComponentLifecycle.componentDidCatch</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:641</li>
 								</ul>
@@ -501,7 +496,7 @@ class Foo extends React.Component {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>error: <a href="notimplementederror.html#error" class="tsd-signature-type">Error</a></h5>
+									<h5>error: <span class="tsd-signature-type">Error</span></h5>
 								</li>
 								<li>
 									<h5>errorInfo: <span class="tsd-signature-type">ErrorInfo</span></h5>
@@ -520,7 +515,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentdidmount">componentDidMount</a></p>
+								<p>Inherited from ComponentLifecycle.componentDidMount</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:620</li>
 								</ul>
@@ -543,9 +538,9 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentdidupdate">componentDidUpdate</a></p>
+								<p>Overrides NewLifecycle.componentDidUpdate</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L63">src/components/EditableComponent.tsx:63</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L55">src/components/EditableComponent.tsx:55</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -567,7 +562,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentwillmount">componentWillMount</a></p>
+								<p>Inherited from DeprecatedLifecycle.componentWillMount</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:698</li>
 								</ul>
@@ -604,7 +599,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentwillreceiveprops">componentWillReceiveProps</a></p>
+								<p>Inherited from DeprecatedLifecycle.componentWillReceiveProps</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:727</li>
 								</ul>
@@ -652,7 +647,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentwillunmount">componentWillUnmount</a></p>
+								<p>Inherited from ComponentLifecycle.componentWillUnmount</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:636</li>
 								</ul>
@@ -676,7 +671,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#componentwillupdate">componentWillUpdate</a></p>
+								<p>Inherited from DeprecatedLifecycle.componentWillUpdate</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:757</li>
 								</ul>
@@ -725,7 +720,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#forceupdate">forceUpdate</a></p>
+								<p>Inherited from Component.forceUpdate</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:493</li>
 								</ul>
@@ -749,7 +744,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#getsnapshotbeforeupdate">getSnapshotBeforeUpdate</a></p>
+								<p>Inherited from NewLifecycle.getSnapshotBeforeUpdate</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:677</li>
 								</ul>
@@ -786,7 +781,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L56">src/components/EditableComponent.tsx:56</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L48">src/components/EditableComponent.tsx:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -810,7 +805,7 @@ class Foo extends React.Component {
 							<aside class="tsd-sources">
 								<p>Overrides Component.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L111">src/components/EditableComponent.tsx:111</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L98">src/components/EditableComponent.tsx:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
@@ -826,7 +821,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#setstate">setState</a></p>
+								<p>Inherited from Component.setState</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:488</li>
 								</ul>
@@ -859,7 +854,7 @@ class Foo extends React.Component {
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="containerplaceholder.html">ContainerPlaceholder</a>.<a href="containerplaceholder.html#shouldcomponentupdate">shouldComponentUpdate</a></p>
+								<p>Inherited from ComponentLifecycle.shouldComponentUpdate</p>
 								<ul>
 									<li>Defined in node_modules/@types/react/index.d.ts:631</li>
 								</ul>
@@ -900,7 +895,7 @@ class Foo extends React.Component {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/78877d9/src/components/EditableComponent.tsx#L105">src/components/EditableComponent.tsx:105</a></li>
+									<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/3d046e6/src/components/EditableComponent.tsx#L92">src/components/EditableComponent.tsx:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -924,6 +919,15 @@ class Foo extends React.Component {
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="allowedcomponentscontainer.html" class="tsd-kind-icon">Allowed<wbr>Components<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="constants.html" class="tsd-kind-icon">Constants</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="container.html" class="tsd-kind-icon">Container</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-has-type-parameter">
@@ -950,7 +954,7 @@ class Foo extends React.Component {
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="editablecomponent.html#editprops" class="tsd-kind-icon">edit<wbr>Props</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-protected">
 								<a href="editablecomponent.html#emptyplaceholderprops" class="tsd-kind-icon">empty<wbr>Placeholder<wbr>Props</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1008,6 +1012,93 @@ class Foo extends React.Component {
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="page.html" class="tsd-kind-icon">Page</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="responsivegrid.html" class="tsd-kind-icon">Responsive<wbr>Grid</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/allowedcomponent.html" class="tsd-kind-icon">Allowed<wbr>Component</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/allowedcomponents.html" class="tsd-kind-icon">Allowed<wbr>Components</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/allowedcomponentsproperties.html" class="tsd-kind-icon">Allowed<wbr>Components<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/componentprops.html" class="tsd-kind-icon">Component<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/containerproperties.html" class="tsd-kind-icon">Container<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/containerstate.html" class="tsd-kind-icon">Container<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/editconfig.html" class="tsd-kind-icon">Edit<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="../interfaces/editablecomponentproperties.html" class="tsd-kind-icon">Editable<wbr>Component<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/mappedcomponentproperties.html" class="tsd-kind-icon">Mapped<wbr>Component<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/modelprovidertype.html" class="tsd-kind-icon">Model<wbr>Provider<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/pagemodel.html" class="tsd-kind-icon">Page<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/pageproperties.html" class="tsd-kind-icon">Page<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/placeholdermodel.html" class="tsd-kind-icon">Place<wbr>Holder<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/reloadforceable.html" class="tsd-kind-icon">Reload<wbr>Force<wbr>Able</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/reloadablemodelproperties.html" class="tsd-kind-icon">Reloadable<wbr>Model<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/responsivegridproperties.html" class="tsd-kind-icon">Responsive<wbr>Grid<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../globals.html#editablecomponentmodel" class="tsd-kind-icon">Editable<wbr>Component<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../globals.html#mappingcontextfunction" class="tsd-kind-icon">Mapping<wbr>Context<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#componentmappingcontext" class="tsd-kind-icon">Component<wbr>Mapping<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#editorcontext" class="tsd-kind-icon">Editor<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../globals.html#mapto" class="tsd-kind-icon">Map<wbr>To</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../globals.html#withcomponentmappingcontext" class="tsd-kind-icon">with<wbr>Component<wbr>Mapping<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../globals.html#witheditable" class="tsd-kind-icon">with<wbr>Editable</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#witheditorcontext" class="tsd-kind-icon">with<wbr>Editor<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../globals.html#withmodel" class="tsd-kind-icon">with<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#utils" class="tsd-kind-icon">Utils</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#config" class="tsd-kind-icon">config</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -1018,11 +1109,6 @@ class Foo extends React.Component {
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
@@ -1030,6 +1116,13 @@ class Foo extends React.Component {
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
