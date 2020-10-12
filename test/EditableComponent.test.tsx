@@ -187,5 +187,22 @@ describe('EditableComponent ->', () => {
 
             expect(node).toBeNull();
         });
+
+        it('should not have the data-cq-resource-type attribute set when virtual props is true, but no resourceType in component config', () => {
+            const EDIT_CONFIG = {
+                isEmpty: function () {
+                    return false;
+                },
+                emptyLabel: EMPTY_LABEL
+            };
+
+            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+            ReactDOM.render(<EditableComponent isInEditor={true} virtual={true} {...CQ_PROPS}/>, rootNode);
+
+            const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
+
+            expect(node).toBeNull();
+        });
     });
 });
