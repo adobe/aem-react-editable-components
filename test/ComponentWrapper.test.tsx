@@ -58,6 +58,7 @@ describe('ComponentWrapper', () => {
 
     beforeEach(() => {
 
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
         getDataSpy     = jest.spyOn(ModelManager, 'getData').mockResolvedValue({})
         initializeSpy  = jest.spyOn(ModelManager, 'initialize').mockResolvedValue({});
