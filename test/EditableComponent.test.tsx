@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { withEditable } from '../src/components/EditableComponent';
 import { Constants } from "../src/Constants";
+import Utils from '../src/Utils';
 
 describe('EditableComponent ->', () => {
     const ROOT_CLASS_NAME = 'root-class';

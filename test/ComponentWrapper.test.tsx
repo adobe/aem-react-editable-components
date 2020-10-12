@@ -15,10 +15,10 @@ import { MappedComponentProperties } from '../src/ComponentMapping';
 import { EditConfig } from '../src/components/EditableComponent';
 import {WrapAsAEMEditableComponent} from "../src/ComponentWrapper";
 import ReactDOM from "react-dom";
-import {WCMMode} from "../src/Utils";
 import {Constants} from "../src/Constants";
 import {ModelManager} from "@adobe/aem-spa-page-model-manager";
-import { EditorContext, withEditorContext } from '../src/EditorContext';
+import { EditorContext } from '../src/EditorContext';
+import { AEM_MODE } from '@adobe/aem-spa-page-model-manager';
 
 describe('ComponentWrapper', () => {
 
@@ -67,7 +67,7 @@ describe('ComponentWrapper', () => {
         document.body.appendChild(rootNode);
         const meta = document.createElement('meta');
         meta.setAttribute('property', 'cq:wcmmode');
-        meta.content = WCMMode.EDIT;
+        meta.content = AEM_MODE.EDIT;
         document.head.appendChild(meta);
     });
 
