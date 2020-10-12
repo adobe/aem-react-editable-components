@@ -38,7 +38,7 @@ describe('Container ->', () => {
         }
     };
 
-    const ITEMS_ORDER = ['component1', 'component2'];
+    const ITEMS_ORDER = [ 'component1', 'component2' ];
 
     interface DummyProps extends MappedComponentProperties {
         id: string
@@ -62,7 +62,7 @@ describe('Container ->', () => {
 
     afterEach(() => {
         ComponentMappingSpy.mockRestore();
-        
+
         if (rootNode) {
             document.body.appendChild(rootNode);
             rootNode = undefined;

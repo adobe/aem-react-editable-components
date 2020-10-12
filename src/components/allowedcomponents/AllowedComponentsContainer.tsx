@@ -15,75 +15,52 @@ import { Container, ContainerProperties, ContainerState } from '../Container';
 import { AllowedComponentPlaceholderList } from './AllowedComponentsPlaceholderList';
 
 /**
- * Component that is allowed to be used on the page by the editor
+ * Component that is allowed to be used on the page by the editor.
  */
 export interface AllowedComponent {
-    /**
-     * Path to the component under apps
-     */
     path: string;
-
-    /**
-     * Title of the component
-     */
     title: string;
 }
 
-/**
- * AllowedComponents collection
- */
 export interface AllowedComponents {
-    applicable: boolean;
-
     /**
-     * List of allowed components
+     * Should AllowedComponents list be applied.
      */
+    applicable: boolean;
     components: AllowedComponent[];
 }
 
-/**
- * Properties for the allowed components container
- */
 export interface AllowedComponentsProperties extends ContainerProperties {
-    /**
-     * List of allowed components for the container
-     */
-    allowedComponents: AllowedComponents;
-
-    /**
-     *  Label to display when there are no allowed components
-     */
     _allowedComponentPlaceholderListEmptyLabel?: string;
-
-    /**
-     * Title of the placeholder list
-     */
+    allowedComponents: AllowedComponents;
     title: string;
 }
 
 /**
- *  When applicable, the component exposes a list of allowed components
- *  This is used by the template editor
+ * Represents allowed components container in AEM.
  */
 export class AllowedComponentsContainer<M extends AllowedComponentsProperties, S extends ContainerState> extends Container<M, S> {
     public static defaultProps = {
-        // Temporary property until CQ-4265892 is addressed, beware not rely it
         _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
         cqItems: {},
         cqItemsOrder: [],
         cqPath: ''
     };
 
-    public render() {
+    public render(): JSX.Element {
         const { allowedComponents, _allowedComponentPlaceholderListEmptyLabel, title, isInEditor } = this.props;
 
         if (isInEditor && allowedComponents && allowedComponents.applicable) {
-            // @ts-ignore
-            const emptyLabel: string = _allowedComponentPlaceholderListEmptyLabel ? _allowedComponentPlaceholderListEmptyLabel : AllowedComponentsContainer.defaultProps._allowedComponentPlaceholderListEmptyLabel;
+            const emptyLabel = _allowedComponentPlaceholderListEmptyLabel as string
+                               || AllowedComponentsContainer.defaultProps._allowedComponentPlaceholderListEmptyLabel;
 
             if (_allowedComponentPlaceholderListEmptyLabel) {
-                // @ts-ignore
-                return <AllowedComponentPlaceholderList title={title} emptyLabel={emptyLabel} components={allowedComponents.components} placeholderProps={this.placeholderProps} cqPath={this.props.cqPath}/>;
+                return <AllowedComponentPlaceholderList
+                    title={title}
+                    emptyLabel={emptyLabel}
+                    components={allowedComponents.components}
+                    placeholderProps={this.placeholderProps}
+                    cqPath={this.props.cqPath}/>;
             }
         }
 

@@ -42,7 +42,7 @@ describe('ResponsiveGrid ->', () => {
         }
     };
 
-    const ITEMS_ORDER = ['component1', 'component2'];
+    const ITEMS_ORDER = [ 'component1', 'component2' ];
 
     const COLUMN_CLASS_NAMES = {
         'component1': COLUMN_1_CLASS_NAMES,
@@ -68,7 +68,7 @@ describe('ResponsiveGrid ->', () => {
         cqPath: '',
         gridClassNames: '',
         columnClassNames: {},
-        allowedComponents:allowedComp,
+        allowedComponents: allowedComp,
         title: '',
         componentMapping: ComponentMapping,
         cqItems: {},
@@ -100,6 +100,7 @@ describe('ResponsiveGrid ->', () => {
             ReactDOM.render(<ResponsiveGrid {...STANDARD_GRID_PROPS}/>, rootNode);
 
             const gridElement = rootNode.querySelector('.' + GRID_CLASS_NAMES);
+
             expect(gridElement).toBeDefined();
         });
 
@@ -110,6 +111,7 @@ describe('ResponsiveGrid ->', () => {
             ReactDOM.render(<ResponsiveGrid {...STANDARD_GRID_PROPS} isInEditor={true} cqPath={CONTAINER_PATH} />, rootNode);
 
             const gridPlaceholder = rootNode.querySelector('.' + PLACEHOLDER_CLASS_NAMES + CONTAINER_PLACEHOLDER_SELECTOR + CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR);
+
             expect(gridPlaceholder).toBeDefined();
         });
     });

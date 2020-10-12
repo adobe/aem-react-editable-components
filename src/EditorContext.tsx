@@ -18,13 +18,13 @@ const EditorContext = React.createContext(Utils.isInEditor());
 const withEditorContext = (Component: React.ComponentType<any>): any => {
     const context = (props: React.ReactPropTypes): React.ReactElement => {
         return (
-            <EditorContext.Consumer>
-                { (isInEditor) => <Component {...props} isInEditor={isInEditor} /> }
-            </EditorContext.Consumer>
+          <EditorContext.Consumer>
+            { (isInEditor) => <Component {...props} isInEditor={isInEditor} /> }
+          </EditorContext.Consumer>
         );
     };
 
     return context;
-}
+};
 
 export { EditorContext, withEditorContext };

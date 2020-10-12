@@ -26,8 +26,6 @@ describe('Composition and attribute propagation ->', () => {
     const CHILD_COMPONENT_CLASS_NAME = 'child-class';
     const DATA_ATTR_TO_PROPS = 'data-attr-to-props';
 
-
-
     interface DummyProps extends MappedComponentProperties{
         cqType: string;
         attrToProps?: string;
@@ -38,7 +36,7 @@ describe('Composition and attribute propagation ->', () => {
         'cqType': COMPONENT_RESOURCE_TYPE,
         'cqPath': COMPONENT_PATH,
         isInEditor: false,
-        id: ""
+        id: ''
     };
 
     class ChildComponent extends Component<DummyProps> {
@@ -82,7 +80,7 @@ describe('Composition and attribute propagation ->', () => {
      * @param CompositeComponent
      */
     function testCompositionAttributePropagation(CompositeComponent: React.ComponentType<DummyProps>) {
-        ReactDOM.render(<CompositeComponent {...CQ_PROPS}  attrToProps={'true'}/>, rootNode);
+        ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={'true'}/>, rootNode);
 
         let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
 
