@@ -34,6 +34,7 @@
     "test": "jest --clearCache && jest"
   },
   "dependencies": {
+    "path-browserify": "^1.0.1",
     "prop-types": "^15.7.2",
     "react-fast-compare": "^3.0.0"
   },
