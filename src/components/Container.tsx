@@ -17,9 +17,6 @@ import { Constants } from '../Constants';
 import Utils from '../Utils';
 import { ContainerPlaceholder, PlaceHolderModel } from './ContainerPlaceholder';
 
-const CONTAINER_CLASS_NAMES = 'aem-container';
-const PLACEHOLDER_CLASS_NAMES = Constants.NEW_SECTION_CLASS_NAMES;
-
 export interface ContainerProperties extends MappedComponentProperties {
     componentMapping?: typeof ComponentMapping;
     cqItems: { [key: string]: Model };
@@ -30,9 +27,6 @@ export interface ContainerState {
     componentMapping: typeof ComponentMapping;
 }
 
-/**
- * Container component. Provides access to items.
- */
 export class Container<P extends ContainerProperties, S extends ContainerState> extends Component<P, S> {
     public static defaultProps = {
         cqItems: {},
@@ -43,18 +37,16 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
     constructor(props: P) {
         super(props);
 
-        // @ts-ignore
         this.state = {
             componentMapping: this.props.componentMapping || ComponentMapping
-        };
+        } as Readonly<S>;
     }
 
     /**
      * Returns the child components of this Container.
-     * It will iterate over all the items and instantiate the child components if a Mapping is found.
-     * Instantiation is done my connecting the Component with the data of that item.
+     * It will instantiate the child components if mapping exists.
      *
-     * @returns {Object[]} An array with the components instantiated to JSX
+     * @returns An array with the components instantiated to JSX
      */
     get childComponents(): JSX.Element[] {
         const childComponents: JSX.Element[] = [];
@@ -67,7 +59,6 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
             const itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
 
             if (itemProps) {
-                // @ts-ignore
                 const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
 
                 if (ItemComponent) {
@@ -82,73 +73,72 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
     /**
      * Connects a child component with the item data.
      *
-     * @param {Component} ChildComponent - the child component
-     * @param {Object} itemProps - the item data
-     * @param {String} itemKey - the name of the item in map
-     * @returns {Object} - the React element constructed by connecting the values of the input with the Component
+     * @param ChildComponent
+     * @param itemProps
+     * @param itemKey
+     * @returns The React element constructed by connecting the values of the input with the Component.
      */
-    public connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemProps: any, itemKey: string) {
+    protected connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemProps: any, itemKey: string) {
         const itemPath = this.getItemPath(itemKey);
 
-        return <ChildComponent {...itemProps} key={itemPath} cqPath={itemPath} isInEditor={this.props.isInEditor} containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}/>;
+        return <ChildComponent {...itemProps}
+                               key={itemPath}
+                               cqPath={itemPath}
+                               isInEditor={this.props.isInEditor}
+                               containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}/>;
     }
 
     /**
      * Returns the properties to add on a specific child component.
      *
-     * @param {Object} item - The item data
-     * @param {String} itemKey - The key of the item
-     * @param {String} itemPath - The path of the item
-     * @returns {Object} - The map of properties to be added
+     * @param item
+     * @param itemKey
+     * @param itemPath
+     * @returns The map of properties.
      */
-    getItemComponentProps(itemProps?: any, itemKey?: string, itemPath?: string): { [key: string]: string } {
+    getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
         return {};
     }
 
     /**
-     * Computes the path of the current item.
+     * Returns the path of given item.
      *
-     * @param {String} itemKey - the key of the item
-     * @returns {String} - the computed path
+     * @param itemKey
+     * @returns The computed path.
      */
     public getItemPath(itemKey: string) {
         return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + itemKey) : itemKey;
     }
 
     /**
-     * The properties that will be injected in the root element of the container.
+     * The properties for the root element of the container.
      *
-     * @returns {Object} - The map of properties to be added
+     * @returns The map of properties.
      */
     get containerProps(): {[key: string]: string} {
-        const attrs: { [key: string]: string } = {
-            className: CONTAINER_CLASS_NAMES,
+        const props: { [key: string]: string } = {
+            className: Constants._CONTAINER_CLASS_NAMES,
         };
 
         if (this.props.isInEditor) {
-            attrs[Constants.DATA_PATH_ATTR] = this.props.cqPath;
+            props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
         }
 
-        return attrs;
+        return props;
     }
 
     /**
-     * The properties that will go on the placeholder component root element.
+     * The properties for the placeholder component in root element.
      *
-     * @returns {Object} - The map of properties to be added
+     * @returns The map of properties to be added.
      */
     get placeholderProps(): PlaceHolderModel {
         return {
             cqPath: this.props.cqPath,
-            placeholderClassNames: PLACEHOLDER_CLASS_NAMES,
+            placeholderClassNames: Constants.NEW_SECTION_CLASS_NAMES,
         };
     }
 
-    /**
-     * The placeholder component that will be added in editing
-     *
-     * @returns {Object} React element to be instantiated as a placeholder
-     */
     get placeholderComponent() {
         if (!this.props.isInEditor) {
             return null;

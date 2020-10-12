@@ -13,9 +13,7 @@
 import { Constants as PMConstants } from '@adobe/aem-spa-page-model-manager';
 
 /**
- * Useful variables for interacting with CQ/AEM components.
- *
- * @namespace Constants
+ * Constants for interacting with AEM components.
  */
 export class Constants {
 
@@ -33,36 +31,29 @@ export class Constants {
      * Class names associated with a new section component.
      */
     public static readonly NEW_SECTION_CLASS_NAMES = 'new section';
+    /**
+     * Class name used to denote aem-container root element.
+     */
+    public static readonly _CONTAINER_CLASS_NAMES = 'aem-container';
+    /**
+     * Class name used to identify the placeholder used to represent an empty component.
+     */
+    public static readonly _PLACEHOLDER_CLASS_NAMES = 'cq-placeholder'
+    public static readonly _PAGE_CLASS_NAMES = 'aem-page';
+    public static readonly _RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
     /**
-     * Type of the item.
+     * Selector for WCM mode state meta property.
      */
+    public static readonly _WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';
+
     public static readonly TYPE_PROP = PMConstants.TYPE_PROP;
-
-    /**
-     * List of child items of an item.
-     */
     public static readonly ITEMS_PROP = PMConstants.ITEMS_PROP;
-
-    /**
-     * Order in which the items should be listed.
-     */
     public static readonly ITEMS_ORDER_PROP = PMConstants.ITEMS_ORDER_PROP;
-
-    /**
-     * Path of the item.
-     */
     public static readonly PATH_PROP = PMConstants.PATH_PROP;
-
-    /**
-     * Children of an item.
-     */
     public static readonly CHILDREN_PROP = PMConstants.CHILDREN_PROP;
-
-    /**
-     * Hierarchical type of the item.
-     */
     public static readonly HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
+    public static readonly JCR_CONTENT = PMConstants.JCR_CONTENT;
 
     private constructor() {
         // hide constructor

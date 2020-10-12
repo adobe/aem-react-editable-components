@@ -55,7 +55,7 @@ describe('AllowedComponentsContainer ->', () => {
         ]
     };
 
-    function generateAllowedComponentsContainer(allowedComponents:AllowedComponents,isInEditor:boolean, title?:string):JSX.Element{
+    function generateAllowedComponentsContainer(allowedComponents: AllowedComponents, isInEditor: boolean, title?: string): JSX.Element {
         const props:AllowedComponentsProperties = {
             cqItems: {},
             cqItemsOrder: [],
@@ -63,13 +63,13 @@ describe('AllowedComponentsContainer ->', () => {
             isInEditor: isInEditor,
             title: title || '',
             allowedComponents: allowedComponents
-        }
+        };
 
         return <AllowedComponentsContainer {...props}/>;
     }
 
     let rootNode: any;
-    
+
     beforeEach(() => {
         rootNode = document.createElement('div');
         rootNode.className = ROOT_CLASS_NAME;
@@ -155,11 +155,17 @@ describe('AllowedComponentsContainer ->', () => {
     describe('AllowedComponentPlaceholderList ->', () => {
         it('should display two allowed components', () => {
             const placeHolderProperties:PlaceHolderModel = {
-                placeholderClassNames : 'classNames',
-                cqPath : '/some/path'
+                placeholderClassNames: 'classNames',
+                cqPath: '/some/path'
             };
 
-            ReactDOM.render(<AllowedComponentPlaceholderList title={DEFAULT_TITLE} emptyLabel={DEFAULT_EMPTY_LABEL} components={ALLOWED_COMPONENTS_DATA.components}  cqPath={'/some/path'} placeholderProps={placeHolderProperties}/>, rootNode);
+            const element = <AllowedComponentPlaceholderList
+                title={DEFAULT_TITLE}
+                emptyLabel={DEFAULT_EMPTY_LABEL}
+                components={ALLOWED_COMPONENTS_DATA.components}
+                cqPath={'/some/path'} placeholderProps={placeHolderProperties}/>;
+
+            ReactDOM.render(element, rootNode);
 
             const allowedComponentPlaceholderList = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
 

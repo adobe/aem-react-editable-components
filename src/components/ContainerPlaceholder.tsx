@@ -21,15 +21,13 @@ export interface PlaceHolderModel extends Object {
 /**
  * Placeholder of the Container component.
  *
- * @class
- * @extends React.Component
  * @private
  */
 export class ContainerPlaceholder<P extends PlaceHolderModel> extends Component<P> {
     public static get propTypes() {
         return {
             cqPath: PropTypes.string,
-            placeholderClassNames: PropTypes.string,
+            placeholderClassNames: PropTypes.string
         };
     }
 

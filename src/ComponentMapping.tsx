@@ -17,23 +17,25 @@ import { ReloadableModelProperties, withModel } from './components/ModelProvider
 import { withEditorContext } from './EditorContext';
 
 /**
- * Wrapped function
- *
- * @type {function}
  * @private
  */
 const wrappedMapFct = ComponentMapping.map;
+/**
+ * @private
+ */
 const wrappedGetFct = ComponentMapping.get;
 
 /**
- * Indicated whether force reload is turned on, forcing the model to be refetched on every MapTo instantiation.
+ * Hold force reload state.
  */
 export interface ReloadForceAble {
+    /*
+     * Should the model cache be ignored when processing the component.
+     */
     cqForceReload?: boolean;
 }
 
 /**
- * MappedComponentProperties
  * Properties given to every component runtime by the SPA editor.
  */
 export interface MappedComponentProperties extends ReloadForceAble {
@@ -44,14 +46,13 @@ export interface MappedComponentProperties extends ReloadForceAble {
 
 /**
  * Map a React component with the given resource types.
- * If an {@link EditConfig} is provided the <i>clazz</i> is wrapped to provide edition capabilities on the AEM Page Editor
+ * If an {@link EditConfig} is provided the component is wrapped to provide editing capabilities on the AEM Page Editor
  *
- * @param {string[]} resourceTypes - list of resource types for which to use the given <i>clazz</i>
- * @param {React.Component} component - class to be instantiated for the given resource types
- * @param {EditConfig} [editConfig] - configuration object for enabling the edition capabilities
- * @param {{}} [config] - general configuration object
- * @param {boolean} [config.forceReload=undefined] - should the model cache be ignored when processing the component
- * @returns {React.Component} - the resulting decorated Class
+ * @param resourceTypes List of resource types for which to use the given component.
+ * @param component React representation for the given resource types.
+ * @param editConfig Configuration object for enabling the edition capabilities.
+ * @param config General configuration object.
+ * @returns The resulting decorated Component
  */
 ComponentMapping.map =
     function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: any, editConfig?: EditConfig<P>, config?: ReloadableModelProperties) {
@@ -66,6 +67,9 @@ ComponentMapping.map =
 
 ComponentMapping.get = wrappedGetFct;
 
+/**
+ * @private
+ */
 type MapperFunction<P extends MappedComponentProperties> = (component: ComponentType<P>, editConfig?: EditConfig<P>) => void;
 
 const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
@@ -77,11 +81,9 @@ const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | stri
 
 type MappingContextFunction<P extends MappedComponentProperties> = (props: P) => JSX.Element;
 
-
 const ComponentMappingContext: React.Context<typeof ComponentMapping> = React.createContext(ComponentMapping);
 
-
-function withComponentMappingContext<P extends MappedComponentProperties>(Component: React.ComponentType<P>): MappingContextFunction<P>{
+function withComponentMappingContext<P extends MappedComponentProperties>(Component: React.ComponentType<P>): MappingContextFunction<P> {
     return function ComponentMappingContextComponent(props: P): JSX.Element {
         return (
             <ComponentMappingContext.Consumer>
