@@ -15,7 +15,7 @@ import { Model } from '@adobe/aem-spa-page-model-manager';
 import { Constants } from '../Constants';
 import Utils from '../Utils';
 import { Container, ContainerProperties, ContainerState } from './Container';
-import { ComponentMapping } from "../ComponentMapping";
+import { ComponentMapping } from '../ComponentMapping';
 
 export interface PageModel extends Model {
     ':type': string;
@@ -88,10 +88,10 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
 
     public render() {
         return (
-            <div {...this.containerProps}>
-                { this.childComponents }
-                { this.childPages }
-            </div>
+          <div {...this.containerProps}>
+            { this.childComponents }
+            { this.childPages }
+          </div>
         );
     }
 }

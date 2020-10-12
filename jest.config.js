@@ -17,26 +17,24 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
-  testMatch: [ '<rootDir>/**/*.test.ts', '<rootDir>/**/*.test.tsx' ],
-  testPathIgnorePatterns: [ 'node_modules', 'lib', 'dist', 'node' ],
+  testMatch: [
+    '<rootDir>/test/**/*.test.{ts,tsx}'
+  ],
+  testPathIgnorePatterns: [
+    'node_modules/',
+    'dist/'
+  ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}'
   ],
   coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/lib/',
-    '/dist/',
-    '/node/',
-    'src/types.ts',
-    'src/types.d.ts',
-    'src/aem-react-editable-components.ts'
+    'src/types.ts'
   ],
+  coverageDirectory: 'dist/coverage',
   moduleFileExtensions: [
     'ts',
     'tsx',
     'js',
-    'jsx',
-    'json',
-    'node'
+    'jsx'
   ]
 };

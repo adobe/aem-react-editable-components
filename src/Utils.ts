@@ -12,7 +12,7 @@
 
 import { normalize as normalizePath } from 'path';
 import { AEM_MODE, Model, PathUtils } from '@adobe/aem-spa-page-model-manager';
-import { Constants } from "./Constants";
+import { Constants } from './Constants';
 
 /**
  * Returns the current WCM mode based on meta property.
@@ -20,8 +20,10 @@ import { Constants } from "./Constants";
  */
 function getWCMMode(): AEM_MODE {
     let wcmMode = null;
+
     if (PathUtils.isBrowser()) {
         const wcmModeMeta = document.head.querySelector(Constants._WCM_MODE_META_SELECTOR);
+
         wcmMode = wcmModeMeta?.getAttribute('content') as AEM_MODE;
     }
 
@@ -47,7 +49,7 @@ const Utils = {
      * Is the app used in the context of the AEM Page editor.
      */
     isInEditor(): boolean {
-        return [AEM_MODE.EDIT, AEM_MODE.PREVIEW].includes(getWCMMode());
+        return [ AEM_MODE.EDIT, AEM_MODE.PREVIEW ].includes(getWCMMode());
     },
 
     /**
@@ -82,6 +84,7 @@ const Utils = {
          */
         function transformToCQ(propKey: string) {
             const tempKey = propKey.substr(1);
+
             return 'cq' + tempKey.substr(0, 1).toUpperCase() + tempKey.substr(1);
         }
     },
@@ -93,22 +96,13 @@ const Utils = {
      * @returns cqPath of the component
      */
     getCQPath(componentProps: ComponentProps): string {
-        const {
-            pagePath = '', itemPath = '', injectPropsOnInit
-        } = componentProps;
-
+        const { pagePath = '', itemPath = '', injectPropsOnInit } = componentProps;
         let { cqPath = '' } = componentProps;
 
         if (injectPropsOnInit && !cqPath) {
-            cqPath = (
-                itemPath ?
-                `${pagePath}/jcr:content/${itemPath}` :
-                pagePath
-            );
-
-            // Normalize path (replace multiple consecutive slashes with a single one).
-            cqPath = normalizePath(cqPath);
+            cqPath = normalizePath(itemPath ? `${pagePath}/jcr:content/${itemPath}` : pagePath);
         }
+
         return cqPath;
     }
 

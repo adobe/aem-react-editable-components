@@ -41,7 +41,7 @@ describe('Page ->', () => {
         }
     };
 
-    const ITEMS_ORDER = ['component1', 'component2'];
+    const ITEMS_ORDER = [ 'component1', 'component2' ];
 
     interface PageModel extends PageProperties {
         ':type': string;
@@ -82,7 +82,7 @@ describe('Page ->', () => {
 
     class ChildComponent extends Component<DummyProps> {
         render() {
-            return <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME}></div>
+            return <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME}></div>;
         }
     }
 
@@ -107,7 +107,16 @@ describe('Page ->', () => {
     describe('child pages ->', () => {
         it('should add the expected children', () => {
             ComponentMappingSpy.mockReturnValue(ChildComponent);
-            ReactDOM.render(<Page componentMapping={ComponentMapping} cqPath={PAGE_PATH} cqChildren={CHILDREN} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER} isInEditor={false}></Page>, rootNode);
+
+            const element = <Page
+                componentMapping={ComponentMapping}
+                cqPath={PAGE_PATH}
+                cqChildren={CHILDREN}
+                cqItems={ITEMS}
+                cqItemsOrder={ITEMS_ORDER}
+                isInEditor={false}></Page>;
+
+            ReactDOM.render(element, rootNode);
             expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE1);
             expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE2);
 
@@ -142,10 +151,18 @@ describe('Page ->', () => {
                 }
             });
 
-            ReactDOM.render(
-                <EditorContext.Provider value={ true }>
-                    <Page componentMapping={ComponentMapping} isInEditor={true} cqPath={PAGE_PATH} cqChildren={CHILDREN} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER}></Page>
-                </EditorContext.Provider>, rootNode);
+            const element = (
+              <EditorContext.Provider value={ true }>
+                <Page componentMapping={ComponentMapping}
+                    isInEditor={true}
+                    cqPath={PAGE_PATH}
+                    cqChildren={CHILDREN}
+                    cqItems={ITEMS}
+                    cqItemsOrder={ITEMS_ORDER}></Page>
+              </EditorContext.Provider>
+            );
+
+            ReactDOM.render(element, rootNode);
 
             expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE1);
             expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE2);

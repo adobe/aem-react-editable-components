@@ -36,7 +36,7 @@ describe('Composition and attribute propagation ->', () => {
         'cqType': COMPONENT_RESOURCE_TYPE,
         'cqPath': COMPONENT_PATH,
         isInEditor: false,
-        id: ""
+        id: ''
     };
 
     class ChildComponent extends Component<DummyProps> {
@@ -80,7 +80,7 @@ describe('Composition and attribute propagation ->', () => {
      * @param CompositeComponent
      */
     function testCompositionAttributePropagation(CompositeComponent: React.ComponentType<DummyProps>) {
-        ReactDOM.render(<CompositeComponent {...CQ_PROPS}  attrToProps={'true'}/>, rootNode);
+        ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps={'true'}/>, rootNode);
 
         let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
 

@@ -36,8 +36,8 @@ jobs:
             -Dsonar.projectKey=adobe_aem-react-editable-components
             -Dsonar.sources=src
             -Dsonar.tests=test
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.coverage.exclusions=src/types.ts,src/types.d.ts,src/aem-react-editable-components.ts
+            -Dsonar.javascript.lcov.reportPaths=dist/coverage/lcov.info
+            -Dsonar.coverage.exclusions=src/types.ts
       - name: Release module and publish it in github.com and npmjs.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

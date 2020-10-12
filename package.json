@@ -22,20 +22,16 @@
   "main": "dist/aem-react-editable-components.js",
   "types": "dist/types.d.ts",
   "scripts": {
-    "clean": "rm -rf coverage/ dist/",
-    "docs": "npm i && npx typedoc ./src --out ./dist/docs --mode file --excludePrivate --ignoreCompilerErrors",
-    "linter": "eslint .",
-    "install:link-deps": "npm install && npm link @adobe/aem-spa-page-model-manager && npm link @adobe/aem-spa-component-mapping",
-    "test": "jest --clearCache && jest",
+    "build:production": "NODE_ENV=production npm run build",
+    "build:types": "tsc -p src/tsconfig.types.json",
+    "build": "npm run clean && npm run linter && webpack && npm run build:types",
+    "clean": "rm -rf dist/",
+    "docs": "npm i && npx typedoc --excludePrivate ./src --out ./dist/docs --mode file",
+    "linter": "eslint .; true",
+    "semantic-release": "semantic-release",
     "test:coverage": "jest --clearCache && jest --coverage",
     "test:debug": "jest --coverage --watchAll",
-    "build": "npm run clean && npm run linter && webpack $WP_ARGS && npm run build:types",
-    "build:production": "WP_ARGS=--mode=production npm run build",
-    "build:types": "tsc -p src/tsconfig.types.json",
-    "preversion": "npm run test && npm run build:production",
-    "version": "git add -A",
-    "postversion": "git push origin && git push origin --tags",
-    "semantic-release": "semantic-release"
+    "test": "jest --clearCache && jest"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
@@ -44,23 +40,16 @@
   "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "@adobe/aem-spa-component-mapping": "~1.0.4",
+    "@adobe/aem-spa-component-mapping": "~1.0.7",
     "@adobe/aem-spa-page-model-manager": "~1.2.2"
   },
   "devDependencies": {
-    "@adobe/aem-spa-component-mapping": "~1.0.4",
+    "@adobe/aem-spa-component-mapping": "~1.0.7",
     "@adobe/aem-spa-page-model-manager": "~1.2.2",
-    "@adobe/eslint-config-editorxp": "^1.0.3",
-    "@babel/cli": "^7.7.7",
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
+    "@adobe/eslint-config-editorxp": "^1.0.4",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.0.7",
-    "@testing-library/jest-dom": "^5.11.0",
-    "@testing-library/react": "^11.0.0",
-    "@testing-library/user-event": "^12.0.11",
     "@types/clone": "^2.0.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
@@ -70,44 +59,31 @@
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-istanbul": "^6.0.0",
-    "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "commitizen": "^4.2.1",
-    "cross-env": "^7.0.2",
     "cz-conventional-changelog": "^3.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "eslint": "^7.10.0",
+    "eslint": "^7.11.0",
     "eslint-plugin-header": "^3.1.0",
     "eslint-plugin-json": "^2.1.2",
-    "eslint-plugin-react": "^7.20.3",
-    "istanbul": "^0.4.5",
-    "istanbul-instrumenter-loader": "^3.0.1",
+    "eslint-plugin-react": "^7.21.4",
     "jest": "^26.1.0",
-    "jest-environment-jsdom-fourteen": "^1.0.1",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-resolve": "^26.1.0",
-    "jest-watch-typeahead": "^0.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "semantic-release": "^17.1.1",
     "ts-jest": "^26.1.1",
     "ts-loader": "^8.0.2",
-    "ts-mockito": "^2.6.1",
-    "tslint": "^6.1.2",
-    "tslint-etc": "^1.11.1",
-    "tslint-no-toplevel-property-access": "0.0.2",
-    "tslint-no-unused-expression-chai": "^0.1.4",
     "typedoc": "^0.19.1",
     "typescript": "^4.0.3",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^2.5.2"
   },
   "files": [
-    "dist/"
+    "dist/**/*.{js,ts,map}",
+    "!**/{docs,coverage}/"
   ],
   "config": {
     "commitizen": {
@@ -117,7 +93,7 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@adobe/eslint-config-editorxp/react"
+      "@adobe/eslint-config-editorxp"
     ]
   }
 }

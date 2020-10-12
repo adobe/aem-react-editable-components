@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { PlaceHolderModel } from '../ContainerPlaceholder';
 import { AllowedComponent } from './AllowedComponentsContainer';
@@ -48,12 +47,12 @@ export class AllowedComponentPlaceholderList<P extends AllowedComponentPlacehold
         const listLabel = (components && (components.length > 0)) ? title : emptyLabel;
 
         return (
-            <div className={ALLOWED_PLACEHOLDER_CLASS_NAMES + ' ' + placeholderProps.placeholderClassNames}>
-                <div data-text={listLabel} className={ALLOWED_COMPONENT_TITLE_CLASS_NAMES} />
-                {components.map((component, i) =>
-                    <AllowedComponentPlaceholder key={i} path={component.path} emptyLabel={component.title} />,
-                )}
-            </div>
+          <div className={ALLOWED_PLACEHOLDER_CLASS_NAMES + ' ' + placeholderProps.placeholderClassNames}>
+            <div data-text={listLabel} className={ALLOWED_COMPONENT_TITLE_CLASS_NAMES} />
+            {components.map((component, i) =>
+              <AllowedComponentPlaceholder key={i} path={component.path} emptyLabel={component.title} />
+            )}
+          </div>
         );
     }
 }

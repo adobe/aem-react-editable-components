@@ -1,9 +1,5 @@
 node_modules/
 dist/
-coverage/
-*.log
-
-# for temporary dependencies
+.scannerwork/
+**/*.log
 *.tgz
-.scannerwork
-

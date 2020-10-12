@@ -27,7 +27,7 @@ export class ContainerPlaceholder<P extends PlaceHolderModel> extends Component<
     public static get propTypes() {
         return {
             cqPath: PropTypes.string,
-            placeholderClassNames: PropTypes.string,
+            placeholderClassNames: PropTypes.string
         };
     }
 

@@ -1,3 +1,15 @@
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
 /**
  * Does the provided element matches the given selector
  *
@@ -21,14 +33,14 @@ function matches(el: any, selector: any) {
  * @param callback function to be called when the verification succeed
  */
 function observe(verify: any, callback: any) {
-    return function (mutationsList: any) {
+    return function(mutationsList: any) {
         for (const mutation of mutationsList) {
             if (verify(mutation)) {
                 callback && callback();
                 break;
             }
         }
-    }
+    };
 }
 
 /**
@@ -48,7 +60,7 @@ function observeProcess(process: any, verify: any, callback: any) {
 
         verify(result);
         callback();
-    }
+    };
 }
 
 /**
@@ -62,7 +74,7 @@ function extractDataAttributeName(attributeName: any) {
     }
 
     // Transforms the dash separated name into a camel case variable name
-    const tokens = attributeName.split("-");
+    const tokens = attributeName.split('-');
 
     // get rid of the data token
     if (attributeName.startsWith('data-')) {
@@ -71,6 +83,7 @@ function extractDataAttributeName(attributeName: any) {
 
     for (let i = 1, length = tokens.length; i < length; i++) {
         const token = tokens[i];
+
         tokens[i] = token.substr(0, 1).toUpperCase() + token.substr(1);
     }
 

@@ -56,13 +56,10 @@ describe('ModelProvider ->', () => {
 
     let addListenerSpy: jest.SpyInstance;
     let getDataSpy: jest.SpyInstance;
-    let initializeSpy: jest.SpyInstance;
 
     beforeEach(() => {
-
         addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
-        getDataSpy     = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
-        initializeSpy  = jest.spyOn(ModelManager, 'initialize').mockResolvedValue({});
+        getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
 
         rootNode = document.createElement('div');
         rootNode.className = ROOT_NODE_CLASS_NAME;

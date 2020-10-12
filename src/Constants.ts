@@ -49,6 +49,8 @@ export class Constants {
     public static readonly CHILDREN_PROP = PMConstants.CHILDREN_PROP;
     public static readonly HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
     public static readonly JCR_CONTENT = PMConstants.JCR_CONTENT;
-    private constructor() {}
-}
 
+    private constructor() {
+        // hide constructor
+    }
+}

@@ -9,19 +9,34 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 module.exports = {
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
-    [ '@semantic-release/changelog', {
-      'changelogFile': 'CHANGELOG.md'
-    } ],
+    [
+      '@semantic-release/changelog', {
+        'changelogFile': 'CHANGELOG.md'
+      }
+    ],
     '@semantic-release/npm',
-    [ '@semantic-release/github', {
-      'assets': [ 'package.json', 'CHANGELOG.md' ],
-      'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
-    } ],
-    '@semantic-release/git'
+    [
+      '@semantic-release/github', {
+        'assets': [
+          'package.json',
+          'CHANGELOG.md'
+        ],
+        'message': 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
+      }
+    ],
+    [
+      '@semantic-release/git', {
+        'assets': [
+          'package.json',
+          'CHANGELOG.md'
+          ]
+      }
+    ]
   ],
   branch: 'master',
   branches: [ 'master' ]
