@@ -56,9 +56,13 @@ export class ResponsiveGrid<P extends ResponsiveGridProperties, S extends Contai
     }
 }
 
+/**
+ * @private
+ */
 const config: EditConfig<ResponsiveGridProperties> = {
     isEmpty(props: ResponsiveGridProperties): boolean {
-        return props.cqItemsOrder && props.cqItemsOrder.length > 0
+        return props.cqItemsOrder && props.cqItemsOrder.length > 0;
     }
-}
+};
+
 MapTo<ResponsiveGridProperties>('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid), config);
