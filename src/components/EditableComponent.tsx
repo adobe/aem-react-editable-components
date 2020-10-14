@@ -21,12 +21,12 @@ import { ContainerState } from './Container';
  *
  * @property emptyLabel - Label to be displayed on the overlay when the component is empty
  * @property isEmpty - Callback function to determine if the component is empty
- * @property aemResourceType - AEM ResourceType to be added as an attribute on the editable component dom
+ * @property resourceType - AEM ResourceType to be added as an attribute on the editable component dom
  */
 export interface EditConfig<P extends MappedComponentProperties> {
     emptyLabel?: string;
     isEmpty(props: P): boolean;
-    aemResourceType?: string;
+    resourceType?: string;
 }
 
 export interface EditableComponentProperties<P extends MappedComponentProperties>{
@@ -73,8 +73,8 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
 
         eProps[Constants.DATA_PATH_ATTR] = componentProperties.cqPath;
 
-        if (this.props.editConfig.aemResourceType && componentProperties.virtual) {
-            eProps[Constants.DATA_CQ_RESOURCE_TYPE_ATTR] = this.props.editConfig.aemResourceType;
+        if (this.props.editConfig.resourceType && componentProperties.virtual) {
+            eProps[Constants.DATA_CQ_RESOURCE_TYPE_ATTR] = this.props.editConfig.resourceType;
         }
 
         return eProps;

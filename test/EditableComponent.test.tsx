@@ -158,7 +158,7 @@ describe('EditableComponent ->', () => {
                     return false;
                 },
                 emptyLabel: EMPTY_LABEL,
-                aemResourceType: COMPONENT_RESOURCE_TYPE
+                resourceType: COMPONENT_RESOURCE_TYPE
             };
 
             const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
@@ -176,7 +176,7 @@ describe('EditableComponent ->', () => {
                     return false;
                 },
                 emptyLabel: EMPTY_LABEL,
-                aemResourceType: COMPONENT_RESOURCE_TYPE
+                resourceType: COMPONENT_RESOURCE_TYPE
             };
 
             const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);

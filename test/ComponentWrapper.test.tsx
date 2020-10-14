@@ -41,7 +41,7 @@ describe('ComponentWrapper', () => {
             return false;
         },
 
-        aemResourceType: COMPONENT_RESOURCE_TYPE
+        resourceType: COMPONENT_RESOURCE_TYPE
     };
 
     let rootNode: any;
@@ -79,7 +79,7 @@ describe('ComponentWrapper', () => {
         }
     });
 
-    it('should have data-cq-resource-type attribute set when using WrapAsAEMEditableComponent with config having aemResourceType and component virtual', () => {
+    it('should have data-cq-resource-type attribute set when using WrapAsAEMEditableComponent with config having resourceType and component virtual', () => {
         const WrappedTestComponent = WrapAsAEMEditableComponent(TestComponent, editConfig);
 
         expect(WrappedTestComponent).toBeDefined();
