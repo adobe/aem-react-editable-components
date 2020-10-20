@@ -74,7 +74,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
 
         eProps[Constants.DATA_PATH_ATTR] = componentProperties.cqPath;
 
-        if (this.props.editConfig.resourceType && componentProperties.virtual) {
+        if (this.props.editConfig.resourceType) {
             eProps[Constants.DATA_CQ_RESOURCE_TYPE_ATTR] = this.props.editConfig.resourceType;
         }
 

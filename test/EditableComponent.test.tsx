@@ -150,9 +150,9 @@ describe('EditableComponent ->', () => {
         });
     });
 
-    describe('Virtual Component ->', () => {
+    describe('resouceType attribute ->', () => {
 
-        it('should have the data-cq-resource-type attribute set when virtual props is true', () => {
+        it('should have the data-cq-resource-type attribute set when passing this via the Editconfig', () => {
             const EDIT_CONFIG = {
                 isEmpty: function () {
                     return false;
@@ -163,32 +163,14 @@ describe('EditableComponent ->', () => {
 
             const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
 
-            ReactDOM.render(<EditableComponent isInEditor={true} virtual={true} {...CQ_PROPS}/>, rootNode);
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
             const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
 
             expect(node).not.toBeNull();
         });
 
-        it('should not have the data-cq-resource-type attribute set when virtual props is false', () => {
-            const EDIT_CONFIG = {
-                isEmpty: function () {
-                    return false;
-                },
-                emptyLabel: EMPTY_LABEL,
-                resourceType: COMPONENT_RESOURCE_TYPE
-            };
-
-            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
-
-            ReactDOM.render(<EditableComponent isInEditor={true} virtual={false} {...CQ_PROPS}/>, rootNode);
-
-            const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
-
-            expect(node).toBeNull();
-        });
-
-        it('should not have the data-cq-resource-type attribute set when virtual props is true, but no resourceType in component config', () => {
+        it('should NOT have the data-cq-resource-type attribute set when NOT passing it via the Editconfig', () => {
             const EDIT_CONFIG = {
                 isEmpty: function () {
                     return false;
@@ -198,7 +180,7 @@ describe('EditableComponent ->', () => {
 
             const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
 
-            ReactDOM.render(<EditableComponent isInEditor={true} virtual={true} {...CQ_PROPS}/>, rootNode);
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
             const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
 

@@ -41,8 +41,15 @@ export interface ReloadForceAble {
 export interface MappedComponentProperties extends ReloadForceAble {
     isInEditor: boolean;
     cqPath: string;
-    virtual?: boolean;
 }
+
+const withMappable = <P extends MappedComponentProperties>(component: any, editConfig?: EditConfig<P>, config?: ReloadableModelProperties) => {
+    const configToUse: ReloadableModelProperties = config ? config : { forceReload: false };
+    let innerComponent: any = component;
+
+    innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
+    return innerComponent;
+};
 
 /**
  * Map a React component with the given resource types.
@@ -56,10 +63,7 @@ export interface MappedComponentProperties extends ReloadForceAble {
  */
 ComponentMapping.map =
     function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: any, editConfig?: EditConfig<P>, config?: ReloadableModelProperties) {
-        const configToUse: ReloadableModelProperties = config ? config : { forceReload: false };
-        let innerComponent: any = component;
-
-        innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
+        const innerComponent = withMappable(component, editConfig, config);
         wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
 
         return innerComponent;
@@ -93,4 +97,4 @@ function withComponentMappingContext<P extends MappedComponentProperties>(Compon
     };
 }
 
-export { ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext };
+export { ComponentMapping, MapTo, withMappable, ComponentMappingContext, withComponentMappingContext };

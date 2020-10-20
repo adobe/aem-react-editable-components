@@ -87,9 +87,7 @@ export class ModelProvider extends Component<ModelProviderType> {
               this.setState(props);
           }
         }).catch((error) => {
-            if (error.response.status === 404) {
-                this.setState({ 'virtual': true });
-            }
+            console.log(error);
         });
     }
 
