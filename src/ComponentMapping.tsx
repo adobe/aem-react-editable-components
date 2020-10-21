@@ -43,6 +43,14 @@ export interface MappedComponentProperties extends ReloadForceAble {
     cqPath: string;
 }
 
+/**
+ * Makes a React component mappable to AEM resourceTypes by adding Model config and AEM editing capabilities to it.
+ *
+ * @param component React representation for the component
+ * @param editConfig Configuration object for enabling the edition capabilities.
+ * @param config Model configuration object.
+ * @returns The resulting decorated Component
+ */
 const withMappable = <P extends MappedComponentProperties>(component: ComponentType<P>,
                                                            editConfig?: EditConfig<P>, config?: ReloadableModelProperties): ComponentType<P> => {
     const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
@@ -61,7 +69,7 @@ const withMappable = <P extends MappedComponentProperties>(component: ComponentT
  * @param resourceTypes List of resource types for which to use the given component.
  * @param component React representation for the given resource types.
  * @param editConfig Configuration object for enabling the edition capabilities.
- * @param config General configuration object.
+ * @param config Model configuration object.
  * @returns The resulting decorated Component
  */
 ComponentMapping.map = function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: ComponentType<P>,
