@@ -45,7 +45,8 @@ export interface MappedComponentProperties extends ReloadForceAble {
 
 const withMappable = <P extends MappedComponentProperties>(component: ComponentType<P>,
                                                            editConfig?: EditConfig<P>, config?: ReloadableModelProperties): ComponentType<P> => {
-    const configToUse: ReloadableModelProperties = config ? config : { forceReload: false };
+    const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
+    const configToUse: ReloadableModelProperties = { injectPropsOnInit, forceReload, ...rest };
     let innerComponent: ComponentType<P> = component;
 
     innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
@@ -65,7 +66,8 @@ const withMappable = <P extends MappedComponentProperties>(component: ComponentT
  */
 ComponentMapping.map = function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: ComponentType<P>,
                                                                          editConfig?: EditConfig<P>, config?: ReloadableModelProperties) {
-    const innerComponent = withMappable(component, editConfig, config);
+    const { injectPropsOnInit = false, ...rest } = config || {};
+    const innerComponent = withMappable(component, editConfig, { injectPropsOnInit, ...rest });
 
     wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
 
