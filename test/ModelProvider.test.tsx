@@ -12,6 +12,7 @@
 
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
+import { waitFor } from '@testing-library/dom';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { ModelProvider, withModel } from '../src/components/ModelProvider';
@@ -197,6 +198,23 @@ describe('ModelProvider ->', () => {
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
             expect(childNode).toBeDefined();
+        });
+
+        it('should log error when there is no data', async () => {
+
+            // given
+            const error = new Error('404 - Not found');
+            getDataSpy.mockRejectedValue(error);
+
+            console.log = jest.fn();
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+            // when
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH} ></DummyWithModel>, rootNode);
+
+            // then
+            await waitFor(() => expect(console.log).toHaveBeenCalledWith(error));
         });
     });
 
