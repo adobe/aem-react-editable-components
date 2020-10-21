@@ -24,7 +24,6 @@ describe('ModelProvider ->', () => {
     const TEST_COMPONENT_MODEL = { ':type': 'test/components/componentchild' };
 
     let rootNode: any;
-    let observer: any;
 
     /**
      * React warn if a non-standard DOM attribute is used on a native DOM node.
@@ -68,9 +67,6 @@ describe('ModelProvider ->', () => {
     });
 
     afterEach(() => {
-        if (observer) {
-            observer.disconnect();
-        }
 
         if (rootNode) {
             document.body.removeChild(rootNode);

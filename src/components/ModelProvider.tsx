@@ -73,7 +73,7 @@ export class ModelProvider extends Component<ModelProviderType> {
      * Update model based on given resource path.
      * @param cqPath resource path
      */
-    public updateData(cqPath?: string) {
+    public updateData(cqPath?: string): void {
         const path = cqPath || this.props.cqPath;
 
         if (!path) {
