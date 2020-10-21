@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { withEditable } from '../src/components/EditableComponent';
-import { Constants } from "../src/Constants";
+import { Constants } from '../src/Constants';
 import Utils from '../src/Utils';
 
 describe('EditableComponent ->', () => {
@@ -68,7 +68,7 @@ describe('EditableComponent ->', () => {
     describe('Component emptiness ->', () => {
         it('should declare the component to be empty', () => {
             const EDIT_CONFIG = {
-                isEmpty: function () {
+                isEmpty: function() {
                     return true;
                 },
                 emptyLabel: EMPTY_LABEL
@@ -79,14 +79,15 @@ describe('EditableComponent ->', () => {
 
             ReactDOM.render(element, rootNode);
 
-            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR);
+            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME +
+                ' + .' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR);
 
             expect(node).not.toBeNull();
         });
 
         it('should declare the component to be empty without providing a label', () => {
             const EDIT_CONFIG = {
-                isEmpty: function () {
+                isEmpty: function() {
                     return true;
                 }
             };
@@ -101,14 +102,15 @@ describe('EditableComponent ->', () => {
 
             expect(node).toBeNull();
 
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
+            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME +
+                ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
 
             expect(node).not.toBeNull();
         });
 
         it('should declare the component as not being in the editor', () => {
             const EDIT_CONFIG = {
-                isEmpty: function () {
+                isEmpty: function() {
                     return true;
                 }
             };
@@ -123,14 +125,15 @@ describe('EditableComponent ->', () => {
 
             expect(node).toBeNull();
 
-            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
+            node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME +
+                ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
 
             expect(node).toBeNull();
         });
 
         it('should declare the component not to be empty', () => {
             const EDIT_CONFIG = {
-                isEmpty: function () {
+                isEmpty: function() {
                     return false;
                 },
                 emptyLabel: EMPTY_LABEL
@@ -154,7 +157,7 @@ describe('EditableComponent ->', () => {
 
         it('should have the data-cq-resource-type attribute set when passing this via the Editconfig', () => {
             const EDIT_CONFIG = {
-                isEmpty: function () {
+                isEmpty: function() {
                     return false;
                 },
                 emptyLabel: EMPTY_LABEL,
@@ -172,7 +175,7 @@ describe('EditableComponent ->', () => {
 
         it('should NOT have the data-cq-resource-type attribute set when NOT passing it via the Editconfig', () => {
             const EDIT_CONFIG = {
-                isEmpty: function () {
+                isEmpty: function() {
                     return false;
                 },
                 emptyLabel: EMPTY_LABEL

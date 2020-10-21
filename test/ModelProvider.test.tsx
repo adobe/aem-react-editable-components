@@ -133,6 +133,7 @@ describe('ModelProvider ->', () => {
 
         it('should initialize properly without parameter', () => {
             const DummyWithModel: any = withModel(Dummy);
+
             ReactDOM.render(<DummyWithModel></DummyWithModel>, rootNode);
 
             expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
@@ -158,6 +159,7 @@ describe('ModelProvider ->', () => {
         it('should render a subpage properly when page path is provided', () => {
 
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
             // @ts-ignore
             ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
 
@@ -171,6 +173,7 @@ describe('ModelProvider ->', () => {
         it('should render components properly when component cqPath is provided', () => {
 
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
             // @ts-ignore
             ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
 
@@ -187,6 +190,7 @@ describe('ModelProvider ->', () => {
             const ITEM_PATH = 'root/paragraph';
 
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
             // @ts-ignore
             ReactDOM.render(<DummyWithModel pagePath={PAGE_PATH} itemPath={ITEM_PATH}></DummyWithModel>, rootNode);
 
@@ -204,9 +208,11 @@ describe('ModelProvider ->', () => {
 
             // given
             const error = new Error('404 - Not found');
+
             getDataSpy.mockRejectedValue(error);
 
             console.log = jest.fn();
+
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
 
             // when

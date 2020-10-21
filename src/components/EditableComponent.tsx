@@ -107,10 +107,10 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
 
         return (
-            <div {...this.editProps} {...this.props.containerProps}>
-                <WrappedComponent {...this.state}/>
-                <div {...this.emptyPlaceholderProps}/>
-            </div>
+          <div {...this.editProps} {...this.props.containerProps}>
+            <WrappedComponent {...this.state}/>
+            <div {...this.emptyPlaceholderProps}/>
+          </div>
         );
     }
 }
@@ -123,7 +123,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
  */
 export function withEditable<P extends MappedComponentProperties>(WrappedComponent: ComponentType<P>, editConfig?: EditConfig<P>) {
 
-    const defaultEditConfig: EditConfig<P> = editConfig ? editConfig : {isEmpty: (props: P) => false};
+    const defaultEditConfig: EditConfig<P> = editConfig ? editConfig : { isEmpty: (props: P) => false };
 
     return class CompositeEditableComponent extends Component<P> {
         public render(): JSX.Element {
