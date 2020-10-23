@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/adobe/aem-react-editable-components/compare/v1.0.6...v1.1.0) (2020-10-23)
+
+
+### Features
+
+* support for virtual components ([#34](https://github.com/adobe/aem-react-editable-components/issues/34)) ([8839f97](https://github.com/adobe/aem-react-editable-components/commit/8839f97b847e3b1bd8dc6d5694acaf63ab09f72d))
+
 ## [1.0.6](https://github.com/adobe/aem-react-editable-components/compare/v1.0.5...v1.0.6) (2020-10-07)
 
 
