@@ -19,12 +19,14 @@ import { ContainerState } from './Container';
 /**
  * Configuration object of the withEditable function.
  *
- * @property emptyLabel Label to be displayed on the overlay when the component is empty.
- * @property isEmpty Callback function to determine if the component is empty.
+ * @property emptyLabel - Label to be displayed on the overlay when the component is empty
+ * @property isEmpty - Callback function to determine if the component is empty
+ * @property resourceType - AEM ResourceType to be added as an attribute on the editable component dom
  */
 export interface EditConfig<P extends MappedComponentProperties> {
     emptyLabel?: string;
     isEmpty(props: P): boolean;
+    resourceType?: string;
 }
 
 export interface EditableComponentProperties<P extends MappedComponentProperties>{
@@ -64,12 +66,17 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
      */
     get editProps(): { [key: string]: string } {
         const eProps: { [key: string]: string } = {};
+        const componentProperties: P = this.props.componentProperties;
 
-        if (!this.props.componentProperties.isInEditor) {
+        if (!componentProperties.isInEditor) {
             return eProps;
         }
 
-        eProps[Constants.DATA_PATH_ATTR] = this.props.componentProperties.cqPath;
+        eProps[Constants.DATA_PATH_ATTR] = componentProperties.cqPath;
+
+        if (this.props.editConfig.resourceType) {
+            eProps[Constants.DATA_CQ_RESOURCE_TYPE_ATTR] = this.props.editConfig.resourceType;
+        }
 
         return eProps;
     }
@@ -100,10 +107,10 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
 
         return (
-            <div {...this.editProps} {...this.props.containerProps}>
-                <WrappedComponent {...this.state}/>
-                <div {...this.emptyPlaceholderProps}/>
-            </div>
+          <div {...this.editProps} {...this.props.containerProps}>
+            <WrappedComponent {...this.state}/>
+            <div {...this.emptyPlaceholderProps}/>
+          </div>
         );
     }
 }
@@ -116,7 +123,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
  */
 export function withEditable<P extends MappedComponentProperties>(WrappedComponent: ComponentType<P>, editConfig?: EditConfig<P>) {
 
-    const defaultEditConfig: EditConfig<P> = editConfig ? editConfig : {isEmpty: (props: P) => false};
+    const defaultEditConfig: EditConfig<P> = editConfig ? editConfig : { isEmpty: (props: P) => false };
 
     return class CompositeEditableComponent extends Component<P> {
         public render(): JSX.Element {

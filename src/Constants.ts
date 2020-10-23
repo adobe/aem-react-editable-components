@@ -23,6 +23,11 @@ export class Constants {
     public static readonly DATA_PATH_ATTR = 'data-cq-data-path';
 
     /**
+     * Name of the data-resource-type data attribute.
+     */
+    public static readonly DATA_CQ_RESOURCE_TYPE_ATTR = 'data-cq-resource-type';
+
+    /**
      * Class names associated with a new section component.
      */
     public static readonly NEW_SECTION_CLASS_NAMES = 'new section';

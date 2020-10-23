@@ -44,25 +44,43 @@ export interface MappedComponentProperties extends ReloadForceAble {
 }
 
 /**
+ * Makes a React component mappable to AEM resourceTypes by adding Model config and AEM editing capabilities to it.
+ *
+ * @param component React representation for the component
+ * @param editConfig Configuration object for enabling the edition capabilities.
+ * @param config Model configuration object.
+ * @returns The resulting decorated Component
+ */
+const withMappable = <P extends MappedComponentProperties>(component: ComponentType<P>,
+                                                           editConfig?: EditConfig<P>, config?: ReloadableModelProperties): ComponentType<P> => {
+    const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
+    const configToUse: ReloadableModelProperties = { injectPropsOnInit, forceReload, ...rest };
+    let innerComponent: ComponentType<P> = component;
+
+    innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
+
+    return innerComponent;
+};
+
+/**
  * Map a React component with the given resource types.
  * If an {@link EditConfig} is provided the component is wrapped to provide editing capabilities on the AEM Page Editor
  *
  * @param resourceTypes List of resource types for which to use the given component.
  * @param component React representation for the given resource types.
  * @param editConfig Configuration object for enabling the edition capabilities.
- * @param config General configuration object.
+ * @param config Model configuration object.
  * @returns The resulting decorated Component
  */
-ComponentMapping.map =
-    function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: any, editConfig?: EditConfig<P>, config?: ReloadableModelProperties) {
-        const configToUse: ReloadableModelProperties = config ? config : { forceReload: false };
-        let innerComponent: any = component;
+ComponentMapping.map = function map<P extends MappedComponentProperties>(resourceTypes: string | string[], component: ComponentType<P>,
+                                                                         editConfig?: EditConfig<P>, config?: ReloadableModelProperties) {
+    const { injectPropsOnInit = false, ...rest } = config || {};
+    const innerComponent = withMappable(component, editConfig, { injectPropsOnInit, ...rest });
 
-        innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
-        wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
+    wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
 
-        return innerComponent;
-    };
+    return innerComponent;
+};
 
 ComponentMapping.get = wrappedGetFct;
 
@@ -85,11 +103,11 @@ const ComponentMappingContext: React.Context<typeof ComponentMapping> = React.cr
 function withComponentMappingContext<P extends MappedComponentProperties>(Component: React.ComponentType<P>): MappingContextFunction<P> {
     return function ComponentMappingContextComponent(props: P): JSX.Element {
         return (
-            <ComponentMappingContext.Consumer>
-                { (componentMapping: ComponentMapping) => <Component {...props} componentMapping={componentMapping} /> }
-            </ComponentMappingContext.Consumer>
+          <ComponentMappingContext.Consumer>
+            { (componentMapping: ComponentMapping) => <Component {...props} componentMapping={componentMapping} /> }
+          </ComponentMappingContext.Consumer>
         );
     };
 }
 
-export { ComponentMapping, MapTo, ComponentMappingContext, withComponentMappingContext };
+export { ComponentMapping, MapTo, withMappable, ComponentMappingContext, withComponentMappingContext };
