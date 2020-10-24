@@ -17,16 +17,36 @@ import { Constants } from '../Constants';
 import { ContainerState } from './Container';
 
 /**
+ * @protected props - Main properties related to the editing of the component.
+ * @protected editProps - Edit properties related to the editing of the component.
+ * @protected containerProps - Container properties related to the editing of the component.
+ * @protected emptyPlaceholderProps - Properties related to the empty placeholder.
+ */
+export type EditableComponentRenderingProperties<P extends MappedComponentProperties> = {
+    props: Readonly<EditableComponentModel<P>>;
+    editProps: Readonly<{ [key: string]: string }>;
+    containerProps: Readonly<{ [key: string]: string }>;
+    emptyPlaceholderProps: Readonly<{ [key: string]: string }>;
+}
+
+/**
  * Configuration object of the withEditable function.
  *
  * @property emptyLabel - Label to be displayed on the overlay when the component is empty
  * @property isEmpty - Callback function to determine if the component is empty
  * @property resourceType - AEM ResourceType to be added as an attribute on the editable component dom
+ * @property render - Allows custom editable component rendering.
  */
 export interface EditConfig<P extends MappedComponentProperties> {
     emptyLabel?: string;
     isEmpty(props: P): boolean;
     resourceType?: string;
+    /**
+     * @param props - All the properties available for custom renderers.
+     * @param wrappedComponent - The component to be rendered.
+     * @param next - Call the next renderer in the chain in case a custom renderer decides to pass the turn.
+     */
+    render?: (props: Readonly<EditableComponentRenderingProperties<P>>, wrappedComponent: ComponentType<P>, next: () => JSX.Element) => JSX.Element;
 }
 
 export interface EditableComponentProperties<P extends MappedComponentProperties>{
@@ -106,12 +126,29 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
     public render() {
         const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
 
-        return (
-          <div {...this.editProps} {...this.props.containerProps}>
-            <WrappedComponent {...this.state}/>
-            <div {...this.emptyPlaceholderProps}/>
-          </div>
+        const defaultRender = () => (
+            <div {...this.editProps} {...this.props.containerProps}>
+                <WrappedComponent {...this.state} />
+                <div {...this.emptyPlaceholderProps} />
+            </div>
         );
+
+        const { render } = this.props?.editConfig;
+
+        if (render) {
+            return render({
+                // @ts-ignore
+                props: this.state,
+                // @ts-ignore
+                editProps: this.editProps,
+                // @ts-ignore
+                containerProps: this.props.containerProps,
+                // @ts-ignore
+                emptyPlaceholderProps: this.emptyPlaceholderProps,
+            }, this.props.wrappedComponent, defaultRender);
+        }
+
+        return defaultRender();
     }
 }
 
