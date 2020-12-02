@@ -181,6 +181,9 @@ describe('ModelProvider ->', () => {
         });
 
         it('should render components properly when containing page path and path to item is provided', () => {
+            addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementationOnce((path, callback) => {
+                callback();
+            });
 
             const PAGE_PATH = '/page/subpage';
             const ITEM_PATH = 'root/paragraph';
@@ -190,6 +193,7 @@ describe('ModelProvider ->', () => {
             // @ts-ignore
             ReactDOM.render(<DummyWithModel pagePath={PAGE_PATH} itemPath={ITEM_PATH}></DummyWithModel>, rootNode);
 
+            expect(addListenerSpy).toHaveBeenCalled();
             expect(getDataSpy).toHaveBeenCalledWith({
               path: `${PAGE_PATH}/jcr:content/${ITEM_PATH}`,
               forceReload: false
