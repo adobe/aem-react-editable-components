@@ -74,7 +74,10 @@ export class ModelProvider extends Component<ModelProviderType> {
      * @param cqPath resource path
      */
     public updateData(cqPath?: string): void {
-        const path = cqPath || this.props.cqPath;
+        const { pagePath, itemPath, injectPropsOnInit } = this.props;
+        const path = cqPath
+            || this.props.cqPath
+            || (pagePath && Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit }));
 
         if (!path) {
             return;
