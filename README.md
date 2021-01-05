@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/adobe/aem-react-editable-components/blob/master/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/@adobe/aem-react-editable-components.svg)](https://www.npmjs.com/package/@adobe/aem-react-editable-components)
-[![Documentation](https://img.shields.io/badge/docs-api-blue)](https://opensource.adobe.com/aem-react-editable-components/globals.html)
+[![Documentation](https://img.shields.io/badge/docs-api-blue)](https://opensource.adobe.com/aem-react-editable-components/)
 
 [![codecov](https://codecov.io/gh/adobe/aem-react-editable-components/branch/master/graph/badge.svg)](https://codecov.io/gh/adobe/aem-react-editable-components)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adobe_aem-react-editable-components&metric=alert_status)](https://sonarcloud.io/dashboard?id=adobe_aem-react-editable-components)
