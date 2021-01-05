@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/adobe/aem-react-editable-components/compare/v1.1.1...v1.1.2) (2021-01-05)
+
+
+### Bug Fixes
+
+* **docs:** remove --mode from docs build after a typedoc breaking change ([683da63](https://github.com/adobe/aem-react-editable-components/commit/683da63c499ffdcdc6f2cfa3067fe72eee56bd6b))
+
 ## [1.1.1](https://github.com/adobe/aem-react-editable-components/compare/v1.1.0...v1.1.1) (2020-12-04)
 
 
