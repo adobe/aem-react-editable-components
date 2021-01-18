@@ -39,11 +39,15 @@ describe('ComponentMapping', () => {
     it('should store and retrieve component', () => {
         const spy = jest.spyOn(document.head, 'querySelector').mockReturnValue({ content: 'edit' } as any);
 
-        MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
+        const WrappedReturnType = MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
 
-        const WrappedTestComponent = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
+        const WrappedComponentFromGet = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
 
-        expect(WrappedTestComponent).toBeDefined();
+        expect(WrappedComponentFromGet).toBeDefined();
+        expect(WrappedReturnType).toBeDefined();
+
+        expect(WrappedReturnType).toBe(WrappedComponentFromGet);
+
         spy.mockRestore();
     });
 });
