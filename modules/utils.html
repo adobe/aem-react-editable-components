@@ -86,8 +86,8 @@
 					<div class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>isInEditor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>isInEditor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {/*** Is the app used in the context of the AEM Page editor.*/isInEditor(): boolean {return [ AEM_MODE.EDIT, AEM_MODE.PREVIEW ].includes(getWCMMode());},/*** Transforms the item data to component properties.* It will replace &#x27;:&#x27; with &#x27;cq&#x27; and convert the name to CameCase.** @private* @param item - the item data* @returns the transformed data*/modelToProps(item: Model) {const keys &#x3D; Object.getOwnPropertyNames(item);const props: any &#x3D; {};keys.forEach((key) &#x3D;&gt; {let propKey: string &#x3D; key;if (propKey.startsWith(&#x27;:&#x27;)) {propKey &#x3D; transformToCQ(propKey);}// @ts-ignoreprops[propKey] &#x3D; item[key];});return props;/*** Transformation of internal properties namespaced with [:] to [cq]* :myProperty &#x3D;&gt; cqMyProperty* @param propKey*/function transformToCQ(propKey: string) {const tempKey &#x3D; propKey.substr(1);return &#x27;cq&#x27; + tempKey.substr(0, 1).toUpperCase() + tempKey.substr(1);}},/*** Determines the cqPath of a component given its props** @private* @returns cqPath of the component*/getCQPath(componentProps: ComponentProps): string {const { pagePath &#x3D; &#x27;&#x27;, itemPath &#x3D; &#x27;&#x27;, injectPropsOnInit } &#x3D; componentProps;let { cqPath &#x3D; &#x27;&#x27; } &#x3D; componentProps;if (injectPropsOnInit &amp;&amp; !cqPath) {cqPath &#x3D; normalizePath(itemPath ? &#x60;${pagePath}/jcr:content/${itemPath}&#x60; : pagePath);}return cqPath;}}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/d7d176e/src/Utils.ts#L47">src/Utils.ts:47</a></li>
-							<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/d7d176e/src/types.ts#L22">src/types.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/77a5f6c/src/Utils.ts#L47">src/Utils.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/77a5f6c/src/types.ts#L22">src/types.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -107,7 +107,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/d7d176e/src/Utils.ts#L51">src/Utils.ts:51</a></li>
+												<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/77a5f6c/src/Utils.ts#L51">src/Utils.ts:51</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -128,7 +128,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/d7d176e/src/Utils.ts#L51">src/Utils.ts:51</a></li>
+												<li>Defined in <a href="https://github.com/adobe/aem-react-editable-components/blob/77a5f6c/src/Utils.ts#L51">src/Utils.ts:51</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
