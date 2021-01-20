@@ -10,12 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-import { ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import { waitFor } from '@testing-library/dom';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { ModelProvider, withModel } from '../src/components/ModelProvider';
+import { Constants } from '../src/Constants';
 
 describe('ModelProvider ->', () => {
     const TEST_PAGE_PATH = '/page/jcr:content/root';
@@ -152,7 +153,9 @@ describe('ModelProvider ->', () => {
             expect(childNode).toBeDefined();
         });
 
-        it('should render a subpage properly when page path is provided', () => {
+        it('should render a subpage properly when page path is provided', async () => {
+            const dispatchEventSpy: jest.SpyInstance =
+                jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent').mockImplementation();
 
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
 
@@ -164,6 +167,10 @@ describe('ModelProvider ->', () => {
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
             expect(childNode).toBeDefined();
+
+            await waitFor(() =>
+                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED, {})
+            );
         });
 
         it('should render components properly when component cqPath is provided', () => {
