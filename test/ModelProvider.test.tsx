@@ -17,6 +17,7 @@ import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { ModelProvider, withModel } from '../src/components/ModelProvider';
 import { Constants } from '../src/Constants';
+import Utils from '../src/Utils';
 
 describe('ModelProvider ->', () => {
     const TEST_PAGE_PATH = '/page/jcr:content/root';
@@ -156,6 +157,7 @@ describe('ModelProvider ->', () => {
         it('should render a subpage properly when page path is provided', async () => {
             const dispatchEventSpy: jest.SpyInstance =
                 jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent').mockImplementation();
+            const isInEditor:jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
 
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
 
@@ -171,6 +173,9 @@ describe('ModelProvider ->', () => {
             await waitFor(() =>
                 expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED_EVENT, {})
             );
+
+            isInEditor.mockReset();
+            dispatchEventSpy.mockReset();
         });
 
         it('should render components properly when component cqPath is provided', () => {
