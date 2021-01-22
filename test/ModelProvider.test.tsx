@@ -154,11 +154,7 @@ describe('ModelProvider ->', () => {
             expect(childNode).toBeDefined();
         });
 
-        it('should render a subpage properly when page path is provided', async () => {
-            const dispatchEventSpy: jest.SpyInstance =
-                jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent').mockImplementation();
-            const isInEditor:jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
-
+        it('should render a subpage properly when page path is provided', () => {
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
 
             // @ts-ignore
@@ -169,13 +165,6 @@ describe('ModelProvider ->', () => {
             const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
             expect(childNode).toBeDefined();
-
-            await waitFor(() =>
-                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED_EVENT, {})
-            );
-
-            isInEditor.mockReset();
-            dispatchEventSpy.mockReset();
         });
 
         it('should render components properly when component cqPath is provided', () => {
@@ -233,6 +222,30 @@ describe('ModelProvider ->', () => {
 
             // then
             await waitFor(() => expect(console.log).toHaveBeenCalledWith(error));
+        });
+
+        it('should fire event to reload editables when in editor', async () => {
+            const dispatchEventSpy: jest.SpyInstance =
+                jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent').mockImplementation();
+            const isInEditor:jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
+
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+            expect(childNode).toBeDefined();
+
+            await waitFor(() =>
+                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED_EVENT, {})
+            );
+
+            isInEditor.mockReset();
+            dispatchEventSpy.mockReset();
         });
     });
 
