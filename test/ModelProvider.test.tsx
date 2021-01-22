@@ -169,7 +169,7 @@ describe('ModelProvider ->', () => {
             expect(childNode).toBeDefined();
 
             await waitFor(() =>
-                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED, {})
+                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED_EVENT, {})
             );
         });
 
