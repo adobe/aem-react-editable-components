@@ -241,7 +241,7 @@ describe('ModelProvider ->', () => {
             expect(childNode).toBeDefined();
 
             await waitFor(() =>
-                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.REMOTE_CONTENT_LOADED_EVENT, {})
+                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.ASYNC_CONTENT_LOADED_EVENT, {})
             );
 
             isInEditor.mockReset();

@@ -45,7 +45,7 @@ export class Constants {
     /**
      * Event which indicates that content of remote component has been fetched and loaded in the app
      */
-    public static readonly REMOTE_CONTENT_LOADED_EVENT = 'cq-remotecontent-loaded';
+    public static readonly ASYNC_CONTENT_LOADED_EVENT = 'cq-async-content-loaded';
 
     /**
      * Selector for WCM mode state meta property.

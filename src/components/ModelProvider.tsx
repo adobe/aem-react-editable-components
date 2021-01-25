@@ -92,7 +92,7 @@ export class ModelProvider extends Component<ModelProviderType> {
 
               // Fire event once component model has been fetched and rendered to enable editing on AEM
               if (injectPropsOnInit && Utils.isInEditor()) {
-                  PathUtils.dispatchGlobalCustomEvent(Constants.REMOTE_CONTENT_LOADED_EVENT, {});
+                  PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
               }
           }
         }).catch((error) => {
