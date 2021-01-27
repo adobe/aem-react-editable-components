@@ -10,9 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
+import { Constants } from '../Constants';
 import { MappedComponentProperties, ReloadForceAble } from '../ComponentMapping';
 import Utils from '../Utils';
 
@@ -88,6 +89,11 @@ export class ModelProvider extends Component<ModelProviderType> {
               const props = Utils.modelToProps(data);
 
               this.setState(props);
+
+              // Fire event once component model has been fetched and rendered to enable editing on AEM
+              if (injectPropsOnInit && Utils.isInEditor()) {
+                  PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
+              }
           }
         }).catch((error) => {
             console.log(error);

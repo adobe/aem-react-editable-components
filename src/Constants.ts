@@ -43,6 +43,11 @@ export class Constants {
     public static readonly _RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
     /**
+     * Event which indicates that content of remote component has been fetched and loaded in the app
+     */
+    public static readonly ASYNC_CONTENT_LOADED_EVENT = 'cq-async-content-loaded';
+
+    /**
      * Selector for WCM mode state meta property.
      */
     public static readonly _WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';

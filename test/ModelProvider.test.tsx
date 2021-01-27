@@ -10,12 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import { ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import { waitFor } from '@testing-library/dom';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/ComponentMapping';
 import { ModelProvider, withModel } from '../src/components/ModelProvider';
+import { Constants } from '../src/Constants';
+import Utils from '../src/Utils';
 
 describe('ModelProvider ->', () => {
     const TEST_PAGE_PATH = '/page/jcr:content/root';
@@ -153,7 +155,6 @@ describe('ModelProvider ->', () => {
         });
 
         it('should render a subpage properly when page path is provided', () => {
-
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
 
             // @ts-ignore
@@ -221,6 +222,30 @@ describe('ModelProvider ->', () => {
 
             // then
             await waitFor(() => expect(console.log).toHaveBeenCalledWith(error));
+        });
+
+        it('should fire event to reload editables when in editor', async () => {
+            const dispatchEventSpy: jest.SpyInstance =
+                jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent').mockImplementation();
+            const isInEditor:jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
+
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+            expect(childNode).toBeDefined();
+
+            await waitFor(() =>
+                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.ASYNC_CONTENT_LOADED_EVENT, {})
+            );
+
+            isInEditor.mockReset();
+            dispatchEventSpy.mockReset();
         });
     });
 
