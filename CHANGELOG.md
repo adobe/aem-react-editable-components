@@ -1,3 +1,11 @@
+## [1.1.3](https://github.com/adobe/aem-react-editable-components/compare/v1.1.2...v1.1.3) (2021-01-27)
+
+
+### Bug Fixes
+
+* enable editing on AEM for dynamic container components ([7c13657](https://github.com/adobe/aem-react-editable-components/commit/7c1365787f2d39d681a594437bcec5ead9ced80e))
+* fire event only when loaded in AEM editor ([da933f2](https://github.com/adobe/aem-react-editable-components/commit/da933f2e139f158cd5200f70034afdf0a1fb9f67))
+
 ## [1.1.2](https://github.com/adobe/aem-react-editable-components/compare/v1.1.1...v1.1.2) (2021-01-05)
 
 
