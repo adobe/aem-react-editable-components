@@ -11,7 +11,7 @@
  */
 
 import { normalize as normalizePath } from 'path';
-import { AEM_MODE, Model, PathUtils } from '@adobe/aem-spa-page-model-manager';
+import { AEM_MODE, Model, PathUtils, AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 import { Constants } from './Constants';
 
 /**
@@ -49,7 +49,7 @@ const Utils = {
      * Is the app used in the context of the AEM Page editor.
      */
     isInEditor(): boolean {
-        return [ AEM_MODE.EDIT, AEM_MODE.PREVIEW ].includes(getWCMMode());
+        return [ AEM_MODE.EDIT, AEM_MODE.PREVIEW ].includes(getWCMMode()) || AuthoringUtils.isRemoteApp();
     },
 
     /**
