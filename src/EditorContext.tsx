@@ -11,9 +11,9 @@
  */
 
 import React from 'react';
-import Utils from './Utils';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager'; 
 
-const EditorContext = React.createContext(Utils.isInEditor());
+const EditorContext = React.createContext(AuthoringUtils.isInEditor());
 
 const withEditorContext = (Component: React.ComponentType<any>): any => {
     const context = (props: React.ReactPropTypes): React.ReactElement => {
