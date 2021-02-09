@@ -11,7 +11,7 @@
  */
 
 import { normalize as normalizePath } from 'path';
-import { AEM_MODE, Model, PathUtils } from '@adobe/aem-spa-page-model-manager';
+import { AEM_MODE, Model, PathUtils, AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 import { Constants } from './Constants';
 
 /**
@@ -50,7 +50,7 @@ const Utils = {
      * @deprecated use AuthoringUtils.isInEditor from aem-spa-page-model-manager
      */
     isInEditor(): boolean {
-        return [ AEM_MODE.EDIT, AEM_MODE.PREVIEW ].includes(getWCMMode());
+        return AuthoringUtils.isInEditor();
     },
 
     /**
