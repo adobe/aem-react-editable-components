@@ -1,3 +1,13 @@
+## [1.1.4](https://github.com/adobe/aem-react-editable-components/compare/v1.1.3...v1.1.4) (2021-02-11)
+
+
+### Bug Fixes
+
+* deprecating isInEditor and updating usage ([6f92db0](https://github.com/adobe/aem-react-editable-components/commit/6f92db0a703b13949a761e16520d049ebb7e8e26))
+* removing unused imports and functions ([3a8d3ff](https://github.com/adobe/aem-react-editable-components/commit/3a8d3ffaae558293547cc9c9e01daa2fea7c8a32))
+* update deprecated function to return AuthoringUtils.isInEditor ([b7eea37](https://github.com/adobe/aem-react-editable-components/commit/b7eea37b064a124a436113418929d40385a422bb))
+* update isInEditor to check for remote app ([8ec4530](https://github.com/adobe/aem-react-editable-components/commit/8ec4530b3769ee2a30c0cc97070ef1d1b2028c33))
+
 ## [1.1.3](https://github.com/adobe/aem-react-editable-components/compare/v1.1.2...v1.1.3) (2021-01-27)
 
 
