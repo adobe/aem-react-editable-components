@@ -11,24 +11,7 @@
  */
 
 import { normalize as normalizePath } from 'path';
-import { AEM_MODE, Model, PathUtils } from '@adobe/aem-spa-page-model-manager';
-import { Constants } from './Constants';
-
-/**
- * Returns the current WCM mode based on meta property.
- * @private
- */
-function getWCMMode(): AEM_MODE {
-    let wcmMode = null;
-
-    if (PathUtils.isBrowser()) {
-        const wcmModeMeta = document.head.querySelector(Constants._WCM_MODE_META_SELECTOR);
-
-        wcmMode = wcmModeMeta?.getAttribute('content') as AEM_MODE;
-    }
-
-    return wcmMode || AEM_MODE.DISABLED;
-}
+import { Model, AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 interface ComponentProps {
     pagePath?: string;
@@ -47,9 +30,10 @@ interface ComponentProps {
 const Utils = {
     /**
      * Is the app used in the context of the AEM Page editor.
+     * @deprecated use AuthoringUtils.isInEditor from aem-spa-page-model-manager
      */
     isInEditor(): boolean {
-        return [ AEM_MODE.EDIT, AEM_MODE.PREVIEW ].includes(getWCMMode());
+        return AuthoringUtils.isInEditor();
     },
 
     /**

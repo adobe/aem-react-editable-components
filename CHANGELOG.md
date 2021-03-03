@@ -1,3 +1,28 @@
+## [1.1.5](https://github.com/adobe/aem-react-editable-components/compare/v1.1.4...v1.1.5) (2021-02-11)
+
+
+### Bug Fixes
+
+* **npm:** fix release version ([f18aa96](https://github.com/adobe/aem-react-editable-components/commit/f18aa9603e3331772ee5762670a5729c1d4cf2a6))
+
+## [1.1.4](https://github.com/adobe/aem-react-editable-components/compare/v1.1.3...v1.1.4) (2021-02-11)
+
+
+### Bug Fixes
+
+* deprecating isInEditor and updating usage ([6f92db0](https://github.com/adobe/aem-react-editable-components/commit/6f92db0a703b13949a761e16520d049ebb7e8e26))
+* removing unused imports and functions ([3a8d3ff](https://github.com/adobe/aem-react-editable-components/commit/3a8d3ffaae558293547cc9c9e01daa2fea7c8a32))
+* update deprecated function to return AuthoringUtils.isInEditor ([b7eea37](https://github.com/adobe/aem-react-editable-components/commit/b7eea37b064a124a436113418929d40385a422bb))
+* update isInEditor to check for remote app ([8ec4530](https://github.com/adobe/aem-react-editable-components/commit/8ec4530b3769ee2a30c0cc97070ef1d1b2028c33))
+
+## [1.1.3](https://github.com/adobe/aem-react-editable-components/compare/v1.1.2...v1.1.3) (2021-01-27)
+
+
+### Bug Fixes
+
+* enable editing on AEM for dynamic container components ([7c13657](https://github.com/adobe/aem-react-editable-components/commit/7c1365787f2d39d681a594437bcec5ead9ced80e))
+* fire event only when loaded in AEM editor ([da933f2](https://github.com/adobe/aem-react-editable-components/commit/da933f2e139f158cd5200f70034afdf0a1fb9f67))
+
 ## [1.1.2](https://github.com/adobe/aem-react-editable-components/compare/v1.1.1...v1.1.2) (2021-01-05)
 
 
