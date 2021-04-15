@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/adobe/aem-react-editable-components/compare/v1.1.5...v1.1.6) (2021-04-15)
+
+
+### Bug Fixes
+
+* **mapto:** fix return type of get/getLazy  ([#55](https://github.com/adobe/aem-react-editable-components/issues/55)) ([171254c](https://github.com/adobe/aem-react-editable-components/commit/171254cdb357291c9c625c698dbb1efe495cb8f4))
+
 ## [1.1.5](https://github.com/adobe/aem-react-editable-components/compare/v1.1.4...v1.1.5) (2021-02-11)
 
 
