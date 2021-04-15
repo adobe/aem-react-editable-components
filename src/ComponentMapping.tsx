@@ -87,9 +87,10 @@ ComponentMapping.get = wrappedGetFct;
 /**
  * @private
  */
-type MapperFunction<P extends MappedComponentProperties> = (component: ComponentType<P>, editConfig?: EditConfig<P>) => void;
+type MapperFunction<P extends MappedComponentProperties> = (component: ComponentType<P>, editConfig?: EditConfig<P>) => ComponentType<P>;
 
 const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
+    // @ts-ignore
     return (clazz: ComponentType<P>, config?: EditConfig<P>) => {
         // @ts-ignore
         return ComponentMapping.map(resourceTypes, clazz, config);

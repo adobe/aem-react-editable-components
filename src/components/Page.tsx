@@ -15,7 +15,7 @@ import { Model } from '@adobe/aem-spa-page-model-manager';
 import { Constants } from '../Constants';
 import Utils from '../Utils';
 import { Container, ContainerProperties, ContainerState } from './Container';
-import { ComponentMapping } from '../ComponentMapping';
+import { ComponentMapping, MappedComponentProperties } from '../ComponentMapping';
 
 export interface PageModel extends Model {
     ':type': string;
@@ -68,8 +68,7 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
 
         Object.keys(this.props.cqChildren).map((itemKey) => {
             const itemProps = Utils.modelToProps(this.props.cqChildren[itemKey]);
-
-            const ItemComponent = this.state.componentMapping.get(itemProps.cqType);
+            const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
 
             if (ItemComponent) {
                 pages.push(
