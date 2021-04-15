@@ -59,7 +59,7 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
             const itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
 
             if (itemProps) {
-                const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType) as React.ComponentType<MappedComponentProperties>;
+                const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
 
                 if (ItemComponent) {
                     childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));

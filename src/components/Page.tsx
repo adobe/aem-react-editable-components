@@ -68,7 +68,7 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
 
         Object.keys(this.props.cqChildren).map((itemKey) => {
             const itemProps = Utils.modelToProps(this.props.cqChildren[itemKey]);
-            const ItemComponent = this.state.componentMapping.get(itemProps.cqType) as React.ComponentType<MappedComponentProperties>;
+            const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
 
             if (ItemComponent) {
                 pages.push(
