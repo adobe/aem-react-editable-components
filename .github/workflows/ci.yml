@@ -16,7 +16,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '12'
       - name: Install dependencies
@@ -36,7 +36,7 @@ jobs:
           name: istanbul-code-coverage.zip
           path: coverage
       - name: Upload code coverage report to codecov.io and comment in pull request
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
       - name: Upload Sonar report to sonarcloud.io and comment in pull request
         uses: sonarsource/sonarcloud-github-action@master
         env:

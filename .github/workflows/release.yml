@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 12
       - name: Install dependencies
@@ -24,7 +24,7 @@ jobs:
       - name: Run tests and do code coverage check
         run: npm run test:coverage
       - name: Upload code coverage report to codecov.io
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
       - name: Upload Sonar report to sonarcloud.io
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -46,7 +46,7 @@ jobs:
       - name: Build documentation
         run: npm run docs
       - name: Publish documentation to github pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages-documentation
