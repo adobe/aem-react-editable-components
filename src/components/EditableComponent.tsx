@@ -81,6 +81,25 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         return eProps;
     }
 
+    /**
+     * Properties related to styling of the component.
+     */
+    get styleProps(): { [key: string]: string } {
+        const sProps: { [key: string]: string } = { className: '' };
+        const componentProperties: P = this.props.componentProperties;
+
+        const defaultClassNames = componentProperties[Constants.DEFAULT_CLASS_NAMES];
+        const appliedCssClassNames = componentProperties[Constants.APPLIED_CLASS_NAMES];
+
+        if (defaultClassNames)
+            sProps.className += defaultClassNames + ' ';
+
+        if (appliedCssClassNames)
+            sProps.className += appliedCssClassNames + ' ';
+
+        return sProps;
+    }
+
     protected get emptyPlaceholderProps() {
         if (!this.useEmptyPlaceholder()) {
             return null;
@@ -107,7 +126,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
 
         return (
-          <div {...this.editProps} {...this.props.containerProps}>
+          <div {...this.editProps} {...{ ...this.props.containerProps, ...this.styleProps }} >
             <WrappedComponent {...this.state}/>
             <div {...this.emptyPlaceholderProps}/>
           </div>
