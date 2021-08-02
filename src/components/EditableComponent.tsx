@@ -88,11 +88,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         const sProps: { [key: string]: string } = { className: '' };
         const componentProperties: P = this.props.componentProperties;
 
-        const defaultClassNames = componentProperties[Constants.DEFAULT_CLASS_NAMES];
         const appliedCssClassNames = componentProperties[Constants.APPLIED_CLASS_NAMES];
-
-        if (defaultClassNames)
-            sProps.className += defaultClassNames + ' ';
 
         if (appliedCssClassNames)
             sProps.className += appliedCssClassNames + ' ';

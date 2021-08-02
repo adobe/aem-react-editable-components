@@ -35,11 +35,6 @@ export class Constants {
     /**
      * Default CSS Class names associated with a component.
      */
-    public static readonly DEFAULT_CLASS_NAMES = 'cssClassNames';
-
-    /**
-     * Default CSS Class names associated with a component.
-     */
     public static readonly APPLIED_CLASS_NAMES = 'appliedCssClassNames';
 
     /**
