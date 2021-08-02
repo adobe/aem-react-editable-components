@@ -16,7 +16,7 @@
     "url": "https://github.com/adobe/aem-react-editable-components/issues"
   },
   "engines": {
-    "npm": "6.14.13",
+    "npm": "6.14.14",
     "node": ">=12.16.2"
   },
   "main": "dist/aem-react-editable-components.js",
