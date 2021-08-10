@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/adobe/aem-react-editable-components/compare/v1.1.6...v1.1.7) (2021-08-10)
+
+
+### Bug Fixes
+
+* add StyleSystem support ([2c3e400](https://github.com/adobe/aem-react-editable-components/commit/2c3e400930cdf4fdffc3f49512bcb6a2fa8c06bb))
+
 ## [1.1.6](https://github.com/adobe/aem-react-editable-components/compare/v1.1.5...v1.1.6) (2021-04-15)
 
 
