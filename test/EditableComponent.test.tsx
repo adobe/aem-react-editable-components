@@ -22,6 +22,7 @@ describe('EditableComponent ->', () => {
     const COMPONENT_RESOURCE_TYPE = '/component/resource/type';
     const COMPONENT_PATH = '/path/to/component';
     const CHILD_COMPONENT_CLASS_NAME = 'child-class';
+    const CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME = 'my_custom_style';
     const IN_EDITOR_CLASS_NAME = 'in-editor-class';
     const EMPTY_LABEL = 'Empty Label';
     const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
@@ -30,7 +31,8 @@ describe('EditableComponent ->', () => {
 
     const CQ_PROPS = {
         'cqType': COMPONENT_RESOURCE_TYPE,
-        'cqPath': COMPONENT_PATH
+        'cqPath': COMPONENT_PATH,
+        'appliedCssClassNames' : CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME
     };
 
     let rootNode: any;
@@ -186,6 +188,47 @@ describe('EditableComponent ->', () => {
             ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
 
             const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
+
+            expect(node).toBeNull();
+        });
+    });
+
+    describe('resouceType attribute ->', () => {
+
+        it('should have the className attribute containing appliedCssClasses value appended/set to pre-existing className if any set', () => {
+            const EDIT_CONFIG = {
+                isEmpty: function() {
+                    return false;
+                },
+                emptyLabel: EMPTY_LABEL,
+                resourceType: COMPONENT_RESOURCE_TYPE
+            };
+
+            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
+
+            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + '.' + CQ_PROPS.appliedCssClassNames);
+
+            expect(node).not.toBeNull();
+        });
+
+        it('should not have any custom CSS classes if appliedCssClasses is empty or not set', () => {
+            const EDIT_CONFIG = {
+                isEmpty: function() {
+                    return false;
+                },
+                emptyLabel: EMPTY_LABEL,
+                resourceType: COMPONENT_RESOURCE_TYPE
+            };
+
+            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+            const { appliedCssClassNames, ...otherCQProps } = CQ_PROPS;
+
+            ReactDOM.render(<EditableComponent isInEditor={true} {...otherCQProps} />, rootNode);
+
+            const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + '.' + appliedCssClassNames);
 
             expect(node).toBeNull();
         });

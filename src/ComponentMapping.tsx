@@ -41,6 +41,7 @@ export interface ReloadForceAble {
 export interface MappedComponentProperties extends ReloadForceAble {
     isInEditor: boolean;
     cqPath: string;
+    appliedCssClassNames?: string;
 }
 
 /**
