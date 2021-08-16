@@ -149,11 +149,24 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
     }
 
     public render() {
-        return (
-            <div {...this.containerProps}>
-                { this.childComponents }
-                { this.placeholderComponent }
-            </div>
-        );
+        let renderScript;
+
+        if (!this.props.isInEditor && this.props.aemNoDecoration){
+            renderScript = (
+                <React.Fragment>
+                    { this.childComponents }
+                    { this.placeholderComponent }
+                </React.Fragment>
+            )
+        } else {
+            renderScript = (
+                <div {...this.containerProps}>
+                    { this.childComponents }
+                    { this.placeholderComponent }
+                </div>
+            )
+        }
+
+        return renderScript;
     }
 }
