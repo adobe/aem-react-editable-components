@@ -121,12 +121,26 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
     public render() {
         const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
 
-        return (
-          <div {...this.editProps} {...{ ...this.props.containerProps, ...this.styleProps }} >
-            <WrappedComponent {...this.state}/>
-            <div {...this.emptyPlaceholderProps}/>
-          </div>
-        );
+        const componentProperties: P = this.props.componentProperties;
+        let renderScript;
+
+        if (!componentProperties.isInEditor && componentProperties.aemNoDecoration){
+            renderScript = (
+                <React.Fragment>
+                  <WrappedComponent {...this.state}/>
+                  <div {...this.emptyPlaceholderProps}/>
+                </React.Fragment>
+              )
+        } else {
+            renderScript = (
+                <div {...this.editProps} {...{ ...this.props.containerProps, ...this.styleProps }} >
+                  <WrappedComponent {...this.state}/>
+                  <div {...this.emptyPlaceholderProps}/>
+                </div>
+              )
+        }
+
+        return renderScript;
     }
 }
 
