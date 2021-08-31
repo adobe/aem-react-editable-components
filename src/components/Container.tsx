@@ -155,7 +155,6 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
             renderScript = (
                 <React.Fragment>
                     { this.childComponents }
-                    { this.placeholderComponent }
                 </React.Fragment>
             )
         } else {
