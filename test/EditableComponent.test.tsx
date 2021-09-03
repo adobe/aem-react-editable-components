@@ -24,6 +24,7 @@ describe('EditableComponent ->', () => {
     const CHILD_COMPONENT_CLASS_NAME = 'child-class';
     const CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME = 'my_custom_style';
     const IN_EDITOR_CLASS_NAME = 'in-editor-class';
+    const GRID_CLASS_NAME = 'aem-grid-column-x';
     const EMPTY_LABEL = 'Empty Label';
     const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
     const DATA_PATH_ATTRIBUTE_SELECTOR = '[data-cq-data-path="' + COMPONENT_PATH + '"]';
@@ -32,7 +33,10 @@ describe('EditableComponent ->', () => {
     const CQ_PROPS = {
         'cqType': COMPONENT_RESOURCE_TYPE,
         'cqPath': COMPONENT_PATH,
-        'appliedCssClassNames' : CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME
+        'appliedCssClassNames' : CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME,
+        containerProps:{
+            className: GRID_CLASS_NAME
+        }
     };
 
     let rootNode: any;
@@ -231,6 +235,24 @@ describe('EditableComponent ->', () => {
             const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + '.' + appliedCssClassNames);
 
             expect(node).toBeNull();
+        });
+
+        it('if aem grid column styles set, appliedCssClassNames should not override the grid styles', () => {
+            const EDIT_CONFIG = {
+                isEmpty: function() {
+                    return false;
+                },
+                emptyLabel: EMPTY_LABEL,
+                resourceType: COMPONENT_RESOURCE_TYPE
+            };
+
+            const EditableComponent: any = withEditable(ChildComponent, EDIT_CONFIG);
+
+            ReactDOM.render(<EditableComponent isInEditor={true} {...CQ_PROPS}/>, rootNode);
+
+            const node = rootNode.querySelector('.' + GRID_CLASS_NAME);
+
+            expect(node).not.toBeNull();
         });
     });
 

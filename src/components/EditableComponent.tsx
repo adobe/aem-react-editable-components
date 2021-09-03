@@ -93,6 +93,10 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
         if (appliedCssClassNames)
             sProps.className += appliedCssClassNames + ' ';
 
+        if (this.props?.containerProps?.className){
+            sProps.className = sProps.className + ' ' + this.props.containerProps.className;
+        }
+    
         return sProps;
     }
 
@@ -126,10 +130,7 @@ class EditableComponent<P extends MappedComponentProperties, S extends Container
 
         if (!componentProperties.isInEditor && componentProperties.aemNoDecoration){
             renderScript = (
-                <React.Fragment>
                   <WrappedComponent {...this.state}/>
-                  <div {...this.emptyPlaceholderProps}/>
-                </React.Fragment>
               )
         } else {
             renderScript = (
