@@ -1,3 +1,10 @@
+## [1.1.9](https://github.com/adobe/aem-react-editable-components/compare/v1.1.8...v1.1.9) (2021-09-07)
+
+
+### Bug Fixes
+
+* version bump ([4202782](https://github.com/adobe/aem-react-editable-components/commit/4202782a01cf7b50256498f92313d3246c44d1ba))
+
 ## [1.1.8](https://github.com/adobe/aem-react-editable-components/compare/v1.1.7...v1.1.8) (2021-08-25)
 
 

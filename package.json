@@ -1,6 +1,6 @@
 {
   "name": "@adobe/aem-react-editable-components",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Provides React components and integration layer with Adobe Experience Manager Page Editor.",
   "keywords": [
     "spa",
