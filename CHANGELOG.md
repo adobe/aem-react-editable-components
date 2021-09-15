@@ -1,3 +1,10 @@
+## [1.1.10](https://github.com/adobe/aem-react-editable-components/compare/v1.1.9...v1.1.10) (2021-09-15)
+
+
+### Reverts
+
+* Revert "chore: enable external commits to run pipelines" ([f2a81c4](https://github.com/adobe/aem-react-editable-components/commit/f2a81c463f47ac2231746dc217aef1c0e02368bb))
+
 ## [1.1.9](https://github.com/adobe/aem-react-editable-components/compare/v1.1.8...v1.1.9) (2021-09-07)
 
 
