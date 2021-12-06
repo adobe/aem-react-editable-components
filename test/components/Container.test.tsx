@@ -11,6 +11,7 @@
  */
 
 import React, { Component } from 'react';
+import { waitFor } from '@testing-library/dom';
 import ReactDOM from 'react-dom';
 import { ComponentMapping, MappedComponentProperties } from '../../src/ComponentMapping';
 import { Container } from '../../src/components/Container';
@@ -55,6 +56,7 @@ describe('Container ->', () => {
 
     beforeEach(() => {
         ComponentMappingSpy = jest.spyOn(ComponentMapping, 'get');
+
         rootNode = document.createElement('div');
         rootNode.className = ROOT_CLASS_NAME;
         document.body.appendChild(rootNode);
@@ -116,6 +118,32 @@ describe('Container ->', () => {
             expect(childItem1).toBeDefined();
             expect(childItem2).toBeDefined();
         });
+
+        it('should log warning when there is no component mapped to the cqType', async () => {
+            // given
+            ComponentMappingSpy.mockReturnValue(undefined);
+
+            const errorMessageC1 =
+`The server responded an item with cqType "components/c1" but there is no component mapped to that cqType.
+Do you have a call to MapTo for that cqType? Is that code reached (eg. imported) by ui.frontend/src/index.tsx?
+More info on "Map SPA components to AEM components" at https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/spa-editor/react/map-components.html`; // eslint-disable-line max-len
+
+            const errorMessageC2 =
+`The server responded an item with cqType "components/c2" but there is no component mapped to that cqType.
+Do you have a call to MapTo for that cqType? Is that code reached (eg. imported) by ui.frontend/src/index.tsx?
+More info on "Map SPA components to AEM components" at https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/spa-editor/react/map-components.html`; // eslint-disable-line max-len
+
+            console.warn = jest.fn();
+
+            // when
+            // @ts-ignore
+            ReactDOM.render(<Container componentMapping={ComponentMapping} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER} cqPath={''} isInEditor={false}/>, rootNode);
+
+            // then
+            await waitFor(() => expect(console.warn).toHaveBeenCalledWith(errorMessageC1));
+            await waitFor(() => expect(console.warn).toHaveBeenCalledWith(errorMessageC2));
+        });
+
     });
 
     describe('Data attributes ->', () => {
