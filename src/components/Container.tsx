@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { Model } from '@adobe/aem-spa-page-model-manager';
+import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import { ComponentMapping, MappedComponentProperties } from '../ComponentMapping';
 import { Constants } from '../Constants';
@@ -107,7 +107,7 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      * @param itemKey
      * @returns The computed path.
      */
-    public getItemPath(itemKey: string) {
+    public getItemPath(itemKey: string): string {
         return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + itemKey) : itemKey;
     }
 
@@ -118,7 +118,7 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      */
     get containerProps(): {[key: string]: string} {
         const props: { [key: string]: string } = {
-            className: Constants._CONTAINER_CLASS_NAMES,
+            className: Constants._CONTAINER_CLASS_NAMES
         };
 
         if (this.props.isInEditor) {
@@ -136,11 +136,11 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
     get placeholderProps(): PlaceHolderModel {
         return {
             cqPath: this.props.cqPath,
-            placeholderClassNames: Constants.NEW_SECTION_CLASS_NAMES,
+            placeholderClassNames: Constants.NEW_SECTION_CLASS_NAMES
         };
     }
 
-    get placeholderComponent() {
+    get placeholderComponent(): JSX.Element | null {
         if (!this.props.isInEditor) {
             return null;
         }
@@ -148,22 +148,36 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
         return <ContainerPlaceholder { ...this.placeholderProps }/>;
     }
 
-    public render() {
+    // eslint-disable-next-line max-lines-per-function
+    public render(): JSX.Element {
         let renderScript;
 
-        if (!this.props.isInEditor && this.props.aemNoDecoration){
+        if (!this.props.isInEditor || this.props.aemNoDecoration) {
             renderScript = (
-                <React.Fragment>
-                    { this.childComponents }
-                </React.Fragment>
-            )
+              <React.Fragment>
+                { this.childComponents }
+              </React.Fragment>
+            );
         } else {
+            const ref = React.createRef<HTMLDivElement>();
+
+            if (this.props.isInEditor) {
+                ModelManager.getData({ path: this.props.cqPath })
+                    .then((data) => {
+                        const isVirtualContainer = Object.keys(data || {}).length === 0;
+
+                        if (isVirtualContainer && ref?.current) {
+                            ref.current.setAttribute("data-virtualcontainer", "true");
+                        }
+                    });
+            }
+
             renderScript = (
-                <div {...this.containerProps}>
-                    { this.childComponents }
-                    { this.placeholderComponent }
-                </div>
-            )
+              <div {...this.containerProps} ref={ref}>
+                { this.childComponents }
+                { this.placeholderComponent }
+              </div>
+            );
         }
 
         return renderScript;
