@@ -162,12 +162,13 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
             const ref = React.createRef<HTMLDivElement>();
 
             if (this.props.isInEditor) {
+                // indicate container as virtual in case model manager returns no details
                 ModelManager.getData({ path: this.props.cqPath })
                     .then((data) => {
                         const isVirtualContainer = Object.keys(data || {}).length === 0;
 
                         if (isVirtualContainer && ref?.current) {
-                            ref.current.setAttribute("data-virtualcontainer", "true");
+                            ref.current.setAttribute("data-cq-virtualcontainer", "true");
                         }
                     });
             }
