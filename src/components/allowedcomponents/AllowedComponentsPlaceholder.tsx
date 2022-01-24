@@ -22,8 +22,8 @@ const ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES = 'aem-AllowedComponent--compone
  * @private
  */
 export interface AllowedComponentPlaceHolderProperties {
-    emptyLabel: string;
-    path: string;
+  emptyLabel: string;
+  path: string;
 }
 
 /**
@@ -31,16 +31,18 @@ export interface AllowedComponentPlaceHolderProperties {
  * @private
  */
 export class AllowedComponentPlaceholder<P extends AllowedComponentPlaceHolderProperties, S> extends Component<P, S> {
-    public static get propTypes() {
-        return {
-            emptyLabel: PropTypes.string,
-            path: PropTypes.string
-        };
-    }
+  public static get propTypes() {
+    return {
+      emptyLabel: PropTypes.string,
+      path: PropTypes.string,
+    };
+  }
 
-    public render() {
-        const { path, emptyLabel } = this.props;
+  public render(): JSX.Element {
+    const { path, emptyLabel } = this.props;
 
-        return <div data-cq-data-path={path} data-emptytext={emptyLabel} className={ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES} />;
-    }
+    return (
+      <div data-cq-data-path={path} data-emptytext={emptyLabel} className={ALLOWED_COMPONENT_PLACEHOLDER_CLASS_NAMES} />
+    );
+  }
 }

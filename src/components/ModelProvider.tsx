@@ -21,26 +21,26 @@ import Utils from '../Utils';
  * Configuration object of the withModel function.
  */
 export interface ReloadableModelProperties {
-    /*
-     * Should the model cache be ignored when processing the component.
-     */
-    forceReload?: boolean;
-    /**
-     * Should the component data be retrieved from the aem page model
-     * and passed down as props on componentMount
-     */
-    injectPropsOnInit?: boolean;
+  /*
+   * Should the model cache be ignored when processing the component.
+   */
+  forceReload?: boolean;
+  /**
+   * Should the component data be retrieved from the aem page model
+   * and passed down as props on componentMount
+   */
+  injectPropsOnInit?: boolean;
 }
 
 /*
  * @private
  */
 export interface ModelProviderType extends ReloadForceAble {
-    wrappedComponent: React.ComponentType<any>;
-    cqPath: string;
-    injectPropsOnInit?: boolean;
-    pagePath?: string;
-    itemPath?: string;
+  wrappedComponent: React.ComponentType<any>;
+  cqPath: string;
+  injectPropsOnInit?: boolean;
+  pagePath?: string;
+  itemPath?: string;
 }
 
 /**
@@ -50,98 +50,102 @@ export interface ModelProviderType extends ReloadForceAble {
  * @private
  */
 export class ModelProvider extends Component<ModelProviderType> {
-    constructor(props: ModelProviderType) {
-        super(props);
-        this.updateData = this.updateData.bind(this);
-        this.state = this.propsToState(props);
+  constructor(props: ModelProviderType) {
+    super(props);
+    this.updateData = this.updateData.bind(this);
+    this.state = this.propsToState(props);
+  }
+
+  public propsToState(props: ModelProviderType) {
+    // Keep private properties from being passed as state
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const { wrappedComponent, cqForceReload, injectPropsOnInit, ...state } = props;
+
+    return state;
+  }
+
+  public componentDidUpdate(prevProps: ModelProviderType): void {
+    if (!isEqual(prevProps, this.props)) {
+      this.setState(this.propsToState(this.props));
+    }
+  }
+
+  /**
+   * Update model based on given resource path.
+   * @param cqPath resource path
+   */
+  public updateData(cqPath?: string): void {
+    const { pagePath, itemPath, injectPropsOnInit } = this.props;
+    const path =
+      cqPath || this.props.cqPath || (pagePath && Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit }));
+
+    if (!path) {
+      return;
     }
 
-    public propsToState(props: ModelProviderType) {
-        // Keep private properties from being passed as state
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const { wrappedComponent, cqForceReload, injectPropsOnInit, ...state } = props;
+    ModelManager.getData({ path, forceReload: this.props.cqForceReload })
+      .then((data: Model) => {
+        if (data && Object.keys(data).length > 0) {
+          const props = Utils.modelToProps(data);
 
-        return state;
-    }
+          this.setState(props);
 
-    public componentDidUpdate(prevProps: ModelProviderType): void {
-        if (!isEqual(prevProps, this.props)) {
-            this.setState(this.propsToState(this.props));
-        }
-    }
-
-    /**
-     * Update model based on given resource path.
-     * @param cqPath resource path
-     */
-    public updateData(cqPath?: string): void {
-        const { pagePath, itemPath, injectPropsOnInit } = this.props;
-        const path = cqPath
-            || this.props.cqPath
-            || (pagePath && Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit }));
-
-        if (!path) {
-            return;
-        }
-
-        ModelManager.getData({ path, forceReload: this.props.cqForceReload }).then((data: Model) => {
-          if (data && (Object.keys(data).length > 0)) {
-              const props = Utils.modelToProps(data);
-
-              this.setState(props);
-
-              // Fire event once component model has been fetched and rendered to enable editing on AEM
-              if (injectPropsOnInit && Utils.isInEditor()) {
-                  PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
-              }
+          // Fire event once component model has been fetched and rendered to enable editing on AEM
+          if (injectPropsOnInit && Utils.isInEditor()) {
+            PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
           }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    public componentDidMount(): void {
-        const { pagePath, itemPath, injectPropsOnInit } = this.props;
-        let { cqPath } = this.props;
-
-        cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
-        this.setState({ cqPath });
-
-        if (this.props.injectPropsOnInit) {
-          this.updateData(cqPath);
         }
-        ModelManager.addListener(cqPath, this.updateData);
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-    public componentWillUnmount(): void {
-        ModelManager.removeListener(this.props.cqPath, this.updateData);
-    }
+  public componentDidMount(): void {
+    const { pagePath, itemPath, injectPropsOnInit } = this.props;
+    let { cqPath } = this.props;
 
-    public render(): JSX.Element {
-        const WrappedComponent = this.props.wrappedComponent;
+    cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
+    this.setState({ cqPath });
 
-        return <WrappedComponent {...this.state}/>;
+    if (this.props.injectPropsOnInit) {
+      this.updateData(cqPath);
     }
+    ModelManager.addListener(cqPath, this.updateData);
+  }
+
+  public componentWillUnmount(): void {
+    ModelManager.removeListener(this.props.cqPath, this.updateData);
+  }
+
+  public render(): JSX.Element {
+    const WrappedComponent = this.props.wrappedComponent;
+
+    return <WrappedComponent {...this.state} />;
+  }
 }
 
 /**
  * @param WrappedComponent React representation for the AEM resource types.
  * @param modelConfig General configuration object.
  */
-export const withModel =
-    <P extends MappedComponentProperties>(WrappedComponent: React.ComponentType<P>, modelConfig: ReloadableModelProperties = {}) => {
-        return class CompositeModelProviderImpl extends Component<P> {
-            public render() {
-                const forceReload = this.props.cqForceReload || modelConfig.forceReload || false;
-                const injectPropsOnInit = modelConfig.injectPropsOnInit || false;
+export const withModel = <P extends MappedComponentProperties>(
+  WrappedComponent: React.ComponentType<P>,
+  modelConfig: ReloadableModelProperties = {},
+) => {
+  return class CompositeModelProviderImpl extends Component<P> {
+    public render() {
+      const forceReload = this.props.cqForceReload || modelConfig.forceReload || false;
+      const injectPropsOnInit = modelConfig.injectPropsOnInit || false;
 
-                return (
-                  <ModelProvider
-                    { ...this.props }
-                    cqForceReload={forceReload}
-                    injectPropsOnInit={injectPropsOnInit}
-                    wrappedComponent={ WrappedComponent } />
-                );
-            }
-        };
+      return (
+        <ModelProvider
+          {...this.props}
+          cqForceReload={forceReload}
+          injectPropsOnInit={injectPropsOnInit}
+          wrappedComponent={WrappedComponent}
+        />
+      );
+    }
+  };
 };

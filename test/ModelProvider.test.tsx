@@ -20,243 +20,238 @@ import { Constants } from '../src/Constants';
 import Utils from '../src/Utils';
 
 describe('ModelProvider ->', () => {
-    const TEST_PAGE_PATH = '/page/jcr:content/root';
-    const ROOT_NODE_CLASS_NAME = 'root-class';
-    const INNER_COMPONENT_ID = 'innerContent';
-    const TEST_COMPONENT_MODEL = { ':type': 'test/components/componentchild' };
+  const TEST_PAGE_PATH = '/page/jcr:content/root';
+  const ROOT_NODE_CLASS_NAME = 'root-class';
+  const INNER_COMPONENT_ID = 'innerContent';
+  const TEST_COMPONENT_MODEL = { ':type': 'test/components/componentchild' };
 
-    let rootNode: any;
+  let rootNode: any;
 
-    /**
-     * React warn if a non-standard DOM attribute is used on a native DOM node.
-     *
-     * When the HTML div element is wrapped to be a React Component it is no longer a DOM node and camelCase properties
-     * can be passed to props.
-     *
-     * If instead of the <ModelProvider><Dummy /></ModelProvider> the <ModelProvider><div /></ModelProvider> notation
-     * is used, the following error might be shown in the browser console:
-     *
-     *      Warning: React does not recognize the `camelCaseProp` prop on a DOM element. If you intentionally want it to
-     *      appear in the DOM as a custom attribute, spell it as lowercase `camelcaseprop` instead. If you accidentally
-     *      passed it from a parent component, remove it from the DOM element.
-     *          in div (created by ModelProvider)
-     *          in ModelProvider
-     *
-     * for every camelCase property passed in props.
-     *
-     * See also: https://github.com/facebook/react/issues/10590
-     */
-    interface DummyProps extends MappedComponentProperties{
-        className: string
+  /**
+   * React warn if a non-standard DOM attribute is used on a native DOM node.
+   *
+   * When the HTML div element is wrapped to be a React Component it is no longer a DOM node and camelCase properties
+   * can be passed to props.
+   *
+   * If instead of the <ModelProvider><Dummy /></ModelProvider> the <ModelProvider><div /></ModelProvider> notation
+   * is used, the following error might be shown in the browser console:
+   *
+   *      Warning: React does not recognize the `camelCaseProp` prop on a DOM element. If you intentionally want it to
+   *      appear in the DOM as a custom attribute, spell it as lowercase `camelcaseprop` instead. If you accidentally
+   *      passed it from a parent component, remove it from the DOM element.
+   *          in div (created by ModelProvider)
+   *          in ModelProvider
+   *
+   * for every camelCase property passed in props.
+   *
+   * See also: https://github.com/facebook/react/issues/10590
+   */
+  interface DummyProps extends MappedComponentProperties {
+    className: string;
+  }
+
+  class Dummy extends Component<DummyProps> {
+    render() {
+      return (
+        <div id={INNER_COMPONENT_ID} className={this.props.className}>
+          Dummy
+        </div>
+      );
     }
+  }
 
-    class Dummy extends Component<DummyProps> {
-        render() {
-            return <div id={INNER_COMPONENT_ID} className={this.props.className}>Dummy</div>;
-        }
+  let addListenerSpy: jest.SpyInstance;
+  let getDataSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
+    getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
+
+    rootNode = document.createElement('div');
+    rootNode.className = ROOT_NODE_CLASS_NAME;
+    document.body.appendChild(rootNode);
+  });
+
+  afterEach(() => {
+    if (rootNode) {
+      document.body.removeChild(rootNode);
     }
+  });
 
-    let addListenerSpy: jest.SpyInstance;
-    let getDataSpy: jest.SpyInstance;
-
+  describe('Tag instantiation ->', () => {
     beforeEach(() => {
-        addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
-        getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
-
-        rootNode = document.createElement('div');
-        rootNode.className = ROOT_NODE_CLASS_NAME;
-        document.body.appendChild(rootNode);
+      addListenerSpy.mockReset();
     });
 
-    afterEach(() => {
+    it('should initialize properly without parameter', () => {
+      ReactDOM.render(<ModelProvider cqPath="" wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-        if (rootNode) {
-            document.body.removeChild(rootNode);
-        }
+      expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
     });
 
-    describe('Tag instantiation ->', () => {
-        beforeEach(() => {
-            addListenerSpy.mockReset();
-        });
+    it('should initialize properly with a path parameter', () => {
+      ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-        it('should initialize properly without parameter', () => {
-            // @ts-expect-error
-            ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
+      expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
 
-            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
 
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+      expect(childNode).toBeDefined();
+    });
+  });
 
-            expect(childNode).toBeDefined();
-        });
-
-        it('should initialize properly with a path parameter', () => {
-            ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
-
-            expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-        });
+  describe('Get data ->', () => {
+    beforeEach(() => {
+      getDataSpy.mockReset();
+      addListenerSpy.mockReset();
     });
 
-    describe('Get data ->', () => {
-        beforeEach(() => {
-            getDataSpy.mockReset();
-            addListenerSpy.mockReset();
-        });
+    it('should subscribe on the data with undefined parameters', () => {
+      getDataSpy.mockResolvedValue({});
+      ReactDOM.render(<ModelProvider cqPath="" wrappedComponent={Dummy}></ModelProvider>, rootNode);
 
-        it('should subscribe on the data with undefined parameters', () => {
-            getDataSpy.mockResolvedValue({});
-            // @ts-expect-error
-            ReactDOM.render(<ModelProvider wrappedComponent={Dummy}></ModelProvider>, rootNode);
-
-            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
-        });
-
-        it('should subscribe on the data with the provided attributes', () => {
-            getDataSpy.mockResolvedValue({});
-            ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} cqForceReload={true} wrappedComponent={Dummy}></ModelProvider>, rootNode);
-
-            expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
-        });
+      expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
     });
 
-    describe('withModel ->', () => {
-        beforeEach(() => {
-            addListenerSpy.mockReset();
-        });
+    it('should subscribe on the data with the provided attributes', () => {
+      getDataSpy.mockResolvedValue({});
+      ReactDOM.render(
+        <ModelProvider cqPath={TEST_PAGE_PATH} cqForceReload={true} wrappedComponent={Dummy}></ModelProvider>,
+        rootNode,
+      );
 
-        it('should initialize properly without parameter', () => {
-            const DummyWithModel: any = withModel(Dummy);
+      expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
+    });
+  });
 
-            ReactDOM.render(<DummyWithModel></DummyWithModel>, rootNode);
-
-            expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-        });
-
-        it('should initialize properly with a path parameter', () => {
-            const DummyWithModel = withModel(Dummy);
-
-            // @ts-ignore
-            ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
-
-            expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-        });
-
-        it('should render a subpage properly when page path is provided', () => {
-            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-
-            // @ts-ignore
-            ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
-
-            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-        });
-
-        it('should render components properly when component cqPath is provided', () => {
-
-            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-
-            // @ts-ignore
-            ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
-
-            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-        });
-
-        it('should render components properly when containing page path and path to item is provided', () => {
-            addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementationOnce((path, callback) => {
-                callback();
-            });
-
-            const PAGE_PATH = '/page/subpage';
-            const ITEM_PATH = 'root/paragraph';
-
-            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-
-            // @ts-ignore
-            ReactDOM.render(<DummyWithModel pagePath={PAGE_PATH} itemPath={ITEM_PATH}></DummyWithModel>, rootNode);
-
-            expect(addListenerSpy).toHaveBeenCalled();
-            expect(getDataSpy).toHaveBeenCalledWith({
-              path: `${PAGE_PATH}/jcr:content/${ITEM_PATH}`,
-              forceReload: false
-            });
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-        });
-
-        it('should log error when there is no data', async () => {
-
-            // given
-            const error = new Error('404 - Not found');
-
-            getDataSpy.mockRejectedValue(error);
-
-            console.log = jest.fn();
-
-            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-
-            // when
-            // @ts-ignore
-            ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH} ></DummyWithModel>, rootNode);
-
-            // then
-            await waitFor(() => expect(console.log).toHaveBeenCalledWith(error));
-        });
-
-        it('should fire event to reload editables when in editor', async () => {
-            const dispatchEventSpy: jest.SpyInstance =
-                jest.spyOn(PathUtils, 'dispatchGlobalCustomEvent').mockImplementation();
-            const isInEditor:jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
-
-            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
-
-            // @ts-ignore
-            ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
-
-            expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
-
-            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
-
-            expect(childNode).toBeDefined();
-
-            await waitFor(() =>
-                expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.ASYNC_CONTENT_LOADED_EVENT, {})
-            );
-
-            isInEditor.mockReset();
-            dispatchEventSpy.mockReset();
-        });
+  describe('withModel ->', () => {
+    beforeEach(() => {
+      addListenerSpy.mockReset();
     });
 
-    describe('Unmount -> ', () => {
-        it('should remove listeners on unmount', () => {
-            const removeListenerSpy: jest.SpyInstance = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
+    it('should initialize properly without parameter', () => {
+      const DummyWithModel: any = withModel(Dummy);
 
-            ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
+      ReactDOM.render(<DummyWithModel></DummyWithModel>, rootNode);
 
-            ReactDOM.unmountComponentAtNode(rootNode);
-            expect(removeListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
-        });
+      expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
     });
+
+    it('should initialize properly with a path parameter', () => {
+      const DummyWithModel = withModel(Dummy);
+
+      ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+      expect(addListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
+    });
+
+    it('should render a subpage properly when page path is provided', () => {
+      const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+      ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+      expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
+    });
+
+    it('should render components properly when component cqPath is provided', () => {
+      const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+      ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+      expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
+    });
+
+    it('should render components properly when containing page path and path to item is provided', () => {
+      addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementationOnce((path, callback) => {
+        callback();
+      });
+
+      const PAGE_PATH = '/page/subpage';
+      const ITEM_PATH = 'root/paragraph';
+
+      const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+      ReactDOM.render(<DummyWithModel pagePath={PAGE_PATH} itemPath={ITEM_PATH}></DummyWithModel>, rootNode);
+
+      expect(addListenerSpy).toHaveBeenCalled();
+      expect(getDataSpy).toHaveBeenCalledWith({
+        path: `${PAGE_PATH}/jcr:content/${ITEM_PATH}`,
+        forceReload: false,
+      });
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
+    });
+
+    it('should log error when there is no data', async () => {
+      // given
+      const error = new Error('404 - Not found');
+
+      getDataSpy.mockRejectedValue(error);
+
+      console.log = jest.fn();
+
+      const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+      // when
+      ReactDOM.render(<DummyWithModel cqPath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+      // then
+      await waitFor(() => expect(console.log).toHaveBeenCalledWith(error));
+    });
+
+    it('should fire event to reload editables when in editor', async () => {
+      const dispatchEventSpy: jest.SpyInstance = jest
+        .spyOn(PathUtils, 'dispatchGlobalCustomEvent')
+        .mockImplementation();
+      const isInEditor: jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
+
+      const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+      ReactDOM.render(<DummyWithModel pagePath={TEST_PAGE_PATH}></DummyWithModel>, rootNode);
+
+      expect(getDataSpy).toHaveBeenCalledWith({ path: TEST_PAGE_PATH, forceReload: false });
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+      expect(childNode).toBeDefined();
+
+      await waitFor(() => expect(dispatchEventSpy).toHaveBeenCalledWith(Constants.ASYNC_CONTENT_LOADED_EVENT, {}));
+
+      isInEditor.mockReset();
+      dispatchEventSpy.mockReset();
+    });
+  });
+
+  describe('Unmount ->', () => {
+    it('should remove listeners on unmount', () => {
+      const removeListenerSpy: jest.SpyInstance = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
+
+      ReactDOM.render(<ModelProvider cqPath={TEST_PAGE_PATH} wrappedComponent={Dummy}></ModelProvider>, rootNode);
+
+      ReactDOM.unmountComponentAtNode(rootNode);
+      expect(removeListenerSpy).toHaveBeenCalledWith(TEST_PAGE_PATH, expect.any(Function));
+    });
+  });
 });

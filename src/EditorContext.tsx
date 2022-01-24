@@ -11,20 +11,20 @@
  */
 
 import React from 'react';
-import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager'; 
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 const EditorContext = React.createContext(AuthoringUtils.isInEditor());
 
 const withEditorContext = (Component: React.ComponentType<any>): any => {
-    const context = (props: React.ReactPropTypes): React.ReactElement => {
-        return (
-          <EditorContext.Consumer>
-            { (isInEditor) => <Component {...props} isInEditor={isInEditor} /> }
-          </EditorContext.Consumer>
-        );
-    };
+  const context = (props: React.ReactPropTypes): React.ReactElement => {
+    return (
+      <EditorContext.Consumer>
+        {(isInEditor) => <Component {...props} isInEditor={isInEditor} />}
+      </EditorContext.Consumer>
+    );
+  };
 
-    return context;
+  return context;
 };
 
 export { EditorContext, withEditorContext };

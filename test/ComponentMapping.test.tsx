@@ -15,39 +15,37 @@ import { ComponentMapping, MappedComponentProperties, MapTo } from '../src/Compo
 import { EditConfig } from '../src/components/EditableComponent';
 
 describe('ComponentMapping', () => {
+  interface Props extends MappedComponentProperties {
+    src?: string;
+  }
 
-    interface Props extends MappedComponentProperties{
-        src?:string
+  const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
+  const editConfig: EditConfig<Props> = {
+    emptyLabel: 'Image',
+
+    isEmpty: function (props) {
+      return !props || !props.src || props.src.trim().length < 1;
+    },
+  };
+
+  class TestComponent extends Component<Props> {
+    render() {
+      return <div />;
     }
+  }
 
-    const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
-    const editConfig: EditConfig<Props> = {
-        emptyLabel: 'Image',
+  it('should store and retrieve component', () => {
+    const spy = jest.spyOn(document.head, 'querySelector').mockReturnValue({ content: 'edit' } as any);
 
-        isEmpty: function(props) {
-            return !props || !props.src || (props.src.trim().length < 1);
-        }
-    };
+    const WrappedReturnType = MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
 
+    const WrappedComponentFromGet = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
 
-    class TestComponent extends Component<Props> {
-        render () {
-            return <div/>;
-        }
-    }
+    expect(WrappedComponentFromGet).toBeDefined();
+    expect(WrappedReturnType).toBeDefined();
 
-    it('should store and retrieve component', () => {
-        const spy = jest.spyOn(document.head, 'querySelector').mockReturnValue({ content: 'edit' } as any);
+    expect(WrappedReturnType).toBe(WrappedComponentFromGet);
 
-        const WrappedReturnType = MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
-
-        const WrappedComponentFromGet = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
-
-        expect(WrappedComponentFromGet).toBeDefined();
-        expect(WrappedReturnType).toBeDefined();
-
-        expect(WrappedReturnType).toBe(WrappedComponentFromGet);
-
-        spy.mockRestore();
-    });
+    spy.mockRestore();
+  });
 });

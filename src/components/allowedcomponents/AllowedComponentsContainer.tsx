@@ -18,52 +18,59 @@ import { AllowedComponentPlaceholderList } from './AllowedComponentsPlaceholderL
  * Component that is allowed to be used on the page by the editor.
  */
 export interface AllowedComponent {
-    path: string;
-    title: string;
+  path: string;
+  title: string;
 }
 
 export interface AllowedComponents {
-    /**
-     * Should AllowedComponents list be applied.
-     */
-    applicable: boolean;
-    components: AllowedComponent[];
+  /**
+   * Should AllowedComponents list be applied.
+   */
+  applicable: boolean;
+  components: AllowedComponent[];
 }
 
 export interface AllowedComponentsProperties extends ContainerProperties {
-    _allowedComponentPlaceholderListEmptyLabel?: string;
-    allowedComponents: AllowedComponents;
-    title: string;
+  _allowedComponentPlaceholderListEmptyLabel?: string;
+  allowedComponents: AllowedComponents;
+  title: string;
 }
 
 /**
  * Represents allowed components container in AEM.
  */
-export class AllowedComponentsContainer<M extends AllowedComponentsProperties, S extends ContainerState> extends Container<M, S> {
-    public static defaultProps = {
-        _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: ''
-    };
+export class AllowedComponentsContainer<
+  M extends AllowedComponentsProperties,
+  S extends ContainerState,
+> extends Container<M, S> {
+  public static defaultProps = {
+    _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
+    cqItems: {},
+    cqItemsOrder: [],
+    cqPath: '',
+  };
 
-    public render(): JSX.Element {
-        const { allowedComponents, _allowedComponentPlaceholderListEmptyLabel, title, isInEditor } = this.props;
+  public render(): JSX.Element {
+    const { allowedComponents, _allowedComponentPlaceholderListEmptyLabel, title, isInEditor } = this.props;
 
-        if (isInEditor && allowedComponents && allowedComponents.applicable) {
-            const emptyLabel = _allowedComponentPlaceholderListEmptyLabel as string
-                               || AllowedComponentsContainer.defaultProps._allowedComponentPlaceholderListEmptyLabel;
+    if (isInEditor && allowedComponents && allowedComponents.applicable) {
+      const emptyLabel =
+        (_allowedComponentPlaceholderListEmptyLabel as string) ||
+        AllowedComponentsContainer.defaultProps._allowedComponentPlaceholderListEmptyLabel;
 
-            if (_allowedComponentPlaceholderListEmptyLabel) {
-                return <AllowedComponentPlaceholderList
-                    title={title}
-                    emptyLabel={emptyLabel}
-                    components={allowedComponents.components}
-                    placeholderProps={this.placeholderProps}
-                    cqPath={this.props.cqPath}/>;
-            }
-        }
-
-        return super.render();
+      if (_allowedComponentPlaceholderListEmptyLabel) {
+        return (
+          <AllowedComponentPlaceholderList
+            title={title}
+            emptyLabel={emptyLabel}
+            components={allowedComponents.components}
+            placeholderProps={this.placeholderProps}
+            cqPath={this.props.cqPath}
+          />
+        );
+      }
     }
+
+    return super.render();
+  }
 }

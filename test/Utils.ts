@@ -17,13 +17,14 @@
  * @param selector selector to be found
  */
 function matches(el: any, selector: any) {
-    return (el.matches
-            || el.matchesSelector
-            || el.msMatchesSelector
-            || el.mozMatchesSelector
-            || el.webkitMatchesSelector
-            || el.oMatchesSelector)
-        .call(el, selector);
+  return (
+    el.matches ||
+    el.matchesSelector ||
+    el.msMatchesSelector ||
+    el.mozMatchesSelector ||
+    el.webkitMatchesSelector ||
+    el.oMatchesSelector
+  ).call(el, selector);
 }
 
 /**
@@ -33,14 +34,14 @@ function matches(el: any, selector: any) {
  * @param callback function to be called when the verification succeed
  */
 function observe(verify: any, callback: any) {
-    return function(mutationsList: any) {
-        for (const mutation of mutationsList) {
-            if (verify(mutation)) {
-                callback && callback();
-                break;
-            }
-        }
-    };
+  return function (mutationsList: any) {
+    for (const mutation of mutationsList) {
+      if (verify(mutation)) {
+        callback && callback();
+        break;
+      }
+    }
+  };
 }
 
 /**
@@ -51,16 +52,16 @@ function observe(verify: any, callback: any) {
  * @param callback function to be called when the verification succeed
  */
 function observeProcess(process: any, verify: any, callback: any) {
-    return function (mutationsList: any) {
-        const result = {};
+  return function (mutationsList: any) {
+    const result = {};
 
-        for (const mutation of mutationsList) {
-            process(mutation, result);
-        }
+    for (const mutation of mutationsList) {
+      process(mutation, result);
+    }
 
-        verify(result);
-        callback();
-    };
+    verify(result);
+    callback();
+  };
 }
 
 /**
@@ -69,25 +70,25 @@ function observeProcess(process: any, verify: any, callback: any) {
  * @param attributeName
  */
 function extractDataAttributeName(attributeName: any) {
-    if (!attributeName) {
-        return;
-    }
+  if (!attributeName) {
+    return;
+  }
 
-    // Transforms the dash separated name into a camel case variable name
-    const tokens = attributeName.split('-');
+  // Transforms the dash separated name into a camel case variable name
+  const tokens = attributeName.split('-');
 
-    // get rid of the data token
-    if (attributeName.startsWith('data-')) {
-        tokens.shift();
-    }
+  // get rid of the data token
+  if (attributeName.startsWith('data-')) {
+    tokens.shift();
+  }
 
-    for (let i = 1, length = tokens.length; i < length; i++) {
-        const token = tokens[i];
+  for (let i = 1, length = tokens.length; i < length; i++) {
+    const token = tokens[i];
 
-        tokens[i] = token.substr(0, 1).toUpperCase() + token.substr(1);
-    }
+    tokens[i] = token.substr(0, 1).toUpperCase() + token.substr(1);
+  }
 
-    return tokens.join('');
+  return tokens.join('');
 }
 
 /**
@@ -97,7 +98,7 @@ function extractDataAttributeName(attributeName: any) {
  * @param callback function to be called when the verification succeed
  */
 export function getVerifyObserver(verify: any, callback: any) {
-    return new MutationObserver(observe(verify, callback));
+  return new MutationObserver(observe(verify, callback));
 }
 
 /**
@@ -109,32 +110,32 @@ export function getVerifyObserver(verify: any, callback: any) {
  */
 /* eslint-disable no-prototype-builtins */
 export function getDataAttributesObserver(attributes: any, selector: any, callback: any) {
-    const process = function (mutation: any, resultMap: any) {
-        resultMap = resultMap || {};
+  const process = function (mutation: any, resultMap: any) {
+    resultMap = resultMap || {};
 
-        if (mutation.type !== 'attributes') {
-            return;
+    if (mutation.type !== 'attributes') {
+      return;
+    }
+
+    for (const attributeName in attributes) {
+      if (mutation.attributeName === attributeName) {
+        if (!selector || matches(mutation.target, selector)) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            const dataAttributeName = extractDataAttributeName(attributeName);
+            resultMap[attributeName] = mutation.target.dataset[dataAttributeName];
+          }
         }
+      }
+    }
+  };
 
-        for (const attributeName in attributes) {
-            if (mutation.attributeName === attributeName) {
-                if (!selector || matches(mutation.target, selector)) {
-                    if (attributes.hasOwnProperty(attributeName)) {
-                        const dataAttributeName = extractDataAttributeName(attributeName);
-                        resultMap[attributeName] = mutation.target.dataset[dataAttributeName];
-                    }
-                }
-            }
-        }
-    };
+  const verify = function (resultMap: any) {
+    for (const attributeName in attributes) {
+      if (attributes.hasOwnProperty(attributeName)) {
+        expect(resultMap[attributeName]).toEqual(attributes[attributeName]);
+      }
+    }
+  };
 
-    const verify = function (resultMap: any) {
-        for (const attributeName in attributes) {
-            if (attributes.hasOwnProperty(attributeName)) {
-                expect(resultMap[attributeName]).to.equal(attributes[attributeName]);
-            }
-        }
-    };
-
-    return new MutationObserver(observeProcess(process, verify, callback));
+  return new MutationObserver(observeProcess(process, verify, callback));
 }

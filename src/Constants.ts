@@ -16,57 +16,56 @@ import { Constants as PMConstants } from '@adobe/aem-spa-page-model-manager';
  * Constants for interacting with AEM components.
  */
 export class Constants {
+  /**
+   * Name of the data-cq-data-path data attribute.
+   */
+  public static readonly DATA_PATH_ATTR = 'data-cq-data-path';
 
-    /**
-     * Name of the data-cq-data-path data attribute.
-     */
-    public static readonly DATA_PATH_ATTR = 'data-cq-data-path';
+  /**
+   * Name of the data-resource-type data attribute.
+   */
+  public static readonly DATA_CQ_RESOURCE_TYPE_ATTR = 'data-cq-resource-type';
 
-    /**
-     * Name of the data-resource-type data attribute.
-     */
-    public static readonly DATA_CQ_RESOURCE_TYPE_ATTR = 'data-cq-resource-type';
+  /**
+   * Class names associated with a new section component.
+   */
+  public static readonly NEW_SECTION_CLASS_NAMES = 'new section';
 
-    /**
-     * Class names associated with a new section component.
-     */
-    public static readonly NEW_SECTION_CLASS_NAMES = 'new section';
+  /**
+   * Default CSS Class names associated with a component.
+   */
+  public static readonly APPLIED_CLASS_NAMES = 'appliedCssClassNames';
 
-    /**
-     * Default CSS Class names associated with a component.
-     */
-    public static readonly APPLIED_CLASS_NAMES = 'appliedCssClassNames';
+  /**
+   * Class name used to denote aem-container root element.
+   */
+  public static readonly _CONTAINER_CLASS_NAMES = 'aem-container';
+  /**
+   * Class name used to identify the placeholder used to represent an empty component.
+   */
+  public static readonly _PLACEHOLDER_CLASS_NAMES = 'cq-placeholder';
+  public static readonly _PAGE_CLASS_NAMES = 'aem-page';
+  public static readonly _RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
 
-    /**
-     * Class name used to denote aem-container root element.
-     */
-    public static readonly _CONTAINER_CLASS_NAMES = 'aem-container';
-    /**
-     * Class name used to identify the placeholder used to represent an empty component.
-     */
-    public static readonly _PLACEHOLDER_CLASS_NAMES = 'cq-placeholder'
-    public static readonly _PAGE_CLASS_NAMES = 'aem-page';
-    public static readonly _RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
+  /**
+   * Event which indicates that content of remote component has been fetched and loaded in the app
+   */
+  public static readonly ASYNC_CONTENT_LOADED_EVENT = 'cq-async-content-loaded';
 
-    /**
-     * Event which indicates that content of remote component has been fetched and loaded in the app
-     */
-    public static readonly ASYNC_CONTENT_LOADED_EVENT = 'cq-async-content-loaded';
+  /**
+   * Selector for WCM mode state meta property.
+   */
+  public static readonly _WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';
 
-    /**
-     * Selector for WCM mode state meta property.
-     */
-    public static readonly _WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';
+  public static readonly TYPE_PROP = PMConstants.TYPE_PROP;
+  public static readonly ITEMS_PROP = PMConstants.ITEMS_PROP;
+  public static readonly ITEMS_ORDER_PROP = PMConstants.ITEMS_ORDER_PROP;
+  public static readonly PATH_PROP = PMConstants.PATH_PROP;
+  public static readonly CHILDREN_PROP = PMConstants.CHILDREN_PROP;
+  public static readonly HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
+  public static readonly JCR_CONTENT = PMConstants.JCR_CONTENT;
 
-    public static readonly TYPE_PROP = PMConstants.TYPE_PROP;
-    public static readonly ITEMS_PROP = PMConstants.ITEMS_PROP;
-    public static readonly ITEMS_ORDER_PROP = PMConstants.ITEMS_ORDER_PROP;
-    public static readonly PATH_PROP = PMConstants.PATH_PROP;
-    public static readonly CHILDREN_PROP = PMConstants.CHILDREN_PROP;
-    public static readonly HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
-    public static readonly JCR_CONTENT = PMConstants.JCR_CONTENT;
-
-    private constructor() {
-        // hide constructor
-    }
+  private constructor() {
+    // hide constructor
+  }
 }

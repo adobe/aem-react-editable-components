@@ -18,154 +18,160 @@ import Utils from '../Utils';
 import { ContainerPlaceholder, PlaceHolderModel } from './ContainerPlaceholder';
 
 export interface ContainerProperties extends MappedComponentProperties {
-    componentMapping?: typeof ComponentMapping;
-    cqItems: { [key: string]: Model };
-    cqItemsOrder: string[];
+  componentMapping?: typeof ComponentMapping;
+  cqItems: { [key: string]: Model };
+  cqItemsOrder: string[];
 }
 
 export interface ContainerState {
-    componentMapping: typeof ComponentMapping;
+  componentMapping: typeof ComponentMapping;
 }
 
 export class Container<P extends ContainerProperties, S extends ContainerState> extends Component<P, S> {
-    public static defaultProps = {
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: ''
+  public static defaultProps = {
+    cqItems: {},
+    cqItemsOrder: [],
+    cqPath: '',
+  };
+
+  constructor(props: P) {
+    super(props);
+
+    this.state = {
+      componentMapping: this.props.componentMapping || ComponentMapping,
+    } as Readonly<S>;
+  }
+
+  /**
+   * Returns the child components of this Container.
+   * It will instantiate the child components if mapping exists.
+   *
+   * @returns An array with the components instantiated to JSX
+   */
+  get childComponents(): JSX.Element[] {
+    const childComponents: JSX.Element[] = [];
+
+    if (!this.props.cqItems || !this.props.cqItemsOrder) {
+      return childComponents;
+    }
+
+    this.props.cqItemsOrder.map((itemKey) => {
+      const itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
+
+      if (itemProps) {
+        const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(
+          itemProps.cqType,
+        );
+
+        if (ItemComponent) {
+          childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));
+        }
+      }
+    });
+
+    return childComponents;
+  }
+
+  /**
+   * Connects a child component with the item data.
+   *
+   * @param ChildComponent
+   * @param itemProps
+   * @param itemKey
+   * @returns The React element constructed by connecting the values of the input with the Component.
+   */
+  protected connectComponentWithItem(
+    ChildComponent: React.ComponentType<MappedComponentProperties>,
+    itemProps: any,
+    itemKey: string,
+  ) {
+    const itemPath = this.getItemPath(itemKey);
+
+    return (
+      <ChildComponent
+        {...itemProps}
+        key={itemPath}
+        cqPath={itemPath}
+        isInEditor={this.props.isInEditor}
+        containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}
+      />
+    );
+  }
+
+  /**
+   * Returns the properties to add on a specific child component.
+   *
+   * @param item
+   * @param itemKey
+   * @param itemPath
+   * @returns The map of properties.
+   */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
+    return {};
+  }
+
+  /**
+   * Returns the path of given item.
+   *
+   * @param itemKey
+   * @returns The computed path.
+   */
+  public getItemPath(itemKey: string) {
+    return this.props && this.props.cqPath ? this.props.cqPath + '/' + itemKey : itemKey;
+  }
+
+  /**
+   * The properties for the root element of the container.
+   *
+   * @returns The map of properties.
+   */
+  get containerProps(): { [key: string]: string } {
+    const props: { [key: string]: string } = {
+      className: Constants._CONTAINER_CLASS_NAMES,
     };
 
-    constructor(props: P) {
-        super(props);
-
-        this.state = {
-            componentMapping: this.props.componentMapping || ComponentMapping
-        } as Readonly<S>;
+    if (this.props.isInEditor) {
+      props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
     }
 
-    /**
-     * Returns the child components of this Container.
-     * It will instantiate the child components if mapping exists.
-     *
-     * @returns An array with the components instantiated to JSX
-     */
-    get childComponents(): JSX.Element[] {
-        const childComponents: JSX.Element[] = [];
+    return props;
+  }
 
-        if (!this.props.cqItems || !this.props.cqItemsOrder) {
-            return childComponents;
-        }
+  /**
+   * The properties for the placeholder component in root element.
+   *
+   * @returns The map of properties to be added.
+   */
+  get placeholderProps(): PlaceHolderModel {
+    return {
+      cqPath: this.props.cqPath,
+      placeholderClassNames: Constants.NEW_SECTION_CLASS_NAMES,
+    };
+  }
 
-        this.props.cqItemsOrder.map((itemKey) => {
-            const itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
-
-            if (itemProps) {
-                const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
-
-                if (ItemComponent) {
-                    childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));
-                }
-            }
-        });
-
-        return childComponents;
+  get placeholderComponent() {
+    if (!this.props.isInEditor) {
+      return null;
     }
 
-    /**
-     * Connects a child component with the item data.
-     *
-     * @param ChildComponent
-     * @param itemProps
-     * @param itemKey
-     * @returns The React element constructed by connecting the values of the input with the Component.
-     */
-    protected connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemProps: any, itemKey: string) {
-        const itemPath = this.getItemPath(itemKey);
+    return <ContainerPlaceholder {...this.placeholderProps} />;
+  }
 
-        return <ChildComponent {...itemProps}
-                               key={itemPath}
-                               cqPath={itemPath}
-                               isInEditor={this.props.isInEditor}
-                               containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}/>;
+  public render() {
+    let renderScript;
+
+    if (!this.props.isInEditor && this.props.aemNoDecoration) {
+      renderScript = <React.Fragment>{this.childComponents}</React.Fragment>;
+    } else {
+      renderScript = (
+        <div {...this.containerProps}>
+          {this.childComponents}
+          {this.placeholderComponent}
+        </div>
+      );
     }
 
-    /**
-     * Returns the properties to add on a specific child component.
-     *
-     * @param item
-     * @param itemKey
-     * @param itemPath
-     * @returns The map of properties.
-     */
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
-        return {};
-    }
-
-    /**
-     * Returns the path of given item.
-     *
-     * @param itemKey
-     * @returns The computed path.
-     */
-    public getItemPath(itemKey: string) {
-        return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + itemKey) : itemKey;
-    }
-
-    /**
-     * The properties for the root element of the container.
-     *
-     * @returns The map of properties.
-     */
-    get containerProps(): {[key: string]: string} {
-        const props: { [key: string]: string } = {
-            className: Constants._CONTAINER_CLASS_NAMES,
-        };
-
-        if (this.props.isInEditor) {
-            props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
-        }
-
-        return props;
-    }
-
-    /**
-     * The properties for the placeholder component in root element.
-     *
-     * @returns The map of properties to be added.
-     */
-    get placeholderProps(): PlaceHolderModel {
-        return {
-            cqPath: this.props.cqPath,
-            placeholderClassNames: Constants.NEW_SECTION_CLASS_NAMES,
-        };
-    }
-
-    get placeholderComponent() {
-        if (!this.props.isInEditor) {
-            return null;
-        }
-
-        return <ContainerPlaceholder { ...this.placeholderProps }/>;
-    }
-
-    public render() {
-        let renderScript;
-
-        if (!this.props.isInEditor && this.props.aemNoDecoration){
-            renderScript = (
-                <React.Fragment>
-                    { this.childComponents }
-                </React.Fragment>
-            )
-        } else {
-            renderScript = (
-                <div {...this.containerProps}>
-                    { this.childComponents }
-                    { this.placeholderComponent }
-                </div>
-            )
-        }
-
-        return renderScript;
-    }
+    return renderScript;
+  }
 }
