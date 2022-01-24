@@ -25,9 +25,8 @@ jobs:
         run: npm run build:production
       - name: Run tests and do code coverage check
         run: npm run test:coverage
-      - name: Run code linter
-        uses: hallee/eslint-action@1.0.3
-        if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }}
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload code coverage report to workflow as an artifact

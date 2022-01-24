@@ -8,8 +8,8 @@ charset = utf-8
 indent_size = 2
 indent_style = space
 
-[*.{js,jsx,ts,tsx}]
-indent_size = 4
+[*.{js,jsx,ts,tsx,json}]
+indent_size = 2
 
 [*.{json,xml}]
 insert_final_newline = false

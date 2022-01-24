@@ -16,38 +16,52 @@
     "url": "https://github.com/adobe/aem-react-editable-components/issues"
   },
   "engines": {
-    "npm": "6.14.15",
+    "npm": "8.1.3",
     "node": ">=12.16.2"
   },
   "main": "dist/aem-react-editable-components.js",
   "types": "dist/types.d.ts",
   "scripts": {
-    "build:production": "NODE_ENV=production npm run build",
+    "build:prod": "NODE_ENV=production npm run build",
     "build:types": "tsc -p src/tsconfig.types.json",
-    "build": "npm run clean && npm run linter && webpack && npm run build:types",
-    "clean": "rm -rf dist/",
-    "docs": "npm i && npx typedoc --excludePrivate ./src --out ./dist/docs",
-    "linter": "eslint .",
+    "build": "npm run lint && npm run build:types && webpack",
+    "clean": "rm -rf dist/ node_modules/ package-lock.json",
+    "docs": "npm i && npx typedoc --entryPointStrategy expand --excludePrivate ./src --out ./dist/docs",
+    "lint:fix": "eslint . --fix",
+    "lint": "eslint .",
     "semantic-release": "semantic-release",
     "test:coverage": "jest --clearCache && jest --coverage",
     "test:debug": "jest --coverage --watchAll",
-    "test": "jest --clearCache && jest"
+    "test": "jest --clearCache && jest",
+    "watch": "webpack --watch"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "path-browserify": "^1.0.1",
-    "prop-types": "^15.7.2",
     "react-fast-compare": "^3.0.0"
   },
-  "peerDependencies": {
-    "@adobe/aem-spa-component-mapping": "~1.1.0",
-    "@adobe/aem-spa-page-model-manager": "~1.4.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
-  },
   "devDependencies": {
-    "@adobe/aem-spa-component-mapping": "~1.1.1",
-    "@adobe/aem-spa-page-model-manager": "~1.4.0",
+    "@adobe/aem-spa-component-mapping": "file:../aem-spa-component-mapping",
+    "@adobe/aem-spa-page-model-manager": "file:../aem-spa-page-model-manager",
     "@adobe/eslint-config-editorxp": "^1.0.8",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-export-default-from": "^7.16.7",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.16.8",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "@babel/register": "^7.16.9",
+    "@jest/globals": "^27.4.6",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.2.1",
@@ -59,18 +73,27 @@
     "@types/node": "^14.14.39",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/webpack-node-externals": "^2.5.3",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
-    "clean-webpack-plugin": "^3.0.0",
+    "clean-webpack-plugin": "^4.0.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-header": "^3.1.1",
+    "eslint-plugin-jest": "^25.7.0",
     "eslint-plugin-json": "^2.1.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "jest": "^26.6.3",
+    "jest-fetch-mock": "^3.0.3",
+    "lint-staged": "^12.1.7",
+    "prettier": "^2.5.1",
+    "process": "^0.11.10",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -79,8 +102,9 @@
     "ts-loader": "^8.1.0",
     "typedoc": "^0.22.0",
     "typescript": "^4.2.4",
-    "webpack": "^5.34.0",
-    "webpack-cli": "^4.6.0",
+    "webpack": "^5.66.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^2.5.2"
   },
   "files": [
@@ -91,11 +115,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@adobe/eslint-config-editorxp/react"
-    ]
   }
 }

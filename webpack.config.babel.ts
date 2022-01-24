@@ -10,9 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import nodeExternals from 'webpack-node-externals';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const mode = isProduction ? 'production' : 'development';
@@ -20,39 +21,53 @@ const devtool = isProduction ? false : 'source-map';
 
 console.log('Building for:', mode);
 
-module.exports = {
+const config = {
+  ...(process.argv.includes('--watch') && {
+    watchOptions: {
+      poll: 1000,
+      ignored: ['**/node_modules'],
+    },
+  }),
+
   entry: './src/types.ts',
   mode,
   devtool,
+
   output: {
     globalObject: `(function(){ try{ return typeof self !== 'undefined';}catch(err){return false;}})() ? self : this`,
     path: path.resolve(__dirname, 'dist'),
     filename: 'aem-react-editable-components.js',
     library: 'aemReactEditableComponents',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
+
   module: {
     rules: [
       {
         test: /\.ts$|\.tsx$/,
         exclude: /(node_modules|dist)/,
         use: {
-          loader: 'ts-loader'
+          loader: 'ts-loader',
         },
-        enforce: 'post'
-      }
-    ]
+        enforce: 'post',
+      },
+    ],
   },
+
+  resolve: {
+    extensions: ['.ts', '.tsx'],
+    fallback: {
+      path: require.resolve('path-browserify'),
+    },
+  },
+
   externals: [
     nodeExternals({
-        modulesFromFile: { exclude: [ 'dependencies' ] }
-    })
+      modulesFromFile: { exclude: ['dependencies'] },
+    }),
   ],
-  resolve: {
-    extensions: [ '.ts', '.tsx' ],
-    fallback: {
-        path: require.resolve('path-browserify')
-    }
-  },
-  plugins: [ new CleanWebpackPlugin() ]
+
+  plugins: [new webpack.ProgressPlugin(), new CleanWebpackPlugin()],
 };
+
+export default config;
