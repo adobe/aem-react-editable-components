@@ -152,7 +152,7 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
     public render(): JSX.Element {
         let renderScript;
 
-        if (!this.props.isInEditor || this.props.aemNoDecoration) {
+        if (!this.props.isInEditor && this.props.aemNoDecoration){
             renderScript = (
               <React.Fragment>
                 { this.childComponents }
