@@ -15,7 +15,7 @@ import { Constants as PMConstants } from '@adobe/aem-spa-page-model-manager',
 /**
  * Constants for interacting with AEM components.
  */
-export const AEMProps = Object.freeze({
+export const Properties = Object.freeze({
     /**
      * Name of the data-cq-data-path data attribute.
      */

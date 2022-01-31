@@ -9,21 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
-import { ClassNames } from "../../constants/classnames.constants";
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
-type Props = {
-  emptyLabel: string;
-  path: string;
+// Editor specific logic could be placed here
+export const useEditor = () => {
+
+  const isInEditor = () => AuthoringUtils.isInEditor();
+
+  return {
+    isInEditor,
+  };
 };
-
-/**
- * Placeholder for one Allowed Component.
- */
-export const AllowedComponentPlaceholder = ({ path, emptyLabel }: Props) => (
-  <div 
-    data-cq-data-path={path} 
-    data-emptytext={emptyLabel} 
-    className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER} 
-  />    
-);

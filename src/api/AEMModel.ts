@@ -9,21 +9,26 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
-import { ClassNames } from "../../constants/classnames.constants";
-
-type Props = {
-  emptyLabel: string;
-  path: string;
-};
 
 /**
- * Placeholder for one Allowed Component.
+ * Component that is allowed to be used on the page by the editor.
  */
-export const AllowedComponentPlaceholder = ({ path, emptyLabel }: Props) => (
-  <div 
-    data-cq-data-path={path} 
-    data-emptytext={emptyLabel} 
-    className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER} 
-  />    
-);
+export type AllowedComponent = {
+  path: string;
+  title: string;
+};
+
+export type AllowedComponentList = {
+  /**
+   * Should AllowedComponents list be applied.
+   */
+  applicable: boolean;
+  components: AllowedComponent[];
+};
+
+export type ResponsiveGridProps = {
+  gridClassNames: string;
+  columnClassNames: { [key: string]: string };
+  allowedComponents: AllowedComponentList;
+  columnCount?: string;
+};

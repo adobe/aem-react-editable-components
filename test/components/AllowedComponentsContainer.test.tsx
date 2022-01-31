@@ -12,14 +12,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  AllowedComponents,
-  AllowedComponentsContainer,
-  AllowedComponentsProperties,
-} from '../../src/components/allowedcomponents/AllowedComponentsContainer';
+import { AllowedComponentsContainer } from '../../src/components/allowedcomponents/AllowedComponentsContainer';
 import { AllowedComponentPlaceholder } from '../../src/components/allowedcomponents/AllowedComponentsPlaceholder';
 import { AllowedComponentPlaceholderList } from '../../src/components/allowedcomponents/AllowedComponentsPlaceholderList';
-import { PlaceHolderModel } from '../../src/components/ContainerPlaceholder';
+import { AllowedComponentList } from '../../src/api/AEMModel';
 
 describe('AllowedComponentsContainer ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -32,20 +28,18 @@ describe('AllowedComponentsContainer ->', () => {
   const COMPONENT_TEXT_TITLE = 'Text';
   const COMPONENT_IMAGE_PATH = '/content/page/jcr:content/root/image';
   const COMPONENT_IMAGE_TITLE = 'Image';
-  const CONTAINER_SELECTOR = '.aem-container';
-  const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
 
-  const ALLOWED_COMPONENTS_EMPTY_DATA: AllowedComponents = {
+  const ALLOWED_COMPONENTS_EMPTY_DATA: AllowedComponentList = {
     applicable: true,
     components: [],
   };
 
-  const ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA: AllowedComponents = {
+  const ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA: AllowedComponentList = {
     applicable: false,
     components: [],
   };
 
-  const ALLOWED_COMPONENTS_DATA: AllowedComponents = {
+  const ALLOWED_COMPONENTS_DATA: AllowedComponentList = {
     applicable: true,
     components: [
       {
@@ -60,15 +54,10 @@ describe('AllowedComponentsContainer ->', () => {
   };
 
   function generateAllowedComponentsContainer(
-    allowedComponents: AllowedComponents,
-    isInEditor: boolean,
+    allowedComponents: AllowedComponentList,
     title?: string,
   ): JSX.Element {
-    const props: AllowedComponentsProperties = {
-      cqItems: {},
-      cqItemsOrder: [],
-      cqPath: '',
-      isInEditor: isInEditor,
+      const props = {
       title: title || '',
       allowedComponents: allowedComponents,
     };
@@ -92,26 +81,27 @@ describe('AllowedComponentsContainer ->', () => {
   });
 
   describe('not applicable ->', () => {
-    it('should NOT be applicable but have a default container placeholder', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA, true), rootNode);
+    it('no allowed components container when NOT applicable', () => {
+      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA), rootNode);
 
       const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
 
       expect(allowedComponentsContainer).toBeNull();
 
-      const container = rootNode.querySelector(CONTAINER_SELECTOR);
+      // container specific part of the tests to be moved to container
+      // const container = rootNode.querySelector(CONTAINER_SELECTOR);
 
-      expect(container).toBeDefined();
+      // expect(container).toBeDefined();
 
-      const containerPlaceholder = container.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
+      // const containerPlaceholder = container.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
 
-      expect(containerPlaceholder).toBeDefined();
+      // expect(containerPlaceholder).toBeDefined();
     });
   });
 
   describe('applicable ->', () => {
     it('should be applicable with an empty list of allowed components', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_EMPTY_DATA, true), rootNode);
+      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_EMPTY_DATA), rootNode);
 
       const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
 
@@ -125,7 +115,7 @@ describe('AllowedComponentsContainer ->', () => {
     });
 
     it('should be applicable with a list of allowed components', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA, true, DEFAULT_TITLE), rootNode);
+      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA, DEFAULT_TITLE), rootNode);
 
       const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
 
@@ -140,37 +130,32 @@ describe('AllowedComponentsContainer ->', () => {
   });
 
   describe.skip('not in editor ->', () => {
-    it('should be applicable with a list of allowed components but not in the editor', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA, false), rootNode);
+  // why is this skipped ?
+  // not in editor tests to be moved to place where the check will be placed
+    // it('should be applicable with a list of allowed components but not in the editor', () => {
+    //   ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA), rootNode);
 
-      const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
+    //   const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
 
-      expect(allowedComponentsContainer).toBeNull();
+    //   expect(allowedComponentsContainer).toBeNull();
 
-      const container = rootNode.querySelector(CONTAINER_SELECTOR);
+    //   const container = rootNode.querySelector(CONTAINER_SELECTOR);
 
-      expect(container).toBeDefined();
+    //   expect(container).toBeDefined();
 
-      const containerPlaceholder = container.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
+    //   const containerPlaceholder = container.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
 
-      expect(containerPlaceholder).toBeNull();
-    });
+    //   expect(containerPlaceholder).toBeNull();
+    // });
   });
 
   describe('AllowedComponentPlaceholderList ->', () => {
     it('should display two allowed components', () => {
-      const placeHolderProperties: PlaceHolderModel = {
-        placeholderClassNames: 'classNames',
-        cqPath: '/some/path',
-      };
-
       const element = (
         <AllowedComponentPlaceholderList
           title={DEFAULT_TITLE}
           emptyLabel={DEFAULT_EMPTY_LABEL}
           components={ALLOWED_COMPONENTS_DATA.components}
-          cqPath="/some/path"
-          placeholderProps={placeHolderProperties}
         />
       );
 

@@ -31,5 +31,8 @@ export const ClassNames = Object.freeze({
      */
     DEFAULT_PLACEHOLDER: 'cq-placeholder',
     PAGE_PLACEHOLDER: 'aem-page',
-    RESPONSIVE_GRID_PLACEHOLDER: 'aem-Grid-newComponent'
+    RESPONSIVE_GRID_PLACEHOLDER: 'aem-Grid-newComponent',
+    ALLOWED_LIST_PLACEHOLDER: 'aem-AllowedComponent--list',
+    ALLOWED_COMPONENT_TITLE: 'aem-AllowedComponent--title',
+    ALLOWED_COMPONENT_PLACEHOLDER: 'aem-AllowedComponent--component cq-placeholder placeholder'
 });
