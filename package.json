@@ -26,7 +26,7 @@
     "build:types": "tsc -p src/tsconfig.types.json",
     "build": "npm run clean && npm run linter && webpack && npm run build:types",
     "clean": "rm -rf dist/",
-    "docs": "npm i && npx typedoc --excludePrivate ./src --out ./dist/docs",
+    "docs": "npm i && npx typedoc ./src/types.ts --excludePrivate ./src --out ./dist/docs",
     "linter": "eslint .",
     "semantic-release": "semantic-release",
     "test:coverage": "jest --clearCache && jest --coverage",
@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "path-browserify": "^1.0.1",
-    "prop-types": "^15.7.2",
     "react-fast-compare": "^3.0.0"
   },
   "peerDependencies": {
