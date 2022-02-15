@@ -11,10 +11,10 @@
  */
 
 import React from 'react';
-import { AllowedComponentList } from '../../types/AEMModel';
-import { ClassNames } from '../../constants/classnames.constants';
-import { Container } from "../Container";
-import { useEditor } from '../../hooks/useEditor';
+import { AllowedComponentList } from '../types/AEMModel';
+import { ClassNames } from '../constants/classnames.constants';
+import { Container } from "./Container";
+import { useEditor } from '../hooks/useEditor';
 
 type Props = {
   allowedComponents: AllowedComponentList;
@@ -42,6 +42,7 @@ export const AllowedComponentsContainer = ({
           components.map((component) => (
             <div 
               data-cq-data-path={component.path} 
+              key={component.path} 
               data-emptytext={emptyLabel} 
               className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER} 
             />   
