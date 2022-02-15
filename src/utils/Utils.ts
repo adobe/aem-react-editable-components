@@ -12,6 +12,7 @@
 
 import { normalize as normalizePath } from 'path';
 import { Model } from '@adobe/aem-spa-page-model-manager';
+import { ModelProps } from '../types/AEMModel';
 
 interface ComponentProps {
   pagePath?: string;
@@ -47,7 +48,7 @@ const Utils = {
    * @param item - the item data
    * @returns the transformed data
    */
-  modelToProps(item: Model) {
+  modelToProps(item: Model): ModelProps {
     const keys = Object.getOwnPropertyNames(item);
     const props: any = {};
 
