@@ -12,9 +12,9 @@
 
 import React, { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
-import { EditConfig, withEditable } from './components/EditableComponent';
-import { ReloadableModelProperties, withModel } from './components/ModelProvider';
-import { withEditorContext } from './EditorContext';
+import { EditConfig, withEditable } from './EditableComponent';
+import { ReloadableModelProperties, withModel } from './ModelProvider';
+import { withEditorContext } from '../EditorContext';
 
 /**
  * @private

@@ -9,14 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { MapTo, withComponentMappingContext } from '../ComponentMapping';
+import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import {
   AllowedComponentsContainer,
   AllowedComponentsProperties,
 } from './allowedcomponents/AllowedComponentsContainer';
 import { ContainerState } from './Container';
 import { PlaceHolderModel } from './ContainerPlaceholder';
-import { EditConfig } from './EditableComponent';
+import { EditConfig } from '../core/EditableComponent';
 import { Constants } from '../Constants';
 
 export interface ResponsiveGridProperties extends AllowedComponentsProperties {

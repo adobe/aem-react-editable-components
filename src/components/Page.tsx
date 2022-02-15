@@ -13,9 +13,9 @@
 import React from 'react';
 import { Model } from '@adobe/aem-spa-page-model-manager';
 import { Constants } from '../Constants';
-import Utils from '../Utils';
+import Utils from '../utils/Utils';
 import { Container, ContainerProperties, ContainerState } from './Container';
-import { ComponentMapping, MappedComponentProperties } from '../ComponentMapping';
+import { ComponentMapping, MappedComponentProperties } from '../core/ComponentMapping';
 
 export interface PageModel extends Model {
   ':type': string;

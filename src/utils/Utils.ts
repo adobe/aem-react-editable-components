@@ -11,7 +11,7 @@
  */
 
 import { normalize as normalizePath } from 'path';
-import { Model, AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
+import { Model } from '@adobe/aem-spa-page-model-manager';
 
 interface ComponentProps {
   pagePath?: string;
@@ -39,14 +39,6 @@ function transformToCQ(propKey: string) {
  * Helper functions for interacting with the AEM environment.
  */
 const Utils = {
-  /**
-   * Is the app used in the context of the AEM Page editor.
-   * @deprecated use AuthoringUtils.isInEditor from aem-spa-page-model-manager
-   */
-  isInEditor(): boolean {
-    return AuthoringUtils.isInEditor();
-  },
-
   /**
    * Transforms the item data to component properties.
    * It will replace ':' with 'cq' and convert the name to CameCase.

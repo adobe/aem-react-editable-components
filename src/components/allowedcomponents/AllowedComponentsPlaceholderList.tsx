@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,51 +10,33 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
-import { PlaceHolderModel } from '../ContainerPlaceholder';
-import { AllowedComponent } from './AllowedComponentsContainer';
+import React from 'react';
+import { AllowedComponent } from '../../api/AEMModel';
 import { AllowedComponentPlaceholder } from './AllowedComponentsPlaceholder';
+import { ClassNames } from '../../constants/classnames.constants';
 
-/**
- * @private
- */
-const ALLOWED_PLACEHOLDER_CLASS_NAMES = 'aem-AllowedComponent--list';
-/**
- * @private
- */
-const ALLOWED_COMPONENT_TITLE_CLASS_NAMES = 'aem-AllowedComponent--title';
-
-/**
- * @private
- */
-export interface AllowedComponentPlaceholderListProperties {
+type Props = {
   title: string;
   emptyLabel: string;
   components: AllowedComponent[];
-  placeholderProps: PlaceHolderModel;
-  cqPath: string;
-}
+};
 
 /**
- * List of placeholder of the Allowed Component Container.
- *
- * @private
+ * List of placeholders of the Allowed Component Container.
  */
-export class AllowedComponentPlaceholderList<P extends AllowedComponentPlaceholderListProperties, S> extends Component<
-  P,
-  S
-> {
-  public render(): JSX.Element {
-    const { components, placeholderProps, title, emptyLabel } = this.props;
-    const listLabel = components && components.length > 0 ? title : emptyLabel;
+export const AllowedComponentPlaceholderList = (props: Props) => {
+  const { components, title, emptyLabel } = props;
+  const listLabel = components && components.length > 0 ? title : emptyLabel;
 
-    return (
-      <div className={ALLOWED_PLACEHOLDER_CLASS_NAMES + ' ' + placeholderProps.placeholderClassNames}>
-        <div data-text={listLabel} className={ALLOWED_COMPONENT_TITLE_CLASS_NAMES} />
-        {components.map((component, i) => (
-          <AllowedComponentPlaceholder key={i} path={component.path} emptyLabel={component.title} />
-        ))}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={ClassNames.ALLOWED_LIST_PLACEHOLDER + ' ' + ClassNames.NEW_SECTION}>
+      <div data-text={listLabel} className={ClassNames.ALLOWED_COMPONENT_TITLE} />
+      {
+        components.map((component) => {
+          const { path, title } = component;
+          return <AllowedComponentPlaceholder key={path} path={path} emptyLabel={title} />
+        })
+      }
+    </div>
+  );
+};

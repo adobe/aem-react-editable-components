@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,13 +10,25 @@
  * governing permissions and limitations under the License.
  */
 
-export * from './core/ComponentMapping';
-export * from './components/allowedcomponents/AllowedComponentsContainer';
-export * from './components/Container';
-export * from './core/EditableComponent';
-export * from './core/ModelProvider';
-export * from './components/Page';
-export * from './components/ResponsiveGrid';
-export * from './Constants';
-export * from './EditorContext';
-export { default as Utils } from './utils/Utils';
+/**
+ * Component that is allowed to be used on the page by the editor.
+ */
+export type AllowedComponent = {
+  path: string;
+  title: string;
+};
+
+export type AllowedComponentList = {
+  /**
+   * Should AllowedComponents list be applied.
+   */
+  applicable: boolean;
+  components: AllowedComponent[];
+};
+
+export type ResponsiveGridProps = {
+  gridClassNames: string;
+  columnClassNames: { [key: string]: string };
+  allowedComponents: AllowedComponentList;
+  columnCount?: string;
+};

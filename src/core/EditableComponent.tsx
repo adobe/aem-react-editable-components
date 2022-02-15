@@ -12,9 +12,9 @@
 
 import React, { Component, ComponentType } from 'react';
 import isEqual from 'react-fast-compare';
-import { MappedComponentProperties } from '../ComponentMapping';
+import { MappedComponentProperties } from './ComponentMapping';
 import { Constants } from '../Constants';
-import { ContainerState } from './Container';
+import { ContainerState } from '../components/Container';
 
 /**
  * Configuration object of the withEditable function.
