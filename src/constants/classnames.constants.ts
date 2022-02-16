@@ -30,7 +30,7 @@ export const ClassNames = Object.freeze({
      * Class name used to identify the placeholder used to represent an empty component.
      */
     DEFAULT_PLACEHOLDER: 'cq-placeholder',
-    PAGE_PLACEHOLDER: 'aem-page',
+    PAGE: 'aem-page',
     RESPONSIVE_GRID_PLACEHOLDER: 'aem-Grid-newComponent',
     ALLOWED_LIST_PLACEHOLDER: 'aem-AllowedComponent--list',
     ALLOWED_COMPONENT_TITLE: 'aem-AllowedComponent--title',

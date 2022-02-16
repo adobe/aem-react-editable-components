@@ -11,7 +11,7 @@
  */
 
 import React from 'react';
-import { AllowedComponentList } from '../types/AEMModel';
+import { AllowedComponentList, ModelProps } from '../types/AEMModel';
 import { ClassNames } from '../constants/classnames.constants';
 import { Container } from "./Container";
 import { useEditor } from '../hooks/useEditor';
@@ -19,14 +19,15 @@ import { useEditor } from '../hooks/useEditor';
 type Props = {
   allowedComponents: AllowedComponentList;
   title: string;
-};
+} & ModelProps;
 
 /**
  * Represents allowed components container in AEM.
  */
 export const AllowedComponentsContainer = ({
   allowedComponents, 
-  title
+  title,
+  ...props
 }: Props) => { 
   const { isInEditor } = useEditor();
   
@@ -52,5 +53,5 @@ export const AllowedComponentsContainer = ({
     )
   }
 
-  return <Container />;
+  return <Container {...props} />;
 };

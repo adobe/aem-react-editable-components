@@ -16,19 +16,35 @@ import { ClassNames } from '../constants/classnames.constants';
 import { Properties } from '../constants/properties.constants';
 import { ModelProps } from '../types/AEMModel';
 
-type PlaceholderProps = {
-    cqPath: string;
-};
+type Props = {
+    className?: string;
+    itemPath?: string;
+    isPage?: boolean;
+    childPages?: JSX.Element;
+} & ModelProps;
 
-const ComponentList = ({ cqItems = {}, cqItemsOrder = [], cqPath = "", componentMapping }: ModelProps) => {
-    if (!cqItems || !cqItemsOrder) {
+const getItemPath = (cqPath = "", itemKey = "", isPage = false) => {
+    let itemPath = itemKey;
+    if(cqPath) {
+        if (isPage) {
+            itemPath =`${cqPath}/${Properties.JCR_CONTENT}/${itemKey}`;
+        } else {
+            itemPath = `${cqPath}/${itemKey}`; 
+        }
+    }
+    return itemPath;
+};
+  
+const ComponentList = ({ cqItemsOrder, cqItems, cqPath = "", isPage, componentMapping }: Props) => {
+    if (!cqItemsOrder || !cqItems) {
         return <></>;
     }
+
     const components = cqItemsOrder.map((itemKey: string) => {
         const itemProps = Utils.modelToProps(cqItems[itemKey]);
         if (itemProps) {
             const ItemComponent = componentMapping.get(itemProps.cqType);
-            const itemPath = cqPath ? `${cqPath}/${itemKey}` : itemKey;
+            const itemPath = getItemPath(cqPath, itemKey, isPage);
             return (
                 <ItemComponent
                     {...itemProps}
@@ -41,27 +57,31 @@ const ComponentList = ({ cqItems = {}, cqItemsOrder = [], cqPath = "", component
     return <>{components}</>;
 };
 
-const ContainerPlaceholder = ({ cqPath }: PlaceholderProps) => (
-    <div 
-        data-cq-data-path={`${cqPath}/*`} 
-        className={ClassNames.NEW_SECTION} 
-    />
-);
-
 // to do: clarify usage of component mapping and define type
-export const Container = (props: ModelProps) => {
-    const { cqPath = "" } = props;
+export const Container = (props: Props) => {
+    const { 
+        cqPath = "", className, isPage, childPages
+    } = props;
     const { isInEditor } = useEditor();
     const containerProps = {
-        [Properties.DATA_PATH_ATTR]: cqPath
+        [Properties.DATA_PATH_ATTR]: cqPath,
     };
-
+    const childComponents = (
+        <ComponentList {...props} />
+    );
+    
     // clarify why aemnodecoration is needed when not in editor in the first place
     // shouldnt all aem specific things be removed anyway?
     return isInEditor() ? (
-        <div className={ClassNames.CONTAINER} {...containerProps}>
-            <ComponentList {...props} />
-            <ContainerPlaceholder cqPath={cqPath} />
+        <div className={className || ClassNames.CONTAINER} {...containerProps}>
+            { childComponents }
+            { childPages }
+            { !isPage && (
+                <div 
+                    data-cq-data-path={`${cqPath}/*`} 
+                    className={ClassNames.NEW_SECTION} 
+                /> 
+            )}
         </div>
-    ) : <ComponentList {...props} />;
+    ) : childComponents;
 };

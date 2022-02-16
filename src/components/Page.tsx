@@ -11,85 +11,37 @@
  */
 
 import React from 'react';
-import { Model } from '@adobe/aem-spa-page-model-manager';
-import { Constants } from '../Constants';
 import Utils from '../utils/Utils';
-import { Container, ContainerProperties, ContainerState } from './Container';
-import { ComponentMapping, MappedComponentProperties } from '../core/ComponentMapping';
+import { Container } from './Container';
+import { ClassNames } from '../constants/classnames.constants';
+import { ModelProps } from '../types/AEMModel';
 
-export interface PageModel extends Model {
-  ':type': string;
-  id: string;
-  ':path': string;
-  ':children'?: { [key: string]: PageModel };
-}
-
-export interface PageProperties extends ContainerProperties {
-  cqChildren: { [key: string]: PageModel };
-}
-
-export class Page<P extends PageProperties, S extends ContainerState> extends Container<P, S> {
-  public static defaultProps = {
-    cqChildren: {},
-    cqItems: {},
-    cqItemsOrder: [],
-    cqPath: '',
-  };
-
-  constructor(props: P) {
-    super(props);
-
-    this.state = {
-      componentMapping: this.props.componentMapping || ComponentMapping,
-    } as Readonly<S>;
-  }
-
-  get containerProps(): { [key: string]: string } {
-    const props: { [key: string]: string } = {
-      className: Constants._PAGE_CLASS_NAMES,
-    };
-
-    if (this.props.isInEditor) {
-      props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
+const ChildPages = ({ cqChildren, componentMapping }: ModelProps) => {
+    if (!cqChildren) {
+      return <></>;
     }
-
-    return props;
-  }
-
-  /**
-   * @returns The child pages of a page.
-   */
-  get childPages(): JSX.Element[] {
-    const pages: JSX.Element[] = [];
-
-    if (!this.props.cqChildren) {
-      return pages;
-    }
-
-    Object.keys(this.props.cqChildren).map((itemKey) => {
-      const itemProps = Utils.modelToProps(this.props.cqChildren[itemKey]);
-      const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(
-        itemProps.cqType,
+    const pages = Object.keys(cqChildren).map((itemKey) => {
+      const itemProps = Utils.modelToProps(cqChildren[itemKey]);
+      const { cqPath, cqType } = itemProps;
+      const ItemComponent = componentMapping.get(cqType);
+      return (
+          <ItemComponent
+              {...itemProps}
+              key={cqPath}
+              cqPath={cqPath}
+          />
       );
-
-      if (ItemComponent) {
-        pages.push(<ItemComponent key={itemProps.cqPath} {...itemProps} cqPath={itemProps.cqPath}></ItemComponent>);
-      }
     });
 
-    return pages;
-  }
+    return <>{pages}</>;
+};
 
-  public getItemPath(itemKey: string) {
-    return this.props && this.props.cqPath ? this.props.cqPath + '/' + Constants.JCR_CONTENT + '/' + itemKey : itemKey;
-  }
-
-  public render() {
-    return (
-      <div {...this.containerProps}>
-        {this.childComponents}
-        {this.childPages}
-      </div>
-    );
-  }
-}
+export const Page = (props: ModelProps) => {
+  return (
+    <Container
+      className={ClassNames.PAGE}
+      isPage={true}
+      childPages={<ChildPages {...props} />}
+    />
+  );
+};
