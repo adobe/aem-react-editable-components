@@ -32,6 +32,7 @@ export type ModelProps = {
   cqItems?: { [key: string]: Model };
   cqItemsOrder?: string[];
   cqType?: string;
+  cqChildren?: { [key: string]: Model };
 };
 
 export type ResponsiveGridProps = {

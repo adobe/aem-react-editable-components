@@ -41,7 +41,7 @@ module.exports = {
     'max-lines-per-function': [WARN, { max: 75, skipBlankLines: true, skipComments: true }],
     'max-params': [WARN, { max: 6 }],
     'max-statements': [WARN, { max: 15 }],
-    'no-unused-vars': WARN,
+    'no-unused-vars': [WARN, { 'argsIgnorePattern': '^_' }],
     'padding-line-between-statements': [OFF],
     'react-hooks/exhaustive-deps': ERROR,
     'react-hooks/rules-of-hooks': ERROR,

@@ -9,30 +9,25 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import React from 'react';
 import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { EditConfig } from '../core/EditableComponent';
-import {ModelProps, ResponsiveGridProps} from "../types/AEMModel";
-import React from 'react';
-import {ClassNames} from "../constants/classnames.constants";
+import { ResponsiveGridProps } from '../types/AEMModel';
+import { ClassNames } from '../constants/classnames.constants';
 
 type Props = {
   title?: string;
 } & ResponsiveGridProps;
 
-export const ResponsiveGrid = ({
-  title = 'Layout Container',
-  columnClassNames,
-  ...props
-}: Props) => {
-
+export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, ...props }: Props): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
   return (
     <AllowedComponentsContainer
-      className={props.gridClassNames + " " + ClassNames.CONTAINER}
+      className={`${props.gridClassNames} ${ClassNames.CONTAINER}`}
       getItemClassNames={getItemClassNames}
       placeholderClassNames={ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES}
       title={title}
@@ -41,12 +36,9 @@ export const ResponsiveGrid = ({
   );
 };
 
-/**
- * @private
- */
 const config: EditConfig<ResponsiveGridProps> = {
   isEmpty(props: ResponsiveGridProps): boolean {
-    return props.cqItemsOrder && props.cqItemsOrder.length > 0;
+    return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
   },
 };
 

@@ -17,31 +17,19 @@ import { ClassNames } from '../constants/classnames.constants';
 import { ModelProps } from '../types/AEMModel';
 
 const ChildPages = ({ cqChildren, componentMapping }: ModelProps) => {
-    if (!cqChildren) {
-      return <></>;
-    }
-    const pages = Object.keys(cqChildren).map((itemKey) => {
-      const itemProps = Utils.modelToProps(cqChildren[itemKey]);
-      const { cqPath, cqType } = itemProps;
-      const ItemComponent = componentMapping.get(cqType);
-      return (
-          <ItemComponent
-              {...itemProps}
-              key={cqPath}
-              cqPath={cqPath}
-          />
-      );
-    });
+  if (!cqChildren) {
+    return <></>;
+  }
+  const pages = Object.keys(cqChildren).map((itemKey) => {
+    const itemProps = Utils.modelToProps(cqChildren[itemKey]);
+    const { cqPath, cqType } = itemProps;
+    const ItemComponent = componentMapping.get(cqType);
+    return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
+  });
 
-    return <>{pages}</>;
+  return <>{pages}</>;
 };
 
-export const Page = (props: ModelProps) => {
-  return (
-    <Container
-      className={ClassNames.PAGE}
-      isPage={true}
-      childPages={<ChildPages {...props} />}
-    />
-  );
+export const Page = (props: ModelProps): JSX.Element => {
+  return <Container className={ClassNames.PAGE} isPage={true} childPages={<ChildPages {...props} />} />;
 };
