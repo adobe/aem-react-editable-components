@@ -22,18 +22,18 @@ type Props = {
 
 export const ResponsiveGrid = ({
   title = 'Layout Container',
+  columnClassNames,
   ...props
 }: Props) => {
-  const getItemCustomProps = function (itemKey: string, itemProps: ModelProps) {
-    const itemCustomProps = {className: ''};
-    itemCustomProps.className = props.columnClassNames && props.columnClassNames[itemKey] ? props.columnClassNames[itemKey] : '';
-    return itemCustomProps;
+
+  const getItemClassNames = (itemKey: string) => {
+    return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
-  props.getItemCustomProps = getItemCustomProps;
+
   return (
     <AllowedComponentsContainer
       className={props.gridClassNames + " " + ClassNames.CONTAINER}
-      getItemCustomProps={getItemCustomProps}
+      getItemClassNames={getItemClassNames}
       placeholderClassNames={ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES}
       title={title}
       {...props}

@@ -21,6 +21,7 @@ type Props = {
   className: string;
   placeholderClassNames?: string;
   title: string;
+  getItemClassNames?: (itemKey: string) => {};
 } & ModelProps;
 
 /**

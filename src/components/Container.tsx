@@ -21,7 +21,7 @@ type Props = {
     itemPath?: string;
     isPage?: boolean;
     childPages?: JSX.Element;
-    getItemCustomProps?: (itemKey: string, itemProps: ModelProps) => {};
+    getItemClassNames?: (itemKey: string) => {};
 } & ModelProps;
 
 const getItemPath = (cqPath = "", itemKey = "", isPage = false) => {
@@ -36,25 +36,23 @@ const getItemPath = (cqPath = "", itemKey = "", isPage = false) => {
     return itemPath;
 };
 
-const ComponentList = ({ cqItemsOrder, cqItems, cqPath = "", getItemCustomProps, isPage, componentMapping }: Props) => {
+const ComponentList = ({ cqItemsOrder, cqItems, cqPath = "", getItemClassNames, isPage, componentMapping }: Props) => {
     if (!cqItemsOrder || !cqItems) {
         return <></>;
     }
 
     const components = cqItemsOrder.map((itemKey: string) => {
         const itemProps = Utils.modelToProps(cqItems[itemKey]);
-        const itemCustomProps = getItemCustomProps ? getItemCustomProps(itemKey, itemProps): {};
-        const classNames = (itemCustomProps.className || '') + " " + ClassNames.CONTAINER_CHILD;
+        const itemClassNames = getItemClassNames ? getItemClassNames(itemKey): "";
         if (itemProps) {
             const ItemComponent = componentMapping.get(itemProps.cqType);
             const itemPath = getItemPath(cqPath, itemKey, isPage);
             return (
                 <ItemComponent
                     {...itemProps}
-                    {...itemCustomProps}
                     key={itemPath}
                     cqPath={itemPath}
-                    className={classNames}
+                    className={`${itemClassNames} ${ClassNames.CONTAINER_CHILD}`}
                 />
             )
         }
