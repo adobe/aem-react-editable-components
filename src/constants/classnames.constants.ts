@@ -27,12 +27,20 @@ export const ClassNames = Object.freeze({
      */
     CONTAINER: 'aem-container',
     /**
+     * Class name used to denote child items of aem-container root element.
+     */
+    CONTAINER_CHILD: 'container-child',
+    /**
      * Class name used to identify the placeholder used to represent an empty component.
      */
     DEFAULT_PLACEHOLDER: 'cq-placeholder',
-    PAGE_PLACEHOLDER: 'aem-page',
+    PAGE: 'aem-page',
     RESPONSIVE_GRID_PLACEHOLDER: 'aem-Grid-newComponent',
     ALLOWED_LIST_PLACEHOLDER: 'aem-AllowedComponent--list',
     ALLOWED_COMPONENT_TITLE: 'aem-AllowedComponent--title',
-    ALLOWED_COMPONENT_PLACEHOLDER: 'aem-AllowedComponent--component cq-placeholder placeholder'
+    ALLOWED_COMPONENT_PLACEHOLDER: 'aem-AllowedComponent--component cq-placeholder placeholder',
+  /**
+   * Class name used to identify the placeholder used to represent an empty ResponsiveGrid component.
+   */
+    RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent'
 });

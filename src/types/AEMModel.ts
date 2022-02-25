@@ -9,11 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import { Model } from '@adobe/aem-spa-page-model-manager';
 
 /**
  * Component that is allowed to be used on the page by the editor.
  */
-export type AllowedComponent = {
+type AllowedComponent = {
   path: string;
   title: string;
 };
@@ -26,9 +27,16 @@ export type AllowedComponentList = {
   components: AllowedComponent[];
 };
 
+export type ModelProps = {
+  cqPath?: string;
+  cqItems?: { [key: string]: Model };
+  cqItemsOrder?: string[];
+  cqType?: string;
+};
+
 export type ResponsiveGridProps = {
   gridClassNames: string;
   columnClassNames: { [key: string]: string };
   allowedComponents: AllowedComponentList;
   columnCount?: string;
-};
+} & ModelProps;
