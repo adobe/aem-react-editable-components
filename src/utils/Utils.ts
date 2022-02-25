@@ -49,6 +49,10 @@ const Utils = {
    * @returns the transformed data
    */
   modelToProps(item: Model): ModelProps {
+    if(!item || !Object.keys(item).length){
+      return {};
+    }
+
     const keys = Object.getOwnPropertyNames(item);
     const props: any = {};
 

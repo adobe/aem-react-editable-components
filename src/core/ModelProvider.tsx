@@ -14,8 +14,8 @@ import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manage
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
 import { Constants } from '../Constants';
-import { MappedComponentProperties, ReloadForceAble } from '../ComponentMapping';
-import Utils from '../Utils';
+import { MappedComponentProperties, ReloadForceAble } from './ComponentMapping';
+import Utils from '../utils/Utils';
 
 /**
  * Configuration object of the withModel function.
@@ -149,3 +149,4 @@ export const withModel = <P extends MappedComponentProperties>(
     }
   };
 };
+
