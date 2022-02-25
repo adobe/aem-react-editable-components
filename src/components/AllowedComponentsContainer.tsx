@@ -18,6 +18,8 @@ import { useEditor } from '../hooks/useEditor';
 
 type Props = {
   allowedComponents: AllowedComponentList;
+  className: string;
+  placeholderClassNames?: string;
   title: string;
 } & ModelProps;
 
@@ -25,28 +27,26 @@ type Props = {
  * Represents allowed components container in AEM.
  */
 export const AllowedComponentsContainer = ({
-  allowedComponents, 
-  title,
   ...props
-}: Props) => { 
+}: Props) => {
   const { isInEditor } = useEditor();
-  
-  if (allowedComponents && allowedComponents.applicable && isInEditor()) {
-    const { components } = allowedComponents;
-    const emptyLabel = 'No allowed components'; //move to constants and add localization? 
-    const listLabel = components && components.length > 0 ? title : emptyLabel;
-    
+
+  if (props.allowedComponents && props.allowedComponents.applicable && isInEditor()) {
+    const { components } = props.allowedComponents;
+    const emptyLabel = 'No allowed components'; //move to constants and add localization?
+    const listLabel = components && components.length > 0 ? props.title : emptyLabel;
+
     return (
-      <div className={ClassNames.ALLOWED_LIST_PLACEHOLDER + ' ' + ClassNames.NEW_SECTION}>
+      <div className={ClassNames.ALLOWED_LIST_PLACEHOLDER + ' ' + ClassNames.NEW_SECTION + ' ' + (props.placeholderClassNames || '')}>
         <div data-text={listLabel} className={ClassNames.ALLOWED_COMPONENT_TITLE} />
         {
           components.map((component) => (
-            <div 
-              data-cq-data-path={component.path} 
-              key={component.path} 
-              data-emptytext={emptyLabel} 
-              className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER} 
-            />   
+            <div
+              data-cq-data-path={component.path}
+              key={component.path}
+              data-emptytext={emptyLabel}
+              className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER}
+            />
           ))
         }
       </div>
