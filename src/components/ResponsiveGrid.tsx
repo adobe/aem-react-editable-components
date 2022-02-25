@@ -10,72 +10,47 @@
  * governing permissions and limitations under the License.
  */
 import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
-import {
-  AllowedComponentsContainer,
-  AllowedComponentsProperties,
-} from './allowedcomponents/AllowedComponentsContainer';
-import { ContainerState } from './Container';
-import { PlaceHolderModel } from './ContainerPlaceholder';
+import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { EditConfig } from '../core/EditableComponent';
-import { Constants } from '../Constants';
+import {ModelProps, ResponsiveGridProps} from "../types/AEMModel";
+import React from 'react';
+import {ClassNames} from "../constants/classnames.constants";
 
-export interface ResponsiveGridProperties extends AllowedComponentsProperties {
-  gridClassNames: string;
-  columnClassNames: { [key: string]: string };
-}
+type Props = {
+  title?: string;
+} & ResponsiveGridProps;
 
-export class ResponsiveGrid<
-  P extends ResponsiveGridProperties,
-  S extends ContainerState,
-> extends AllowedComponentsContainer<P, S> {
-  public static defaultProps = {
-    _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
-    cqItems: {},
-    cqItemsOrder: [],
-    cqPath: '',
-    title: 'Layout Container',
+export const ResponsiveGrid = ({
+  title = 'Layout Container',
+  columnClassNames,
+  ...props
+}: Props) => {
+
+  const getItemClassNames = (itemKey: string) => {
+    return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
-  get containerProps(): { [key: string]: string } {
-    const containerProps = super.containerProps;
-
-    containerProps.className = (containerProps.className || '') + ' ' + this.props.gridClassNames;
-
-    return containerProps;
-  }
-
-  get placeholderProps(): PlaceHolderModel {
-    const props = super.placeholderProps;
-
-    props.placeholderClassNames =
-      (props.placeholderClassNames || '') + ' ' + Constants._RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES;
-
-    return props;
-  }
-
-  getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
-    const attrs = super.getItemComponentProps(item, itemKey, itemPath);
-
-    attrs.className = attrs.className || '';
-    attrs.className +=
-      this.props.columnClassNames && this.props.columnClassNames[itemKey]
-        ? ' ' + this.props.columnClassNames[itemKey]
-        : '';
-
-    return attrs;
-  }
-}
+  return (
+    <AllowedComponentsContainer
+      className={props.gridClassNames + " " + ClassNames.CONTAINER}
+      getItemClassNames={getItemClassNames}
+      placeholderClassNames={ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES}
+      title={title}
+      {...props}
+    />
+  );
+};
 
 /**
  * @private
  */
-const config: EditConfig<ResponsiveGridProperties> = {
-  isEmpty(props: ResponsiveGridProperties): boolean {
+const config: EditConfig<ResponsiveGridProps> = {
+  isEmpty(props: ResponsiveGridProps): boolean {
     return props.cqItemsOrder && props.cqItemsOrder.length > 0;
   },
 };
 
-MapTo<ResponsiveGridProperties>('wcm/foundation/components/responsivegrid')(
+MapTo<ResponsiveGridProps>('wcm/foundation/components/responsivegrid')(
   withComponentMappingContext(ResponsiveGrid),
   config,
 );
