@@ -49,8 +49,8 @@
     "react-fast-compare": "^3.0.0"
   },
   "devDependencies": {
-    "@adobe/aem-spa-component-mapping": "file:../aem-spa-component-mapping",
-    "@adobe/aem-spa-page-model-manager": "file:../aem-spa-page-model-manager",
+    "@adobe/aem-spa-component-mapping": "^1.1.1",
+    "@adobe/aem-spa-page-model-manager": "^1.4.0",
     "@adobe/eslint-config-editorxp": "^1.0.8",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
