@@ -40,7 +40,6 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
   if (!cqItemsOrder || !cqItems) {
     return <></>;
   }
-
   const components = cqItemsOrder.map((itemKey: string) => {
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
     const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
@@ -63,7 +62,7 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
 // to do: clarify usage of component mapping and define type
 export const Container = (props: Props): JSX.Element => {
   const { cqPath = '', className, isPage, childPages } = props;
-  const { isInEditor } = useEditor();
+  const isInEditor = useEditor();
   const containerProps = {
     [Properties.DATA_PATH_ATTR]: cqPath,
   };
@@ -71,7 +70,7 @@ export const Container = (props: Props): JSX.Element => {
 
   // clarify why aemnodecoration is needed when not in editor in the first place
   // shouldnt all aem specific things be removed anyway?
-  return isInEditor() ? (
+  return isInEditor ? (
     <div className={className || ClassNames.CONTAINER} {...containerProps}>
       {childComponents}
       {childPages}

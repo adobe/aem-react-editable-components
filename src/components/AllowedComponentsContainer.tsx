@@ -13,43 +13,35 @@
 import React from 'react';
 import { AllowedComponentList, ModelProps } from '../types/AEMModel';
 import { ClassNames } from '../constants/classnames.constants';
-import { Container } from './Container';
-import { useEditor } from '../hooks/useEditor';
 
 type Props = {
   allowedComponents: AllowedComponentList;
   className: string;
   placeholderClassNames?: string;
   title: string;
-  getItemClassNames?: (_key?: string) => string;
+  getItemClassNames?: (_key: string) => string;
 } & ModelProps;
 
 /**
  * Represents allowed components container in AEM.
  */
 export const AllowedComponentsContainer = (props: Props): JSX.Element => {
-  const { placeholderClassNames = '', allowedComponents } = props;
-  const { isInEditor } = useEditor();
+  const { placeholderClassNames = '', allowedComponents, title } = props;
+  const { components } = allowedComponents;
+  const emptyLabel = 'No allowed components'; //move to constants and add localization?
+  const listLabel = components && components.length > 0 ? title : emptyLabel;
 
-  if (allowedComponents?.applicable && isInEditor()) {
-    const { components } = props.allowedComponents;
-    const emptyLabel = 'No allowed components'; //move to constants and add localization?
-    const listLabel = components && components.length > 0 ? props.title : emptyLabel;
-
-    return (
-      <div className={`${ClassNames.ALLOWED_LIST_PLACEHOLDER} ${ClassNames.NEW_SECTION} ${placeholderClassNames}`}>
-        <div data-text={listLabel} className={ClassNames.ALLOWED_COMPONENT_TITLE} />
-        {components.map((component) => (
-          <div
-            data-cq-data-path={component.path}
-            key={component.path}
-            data-emptytext={emptyLabel}
-            className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  return <Container {...props} />;
+  return (
+    <div className={`${ClassNames.ALLOWED_LIST_PLACEHOLDER} ${ClassNames.NEW_SECTION} ${placeholderClassNames}`}>
+      <div data-text={listLabel} className={ClassNames.ALLOWED_COMPONENT_TITLE} />
+      {components.map((component) => (
+        <div
+          data-cq-data-path={component.path}
+          key={component.path}
+          data-emptytext={emptyLabel}
+          className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER}
+        />
+      ))}
+    </div>
+  );
 };

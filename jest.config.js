@@ -20,7 +20,7 @@ module.exports = {
   testMatch: ['<rootDir>/test/**/*.test.{ts,tsx}'],
   testPathIgnorePatterns: ['node_modules/', 'dist/'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-  coveragePathIgnorePatterns: ['src/types.ts'],
+  coveragePathIgnorePatterns: ['src/types.ts', 'src/types/'],
   coverageDirectory: 'dist/coverage',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };

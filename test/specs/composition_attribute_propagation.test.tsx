@@ -13,11 +13,11 @@
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { withEditable } from '../../src/components/EditableComponent';
-import { withModel } from '../../src/components/ModelProvider';
+import { withEditable } from '../../src/core/EditableComponent';
+import { withModel } from '../../src/core/ModelProvider';
 import { withEditorContext } from '../../src/EditorContext';
-import Utils from '../../src/Utils';
-import { MappedComponentProperties } from '../../src/ComponentMapping';
+import Utils from '../../src/utils/Utils';
+import { MappedComponentProperties } from '../../src/core/ComponentMapping';
 
 describe('Composition and attribute propagation ->', () => {
   const ROOT_CLASS_NAME = 'root-class';

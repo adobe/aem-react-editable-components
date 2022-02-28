@@ -12,7 +12,7 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { MappedComponentProperties } from '../src/ComponentMapping';
+import { MappedComponentProperties } from '../src/core/ComponentMapping';
 import { EditorContext, withEditorContext } from '../src/EditorContext';
 
 describe('EditorContext ->', () => {

@@ -12,10 +12,10 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { MappedComponentProperties } from '../src/ComponentMapping';
-import { withEditable } from '../src/components/EditableComponent';
+import { MappedComponentProperties } from '../src/core/ComponentMapping';
+import { withEditable } from '../src/core/EditableComponent';
 import { Constants } from '../src/Constants';
-import Utils from '../src/Utils';
+import Utils from '../src/utils/Utils';
 
 describe('EditableComponent ->', () => {
   const ROOT_CLASS_NAME = 'root-class';

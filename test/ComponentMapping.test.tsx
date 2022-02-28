@@ -11,8 +11,8 @@
  */
 
 import React, { Component } from 'react';
-import { ComponentMapping, MappedComponentProperties, MapTo } from '../src/ComponentMapping';
-import { EditConfig } from '../src/components/EditableComponent';
+import { ComponentMapping, MappedComponentProperties, MapTo } from '../src/core/ComponentMapping';
+import { EditConfig } from '../src/core/EditableComponent';
 
 describe('ComponentMapping', () => {
   interface Props extends MappedComponentProperties {

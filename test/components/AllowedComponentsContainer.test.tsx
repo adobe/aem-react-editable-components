@@ -12,10 +12,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AllowedComponentsContainer } from '../../src/components/allowedcomponents/AllowedComponentsContainer';
-import { AllowedComponentPlaceholder } from '../../src/components/allowedcomponents/AllowedComponentsPlaceholder';
-import { AllowedComponentPlaceholderList } from '../../src/components/allowedcomponents/AllowedComponentsPlaceholderList';
-import { AllowedComponentList } from '../../src/api/AEMModel';
+import { AllowedComponentsContainer } from '../../src/components/AllowedComponentsContainer';
+import { AllowedComponentList } from '../../src/types/AEMModel';
 
 describe('AllowedComponentsContainer ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -53,16 +51,13 @@ describe('AllowedComponentsContainer ->', () => {
     ],
   };
 
-  function generateAllowedComponentsContainer(
-    allowedComponents: AllowedComponentList,
-    title?: string,
-  ): JSX.Element {
-      const props = {
+  function generateAllowedComponentsContainer(allowedComponents: AllowedComponentList, title?: string): JSX.Element {
+    const props = {
       title: title || '',
       allowedComponents: allowedComponents,
     };
 
-    return <AllowedComponentsContainer {...props} />;
+    return <AllowedComponentsContainer className="" {...props} />;
   }
 
   let rootNode: any;
@@ -152,9 +147,8 @@ describe('AllowedComponentsContainer ->', () => {
   describe('AllowedComponentPlaceholderList ->', () => {
     it('should display two allowed components', () => {
       const element = (
-        <AllowedComponentPlaceholderList
+        <AllowedComponentsContainer
           title={DEFAULT_TITLE}
-          emptyLabel={DEFAULT_EMPTY_LABEL}
           components={ALLOWED_COMPONENTS_DATA.components}
         />
       );

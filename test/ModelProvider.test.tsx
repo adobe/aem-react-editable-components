@@ -14,10 +14,10 @@ import { ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import { waitFor } from '@testing-library/dom';
 import ReactDOM from 'react-dom';
-import { MappedComponentProperties } from '../src/ComponentMapping';
-import { ModelProvider, withModel } from '../src/components/ModelProvider';
+import { MappedComponentProperties } from '../src/core/ComponentMapping';
+import { ModelProvider, withModel } from '../src/core/ModelProvider';
 import { Constants } from '../src/Constants';
-import Utils from '../src/Utils';
+import Utils from '../src/utils/Utils';
 
 describe('ModelProvider ->', () => {
   const TEST_PAGE_PATH = '/page/jcr:content/root';
