@@ -12,9 +12,9 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties, withComponentMappingContext } from '../../src/ComponentMapping';
-import { withEditable } from '../../src/components/EditableComponent';
-import { Page, PageProperties } from '../../src/components/Page';
+import { ComponentMapping, MappedComponentProperties, withComponentMappingContext } from '../../src/core/ComponentMapping';
+import { withEditable } from '../../src/core/EditableComponent';
+import { Page } from '../../src/components/Page';
 import { EditorContext, withEditorContext } from '../../src/EditorContext';
 
 describe('Page ->', () => {

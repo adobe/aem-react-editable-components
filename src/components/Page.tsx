@@ -31,5 +31,5 @@ const ChildPages = ({ cqChildren, componentMapping }: ModelProps) => {
 };
 
 export const Page = (props: ModelProps): JSX.Element => {
-  return <Container className={ClassNames.PAGE} isPage={true} childPages={<ChildPages {...props} />} />;
+  return <Container className={ClassNames.PAGE} isPage={true} childPages={<ChildPages {...props} />} {...props} />;
 };

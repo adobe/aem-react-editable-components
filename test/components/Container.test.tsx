@@ -12,9 +12,9 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties } from '../../src/ComponentMapping';
+import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
 import { Container } from '../../src/components/Container';
-import { withEditable } from '../../src/components/EditableComponent';
+import { withEditable } from '../../src/core/EditableComponent';
 
 describe('Container ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';

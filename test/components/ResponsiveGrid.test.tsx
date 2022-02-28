@@ -12,9 +12,8 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties } from '../../src/ComponentMapping';
-import { AllowedComponents } from '../../src/components/allowedcomponents/AllowedComponentsContainer';
-import { ResponsiveGrid, ResponsiveGridProperties } from '../../src/components/ResponsiveGrid';
+import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
+import { ResponsiveGrid } from '../../src/components/ResponsiveGrid';
 
 describe('ResponsiveGrid ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
