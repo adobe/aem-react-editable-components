@@ -11,12 +11,16 @@
  */
 
 import React from 'react';
-import Utils from '../utils/Utils';
 import { Container } from './Container';
 import { ClassNames } from '../constants/classnames.constants';
 import { ModelProps } from '../types/AEMModel';
+import Utils from '../utils/Utils';
 
-const ChildPages = ({ cqChildren, componentMapping }: ModelProps) => {
+type Props = {
+  isInEditor: boolean;
+} & ModelProps;
+
+const PageList = ({ cqChildren, componentMapping }: Props): JSX.Element => {
   if (!cqChildren) {
     return <></>;
   }
@@ -30,6 +34,6 @@ const ChildPages = ({ cqChildren, componentMapping }: ModelProps) => {
   return <>{pages}</>;
 };
 
-export const Page = (props: ModelProps): JSX.Element => {
-  return <Container className={ClassNames.PAGE} isPage={true} childPages={<ChildPages {...props} />} {...props} />;
+export const Page = (props: Props): JSX.Element => {
+  return <Container className={ClassNames.PAGE} isPage={true} childPages={<PageList {...props} />} {...props} />;
 };

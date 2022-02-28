@@ -11,7 +11,6 @@
  */
 import React from 'react';
 import Utils from '../utils/Utils';
-import { useEditor } from '../hooks/useEditor';
 import { ClassNames } from '../constants/classnames.constants';
 import { Properties } from '../constants/properties.constants';
 import { ModelProps } from '../types/AEMModel';
@@ -22,6 +21,7 @@ type Props = {
   isPage?: boolean;
   childPages?: JSX.Element;
   getItemClassNames?: (_key?: string) => string;
+  isInEditor: boolean;
 } & ModelProps;
 
 const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
@@ -61,8 +61,8 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
 
 // to do: clarify usage of component mapping and define type
 export const Container = (props: Props): JSX.Element => {
-  const { cqPath = '', className, isPage, childPages } = props;
-  const isInEditor = useEditor();
+  const { cqPath = '', className, isPage, isInEditor, childPages } = props;
+
   const containerProps = {
     [Properties.DATA_PATH_ATTR]: cqPath,
   };

@@ -12,7 +12,11 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties, withComponentMappingContext } from '../../src/core/ComponentMapping';
+import {
+  ComponentMapping,
+  MappedComponentProperties,
+  withComponentMappingContext,
+} from '../../src/core/ComponentMapping';
 import { withEditable } from '../../src/core/EditableComponent';
 import { Page } from '../../src/components/Page';
 import { EditorContext, withEditorContext } from '../../src/EditorContext';
@@ -72,9 +76,9 @@ describe('Page ->', () => {
     },
   };
 
-  let rootNode: any;
+  let rootNode: Element;
   let EditorContextPage: any;
-  let ComponentMappingSpy: any;
+  let ComponentMappingSpy: jest.SpyInstance;
 
   interface DummyProps extends MappedComponentProperties {
     id: string;
@@ -105,6 +109,27 @@ describe('Page ->', () => {
   });
 
   describe('child pages ->', () => {
+    it('should render only components if no children', () => {
+      ComponentMappingSpy.mockReturnValue(ChildComponent);
+
+      const element = (
+        <Page
+          componentMapping={ComponentMapping}
+          cqPath={PAGE_PATH}
+          cqItems={ITEMS}
+          cqItemsOrder={ITEMS_ORDER}
+          isInEditor={true}
+        ></Page>
+      );
+      ReactDOM.render(element, rootNode);
+
+      expect(rootNode.querySelector('#c1')).toBeTruthy();
+      expect(rootNode.querySelector('#c2')).toBeTruthy();
+
+      expect(rootNode.querySelector('#p1')).toBeNull();
+      expect(rootNode.querySelector('#p2')).toBeNull();
+    });
+
     it('should add the expected children', () => {
       ComponentMappingSpy.mockReturnValue(ChildComponent);
 
@@ -115,7 +140,7 @@ describe('Page ->', () => {
           cqChildren={CHILDREN}
           cqItems={ITEMS}
           cqItemsOrder={ITEMS_ORDER}
-          isInEditor={false}
+          isInEditor={true}
         ></Page>
       );
 

@@ -16,19 +16,18 @@ import { EditConfig } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
 import { ClassNames } from '../constants/classnames.constants';
 import { Container } from './Container';
-import { useEditor } from '../hooks/useEditor';
 
 type Props = {
   title?: string;
+  isInEditor: boolean;
 } & ResponsiveGridProps;
 
 export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, ...props }: Props): JSX.Element => {
-  const isInEditor = useEditor();
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
-  return props.allowedComponents?.applicable && isInEditor ? (
+  return props.allowedComponents?.applicable && props.isInEditor ? (
     <AllowedComponentsContainer
       className={`${props.gridClassNames} ${ClassNames.CONTAINER}`}
       getItemClassNames={getItemClassNames}
