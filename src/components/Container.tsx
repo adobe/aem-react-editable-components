@@ -14,6 +14,7 @@ import Utils from '../utils/Utils';
 import { ClassNames } from '../constants/classnames.constants';
 import { Properties } from '../constants/properties.constants';
 import { ModelProps } from '../types/AEMModel';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 
 type Props = {
   className?: string;
@@ -22,6 +23,7 @@ type Props = {
   childPages?: JSX.Element;
   getItemClassNames?: (_key?: string) => string;
   isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
 } & ModelProps;
 
 const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
@@ -36,7 +38,14 @@ const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
   return itemPath;
 };
 
-const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, componentMapping }: Props) => {
+const ComponentList = ({
+  cqItemsOrder,
+  cqItems,
+  cqPath = '',
+  getItemClassNames,
+  isPage,
+  componentMapping = ComponentMapping,
+}: Props) => {
   if (!cqItemsOrder || !cqItems) {
     return <></>;
   }
@@ -44,7 +53,7 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
     const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
     if (itemProps) {
-      const ItemComponent = componentMapping.get(itemProps.cqType);
+      const ItemComponent = componentMapping.get(itemProps.cqType || '') as React.ElementType;
       const itemPath = getItemPath(cqPath, itemKey, isPage);
       return (
         <ItemComponent

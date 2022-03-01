@@ -15,19 +15,21 @@ import { Container } from './Container';
 import { ClassNames } from '../constants/classnames.constants';
 import { ModelProps } from '../types/AEMModel';
 import Utils from '../utils/Utils';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 
 type Props = {
   isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
 } & ModelProps;
 
-const PageList = ({ cqChildren, componentMapping }: Props): JSX.Element => {
+const PageList = ({ cqChildren, componentMapping = ComponentMapping }: Props): JSX.Element => {
   if (!cqChildren) {
     return <></>;
   }
   const pages = Object.keys(cqChildren).map((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
-    const { cqPath, cqType } = itemProps;
-    const ItemComponent = componentMapping.get(cqType);
+    const { cqPath, cqType = '' } = itemProps;
+    const ItemComponent = componentMapping.get(cqType) as React.ElementType;
     return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
   });
 

@@ -20,6 +20,7 @@ import {
 import { withEditable } from '../../src/core/EditableComponent';
 import { Page } from '../../src/components/Page';
 import { EditorContext, withEditorContext } from '../../src/EditorContext';
+import { Model } from '@adobe/aem-spa-page-model-manager';
 
 describe('Page ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -47,29 +48,23 @@ describe('Page ->', () => {
 
   const ITEMS_ORDER = ['component1', 'component2'];
 
-  interface PageModel extends PageProperties {
-    ':type': string;
+  type ChildrenProps = {
     id: string;
-    ':path': string;
-  }
+  } & Model;
 
-  const CHILDREN: { [key: string]: PageModel } = {
+  const CHILDREN: { [key: string]: ChildrenProps } = {
     page1: {
-      cqChildren: {},
-      cqItems: {},
-      cqItemsOrder: [],
-      cqPath: '',
-      isInEditor: false,
+      ':children': {},
+      ':items': {},
+      ':itemsOrder': [],
       ':type': PAGE_TYPE1,
       id: 'p1',
       ':path': 'child/page1',
     },
     page2: {
-      cqChildren: {},
-      cqItems: {},
-      cqItemsOrder: [],
-      cqPath: '',
-      isInEditor: false,
+      ':children': {},
+      ':items': {},
+      ':itemsOrder': [],
       ':type': PAGE_TYPE2,
       id: 'p2',
       ':path': 'child/page2',
