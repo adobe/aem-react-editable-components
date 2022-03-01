@@ -14,7 +14,6 @@ import React, { Component, ComponentType } from 'react';
 import isEqual from 'react-fast-compare';
 import { MappedComponentProperties } from './ComponentMapping';
 import { Constants } from '../Constants';
-import { ContainerState } from '../components/Container';
 
 /**
  * Configuration object of the withEditable function.
@@ -41,10 +40,7 @@ type EditableComponentModel<P extends MappedComponentProperties> = EditableCompo
 /**
  * The EditableComponent provides components with editing capabilities.
  */
-class EditableComponent<P extends MappedComponentProperties, S extends ContainerState> extends Component<
-  EditableComponentModel<P>,
-  S
-> {
+class EditableComponent<P extends MappedComponentProperties> extends Component<EditableComponentModel<P>> {
   constructor(props: EditableComponentModel<P>) {
     super(props);
     this.state = this.propsToState(props);

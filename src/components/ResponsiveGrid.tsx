@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { EditConfig } from '../core/EditableComponent';
@@ -20,6 +21,7 @@ import { Container } from './Container';
 type Props = {
   title?: string;
   isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
 } & ResponsiveGridProps;
 
 export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, ...props }: Props): JSX.Element => {
@@ -40,13 +42,10 @@ export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, .
   );
 };
 
-const config: EditConfig<ResponsiveGridProps> = {
+const config: EditConfig<Props> = {
   isEmpty(props: ResponsiveGridProps): boolean {
     return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
   },
 };
 
-MapTo<ResponsiveGridProps>('wcm/foundation/components/responsivegrid')(
-  withComponentMappingContext(ResponsiveGrid),
-  config,
-);
+MapTo<Props>('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid), config);

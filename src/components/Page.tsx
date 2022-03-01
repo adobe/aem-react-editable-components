@@ -11,11 +11,11 @@
  */
 
 import React from 'react';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { Container } from './Container';
 import { ClassNames } from '../constants/classnames.constants';
 import { ModelProps } from '../types/AEMModel';
 import Utils from '../utils/Utils';
-import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 
 type Props = {
   isInEditor: boolean;
