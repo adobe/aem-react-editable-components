@@ -53,7 +53,7 @@ const ComponentList = ({
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
     const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
     if (itemProps) {
-      const ItemComponent = componentMapping.get(itemProps.cqType || '') as React.ElementType;
+      const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType || '');
       const itemPath = getItemPath(cqPath, itemKey, isPage);
       return (
         <ItemComponent

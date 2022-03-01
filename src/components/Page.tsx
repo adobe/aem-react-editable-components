@@ -29,7 +29,7 @@ const PageList = ({ cqChildren, componentMapping = ComponentMapping }: Props): J
   const pages = Object.keys(cqChildren).map((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
     const { cqPath, cqType = '' } = itemProps;
-    const ItemComponent = componentMapping.get(cqType) as React.ElementType;
+    const ItemComponent: React.ElementType = componentMapping.get(cqType);
     return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
   });
 
