@@ -54,6 +54,7 @@ describe('AllowedComponentsContainer ->', () => {
     const props = {
       title: title || '',
       allowedComponents: allowedComponents,
+      cqPath: '',
     };
 
     return <AllowedComponentsContainer className="" {...props} />;
@@ -72,16 +73,6 @@ describe('AllowedComponentsContainer ->', () => {
       document.body.appendChild(rootNode);
       rootNode = undefined;
     }
-  });
-
-  describe('not applicable ->', () => {
-    it('no allowed components container when NOT applicable', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA), rootNode);
-
-      const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
-
-      expect(allowedComponentsContainer).toBeNull();
-    });
   });
 
   describe('applicable ->', () => {

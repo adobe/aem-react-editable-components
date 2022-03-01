@@ -10,13 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import { ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { withEditable } from '../../src/core/EditableComponent';
 import { withModel } from '../../src/core/ModelProvider';
 import { withEditorContext } from '../../src/EditorContext';
-import Utils from '../../src/utils/Utils';
 import { MappedComponentProperties } from '../../src/core/ComponentMapping';
 
 describe('Composition and attribute propagation ->', () => {
@@ -49,7 +48,7 @@ describe('Composition and attribute propagation ->', () => {
     }
   }
 
-  let rootNode: any;
+  let rootNode: HTMLElement;
   let isInEditorSpy: jest.SpyInstance;
   let addListenerSpy: jest.SpyInstance;
   let getDataSpy: jest.SpyInstance;
@@ -58,7 +57,7 @@ describe('Composition and attribute propagation ->', () => {
     rootNode = document.createElement('div');
     rootNode.className = ROOT_CLASS_NAME;
     document.body.appendChild(rootNode);
-    isInEditorSpy = jest.spyOn(Utils, 'isInEditor').mockReturnValue(false);
+    isInEditorSpy = jest.spyOn(AuthoringUtils, 'isInEditor').mockReturnValue(false);
     addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
     getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
   });
@@ -82,7 +81,7 @@ describe('Composition and attribute propagation ->', () => {
   function testCompositionAttributePropagation(CompositeComponent: React.ComponentType<DummyProps>) {
     ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps="true" />, rootNode);
 
-    let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
+    let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']') as HTMLElement;
 
     expect(node).toBeDefined();
     expect(node.dataset.attrToProps).toEqual('true');
