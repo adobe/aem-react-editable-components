@@ -11,7 +11,6 @@
  */
 
 export * from './core/ComponentMapping';
-export * from './components/allowedcomponents/AllowedComponentsContainer';
 export * from './components/Container';
 export * from './core/EditableComponent';
 export * from './core/ModelProvider';
