@@ -22,13 +22,13 @@ type Props = {
   componentMapping: typeof ComponentMapping;
 } & ModelProps;
 
-const PageList = ({ cqChildren, componentMapping = ComponentMapping }: Props): JSX.Element => {
+const PageList = ({ cqChildren, componentMapping }: Props): JSX.Element => {
   if (!cqChildren) {
     return <></>;
   }
   const pages = Object.keys(cqChildren).map((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
-    const { cqPath, cqType = '' } = itemProps;
+    const { cqPath, cqType } = itemProps;
     const ItemComponent: React.ElementType = componentMapping.get(cqType);
     return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
   });

@@ -31,7 +31,7 @@ export type ModelProps = {
   cqPath: string;
   cqItems?: { [key: string]: Model };
   cqItemsOrder?: string[];
-  cqType?: string;
+  cqType: string;
   cqChildren?: { [key: string]: Model };
 };
 

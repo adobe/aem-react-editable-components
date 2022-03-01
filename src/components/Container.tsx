@@ -26,7 +26,7 @@ type Props = {
   componentMapping: typeof ComponentMapping;
 } & ModelProps;
 
-const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
+const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
   let itemPath = itemKey;
   if (cqPath) {
     if (isPage) {
@@ -38,22 +38,15 @@ const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
   return itemPath;
 };
 
-const ComponentList = ({
-  cqItemsOrder,
-  cqItems,
-  cqPath = '',
-  getItemClassNames,
-  isPage,
-  componentMapping = ComponentMapping,
-}: Props) => {
-  if (!cqItemsOrder || !cqItems) {
+const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, componentMapping }: Props) => {
+  if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }
   const components = cqItemsOrder.map((itemKey: string) => {
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
     const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
-    if (itemProps) {
-      const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType || '');
+    if (itemProps && itemProps.cqType) {
+      const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType);
       const itemPath = getItemPath(cqPath, itemKey, isPage);
       return (
         <ItemComponent

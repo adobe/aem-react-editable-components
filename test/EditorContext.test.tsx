@@ -20,7 +20,7 @@ describe('EditorContext ->', () => {
   const CHILD_COMPONENT_CLASS_NAME = 'child-class';
   const IN_EDITOR_CLASS_NAME = 'in-editor-class';
 
-  let rootNode: any;
+  let rootNode: HTMLElement;
   let EditorContextComponent: any;
 
   interface ChildComponentProps extends MappedComponentProperties {

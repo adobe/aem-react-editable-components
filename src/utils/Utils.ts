@@ -59,7 +59,7 @@ const Utils = {
         propKey = transformToCQ(propKey);
       }
 
-      props[propKey] = item[key as keyof Model];
+      props[propKey] = item[key as keyof Model] || '';
     });
 
     return props;
