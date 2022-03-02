@@ -20,7 +20,6 @@ describe('Container ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
   const CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/*"]';
   const ROOT_CLASS_NAME = 'root-class';
-  const ITEM_CLASS_NAME = 'item-class';
   const CONTAINER_PATH = '/container';
   const ITEM1_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/component1"]';
   const ITEM2_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/component2"]';
@@ -142,7 +141,7 @@ describe('Container ->', () => {
         CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR + CONTAINER_PLACEHOLDER_SELECTOR,
       );
 
-      expect(containerPlaceholder).toBeDefined();
+      expect(containerPlaceholder).toBeTruthy();
     });
 
     it('should not add a placeholder when not in WCM edit mode', () => {
@@ -170,13 +169,13 @@ describe('Container ->', () => {
 
       const containerPlaceholder = rootNode.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
 
-      expect(containerPlaceholder).toBeDefined();
+      expect(containerPlaceholder).toBeTruthy();
 
       const childItem1 = rootNode.querySelector(ITEM1_DATA_ATTRIBUTE_SELECTOR);
       const childItem2 = rootNode.querySelector(ITEM2_DATA_ATTRIBUTE_SELECTOR);
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
     });
 
     it('should add the expected item classes when passed', () => {
@@ -221,7 +220,7 @@ describe('Container ->', () => {
 
       const container = rootNode.querySelector('[data-cq-data-path="/container"]');
 
-      expect(container).toBeDefined();
+      expect(container).toBeTruthy();
     });
   });
 

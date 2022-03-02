@@ -79,6 +79,9 @@ export const Container = (props: Props): JSX.Element => {
       {!isPage && <div data-cq-data-path={`${cqPath}/*`} className={ClassNames.NEW_SECTION} />}
     </div>
   ) : (
-    childComponents
+    <>
+      {childComponents}
+      {childPages}
+    </>
   );
 };

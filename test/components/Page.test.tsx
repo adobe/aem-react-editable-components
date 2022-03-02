@@ -81,7 +81,9 @@ describe('Page ->', () => {
 
   class ChildComponent extends Component<DummyProps> {
     render() {
-      return <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME}></div>;
+      return (
+        <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME} data-cq-data-path={this.props.cqPath}></div>
+      );
     }
   }
 
@@ -146,14 +148,14 @@ describe('Page ->', () => {
       const childItem1 = rootNode.querySelector('#c1');
       const childItem2 = rootNode.querySelector('#c2');
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
 
       const childPage1 = rootNode.querySelector('#p1');
       const childPage2 = rootNode.querySelector('#p2');
 
-      expect(childPage1).toBeDefined();
-      expect(childPage2).toBeDefined();
+      expect(childPage1).toBeTruthy();
+      expect(childPage2).toBeTruthy();
     });
 
     it('should add the expected children with data attributes when in WCM edit mode', () => {
@@ -195,14 +197,14 @@ describe('Page ->', () => {
       const childItem1 = rootNode.querySelector(ITEM1_DATA_ATTRIBUTE_SELECTOR);
       const childItem2 = rootNode.querySelector(ITEM2_DATA_ATTRIBUTE_SELECTOR);
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
 
       const childPage1 = rootNode.querySelector(CHILD_PAGE_1_DATA_ATTRIBUTE_SELECTOR);
       const childPage2 = rootNode.querySelector(CHILD_PAGE_2_DATA_ATTRIBUTE_SELECTOR);
 
-      expect(childPage1).toBeDefined();
-      expect(childPage2).toBeDefined();
+      expect(childPage1).toBeTruthy();
+      expect(childPage2).toBeTruthy();
     });
   });
 });
