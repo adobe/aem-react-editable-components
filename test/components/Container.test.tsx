@@ -41,8 +41,12 @@ describe('Container ->', () => {
   };
 
   const ITEMS_NO_TYPE = {
-    component1: { id: 'c1'},
-    component2: {id: 'c2'},
+    component1: {
+      id: 'c1',
+    },
+    component2: {
+      id: 'c2',
+    },
   };
 
   const ITEM_CLASSES = {
@@ -50,7 +54,7 @@ describe('Container ->', () => {
     component2: COMPONENT_2_CLASS_NAMES,
   };
 
-  const getItemClassNames = (itemKey: String) => {
+  const getItemClassNames = (itemKey: string) => {
     return ITEM_CLASSES[itemKey];
   };
 
