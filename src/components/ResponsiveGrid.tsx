@@ -24,7 +24,11 @@ export type ResponsiveGridComponentProps = {
   componentMapping: typeof ComponentMapping;
 } & ResponsiveGridProps;
 
-export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, ...props }: ResponsiveGridComponentProps): JSX.Element => {
+export const ResponsiveGrid = ({
+  title = 'Layout Container',
+  columnClassNames,
+  ...props
+}: ResponsiveGridComponentProps): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
@@ -38,10 +42,7 @@ export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, .
       {...props}
     />
   ) : (
-    <Container
-      getItemClassNames={getItemClassNames}
-      {...props}
-    />
+    <Container getItemClassNames={getItemClassNames} {...props} />
   );
 };
 
@@ -51,4 +52,7 @@ const config: EditConfig<ResponsiveGridComponentProps> = {
   },
 };
 
-MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid), config);
+MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(
+  withComponentMappingContext(ResponsiveGrid),
+  config,
+);
