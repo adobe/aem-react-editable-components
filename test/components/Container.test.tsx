@@ -65,7 +65,9 @@ describe('Container ->', () => {
 
   class ComponentChild extends Component<DummyProps> {
     render() {
-      return <div id={this.props && this.props.id} className={this.props.className} />;
+      return (
+        <div id={this.props && this.props.id} className={this.props.className} data-cq-data-path={this.props.cqPath} />
+      );
     }
   }
 

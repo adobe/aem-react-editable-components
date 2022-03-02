@@ -28,6 +28,7 @@ module.exports = {
     warnOnUnsupportedTypeScriptVersion: false,
   },
   globals: {},
+  ignorePatterns: ['typesoutput/'],
   extends: [
     '@adobe/eslint-config-editorxp',
     'plugin:react/recommended',
@@ -78,7 +79,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'latest',
+      version: 'detect',
     },
   },
   overrides: [
