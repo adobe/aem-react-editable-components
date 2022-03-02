@@ -18,13 +18,17 @@ import { ResponsiveGridProps } from '../types/AEMModel';
 import { ClassNames } from '../constants/classnames.constants';
 import { Container } from './Container';
 
-type Props = {
+export type ResponsiveGridComponentProps = {
   title?: string;
   isInEditor: boolean;
   componentMapping: typeof ComponentMapping;
 } & ResponsiveGridProps;
 
-export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, ...props }: Props): JSX.Element => {
+export const ResponsiveGrid = ({
+  title = 'Layout Container',
+  columnClassNames,
+  ...props
+}: ResponsiveGridComponentProps): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
@@ -38,14 +42,17 @@ export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, .
       {...props}
     />
   ) : (
-    <Container {...props} />
+    <Container getItemClassNames={getItemClassNames} {...props} />
   );
 };
 
-const config: EditConfig<Props> = {
+const config: EditConfig<ResponsiveGridComponentProps> = {
   isEmpty(props: ResponsiveGridProps): boolean {
     return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
   },
 };
 
-MapTo<Props>('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid), config);
+MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(
+  withComponentMappingContext(ResponsiveGrid),
+  config,
+);

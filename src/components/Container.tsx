@@ -21,7 +21,7 @@ type Props = {
   itemPath?: string;
   isPage?: boolean;
   childPages?: JSX.Element;
-  getItemClassNames?: (_key?: string) => string;
+  getItemClassNames?: (_key: string) => string;
   isInEditor: boolean;
   componentMapping: typeof ComponentMapping;
 } & ModelProps;
