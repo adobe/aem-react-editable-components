@@ -26,6 +26,8 @@ describe('Container ->', () => {
   const ITEM2_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/component2"]';
   const COMPONENT_TYPE1 = 'components/c1';
   const COMPONENT_TYPE2 = 'components/c2';
+  const COMPONENT_1_CLASS_NAMES = 'component1-class';
+  const COMPONENT_2_CLASS_NAMES = 'component2-class';
 
   const ITEMS = {
     component1: {
@@ -44,8 +46,8 @@ describe('Container ->', () => {
   };
 
   const ITEM_CLASSES = {
-    component1: 'component1-class',
-    component2: 'component2-class'
+    component1: COMPONENT_1_CLASS_NAMES,
+    component2: COMPONENT_2_CLASS_NAMES,
   };
 
   const getItemClassNames = (itemKey: String) => {
@@ -187,8 +189,8 @@ describe('Container ->', () => {
         rootNode,
       );
 
-      const childItem1 = rootNode.querySelector('#c1.component1-class');
-      const childItem2 = rootNode.querySelector('#c2.component2-class');
+      const childItem1 = rootNode.querySelector('#c1.' + COMPONENT_1_CLASS_NAMES);
+      const childItem2 = rootNode.querySelector('#c2.' + COMPONENT_2_CLASS_NAMES);
 
       expect(childItem1).toBeTruthy();
       expect(childItem2).toBeTruthy();
