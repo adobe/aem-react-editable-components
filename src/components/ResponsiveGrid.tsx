@@ -10,25 +10,30 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { EditConfig } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
 import { ClassNames } from '../constants/classnames.constants';
 import { Container } from './Container';
-import { useEditor } from '../hooks/useEditor';
 
-type Props = {
+export type ResponsiveGridComponentProps = {
   title?: string;
+  isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
 } & ResponsiveGridProps;
 
-export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, ...props }: Props): JSX.Element => {
-  const isInEditor = useEditor();
+export const ResponsiveGrid = ({
+  title = 'Layout Container',
+  columnClassNames,
+  ...props
+}: ResponsiveGridComponentProps): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
-  return props.allowedComponents?.applicable && isInEditor ? (
+  return props.allowedComponents?.applicable && props.isInEditor ? (
     <AllowedComponentsContainer
       className={`${props.gridClassNames} ${ClassNames.CONTAINER}`}
       getItemClassNames={getItemClassNames}
@@ -37,17 +42,17 @@ export const ResponsiveGrid = ({ title = 'Layout Container', columnClassNames, .
       {...props}
     />
   ) : (
-    <Container {...props} />
+    <Container getItemClassNames={getItemClassNames} {...props} />
   );
 };
 
-const config: EditConfig<ResponsiveGridProps> = {
+const config: EditConfig<ResponsiveGridComponentProps> = {
   isEmpty(props: ResponsiveGridProps): boolean {
     return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
   },
 };
 
-MapTo<ResponsiveGridProps>('wcm/foundation/components/responsivegrid')(
+MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(
   withComponentMappingContext(ResponsiveGrid),
   config,
 );

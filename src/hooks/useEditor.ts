@@ -12,6 +12,6 @@
 import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 // Editor specific logic could be placed here
-export const useEditor = () => {
+export const useEditor = (): boolean => {
   return AuthoringUtils.isInEditor();
 };

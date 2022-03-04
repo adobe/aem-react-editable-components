@@ -11,20 +11,22 @@
  */
 import React from 'react';
 import Utils from '../utils/Utils';
-import { useEditor } from '../hooks/useEditor';
 import { ClassNames } from '../constants/classnames.constants';
 import { Properties } from '../constants/properties.constants';
 import { ModelProps } from '../types/AEMModel';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 
 type Props = {
   className?: string;
   itemPath?: string;
   isPage?: boolean;
   childPages?: JSX.Element;
-  getItemClassNames?: (_key?: string) => string;
+  getItemClassNames?: (_key: string) => string;
+  isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
 } & ModelProps;
 
-const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
+const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
   let itemPath = itemKey;
   if (cqPath) {
     if (isPage) {
@@ -37,14 +39,14 @@ const getItemPath = (cqPath = '', itemKey = '', isPage = false): string => {
 };
 
 const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, componentMapping }: Props) => {
-  if (!cqItemsOrder || !cqItems) {
+  if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }
   const components = cqItemsOrder.map((itemKey: string) => {
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
     const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
-    if (itemProps) {
-      const ItemComponent = componentMapping.get(itemProps.cqType);
+    if (itemProps && itemProps.cqType) {
+      const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType);
       const itemPath = getItemPath(cqPath, itemKey, isPage);
       return (
         <ItemComponent
@@ -61,8 +63,8 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
 
 // to do: clarify usage of component mapping and define type
 export const Container = (props: Props): JSX.Element => {
-  const { cqPath = '', className, isPage, childPages } = props;
-  const isInEditor = useEditor();
+  const { cqPath = '', className, isPage, isInEditor, childPages } = props;
+
   const containerProps = {
     [Properties.DATA_PATH_ATTR]: cqPath,
   };
@@ -77,6 +79,9 @@ export const Container = (props: Props): JSX.Element => {
       {!isPage && <div data-cq-data-path={`${cqPath}/*`} className={ClassNames.NEW_SECTION} />}
     </div>
   ) : (
-    childComponents
+    <>
+      {childComponents}
+      {childPages}
+    </>
   );
 };

@@ -12,10 +12,15 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties, withComponentMappingContext } from '../../src/core/ComponentMapping';
+import {
+  ComponentMapping,
+  MappedComponentProperties,
+  withComponentMappingContext,
+} from '../../src/core/ComponentMapping';
 import { withEditable } from '../../src/core/EditableComponent';
 import { Page } from '../../src/components/Page';
 import { EditorContext, withEditorContext } from '../../src/EditorContext';
+import { Model } from '@adobe/aem-spa-page-model-manager';
 
 describe('Page ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -43,38 +48,32 @@ describe('Page ->', () => {
 
   const ITEMS_ORDER = ['component1', 'component2'];
 
-  interface PageModel extends PageProperties {
-    ':type': string;
+  type ChildrenProps = {
     id: string;
-    ':path': string;
-  }
+  } & Model;
 
-  const CHILDREN: { [key: string]: PageModel } = {
+  const CHILDREN: { [key: string]: ChildrenProps } = {
     page1: {
-      cqChildren: {},
-      cqItems: {},
-      cqItemsOrder: [],
-      cqPath: '',
-      isInEditor: false,
+      ':children': {},
+      ':items': {},
+      ':itemsOrder': [],
       ':type': PAGE_TYPE1,
       id: 'p1',
       ':path': 'child/page1',
     },
     page2: {
-      cqChildren: {},
-      cqItems: {},
-      cqItemsOrder: [],
-      cqPath: '',
-      isInEditor: false,
+      ':children': {},
+      ':items': {},
+      ':itemsOrder': [],
       ':type': PAGE_TYPE2,
       id: 'p2',
       ':path': 'child/page2',
     },
   };
 
-  let rootNode: any;
+  let rootNode: Element;
   let EditorContextPage: any;
-  let ComponentMappingSpy: any;
+  let ComponentMappingSpy: jest.SpyInstance;
 
   interface DummyProps extends MappedComponentProperties {
     id: string;
@@ -82,7 +81,9 @@ describe('Page ->', () => {
 
   class ChildComponent extends Component<DummyProps> {
     render() {
-      return <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME}></div>;
+      return (
+        <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME} data-cq-data-path={this.props.cqPath}></div>
+      );
     }
   }
 
@@ -105,6 +106,27 @@ describe('Page ->', () => {
   });
 
   describe('child pages ->', () => {
+    it('should render only components if no children', () => {
+      ComponentMappingSpy.mockReturnValue(ChildComponent);
+
+      const element = (
+        <Page
+          componentMapping={ComponentMapping}
+          cqPath={PAGE_PATH}
+          cqItems={ITEMS}
+          cqItemsOrder={ITEMS_ORDER}
+          isInEditor={true}
+        ></Page>
+      );
+      ReactDOM.render(element, rootNode);
+
+      expect(rootNode.querySelector('#c1')).toBeTruthy();
+      expect(rootNode.querySelector('#c2')).toBeTruthy();
+
+      expect(rootNode.querySelector('#p1')).toBeNull();
+      expect(rootNode.querySelector('#p2')).toBeNull();
+    });
+
     it('should add the expected children', () => {
       ComponentMappingSpy.mockReturnValue(ChildComponent);
 
@@ -115,7 +137,7 @@ describe('Page ->', () => {
           cqChildren={CHILDREN}
           cqItems={ITEMS}
           cqItemsOrder={ITEMS_ORDER}
-          isInEditor={false}
+          isInEditor={true}
         ></Page>
       );
 
@@ -126,14 +148,14 @@ describe('Page ->', () => {
       const childItem1 = rootNode.querySelector('#c1');
       const childItem2 = rootNode.querySelector('#c2');
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
 
       const childPage1 = rootNode.querySelector('#p1');
       const childPage2 = rootNode.querySelector('#p2');
 
-      expect(childPage1).toBeDefined();
-      expect(childPage2).toBeDefined();
+      expect(childPage1).toBeTruthy();
+      expect(childPage2).toBeTruthy();
     });
 
     it('should add the expected children with data attributes when in WCM edit mode', () => {
@@ -175,14 +197,14 @@ describe('Page ->', () => {
       const childItem1 = rootNode.querySelector(ITEM1_DATA_ATTRIBUTE_SELECTOR);
       const childItem2 = rootNode.querySelector(ITEM2_DATA_ATTRIBUTE_SELECTOR);
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
 
       const childPage1 = rootNode.querySelector(CHILD_PAGE_1_DATA_ATTRIBUTE_SELECTOR);
       const childPage2 = rootNode.querySelector(CHILD_PAGE_2_DATA_ATTRIBUTE_SELECTOR);
 
-      expect(childPage1).toBeDefined();
-      expect(childPage2).toBeDefined();
+      expect(childPage1).toBeTruthy();
+      expect(childPage2).toBeTruthy();
     });
   });
 });

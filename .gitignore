@@ -3,3 +3,5 @@ dist/
 .scannerwork/
 **/*.log
 *.tgz
+*.tsbuildinfo
+typesoutput/

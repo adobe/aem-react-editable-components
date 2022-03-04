@@ -11,12 +11,12 @@
  */
 
 export * from './core/ComponentMapping';
-export * from './components/allowedcomponents/AllowedComponentsContainer';
+export * from './components/AllowedComponentsContainer';
 export * from './components/Container';
 export * from './core/EditableComponent';
 export * from './core/ModelProvider';
 export * from './components/Page';
-export * from './components/ResponsiveGrid';
+export { ResponsiveGrid } from './components/ResponsiveGrid';
 export * from './Constants';
 export * from './EditorContext';
 export { default as Utils } from './utils/Utils';

@@ -28,6 +28,7 @@ module.exports = {
     warnOnUnsupportedTypeScriptVersion: false,
   },
   globals: {},
+  ignorePatterns: ['typesoutput/'],
   extends: [
     '@adobe/eslint-config-editorxp',
     'plugin:react/recommended',
@@ -38,20 +39,47 @@ module.exports = {
   ],
   plugins: ['prettier', 'react', 'react-hooks', 'jest'],
   rules: {
-    'max-lines-per-function': [WARN, { max: 75, skipBlankLines: true, skipComments: true }],
-    'max-params': [WARN, { max: 6 }],
-    'max-statements': [WARN, { max: 15 }],
-    'no-unused-vars': [WARN, { 'argsIgnorePattern': '^_' }],
+    'max-lines-per-function': [
+      WARN,
+      {
+        max: 75,
+        skipBlankLines: true,
+        skipComments: true,
+      },
+    ],
+    'max-params': [
+      WARN,
+      {
+        max: 6,
+      },
+    ],
+    'max-statements': [
+      WARN,
+      {
+        max: 15,
+      },
+    ],
+    'no-unused-vars': [
+      WARN,
+      {
+        argsIgnorePattern: '^_',
+      },
+    ],
     'padding-line-between-statements': [OFF],
     'react-hooks/exhaustive-deps': ERROR,
     'react-hooks/rules-of-hooks': ERROR,
     'react/jsx-curly-brace-presence': [WARN, 'never'],
     'react/prop-types': OFF,
-    complexity: [WARN, { max: 15 }],
+    complexity: [
+      WARN,
+      {
+        max: 15,
+      },
+    ],
   },
   settings: {
     react: {
-      version: 'latest',
+      version: 'detect',
     },
   },
   overrides: [

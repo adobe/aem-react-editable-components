@@ -11,25 +11,31 @@
  */
 
 import React from 'react';
-import Utils from '../utils/Utils';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { Container } from './Container';
 import { ClassNames } from '../constants/classnames.constants';
 import { ModelProps } from '../types/AEMModel';
+import Utils from '../utils/Utils';
 
-const ChildPages = ({ cqChildren, componentMapping }: ModelProps) => {
+type Props = {
+  isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
+} & ModelProps;
+
+const PageList = ({ cqChildren, componentMapping }: Props): JSX.Element => {
   if (!cqChildren) {
     return <></>;
   }
   const pages = Object.keys(cqChildren).map((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
     const { cqPath, cqType } = itemProps;
-    const ItemComponent = componentMapping.get(cqType);
+    const ItemComponent: React.ElementType = componentMapping.get(cqType);
     return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
   });
 
   return <>{pages}</>;
 };
 
-export const Page = (props: ModelProps): JSX.Element => {
-  return <Container className={ClassNames.PAGE} isPage={true} childPages={<ChildPages {...props} />} {...props} />;
-};
+export const Page = (props: Props): JSX.Element => (
+  <Container className={ClassNames.PAGE} isPage={true} childPages={<PageList {...props} />} {...props} />
+);
