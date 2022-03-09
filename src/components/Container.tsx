@@ -9,12 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import Utils from '../utils/Utils';
 import { ClassNames } from '../constants/classnames.constants';
 import { Properties } from '../constants/properties.constants';
 import { ModelProps } from '../types/AEMModel';
-import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
+import { ComponentMapping } from '../core/ComponentMapping';
 
 type Props = {
   className?: string;
@@ -38,7 +38,8 @@ const getItemPath = (cqPath: string, itemKey: string, isPage = false): string =>
   return itemPath;
 };
 
-const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, componentMapping }: Props) => {
+const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: Props) => {
+  const [componentMapping, setComponentMapping] = useState(() => props.componentMapping || ComponentMapping);
   if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }

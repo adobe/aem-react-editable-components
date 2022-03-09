@@ -45,11 +45,11 @@
     ]
   },
   "dependencies": {
+    "@adobe/aem-spa-component-mapping": "^1.1.1",
     "path-browserify": "^1.0.1",
     "react-fast-compare": "^3.0.0"
   },
   "devDependencies": {
-    "@adobe/aem-spa-component-mapping": "^1.1.1",
     "@adobe/aem-spa-page-model-manager": "^1.4.0",
     "@adobe/eslint-config-editorxp": "^1.0.8",
     "@babel/eslint-parser": "^7.16.5",

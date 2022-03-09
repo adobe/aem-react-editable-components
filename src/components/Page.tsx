@@ -10,22 +10,25 @@
  * governing permissions and limitations under the License.
  */
 
-import React from 'react';
-import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
+import React, { useState } from 'react';
 import { Container } from './Container';
 import { ClassNames } from '../constants/classnames.constants';
 import { ModelProps } from '../types/AEMModel';
 import Utils from '../utils/Utils';
+import { ComponentMapping } from '../core/ComponentMapping';
 
 type Props = {
   isInEditor: boolean;
   componentMapping: typeof ComponentMapping;
 } & ModelProps;
 
-const PageList = ({ cqChildren, componentMapping }: Props): JSX.Element => {
+const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
+  const [componentMapping, setComponentMapping] = useState(() => props.componentMapping || ComponentMapping);
+
   if (!cqChildren) {
     return <></>;
   }
+
   const pages = Object.keys(cqChildren).map((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
     const { cqPath, cqType } = itemProps;
