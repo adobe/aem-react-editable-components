@@ -23,7 +23,7 @@
   "types": "dist/types.d.ts",
   "scripts": {
     "build:prod": "NODE_ENV=production npm run build",
-    "build:types": "tsc -p src/tsconfig.types.json",
+    "build:types": "tsc -p tsconfig.types.json",
     "build": "npm run lint && npm run build:types && webpack",
     "clean": "rm -rf dist/ node_modules/ package-lock.json",
     "docs": "npm i && npx typedoc --entryPointStrategy expand --excludePrivate ./src --out ./dist/docs",
@@ -45,12 +45,12 @@
     ]
   },
   "dependencies": {
+    "@adobe/aem-spa-component-mapping": "^1.1.1",
     "path-browserify": "^1.0.1",
     "react-fast-compare": "^3.0.0"
   },
   "devDependencies": {
-    "@adobe/aem-spa-component-mapping": "file:../aem-spa-component-mapping",
-    "@adobe/aem-spa-page-model-manager": "file:../aem-spa-page-model-manager",
+    "@adobe/aem-spa-page-model-manager": "^1.4.0",
     "@adobe/eslint-config-editorxp": "^1.0.8",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",

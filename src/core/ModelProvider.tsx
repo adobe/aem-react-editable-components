@@ -16,6 +16,7 @@ import isEqual from 'react-fast-compare';
 import { Constants } from '../Constants';
 import { MappedComponentProperties, ReloadForceAble } from './ComponentMapping';
 import Utils from '../utils/Utils';
+import { useEditor } from '../hooks/useEditor';
 
 /**
  * Configuration object of the withModel function.
@@ -87,11 +88,11 @@ export class ModelProvider extends Component<ModelProviderType> {
       .then((data: Model) => {
         if (data && Object.keys(data).length > 0) {
           const props = Utils.modelToProps(data);
+          const isInEditor = useEditor();
 
           this.setState(props);
-
           // Fire event once component model has been fetched and rendered to enable editing on AEM
-          if (injectPropsOnInit && Utils.isInEditor()) {
+          if (injectPropsOnInit && isInEditor) {
             PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
           }
         }

@@ -9,48 +9,50 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import React from 'react';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { EditConfig } from '../core/EditableComponent';
-import {ModelProps, ResponsiveGridProps} from "../types/AEMModel";
-import React from 'react';
-import {ClassNames} from "../constants/classnames.constants";
+import { ResponsiveGridProps } from '../types/AEMModel';
+import { ClassNames } from '../constants/classnames.constants';
+import { Container } from './Container';
 
-type Props = {
+export type ResponsiveGridComponentProps = {
   title?: string;
+  isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
 } & ResponsiveGridProps;
 
 export const ResponsiveGrid = ({
   title = 'Layout Container',
   columnClassNames,
   ...props
-}: Props) => {
-
+}: ResponsiveGridComponentProps): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
-  return (
+  return props.allowedComponents?.applicable && props.isInEditor ? (
     <AllowedComponentsContainer
-      className={props.gridClassNames + " " + ClassNames.CONTAINER}
+      className={`${props.gridClassNames} ${ClassNames.CONTAINER}`}
       getItemClassNames={getItemClassNames}
       placeholderClassNames={ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES}
       title={title}
       {...props}
     />
+  ) : (
+    <Container getItemClassNames={getItemClassNames} {...props} />
   );
 };
 
-/**
- * @private
- */
-const config: EditConfig<ResponsiveGridProps> = {
+const config: EditConfig<ResponsiveGridComponentProps> = {
   isEmpty(props: ResponsiveGridProps): boolean {
-    return props.cqItemsOrder && props.cqItemsOrder.length > 0;
+    return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
   },
 };
 
-MapTo<ResponsiveGridProps>('wcm/foundation/components/responsivegrid')(
+MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(
   withComponentMappingContext(ResponsiveGrid),
   config,
 );

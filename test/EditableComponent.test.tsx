@@ -12,10 +12,10 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { MappedComponentProperties } from '../src/ComponentMapping';
-import { withEditable } from '../src/components/EditableComponent';
+import { MappedComponentProperties } from '../src/core/ComponentMapping';
+import { withEditable } from '../src/core/EditableComponent';
 import { Constants } from '../src/Constants';
-import Utils from '../src/Utils';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 describe('EditableComponent ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -57,7 +57,7 @@ describe('EditableComponent ->', () => {
   }
 
   beforeEach(() => {
-    sandbox = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => isInEditor);
+    sandbox = jest.spyOn(AuthoringUtils, 'isInEditor').mockImplementation(() => isInEditor);
     rootNode = document.createElement('div');
     rootNode.className = ROOT_CLASS_NAME;
     document.body.appendChild(rootNode);

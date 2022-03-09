@@ -10,14 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-import { ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
+import { AuthoringUtils, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import { waitFor } from '@testing-library/dom';
 import ReactDOM from 'react-dom';
-import { MappedComponentProperties } from '../src/ComponentMapping';
-import { ModelProvider, withModel } from '../src/components/ModelProvider';
+import { MappedComponentProperties } from '../src/core/ComponentMapping';
+import { ModelProvider, withModel } from '../src/core/ModelProvider';
 import { Constants } from '../src/Constants';
-import Utils from '../src/Utils';
 
 describe('ModelProvider ->', () => {
   const TEST_PAGE_PATH = '/page/jcr:content/root';
@@ -25,7 +24,7 @@ describe('ModelProvider ->', () => {
   const INNER_COMPONENT_ID = 'innerContent';
   const TEST_COMPONENT_MODEL = { ':type': 'test/components/componentchild' };
 
-  let rootNode: any;
+  let rootNode: HTMLElement;
 
   /**
    * React warn if a non-standard DOM attribute is used on a native DOM node.
@@ -225,7 +224,7 @@ describe('ModelProvider ->', () => {
       const dispatchEventSpy: jest.SpyInstance = jest
         .spyOn(PathUtils, 'dispatchGlobalCustomEvent')
         .mockImplementation();
-      const isInEditor: jest.SpyInstance = jest.spyOn(Utils, 'isInEditor').mockImplementation(() => true);
+      const isInEditor: jest.SpyInstance = jest.spyOn(AuthoringUtils, 'isInEditor').mockImplementation(() => true);
 
       const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
 

@@ -12,7 +12,7 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { MappedComponentProperties } from '../src/ComponentMapping';
+import { MappedComponentProperties } from '../src/core/ComponentMapping';
 import { EditorContext, withEditorContext } from '../src/EditorContext';
 
 describe('EditorContext ->', () => {
@@ -20,7 +20,7 @@ describe('EditorContext ->', () => {
   const CHILD_COMPONENT_CLASS_NAME = 'child-class';
   const IN_EDITOR_CLASS_NAME = 'in-editor-class';
 
-  let rootNode: any;
+  let rootNode: HTMLElement;
   let EditorContextComponent: any;
 
   interface ChildComponentProps extends MappedComponentProperties {

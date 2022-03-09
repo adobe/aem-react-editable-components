@@ -12,20 +12,21 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties } from '../../src/ComponentMapping';
+import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
 import { Container } from '../../src/components/Container';
-import { withEditable } from '../../src/components/EditableComponent';
+import { withEditable } from '../../src/core/EditableComponent';
 
 describe('Container ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
   const CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/*"]';
   const ROOT_CLASS_NAME = 'root-class';
-  const ITEM_CLASS_NAME = 'item-class';
   const CONTAINER_PATH = '/container';
   const ITEM1_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/component1"]';
   const ITEM2_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/component2"]';
   const COMPONENT_TYPE1 = 'components/c1';
   const COMPONENT_TYPE2 = 'components/c2';
+  const COMPONENT_1_CLASS_NAMES = 'component1-class';
+  const COMPONENT_2_CLASS_NAMES = 'component2-class';
 
   const ITEMS = {
     component1: {
@@ -38,6 +39,24 @@ describe('Container ->', () => {
     },
   };
 
+  const ITEMS_NO_TYPE = {
+    component1: {
+      id: 'c1',
+    },
+    component2: {
+      id: 'c2',
+    },
+  };
+
+  const ITEM_CLASSES = {
+    component1: COMPONENT_1_CLASS_NAMES,
+    component2: COMPONENT_2_CLASS_NAMES,
+  };
+
+  const getItemClassNames = (itemKey: string) => {
+    return ITEM_CLASSES[itemKey];
+  };
+
   const ITEMS_ORDER = ['component1', 'component2'];
 
   interface DummyProps extends MappedComponentProperties {
@@ -46,7 +65,9 @@ describe('Container ->', () => {
 
   class ComponentChild extends Component<DummyProps> {
     render() {
-      return <div id={this.props && this.props.id} className={ITEM_CLASS_NAME} />;
+      return (
+        <div id={this.props && this.props.id} className={this.props.className} data-cq-data-path={this.props.cqPath} />
+      );
     }
   }
 
@@ -70,6 +91,25 @@ describe('Container ->', () => {
   });
 
   describe('childComponents ->', () => {
+    it('should not render components without type', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      ReactDOM.render(
+        <Container
+          componentMapping={ComponentMapping}
+          cqItems={ITEMS_NO_TYPE}
+          cqItemsOrder={ITEMS_ORDER}
+          cqPath=""
+          isInEditor={false}
+        />,
+        rootNode,
+      );
+
+      const childItem1 = rootNode.querySelector('#c1');
+      const childItem2 = rootNode.querySelector('#c2');
+
+      expect(childItem1).toBeNull();
+      expect(childItem2).toBeNull();
+    });
     it('should add the expected components', () => {
       ComponentMappingSpy.mockReturnValue(ComponentChild);
       ReactDOM.render(
@@ -89,8 +129,8 @@ describe('Container ->', () => {
       const childItem1 = rootNode.querySelector('#c1');
       const childItem2 = rootNode.querySelector('#c2');
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
     });
 
     it('should add a placeholder with data attribute when in WCM edit mode', () => {
@@ -103,7 +143,7 @@ describe('Container ->', () => {
         CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR + CONTAINER_PLACEHOLDER_SELECTOR,
       );
 
-      expect(containerPlaceholder).toBeDefined();
+      expect(containerPlaceholder).toBeTruthy();
     });
 
     it('should not add a placeholder when not in WCM edit mode', () => {
@@ -131,13 +171,34 @@ describe('Container ->', () => {
 
       const containerPlaceholder = rootNode.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
 
-      expect(containerPlaceholder).toBeDefined();
+      expect(containerPlaceholder).toBeTruthy();
 
       const childItem1 = rootNode.querySelector(ITEM1_DATA_ATTRIBUTE_SELECTOR);
       const childItem2 = rootNode.querySelector(ITEM2_DATA_ATTRIBUTE_SELECTOR);
 
-      expect(childItem1).toBeDefined();
-      expect(childItem2).toBeDefined();
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
+    });
+
+    it('should add the expected item classes when passed', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      ReactDOM.render(
+        <Container
+          componentMapping={ComponentMapping}
+          cqItems={ITEMS}
+          cqItemsOrder={ITEMS_ORDER}
+          cqPath=""
+          isInEditor={false}
+          getItemClassNames={getItemClassNames}
+        />,
+        rootNode,
+      );
+
+      const childItem1 = rootNode.querySelector('#c1.' + COMPONENT_1_CLASS_NAMES);
+      const childItem2 = rootNode.querySelector('#c2.' + COMPONENT_2_CLASS_NAMES);
+
+      expect(childItem1).toBeTruthy();
+      expect(childItem2).toBeTruthy();
     });
   });
 
@@ -161,7 +222,7 @@ describe('Container ->', () => {
 
       const container = rootNode.querySelector('[data-cq-data-path="/container"]');
 
-      expect(container).toBeDefined();
+      expect(container).toBeTruthy();
     });
   });
 

@@ -18,9 +18,9 @@ module.exports = {
     '^.+\\.(js|js|ts)x?$': 'babel-jest',
   },
   testMatch: ['<rootDir>/test/**/*.test.{ts,tsx}'],
-  testPathIgnorePatterns: ['node_modules/', 'dist/'],
+  testPathIgnorePatterns: ['node_modules/', 'dist/', 'typesoutput/'],
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-  coveragePathIgnorePatterns: ['src/types.ts'],
+  coveragePathIgnorePatterns: ['src/types.ts', 'src/types/'],
   coverageDirectory: 'dist/coverage',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };

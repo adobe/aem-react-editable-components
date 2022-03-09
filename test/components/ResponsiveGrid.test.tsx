@@ -12,9 +12,9 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties } from '../../src/ComponentMapping';
-import { AllowedComponents } from '../../src/components/allowedcomponents/AllowedComponentsContainer';
-import { ResponsiveGrid, ResponsiveGridProperties } from '../../src/components/ResponsiveGrid';
+import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
+import { ResponsiveGrid, ResponsiveGridComponentProps } from '../../src/components/ResponsiveGrid';
+import { AllowedComponentList } from '../../src/types/AEMModel';
 
 describe('ResponsiveGrid ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
@@ -59,12 +59,12 @@ describe('ResponsiveGrid ->', () => {
     }
   }
 
-  const allowedComp: AllowedComponents = {
+  const allowedComp: AllowedComponentList = {
     applicable: false,
     components: [],
   };
 
-  const STANDARD_GRID_PROPS: ResponsiveGridProperties = {
+  const STANDARD_GRID_PROPS: ResponsiveGridComponentProps = {
     cqPath: '',
     gridClassNames: '',
     columnClassNames: {},
@@ -74,6 +74,7 @@ describe('ResponsiveGrid ->', () => {
     cqItems: {},
     cqItemsOrder: [],
     isInEditor: false,
+    cqType: '',
   };
 
   let rootNode: any;

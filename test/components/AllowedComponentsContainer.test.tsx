@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,15 +12,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AllowedComponentsContainer } from '../../src/components/allowedcomponents/AllowedComponentsContainer';
-import { AllowedComponentPlaceholder } from '../../src/components/allowedcomponents/AllowedComponentsPlaceholder';
-import { AllowedComponentPlaceholderList } from '../../src/components/allowedcomponents/AllowedComponentsPlaceholderList';
-import { AllowedComponentList } from '../../src/api/AEMModel';
+import { AllowedComponentsContainer } from '../../src/components/AllowedComponentsContainer';
+import { AllowedComponentList } from '../../src/types/AEMModel';
 
 describe('AllowedComponentsContainer ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
   const DEFAULT_TITLE = 'Layout Container';
-  const DEFAULT_EMPTY_LABEL = 'Empty label tests';
   const ALLOWED_PLACEHOLDER_SELECTOR = '.aem-AllowedComponent--list';
   const ALLOWED_COMPONENT_TITLE_SELECTOR = '.aem-AllowedComponent--title';
   const ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR = '.aem-AllowedComponent--component.cq-placeholder.placeholder';
@@ -53,19 +50,17 @@ describe('AllowedComponentsContainer ->', () => {
     ],
   };
 
-  function generateAllowedComponentsContainer(
-    allowedComponents: AllowedComponentList,
-    title?: string,
-  ): JSX.Element {
-      const props = {
+  function generateAllowedComponentsContainer(allowedComponents: AllowedComponentList, title?: string): JSX.Element {
+    const props = {
       title: title || '',
       allowedComponents: allowedComponents,
+      cqPath: '',
     };
 
-    return <AllowedComponentsContainer {...props} />;
+    return <AllowedComponentsContainer className="" {...props} />;
   }
 
-  let rootNode: any;
+  let rootNode: HTMLElement;
 
   beforeEach(() => {
     rootNode = document.createElement('div');
@@ -80,25 +75,6 @@ describe('AllowedComponentsContainer ->', () => {
     }
   });
 
-  describe('not applicable ->', () => {
-    it('no allowed components container when NOT applicable', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA), rootNode);
-
-      const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
-
-      expect(allowedComponentsContainer).toBeNull();
-
-      // container specific part of the tests to be moved to container
-      // const container = rootNode.querySelector(CONTAINER_SELECTOR);
-
-      // expect(container).toBeDefined();
-
-      // const containerPlaceholder = container.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
-
-      // expect(containerPlaceholder).toBeDefined();
-    });
-  });
-
   describe('applicable ->', () => {
     it('should be applicable with an empty list of allowed components', () => {
       ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_EMPTY_DATA), rootNode);
@@ -107,7 +83,9 @@ describe('AllowedComponentsContainer ->', () => {
 
       expect(allowedComponentsContainer).toBeDefined();
 
-      const allowedComponentsTitle = allowedComponentsContainer.querySelector(ALLOWED_COMPONENT_TITLE_SELECTOR);
+      const allowedComponentsTitle = allowedComponentsContainer.querySelector(
+        ALLOWED_COMPONENT_TITLE_SELECTOR,
+      ) as HTMLElement;
 
       expect(allowedComponentsTitle).toBeDefined();
       expect(allowedComponentsTitle.dataset.text).toEqual('No allowed components');
@@ -121,72 +99,13 @@ describe('AllowedComponentsContainer ->', () => {
 
       expect(allowedComponentsContainer).toBeDefined();
 
-      const allowedComponentsTitle = allowedComponentsContainer.querySelector(ALLOWED_COMPONENT_TITLE_SELECTOR);
+      const allowedComponentsTitle = allowedComponentsContainer.querySelector(
+        ALLOWED_COMPONENT_TITLE_SELECTOR,
+      ) as HTMLElement;
 
       expect(allowedComponentsTitle).toBeDefined();
       expect(allowedComponentsTitle.dataset.text).toEqual(DEFAULT_TITLE);
       expect(allowedComponentsContainer.querySelectorAll(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR).length).toEqual(2);
-    });
-  });
-
-  describe.skip('not in editor ->', () => {
-  // why is this skipped ?
-  // not in editor tests to be moved to place where the check will be placed
-    // it('should be applicable with a list of allowed components but not in the editor', () => {
-    //   ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA), rootNode);
-
-    //   const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
-
-    //   expect(allowedComponentsContainer).toBeNull();
-
-    //   const container = rootNode.querySelector(CONTAINER_SELECTOR);
-
-    //   expect(container).toBeDefined();
-
-    //   const containerPlaceholder = container.querySelector(CONTAINER_PLACEHOLDER_SELECTOR);
-
-    //   expect(containerPlaceholder).toBeNull();
-    // });
-  });
-
-  describe('AllowedComponentPlaceholderList ->', () => {
-    it('should display two allowed components', () => {
-      const element = (
-        <AllowedComponentPlaceholderList
-          title={DEFAULT_TITLE}
-          emptyLabel={DEFAULT_EMPTY_LABEL}
-          components={ALLOWED_COMPONENTS_DATA.components}
-        />
-      );
-
-      ReactDOM.render(element, rootNode);
-
-      const allowedComponentPlaceholderList = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
-
-      expect(allowedComponentPlaceholderList).toBeDefined();
-
-      const allowedComponentsTitle = allowedComponentPlaceholderList.querySelector(ALLOWED_COMPONENT_TITLE_SELECTOR);
-
-      expect(allowedComponentsTitle).toBeDefined();
-      expect(allowedComponentsTitle.dataset.text).toEqual(DEFAULT_TITLE);
-      expect(allowedComponentPlaceholderList.querySelectorAll(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR).length).toEqual(
-        2,
-      );
-    });
-  });
-
-  describe('AllowedComponentPlaceholder ->', () => {
-    it('should display a path, emptyLabel and the expected class names', () => {
-      ReactDOM.render(
-        <AllowedComponentPlaceholder path={COMPONENT_TEXT_PATH} emptyLabel={COMPONENT_TEXT_TITLE} />,
-        rootNode,
-      );
-
-      const allowedComponentPlaceholder = rootNode.querySelector(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR);
-
-      expect(allowedComponentPlaceholder).toBeDefined();
-      expect(allowedComponentPlaceholder.dataset.emptytext).toEqual(COMPONENT_TEXT_TITLE);
-      expect(allowedComponentPlaceholder.dataset.cqDataPath).toEqual(COMPONENT_TEXT_PATH);
     });
   });
 });
