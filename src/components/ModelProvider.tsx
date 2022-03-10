@@ -116,7 +116,7 @@ export class ModelProvider extends Component<ModelProviderType> {
         cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
         this.setState({ cqPath });
 
-        if (this.props.injectPropsOnInit) {
+        if (injectPropsOnInit) {
             model ? this.updateState(model) : this.updateData(cqPath);
         }
         ModelManager.addListener(cqPath, this.updateData);

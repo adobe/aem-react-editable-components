@@ -57,13 +57,14 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
         }
 
         this.props.cqItemsOrder.map((itemKey) => {
-            const itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
+            const itemModel = this.props.cqItems[itemKey];
+            const itemProps = Utils.modelToProps(itemModel);
 
             if (itemProps) {
                 const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
 
                 if (ItemComponent) {
-                    childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));
+                    childComponents.push(this.connectComponentWithItem(ItemComponent, itemModel, itemProps, itemKey));
                 }
             }
         });
@@ -75,13 +76,13 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      * Connects a child component with the item data.
      *
      * @param ChildComponent
+     * @param itemModel
      * @param itemProps
      * @param itemKey
      * @returns The React element constructed by connecting the values of the input with the Component.
      */
-    protected connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemProps: any, itemKey: string) {
+    protected connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemModel: Model, itemProps: any, itemKey: string) {
         const itemPath = this.getItemPath(itemKey);
-        const itemModel = this.getItemModel(itemKey);
 
         return <ChildComponent {...itemProps}
                                key={itemPath}
@@ -112,16 +113,6 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      */
     public getItemPath(itemKey: string) {
         return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + itemKey) : itemKey;
-    }
-
-    /**
-     * Returns the model of given item.
-     *
-     * @param itemKey
-     * @returns The computed model.
-     */
-     public getItemModel(itemKey: string) {
-        return (this.props && this.props.model) ? (this.props.model[Constants.ITEMS_PROP]?[itemKey] : null) : null;
     }
 
     /**
