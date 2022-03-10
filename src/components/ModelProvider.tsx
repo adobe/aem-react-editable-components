@@ -39,6 +39,7 @@ export interface ModelProviderType extends ReloadForceAble {
     wrappedComponent: React.ComponentType<any>;
     cqPath: string;
     injectPropsOnInit?: boolean;
+    model?: Model;
     pagePath?: string;
     itemPath?: string;
 }
@@ -71,6 +72,21 @@ export class ModelProvider extends Component<ModelProviderType> {
     }
 
     /**
+     * Update state props after model is refreshed.
+     * @param model Model object
+     */
+    private updateState(model: Model): void {
+        const props = Utils.modelToProps(model);
+
+        this.setState(props);
+
+        // Fire event once component model has been fetched and rendered to enable editing on AEM
+        if (this.props.injectPropsOnInit && Utils.isInEditor()) {
+            PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
+        }
+    }
+
+    /**
      * Update model based on given resource path.
      * @param cqPath resource path
      */
@@ -86,14 +102,7 @@ export class ModelProvider extends Component<ModelProviderType> {
 
         ModelManager.getData({ path, forceReload: this.props.cqForceReload }).then((data: Model) => {
           if (data && (Object.keys(data).length > 0)) {
-              const props = Utils.modelToProps(data);
-
-              this.setState(props);
-
-              // Fire event once component model has been fetched and rendered to enable editing on AEM
-              if (injectPropsOnInit && Utils.isInEditor()) {
-                  PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
-              }
+              this.updateState(data);
           }
         }).catch((error) => {
             console.log(error);
@@ -101,14 +110,14 @@ export class ModelProvider extends Component<ModelProviderType> {
     }
 
     public componentDidMount(): void {
-        const { pagePath, itemPath, injectPropsOnInit } = this.props;
+        const { pagePath, itemPath, model, injectPropsOnInit } = this.props;
         let { cqPath } = this.props;
 
         cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
         this.setState({ cqPath });
 
         if (this.props.injectPropsOnInit) {
-          this.updateData(cqPath);
+            model ? this.updateState(model) : this.updateData(cqPath);
         }
         ModelManager.addListener(cqPath, this.updateData);
     }

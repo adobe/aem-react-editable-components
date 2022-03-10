@@ -44,7 +44,8 @@ export class AllowedComponentsContainer<M extends AllowedComponentsProperties, S
         _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
         cqItems: {},
         cqItemsOrder: [],
-        cqPath: ''
+        cqPath: '',
+        model: {}
     };
 
     public render(): JSX.Element {

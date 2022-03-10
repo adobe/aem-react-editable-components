@@ -33,7 +33,8 @@ export class Page<P extends PageProperties, S extends ContainerState> extends Co
         cqChildren: {},
         cqItems: {},
         cqItemsOrder: [],
-        cqPath: ''
+        cqPath: '',
+        model: {}
     };
 
     constructor(props: P) {

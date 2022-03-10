@@ -27,6 +27,7 @@ export class ResponsiveGrid<P extends ResponsiveGridProperties, S extends Contai
         cqItems: {},
         cqItemsOrder: [],
         cqPath: '',
+        model: {},
         title: 'Layout Container'
     };
 

@@ -15,6 +15,7 @@ import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { EditConfig, withEditable } from './components/EditableComponent';
 import { ReloadableModelProperties, withModel } from './components/ModelProvider';
 import { withEditorContext } from './EditorContext';
+import { Model } from '@adobe/aem-spa-page-model-manager';
 
 /**
  * @private
@@ -41,6 +42,7 @@ export interface ReloadForceAble {
 export interface MappedComponentProperties extends ReloadForceAble {
     isInEditor: boolean;
     cqPath: string;
+    model?: Model;
     appliedCssClassNames?: string;
     aemNoDecoration?: boolean;
 }

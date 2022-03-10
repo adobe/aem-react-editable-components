@@ -31,7 +31,8 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
     public static defaultProps = {
         cqItems: {},
         cqItemsOrder: [],
-        cqPath: ''
+        cqPath: '',
+        model: {}
     };
 
     constructor(props: P) {
@@ -80,10 +81,12 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      */
     protected connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemProps: any, itemKey: string) {
         const itemPath = this.getItemPath(itemKey);
+        const itemModel = this.getItemModel(itemKey);
 
         return <ChildComponent {...itemProps}
                                key={itemPath}
                                cqPath={itemPath}
+                               model={itemModel}
                                isInEditor={this.props.isInEditor}
                                containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}/>;
     }
@@ -109,6 +112,16 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
      */
     public getItemPath(itemKey: string) {
         return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + itemKey) : itemKey;
+    }
+
+    /**
+     * Returns the model of given item.
+     *
+     * @param itemKey
+     * @returns The computed model.
+     */
+     public getItemModel(itemKey: string) {
+        return (this.props && this.props.model) ? (this.props.model[Constants.ITEMS_PROP]?[itemKey] : null) : null;
     }
 
     /**
