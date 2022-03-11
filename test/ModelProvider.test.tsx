@@ -167,6 +167,18 @@ describe('ModelProvider ->', () => {
             expect(childNode).toBeDefined();
         });
 
+        it('should render components properly when component model is provided', () => {
+
+            const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
+
+            // @ts-ignore
+            ReactDOM.render(<DummyWithModel model={TEST_COMPONENT_MODEL}></DummyWithModel>, rootNode);
+
+            const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+
+            expect(childNode).toBeDefined();
+        });
+
         it('should render components properly when component cqPath is provided', () => {
 
             const DummyWithModel = withModel(Dummy, { injectPropsOnInit: true });
