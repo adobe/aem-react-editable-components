@@ -10,163 +10,92 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component, ComponentType } from 'react';
-import isEqual from 'react-fast-compare';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
-import { Constants } from '../Constants';
+import { ClassNames } from '../constants/classnames.constants';
+import { Properties } from '../constants/properties.constants';
+import Utils from '../utils/Utils';
+import { useModel } from '../hooks/useModel';
+import { ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { PageModel } from '../types/AEMModel';
 
-/**
- * Configuration object of the withEditable function.
- *
- * @property emptyLabel - Label to be displayed on the overlay when the component is empty
- * @property isEmpty - Callback function to determine if the component is empty
- * @property resourceType - AEM ResourceType to be added as an attribute on the editable component dom
- */
-export interface EditConfig<P extends MappedComponentProperties> {
+export interface Config<P extends MappedComponentProperties> {
   emptyLabel?: string;
-  isEmpty(props: P): boolean;
+  isEmpty(_props: P): boolean;
   resourceType?: string;
+  forceReload?: boolean;
 }
 
-export interface EditableComponentProperties<P extends MappedComponentProperties> {
-  componentProperties: P;
-  wrappedComponent: React.ComponentType<P>;
-  editConfig: EditConfig<P>;
-  containerProps?: { [key: string]: string };
-}
+type Props = {
+  config?: Config<MappedComponentProperties>;
+  children?: ReactNode;
+  className?: string;
+  appliedCssClassNames?: string;
+  containerProps?: { className?: string };
+  model?: PageModel;
+  pagePath?: string;
+  itemPath?: string;
+} & MappedComponentProperties;
 
-type EditableComponentModel<P extends MappedComponentProperties> = EditableComponentProperties<P>;
-
-/**
- * The EditableComponent provides components with editing capabilities.
- */
-class EditableComponent<P extends MappedComponentProperties> extends Component<EditableComponentModel<P>> {
-  constructor(props: EditableComponentModel<P>) {
-    super(props);
-    this.state = this.propsToState(props);
+const Placeholder = ({ config, ...props }: Props) => {
+  const { emptyLabel = '', isEmpty } = config || {};
+  if (!(typeof isEmpty === 'function' && isEmpty(props))) {
+    return null;
   }
+  return <div className={ClassNames.DEFAULT_PLACEHOLDER} data-emptytext={emptyLabel}></div>;
+};
 
-  public propsToState(props: EditableComponentModel<P>): any {
-    // Keep private properties from being passed as state
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { wrappedComponent, containerProps, editConfig, ...state } = props;
-
-    return state;
+const addPropsToComponent = (component: ReactNode, props: MappedComponentProperties) => {
+  if (React.isValidElement(component)) {
+    return React.cloneElement(component, props);
   }
+  return component;
+};
 
-  public componentDidUpdate(prevProps: EditableComponentModel<P>) {
-    if (!isEqual(prevProps, this.props)) {
-      this.setState(this.propsToState(this.props));
-    }
-  }
+export const EditableComponent = ({
+  config,
+  children,
+  model: userModel,
+  cqPath,
+  pagePath,
+  itemPath,
+  ...props
+}: Props): JSX.Element => {
+  const { fetchModel } = useModel();
+  const { forceReload } = config || {};
+  const path = Utils.getCQPath({ cqPath, pagePath, itemPath });
+  const [model, setModel] = useState(() => userModel || {});
 
-  /**
-   * Properties related to the editing of the component.
-   */
-  get editProps(): { [key: string]: string } {
-    const eProps: { [key: string]: string } = {};
-    const componentProperties: P = this.props.componentProperties;
+  useEffect(() => {
+    const updateModel = () => fetchModel(path, setModel, forceReload, pagePath);
+    ModelManager.addListener(path, updateModel);
+    updateModel();
 
-    if (!componentProperties.isInEditor) {
-      return eProps;
-    }
-
-    eProps[Constants.DATA_PATH_ATTR] = componentProperties.cqPath;
-
-    if (this.props.editConfig.resourceType) {
-      eProps[Constants.DATA_CQ_RESOURCE_TYPE_ATTR] = this.props.editConfig.resourceType;
-    }
-
-    return eProps;
-  }
-
-  /**
-   * Properties related to styling of the component.
-   */
-  get styleProps(): { [key: string]: string } {
-    const sProps: { [key: string]: string } = { className: '' };
-    const componentProperties: P = this.props.componentProperties;
-
-    const appliedCssClassNames = componentProperties[Constants.APPLIED_CLASS_NAMES];
-
-    if (appliedCssClassNames) sProps.className += appliedCssClassNames + ' ';
-
-    if (this.props?.containerProps?.className) {
-      sProps.className = sProps.className + ' ' + this.props.containerProps.className;
-    }
-
-    return sProps;
-  }
-
-  protected get emptyPlaceholderProps() {
-    if (!this.useEmptyPlaceholder()) {
-      return null;
-    }
-
-    return {
-      className: Constants._PLACEHOLDER_CLASS_NAMES,
-      'data-emptytext': this.props.editConfig.emptyLabel,
+    return () => {
+      ModelManager.removeListener(path, updateModel);
     };
-  }
+  }, [path, fetchModel, forceReload, pagePath]);
 
-  /**
-   * Should an empty placeholder be added.
-   *
-   * @return
-   */
-  public useEmptyPlaceholder() {
-    return (
-      this.props.componentProperties.isInEditor &&
-      typeof this.props.editConfig.isEmpty === 'function' &&
-      this.props.editConfig.isEmpty(this.props.componentProperties)
-    );
-  }
-
-  public render() {
-    const WrappedComponent: React.ComponentType<any> = this.props.wrappedComponent;
-
-    const componentProperties: P = this.props.componentProperties;
-    let renderScript;
-
-    if (!componentProperties.isInEditor && componentProperties.aemNoDecoration) {
-      renderScript = <WrappedComponent {...this.state} />;
-    } else {
-      renderScript = (
-        <div {...this.editProps} {...{ ...this.props.containerProps, ...this.styleProps }}>
-          <WrappedComponent {...this.state} />
-          <div {...this.emptyPlaceholderProps} />
-        </div>
-      );
-    }
-
-    return renderScript;
-  }
-}
-
-/**
- * Returns a component wrapper that provides editing capabilities to the component.
- *
- * @param WrappedComponent
- * @param editConfig
- */
-export function withEditable<P extends MappedComponentProperties>(
-  WrappedComponent: ComponentType<P>,
-  editConfig?: EditConfig<P>,
-) {
-  const defaultEditConfig: EditConfig<P> = editConfig ? editConfig : { isEmpty: (props: P) => false };
-
-  return class CompositeEditableComponent extends Component<P> {
-    public render(): JSX.Element {
-      type TypeToUse = EditableComponentProperties<P> & P;
-
-      const computedProps: TypeToUse = {
-        ...this.props,
-        componentProperties: this.props,
-        editConfig: defaultEditConfig,
-        wrappedComponent: WrappedComponent,
-      };
-
-      return <EditableComponent {...computedProps} />;
-    }
+  const componentProps = {
+    cqPath: path,
+    ...props,
+    ...model,
   };
-}
+
+  return props.isInEditor ? (
+    <div
+      className={`${props.className || ''} ${props.containerProps?.className || ''} ${
+        props.appliedCssClassNames || ''
+      }`}
+      {...{
+        [Properties.DATA_PATH_ATTR]: path,
+        [Properties.DATA_CQ_RESOURCE_TYPE_ATTR]: config?.resourceType || '',
+      }}
+    >
+      {addPropsToComponent(children, componentProps)}
+      <Placeholder config={config} {...componentProps} />
+    </div>
+  ) : (
+    <>{addPropsToComponent(children, componentProps)}</>
+  );
+};

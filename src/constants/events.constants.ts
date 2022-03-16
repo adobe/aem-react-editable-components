@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,13 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-export * from './core/ComponentMapping';
-export * from './components/AllowedComponentsContainer';
-export * from './components/Container';
-export { EditableComponent } from './core/EditableComponent';
-export * from './core/ModelProvider';
-export * from './components/Page';
-export { ResponsiveGrid } from './components/ResponsiveGrid';
-export * from './Constants';
-export * from './EditorContext';
-export { default as Utils } from './utils/Utils';
+/**
+ * Constants for interacting with AEM components.
+ */
+export const Events = Object.freeze({
+  /**
+   * Event which indicates that content of remote component has been fetched and loaded in the app
+   */
+  ASYNC_CONTENT_LOADED_EVENT: 'cq-async-content-loaded',
+});

@@ -13,7 +13,7 @@ import React from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
-import { EditConfig } from '../core/EditableComponent';
+import { Config } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
 import { ClassNames } from '../constants/classnames.constants';
 import { Container } from './Container';
@@ -46,7 +46,7 @@ export const ResponsiveGrid = ({
   );
 };
 
-const config: EditConfig<ResponsiveGridComponentProps> = {
+const config: Config<ResponsiveGridProps> = {
   isEmpty(props: ResponsiveGridProps): boolean {
     return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
   },

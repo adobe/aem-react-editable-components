@@ -32,8 +32,10 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
   const pages = Object.keys(cqChildren).map((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
     const { cqPath, cqType } = itemProps;
-    const ItemComponent: React.ElementType = componentMapping.get(cqType);
-    return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
+    if (cqType) {
+      const ItemComponent: React.ElementType = componentMapping.get(cqType);
+      return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
+    }
   });
 
   return <>{pages}</>;

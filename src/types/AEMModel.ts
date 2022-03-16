@@ -27,12 +27,20 @@ export type AllowedComponentList = {
   components: AllowedComponent[];
 };
 
+export interface PageModel extends Model {
+  ':type': string;
+  id: string;
+  ':path': string;
+  ':children'?: { [key: string]: PageModel };
+}
+
 export type ModelProps = {
   cqPath: string;
   cqItems?: { [key: string]: Model };
   cqItemsOrder?: string[];
-  cqType: string;
-  cqChildren?: { [key: string]: Model };
+  cqType?: string;
+  cqChildren?: { [key: string]: PageModel };
+  appliedCssClassNames?: string;
 };
 
 export type ResponsiveGridProps = {

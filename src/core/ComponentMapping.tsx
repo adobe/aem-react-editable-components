@@ -9,11 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
-import { EditConfig, withEditable } from './EditableComponent';
-import { ReloadableModelProperties, withModel } from './ModelProvider';
+import { EditConfig } from './EditableComponent';
+import { ReloadableModelProperties } from './ModelProvider';
 import { withEditorContext } from '../EditorContext';
 
 /**
@@ -39,7 +40,7 @@ export interface ReloadForceAble {
  * Properties given to every component runtime by the SPA editor.
  */
 export interface MappedComponentProperties extends ReloadForceAble {
-  isInEditor: boolean;
+  isInEditor?: boolean;
   cqPath: string;
   appliedCssClassNames?: string;
   aemNoDecoration?: boolean;
@@ -55,14 +56,13 @@ export interface MappedComponentProperties extends ReloadForceAble {
  */
 const withMappable = <P extends MappedComponentProperties>(
   component: ComponentType<P>,
-  editConfig?: EditConfig<P>,
   config?: ReloadableModelProperties,
 ): ComponentType<P> => {
   const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
   const configToUse: ReloadableModelProperties = { injectPropsOnInit, forceReload, ...rest };
   let innerComponent: ComponentType<P> = component;
 
-  innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
+  innerComponent = withEditorContext(component, configToUse);
 
   return innerComponent;
 };
