@@ -18,11 +18,6 @@ interface ComponentProps {
   pagePath?: string;
   itemPath?: string;
   cqPath?: string;
-  /**
-   * Should the component data be retrieved from the aem page model
-   * and passed down as props on componentMount
-   */
-  injectPropsOnInit?: boolean;
 }
 
 /**
@@ -49,8 +44,8 @@ const Utils = {
    * @returns the transformed data
    */
   modelToProps(item: Model): ModelProps {
-    if(!item || !Object.keys(item).length){
-      return {};
+    if (!item || !Object.keys(item).length) {
+      return { cqPath: '' };
     }
 
     const keys = Object.getOwnPropertyNames(item);
@@ -76,11 +71,10 @@ const Utils = {
    * @returns cqPath of the component
    */
   getCQPath(componentProps: ComponentProps): string {
-    const { pagePath = '', itemPath = '', injectPropsOnInit } = componentProps;
-    let { cqPath = '' } = componentProps;
+    const { pagePath = '', itemPath = '', cqPath = '' } = componentProps;
 
-    if (injectPropsOnInit && !cqPath) {
-      cqPath = normalizePath(itemPath ? `${pagePath}/jcr:content/${itemPath}` : pagePath);
+    if (pagePath && !cqPath) {
+      return normalizePath(itemPath ? `${pagePath}/jcr:content/${itemPath}` : pagePath);
     }
 
     return cqPath;

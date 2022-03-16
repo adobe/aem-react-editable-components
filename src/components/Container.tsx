@@ -64,7 +64,7 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
 
 // to do: clarify usage of component mapping and define type
 export const Container = (props: Props): JSX.Element => {
-  const { cqPath = '', className, isPage, isInEditor, childPages } = props;
+  const { cqPath = '', className, isPage = false, isInEditor, childPages } = props;
 
   const containerProps = {
     [Properties.DATA_PATH_ATTR]: cqPath,

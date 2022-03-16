@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Model, PageModel } from '@adobe/aem-spa-page-model-manager';
+import { Model } from '@adobe/aem-spa-page-model-manager';
 
 /**
  * Component that is allowed to be used on the page by the editor.
@@ -26,6 +26,13 @@ export type AllowedComponentList = {
   applicable: boolean;
   components: AllowedComponent[];
 };
+
+export interface PageModel extends Model {
+  ':type': string;
+  id: string;
+  ':path': string;
+  ':children'?: { [key: string]: PageModel };
+}
 
 export type ModelProps = {
   cqPath: string;

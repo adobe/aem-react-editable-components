@@ -13,7 +13,7 @@
 export * from './core/ComponentMapping';
 export * from './components/AllowedComponentsContainer';
 export * from './components/Container';
-export * from './core/EditableComponent';
+export { EditableComponent } from './core/EditableComponent';
 export * from './core/ModelProvider';
 export * from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';

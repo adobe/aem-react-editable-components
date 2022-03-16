@@ -9,11 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
-import { EditableComponent } from './EditableComponent';
-import { ReloadableModelProperties, withModel } from './ModelProvider';
+import { EditConfig } from './EditableComponent';
+import { ReloadableModelProperties } from './ModelProvider';
 import { withEditorContext } from '../EditorContext';
 
 /**
@@ -39,7 +40,7 @@ export interface ReloadForceAble {
  * Properties given to every component runtime by the SPA editor.
  */
 export interface MappedComponentProperties extends ReloadForceAble {
-  isInEditor: boolean;
+  isInEditor?: boolean;
   cqPath: string;
   appliedCssClassNames?: string;
   aemNoDecoration?: boolean;
@@ -53,28 +54,18 @@ export interface MappedComponentProperties extends ReloadForceAble {
  * @param config Model configuration object.
  * @returns The resulting decorated Component
  */
+const withMappable = <P extends MappedComponentProperties>(
+  component: ComponentType<P>,
+  config?: ReloadableModelProperties,
+): ComponentType<P> => {
+  const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
+  const configToUse: ReloadableModelProperties = { injectPropsOnInit, forceReload, ...rest };
+  let innerComponent: ComponentType<P> = component;
 
-export const MappableComponent = ({ children, editConfig, config }) => {
-  return (
-      <EditableComponent editConfig={editConfig} config={config}>
-        {children}
-      </EditableComponent>
-  );
+  innerComponent = withEditorContext(component, configToUse);
+
+  return innerComponent;
 };
-
-// const withMappable = <P extends MappedComponentProperties>(
-//   component: ComponentType<P>,
-//   editConfig?: EditConfig<P>,
-//   config?: ReloadableModelProperties,
-// ): ComponentType<P> => {
-//   const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
-//   const configToUse: ReloadableModelProperties = { injectPropsOnInit, forceReload, ...rest };
-//   let innerComponent: ComponentType<P> = component;
-
-//   innerComponent = withEditorContext(withModel(withEditable(innerComponent, editConfig), configToUse));
-
-//   return innerComponent;
-// };
 
 /**
  * Map a React component with the given resource types.
@@ -86,37 +77,38 @@ export const MappableComponent = ({ children, editConfig, config }) => {
  * @param config Model configuration object.
  * @returns The resulting decorated Component
  */
-// ComponentMapping.map = function map<P extends MappedComponentProperties>(
-//   resourceTypes: string | string[],
-//   component: ComponentType<P>,
-//   editConfig?: EditConfig<P>,
-//   config?: ReloadableModelProperties,
-// ) {
-//   const { injectPropsOnInit = false, ...rest } = config || {};
-//   const innerComponent = withMappable(component, editConfig, { injectPropsOnInit, ...rest });
+ComponentMapping.map = function map<P extends MappedComponentProperties>(
+  resourceTypes: string | string[],
+  component: ComponentType<P>,
+  editConfig?: EditConfig<P>,
+  config?: ReloadableModelProperties,
+) {
+  const { injectPropsOnInit = false, ...rest } = config || {};
+  const innerComponent = withMappable(component, editConfig, { injectPropsOnInit, ...rest });
 
-//   wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
+  wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
 
-//   return innerComponent;
-// };
+  return innerComponent;
+};
 
 ComponentMapping.get = wrappedGetFct;
 
 /**
  * @private
  */
-// type MapperFunction<P extends MappedComponentProperties> = (
-//   component: ComponentType<P>,
-// ) => ComponentType<P>;
+type MapperFunction<P extends MappedComponentProperties> = (
+  component: ComponentType<P>,
+  editConfig?: EditConfig<P>,
+) => ComponentType<P>;
 
-// const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
-//   const mapper = (clazz: ComponentType<P>, config) => {
-//     // todo: pass 3rd argument: config
-//     return ComponentMapping.map(resourceTypes, clazz);
-//   };
+const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
+  const mapper = (clazz: ComponentType<P>, config?: EditConfig<P>) => {
+    // todo: pass 3rd argument: config
+    return ComponentMapping.map(resourceTypes, clazz);
+  };
 
-//   return mapper as MapperFunction<P>;
-// };
+  return mapper as MapperFunction<P>;
+};
 
 type MappingContextFunction<P extends MappedComponentProperties> = (props: P) => JSX.Element;
 
@@ -134,4 +126,4 @@ function withComponentMappingContext<P extends MappedComponentProperties>(
   };
 }
 
-export { ComponentMapping, ComponentMappingContext, withComponentMappingContext };
+export { ComponentMapping, MapTo, withMappable, ComponentMappingContext, withComponentMappingContext };

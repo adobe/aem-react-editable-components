@@ -10,16 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-import { ModelProps } from "../types/AEMModel";
+import { ModelProps } from '../types/AEMModel';
 
 // AEM Model store specific logic could be placed here
 export const useStore = () => {
+  // const updateStore = (model: ModelProps) => {
 
-  const updateStore = (model: ModelProps) => {
+  // };
 
-  };
-
-  return {
-    updateStore
-  };
+  return {};
 };
