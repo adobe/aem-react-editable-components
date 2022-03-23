@@ -79,8 +79,7 @@ export class ModelProvider extends Component<ModelProviderType> {
    */
   public updateData(cqPath?: string): void {
     const { pagePath, itemPath, injectPropsOnInit } = this.props;
-    const path =
-      cqPath || this.props.cqPath || (pagePath && Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit }));
+    const path = cqPath || this.props.cqPath || (pagePath && Utils.getCQPath({ pagePath, itemPath }));
 
     if (!path) {
       return;
@@ -108,12 +107,13 @@ export class ModelProvider extends Component<ModelProviderType> {
     const { pagePath, itemPath, injectPropsOnInit } = this.props;
     let { cqPath } = this.props;
 
-    cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
+    cqPath = Utils.getCQPath({ pagePath, itemPath, cqPath });
     this.setState({ cqPath });
 
-    if (this.props.injectPropsOnInit) {
+    if (injectPropsOnInit) {
       this.updateData(cqPath);
     }
+
     ModelManager.addListener(cqPath, this.updateData);
   }
 
