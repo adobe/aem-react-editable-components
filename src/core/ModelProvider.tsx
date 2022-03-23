@@ -57,10 +57,12 @@ export class ModelProvider extends Component<ModelProviderType> {
     this.state = this.propsToState(props);
   }
 
-  public propsToState(props: ModelProviderType) {
-    // Keep private properties from being passed as state
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { wrappedComponent, cqForceReload, injectPropsOnInit, ...state } = props;
+  public propsToState(props: ModelProviderType): Partial<ModelProviderType> {
+    const state = { ...props } as Partial<ModelProviderType>;
+
+    delete state.wrappedComponent;
+    delete state.cqForceReload;
+    delete state.injectPropsOnInit;
 
     return state;
   }
@@ -121,7 +123,6 @@ export class ModelProvider extends Component<ModelProviderType> {
 
   public render(): JSX.Element {
     const WrappedComponent = this.props.wrappedComponent;
-
     return <WrappedComponent {...this.state} />;
   }
 }
@@ -150,4 +151,3 @@ export const withModel = <P extends MappedComponentProperties>(
     }
   };
 };
-
