@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@adobe/aem-spa-component-mapping": "^1.1.1",
+    "circular-dependency-plugin": "^5.2.2",
     "path-browserify": "^1.0.1",
     "react-fast-compare": "^3.0.0"
   },
