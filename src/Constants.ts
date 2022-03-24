@@ -10,8 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-import { Constants as PMConstants } from '@adobe/aem-spa-page-model-manager';
-
 /**
  * Constants for interacting with AEM components.
  */
@@ -56,14 +54,6 @@ export class Constants {
    * Selector for WCM mode state meta property.
    */
   public static readonly _WCM_MODE_META_SELECTOR = 'meta[property="cq:wcmmode"]';
-
-  public static readonly TYPE_PROP = PMConstants.TYPE_PROP;
-  public static readonly ITEMS_PROP = PMConstants.ITEMS_PROP;
-  public static readonly ITEMS_ORDER_PROP = PMConstants.ITEMS_ORDER_PROP;
-  public static readonly PATH_PROP = PMConstants.PATH_PROP;
-  public static readonly CHILDREN_PROP = PMConstants.CHILDREN_PROP;
-  public static readonly HIERARCHY_TYPE_PROP = PMConstants.HIERARCHY_TYPE_PROP;
-  public static readonly JCR_CONTENT = PMConstants.JCR_CONTENT;
 
   private constructor() {
     // hide constructor
