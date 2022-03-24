@@ -18,5 +18,5 @@ export * from './core/ModelProvider';
 export * from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';
 export * from './Constants';
-export * from './EditorContext';
+export * from './delete/EditorContext';
 export { default as Utils } from './utils/Utils';
