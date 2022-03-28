@@ -12,9 +12,8 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
-import { ClassNames } from '../constants/classnames.constants';
-import { Properties } from '../constants/properties.constants';
-import Utils from '../utils/Utils';
+import { ClassNames, Properties } from '../constants';
+import { Utils } from '../utils/Utils';
 import { useModel } from '../hooks/useModel';
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { PageModel } from '../types/AEMModel';

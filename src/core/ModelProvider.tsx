@@ -13,9 +13,9 @@
 import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
-import { Constants } from '../Constants';
+import { Constants } from '../ConstantsRefactor';
 import { MappedComponentProperties, ReloadForceAble } from './ComponentMapping';
-import Utils from '../utils/Utils';
+import { Utils } from '../utils/Utils';
 import { useEditor } from '../hooks/useEditor';
 
 /**
@@ -57,10 +57,12 @@ export class ModelProvider extends Component<ModelProviderType> {
     this.state = this.propsToState(props);
   }
 
-  public propsToState(props: ModelProviderType) {
-    // Keep private properties from being passed as state
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { wrappedComponent, cqForceReload, injectPropsOnInit, ...state } = props;
+  public propsToState(props: ModelProviderType): Partial<ModelProviderType> {
+    const state = { ...props } as Partial<ModelProviderType>;
+
+    delete state.wrappedComponent;
+    delete state.cqForceReload;
+    delete state.injectPropsOnInit;
 
     return state;
   }
@@ -77,8 +79,7 @@ export class ModelProvider extends Component<ModelProviderType> {
    */
   public updateData(cqPath?: string): void {
     const { pagePath, itemPath, injectPropsOnInit } = this.props;
-    const path =
-      cqPath || this.props.cqPath || (pagePath && Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit }));
+    const path = cqPath || this.props.cqPath || (pagePath && Utils.getCQPath({ pagePath, itemPath }));
 
     if (!path) {
       return;
@@ -106,12 +107,13 @@ export class ModelProvider extends Component<ModelProviderType> {
     const { pagePath, itemPath, injectPropsOnInit } = this.props;
     let { cqPath } = this.props;
 
-    cqPath = Utils.getCQPath({ pagePath, itemPath, injectPropsOnInit, cqPath });
+    cqPath = Utils.getCQPath({ pagePath, itemPath, cqPath });
     this.setState({ cqPath });
 
-    if (this.props.injectPropsOnInit) {
+    if (injectPropsOnInit) {
       this.updateData(cqPath);
     }
+
     ModelManager.addListener(cqPath, this.updateData);
   }
 
@@ -121,7 +123,6 @@ export class ModelProvider extends Component<ModelProviderType> {
 
   public render(): JSX.Element {
     const WrappedComponent = this.props.wrappedComponent;
-
     return <WrappedComponent {...this.state} />;
   }
 }
@@ -150,4 +151,3 @@ export const withModel = <P extends MappedComponentProperties>(
     }
   };
 };
-
