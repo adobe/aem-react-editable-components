@@ -11,8 +11,8 @@
  */
 import { useCallback } from 'react';
 import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
-import { Utils } from '../types';
-import { Events } from '../constants/events.constants';
+import { Utils } from '../utils/Utils';
+import { Events } from '../constants';
 
 // Editor specific logic could be placed here
 export const useModel = () => {

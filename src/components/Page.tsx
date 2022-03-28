@@ -12,9 +12,9 @@
 
 import React, { useState } from 'react';
 import { Container } from './Container';
-import { ClassNames } from '../constants/classnames.constants';
+import { ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
-import Utils from '../utils/Utils';
+import { Utils } from '../utils/Utils';
 import { ComponentMapping } from '../core/ComponentMapping';
 
 type Props = {

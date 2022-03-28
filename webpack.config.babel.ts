@@ -14,6 +14,7 @@ import path from 'path';
 import webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+import CircularDependencyPlugin from 'circular-dependency-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const mode = isProduction ? 'production' : 'development';
@@ -67,7 +68,16 @@ const config = {
     }),
   ],
 
-  plugins: [new webpack.ProgressPlugin(), new CleanWebpackPlugin()],
+  plugins: [
+    new webpack.ProgressPlugin(),
+    new CleanWebpackPlugin(),
+    new CircularDependencyPlugin({
+      exclude: /node_modules/,
+      failOnError: true,
+      allowAsyncCycles: false,
+      cwd: process.cwd(),
+    }),
+  ],
 };
 
 export default config;
