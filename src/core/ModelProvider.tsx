@@ -13,9 +13,9 @@
 import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
-import { Constants } from '../Constants';
+import { Constants } from '../ConstantsRefactor';
 import { MappedComponentProperties, ReloadForceAble } from './ComponentMapping';
-import Utils from '../utils/Utils';
+import { Utils } from '../utils/Utils';
 import { useEditor } from '../hooks/useEditor';
 
 /**

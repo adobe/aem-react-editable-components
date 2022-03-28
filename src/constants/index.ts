@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2021 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,13 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-export * from './core/ComponentMapping';
-export * from './components/AllowedComponentsContainer';
-export * from './components/Container';
-export { EditableComponent } from './core/EditableComponent';
-export * from './core/ModelProvider';
-export * from './components/Page';
-export { ResponsiveGrid } from './components/ResponsiveGrid';
-export * from './constants';
-export * from './delete/EditorContext';
-export { Utils } from './utils/Utils';
+import { Properties } from './properties';
+import { ClassNames } from './classnames';
+import { Events } from './events';
+
+export { Properties, ClassNames, Events };

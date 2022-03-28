@@ -12,7 +12,7 @@
 
 import React from 'react';
 import { AllowedComponentList, ModelProps } from '../types/AEMModel';
-import { ClassNames } from '../constants/classnames.constants';
+import { ClassNames } from '../constants';
 
 type Props = {
   allowedComponents: AllowedComponentList;

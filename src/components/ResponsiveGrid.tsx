@@ -15,7 +15,7 @@ import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { Config } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
-import { ClassNames } from '../constants/classnames.constants';
+import { ClassNames } from '../constants';
 import { Container } from './Container';
 
 export type ResponsiveGridComponentProps = {

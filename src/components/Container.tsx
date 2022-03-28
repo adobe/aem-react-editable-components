@@ -10,9 +10,8 @@
  * governing permissions and limitations under the License.
  */
 import React, { useState } from 'react';
-import Utils from '../utils/Utils';
-import { ClassNames } from '../constants/classnames.constants';
-import { Properties } from '../constants/properties.constants';
+import { Utils } from '../utils/Utils';
+import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
 import { ComponentMapping } from '../core/ComponentMapping';
 

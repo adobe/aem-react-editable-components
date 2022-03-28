@@ -81,4 +81,4 @@ const Utils = {
   },
 };
 
-export default Utils;
+export { Utils };
