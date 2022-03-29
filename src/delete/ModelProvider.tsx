@@ -69,7 +69,7 @@ export class ModelProvider extends Component<any> {
 
   public componentDidUpdate(prevProps: ModelProviderType): void {
     if (!isEqual(prevProps, this.props)) {
-      this.setState(this.propsToState(this.props));
+      this.setState(this.propsToState(this.props as any));
     }
   }
 
