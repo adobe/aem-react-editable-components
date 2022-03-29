@@ -20,6 +20,7 @@ import { ComponentMapping } from '../core/ComponentMapping';
 type Props = {
   isInEditor: boolean;
   componentMapping: typeof ComponentMapping;
+  className?: string;
 } & ModelProps;
 
 const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
@@ -41,6 +42,11 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
   return <>{pages}</>;
 };
 
-export const Page = (props: Props): JSX.Element => (
-  <Container className={ClassNames.PAGE} isPage={true} childPages={<PageList {...props} />} {...props} />
+export const Page = ({ className, ...props }: Props): JSX.Element => (
+  <Container
+    className={`${ClassNames.PAGE} ${className || ''}`}
+    isPage={true}
+    childPages={<PageList {...props} />}
+    {...props}
+  />
 );

@@ -43,7 +43,6 @@ export const useModel = () => {
     }
     return ModelManager.getData({ path: cqPath, forceReload })
       .then((data: Model) => {
-        console.log('inside hook');
         if (data && Object.keys(data).length) {
           setModel(Utils.modelToProps(data));
           isRemote && PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});

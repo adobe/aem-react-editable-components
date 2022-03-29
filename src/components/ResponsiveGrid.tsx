@@ -33,16 +33,18 @@ export const ResponsiveGrid = ({
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
+  const className = `${props.gridClassNames} ${ClassNames.CONTAINER}`;
+
   return props.allowedComponents?.applicable && props.isInEditor ? (
     <AllowedComponentsContainer
-      className={`${props.gridClassNames} ${ClassNames.CONTAINER}`}
+      {...props}
+      className={className}
       getItemClassNames={getItemClassNames}
       placeholderClassNames={ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES}
       title={title}
-      {...props}
     />
   ) : (
-    <Container getItemClassNames={getItemClassNames} {...props} />
+    <Container {...props} className={className} getItemClassNames={getItemClassNames} />
   );
 };
 
