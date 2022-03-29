@@ -14,7 +14,7 @@
 import React, { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { EditConfig } from './EditableComponent';
-import { ReloadableModelProperties } from './ModelProvider';
+import { ReloadableModelProperties } from '../delete/ModelProvider';
 import { withEditorContext } from '../delete/EditorContext';
 
 /**
@@ -41,7 +41,7 @@ export interface ReloadForceAble {
  */
 export interface MappedComponentProperties extends ReloadForceAble {
   isInEditor?: boolean;
-  cqPath: string;
+  cqPath?: string;
   appliedCssClassNames?: string;
   aemNoDecoration?: boolean;
 }

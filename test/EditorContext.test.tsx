@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { MappedComponentProperties } from '../src/core/ComponentMapping';
-import { EditorContext, withEditorContext } from '../src/EditorContext';
+import { EditorContext, withEditorContext } from '../src/delete/EditorContext';
 
 describe('EditorContext ->', () => {
   const ROOT_CLASS_NAME = 'root-class';

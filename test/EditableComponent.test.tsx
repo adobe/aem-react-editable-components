@@ -12,9 +12,12 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { act } from 'react-dom/test-utils';
+import { waitFor } from '@testing-library/react';
+import { ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
 import { MappedComponentProperties } from '../src/core/ComponentMapping';
 import { EditableComponent } from '../src/core/EditableComponent';
-import { Constants } from '../src/Constants';
+import { Properties, ClassNames, Events } from '../src/constants';
 
 describe('EditableComponent ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -28,7 +31,9 @@ describe('EditableComponent ->', () => {
   const EMPTY_TEXT_SELECTOR = '[data-emptytext="' + EMPTY_LABEL + '"]';
   const DATA_PATH_ATTRIBUTE_SELECTOR = '[data-cq-data-path="' + COMPONENT_PATH + '"]';
   const DATA_RESOURCE_TYPE_SELECTOR =
-    '[' + Constants.DATA_CQ_RESOURCE_TYPE_ATTR + '="' + COMPONENT_RESOURCE_TYPE + '"]';
+    '[' + Properties.DATA_CQ_RESOURCE_TYPE_ATTR + '="' + COMPONENT_RESOURCE_TYPE + '"]';
+  const INNER_COMPONENT_ID = 'innerContent';
+  const TEST_COMPONENT_MODEL = { ':type': 'test/components/componentchild' };
 
   const CQ_PROPS = {
     cqType: COMPONENT_RESOURCE_TYPE,
@@ -40,6 +45,8 @@ describe('EditableComponent ->', () => {
   };
 
   let rootNode: HTMLElement;
+  let addListenerSpy: jest.SpyInstance;
+  let getDataSpy: jest.SpyInstance;
 
   interface ChildComponentProps extends MappedComponentProperties {
     id?: string;
@@ -49,13 +56,19 @@ describe('EditableComponent ->', () => {
     render() {
       const editorClassNames = this.props.isInEditor ? IN_EDITOR_CLASS_NAME : '';
 
-      return <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME + ' ' + editorClassNames} />;
+      return <div id={INNER_COMPONENT_ID} className={CHILD_COMPONENT_CLASS_NAME + ' ' + editorClassNames} />;
     }
   }
+
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
 
   beforeEach(() => {
     rootNode = document.createElement('div');
     rootNode.className = ROOT_CLASS_NAME;
+    getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
+    addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
     document.body.appendChild(rootNode);
   });
 
@@ -64,6 +77,12 @@ describe('EditableComponent ->', () => {
       document.body.appendChild(rootNode);
       rootNode = undefined;
     }
+    getDataSpy.mockReset();
+    addListenerSpy.mockReset();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 
   type Props = {
@@ -89,15 +108,17 @@ describe('EditableComponent ->', () => {
         },
         emptyLabel: EMPTY_LABEL,
       };
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+        jest.runAllTimers();
+      });
 
       const node = rootNode.querySelector(
         DATA_PATH_ATTRIBUTE_SELECTOR +
           ' .' +
           CHILD_COMPONENT_CLASS_NAME +
           ' + .' +
-          Constants._PLACEHOLDER_CLASS_NAMES +
+          ClassNames.DEFAULT_PLACEHOLDER +
           EMPTY_TEXT_SELECTOR,
       );
 
@@ -110,19 +131,17 @@ describe('EditableComponent ->', () => {
           return true;
         },
       };
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      });
 
       let node = rootNode.querySelector(
-        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR,
+        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + ClassNames.DEFAULT_PLACEHOLDER + EMPTY_TEXT_SELECTOR,
       );
-
       expect(node).toBeNull();
-
       node = rootNode.querySelector(
-        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES,
+        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + ClassNames.DEFAULT_PLACEHOLDER,
       );
-
       expect(node).not.toBeNull();
     });
 
@@ -133,16 +152,15 @@ describe('EditableComponent ->', () => {
         },
       };
 
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG, false), rootNode);
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG, false), rootNode);
+      });
 
-      let node = rootNode.querySelector('.' + Constants._PLACEHOLDER_CLASS_NAMES + EMPTY_TEXT_SELECTOR);
-
+      let node = rootNode.querySelector('.' + ClassNames.DEFAULT_PLACEHOLDER + EMPTY_TEXT_SELECTOR);
       expect(node).toBeNull();
-
       node = rootNode.querySelector(
-        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES,
+        DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME + ' + .' + ClassNames.DEFAULT_PLACEHOLDER,
       );
-
       expect(node).toBeNull();
     });
 
@@ -154,14 +172,13 @@ describe('EditableComponent ->', () => {
         emptyLabel: EMPTY_LABEL,
       };
 
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      });
 
-      let node = rootNode.querySelector('.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + Constants._PLACEHOLDER_CLASS_NAMES);
-
+      let node = rootNode.querySelector('.' + CHILD_COMPONENT_CLASS_NAME + ' + .' + ClassNames.DEFAULT_PLACEHOLDER);
       expect(node).toBeNull();
-
       node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + ' .' + CHILD_COMPONENT_CLASS_NAME);
-
       expect(node).not.toBeNull();
     });
   });
@@ -175,11 +192,10 @@ describe('EditableComponent ->', () => {
         emptyLabel: EMPTY_LABEL,
         resourceType: COMPONENT_RESOURCE_TYPE,
       };
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
-
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      });
       const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
-
       expect(node).not.toBeNull();
     });
 
@@ -190,11 +206,10 @@ describe('EditableComponent ->', () => {
         },
         emptyLabel: EMPTY_LABEL,
       };
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
-
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      });
       const node = rootNode.querySelector(DATA_RESOURCE_TYPE_SELECTOR);
-
       expect(node).toBeNull();
     });
   });
@@ -208,11 +223,10 @@ describe('EditableComponent ->', () => {
         emptyLabel: EMPTY_LABEL,
         resourceType: COMPONENT_RESOURCE_TYPE,
       };
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
-
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      });
       const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + '.' + CQ_PROPS.appliedCssClassNames);
-
       expect(node).not.toBeNull();
     });
 
@@ -225,11 +239,10 @@ describe('EditableComponent ->', () => {
         resourceType: COMPONENT_RESOURCE_TYPE,
       };
       const { appliedCssClassNames, ...otherCQProps } = CQ_PROPS;
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG, true, otherCQProps), rootNode);
-
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG, true, otherCQProps), rootNode);
+      });
       const node = rootNode.querySelector(DATA_PATH_ATTRIBUTE_SELECTOR + '.' + appliedCssClassNames);
-
       expect(node).toBeNull();
     });
 
@@ -241,15 +254,132 @@ describe('EditableComponent ->', () => {
         emptyLabel: EMPTY_LABEL,
         resourceType: COMPONENT_RESOURCE_TYPE,
       };
-
-      ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
-
+      act(() => {
+        ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
+      });
       const node = rootNode.querySelector('.' + GRID_CLASS_NAME);
-
       expect(node).not.toBeNull();
     });
   });
 
+  describe('Model events ->', () => {
+    it('should initialize properly without parameter', () => {
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent cqPath="">
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+      expect(addListenerSpy).toHaveBeenCalledWith('', expect.any(Function));
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+      expect(childNode).toBeDefined();
+    });
+
+    it('should render components with a cqpath parameter', () => {
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent cqPath={COMPONENT_PATH}>
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+      expect(addListenerSpy).toHaveBeenCalledWith(COMPONENT_PATH, expect.any(Function));
+      expect(getDataSpy).toHaveBeenCalledWith({ path: COMPONENT_PATH, forceReload: false });
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+      expect(childNode).toBeDefined();
+    });
+
+    it('should render components with a pagepath parameter', () => {
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent pagePath={COMPONENT_PATH}>
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+      expect(addListenerSpy).toHaveBeenCalledWith(COMPONENT_PATH, expect.any(Function));
+      expect(getDataSpy).toHaveBeenCalledWith({ path: COMPONENT_PATH, forceReload: false });
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+      expect(childNode).toBeDefined();
+    });
+
+    it('should render components when pagepath and path to item is provided', () => {
+      const PAGE_PATH = '/page/subpage';
+      const ITEM_PATH = 'root/paragraph';
+      const PATH = `${PAGE_PATH}/jcr:content/${ITEM_PATH}`;
+
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent pagePath={PAGE_PATH} itemPath={ITEM_PATH}>
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+
+      expect(addListenerSpy).toHaveBeenCalledWith(PATH, expect.any(Function));
+      expect(getDataSpy).toHaveBeenCalledWith({ path: PATH, forceReload: false });
+
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+      expect(childNode).toBeDefined();
+    });
+
+    it('should fire event to reload editables when in editor for remote app', async () => {
+      const dispatchEventSpy: jest.SpyInstance = jest
+        .spyOn(PathUtils, 'dispatchGlobalCustomEvent')
+        .mockImplementation();
+      getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent pagePath={COMPONENT_PATH}>
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+
+      expect(getDataSpy).toHaveBeenCalledWith({ path: COMPONENT_PATH, forceReload: false });
+      const childNode = rootNode.querySelector('#' + INNER_COMPONENT_ID);
+      expect(childNode).toBeDefined();
+      await waitFor(() => expect(dispatchEventSpy).toHaveBeenCalledWith(Events.ASYNC_CONTENT_LOADED_EVENT, {}));
+      dispatchEventSpy.mockReset();
+    });
+    it('should log error when there is no data', async () => {
+      const error = new Error('404 - Not found');
+      getDataSpy.mockRejectedValue(error);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent cqPath={COMPONENT_PATH}>
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+      await waitFor(() => expect(consoleSpy).toHaveBeenCalledWith(error));
+      consoleSpy.mockRestore();
+    });
+    it('should remove listeners on unmount', () => {
+      const removeListenerSpy: jest.SpyInstance = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
+
+      act(() => {
+        ReactDOM.render(
+          <EditableComponent cqPath={COMPONENT_PATH}>
+            <ChildComponent />
+          </EditableComponent>,
+          rootNode,
+        );
+      });
+      ReactDOM.unmountComponentAtNode(rootNode);
+      expect(removeListenerSpy).toHaveBeenCalledWith(COMPONENT_PATH, expect.any(Function));
+    });
+  });
   // Is aemnodecoration needed?
   // describe('component decoration ->', () => {
   //   it('if aemNoDecoration is set to true, there should not be a component div wrapper', () => {

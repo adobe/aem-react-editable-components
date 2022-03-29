@@ -12,15 +12,14 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Model } from '@adobe/aem-spa-page-model-manager';
 import {
   ComponentMapping,
   MappedComponentProperties,
   withComponentMappingContext,
 } from '../../src/core/ComponentMapping';
-import { withEditable } from '../../src/core/EditableComponent';
 import { Page } from '../../src/components/Page';
-import { EditorContext, withEditorContext } from '../../src/EditorContext';
-import { Model } from '@adobe/aem-spa-page-model-manager';
+import { EditorContext, withEditorContext } from '../../src/delete/EditorContext';
 
 describe('Page ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -159,13 +158,11 @@ describe('Page ->', () => {
     });
 
     it('should add the expected children with data attributes when in WCM edit mode', () => {
-      const EditableChildComponent = withEditable(ChildComponent);
-
       ComponentMappingSpy.mockImplementation((key: string) => {
         switch (key) {
           case COMPONENT_TYPE1:
           case COMPONENT_TYPE2:
-            return EditableChildComponent;
+            return ChildComponent;
 
           case PAGE_TYPE1:
           case PAGE_TYPE2:

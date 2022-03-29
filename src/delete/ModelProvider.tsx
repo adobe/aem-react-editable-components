@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Adobe. All rights reserved.
+ * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,13 +10,17 @@
  * governing permissions and limitations under the License.
  */
 
-import { ModelProps } from '../types/AEMModel';
-
-// AEM Model store specific logic could be placed here
-export const useStore = () => {
-  // const updateStore = (model: ModelProps) => {
-
-  // };
-
-  return {};
-};
+/**
+ * Configuration object of the withModel function.
+ */
+export interface ReloadableModelProperties {
+  /*
+   * Should the model cache be ignored when processing the component.
+   */
+  forceReload?: boolean;
+  /**
+   * Should the component data be retrieved from the aem page model
+   * and passed down as props on componentMount
+   */
+  injectPropsOnInit?: boolean;
+}

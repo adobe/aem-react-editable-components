@@ -27,10 +27,6 @@ export const ClassNames = Object.freeze({
    */
   CONTAINER: 'aem-container',
   /**
-   * Class name used to denote child items of aem-container root element.
-   */
-  CONTAINER_CHILD: 'container-child',
-  /**
    * Class name used to identify the placeholder used to represent an empty component.
    */
   DEFAULT_PLACEHOLDER: 'cq-placeholder',

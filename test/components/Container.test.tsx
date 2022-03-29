@@ -14,7 +14,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
 import { Container } from '../../src/components/Container';
-import { withEditable } from '../../src/core/EditableComponent';
 
 describe('Container ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
@@ -155,7 +154,7 @@ describe('Container ->', () => {
     });
 
     it('should add a data attribute on the children when in WCM edit mode', () => {
-      ComponentMappingSpy.mockReturnValue(withEditable(ComponentChild));
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
       ReactDOM.render(
         <Container
           componentMapping={ComponentMapping}
