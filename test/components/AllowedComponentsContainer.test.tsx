@@ -31,11 +31,6 @@ describe('AllowedComponentsContainer ->', () => {
     components: [],
   };
 
-  const ALLOWED_COMPONENTS_NOT_APPLICABLE_DATA: AllowedComponentList = {
-    applicable: false,
-    components: [],
-  };
-
   const ALLOWED_COMPONENTS_DATA: AllowedComponentList = {
     applicable: true,
     components: [

@@ -77,7 +77,7 @@ describe('ResponsiveGrid ->', () => {
     cqType: '',
   };
 
-  let rootNode: any;
+  let rootNode: HTMLElement;
   let ComponentMappingSpy: jest.SpyInstance;
 
   beforeEach(() => {
