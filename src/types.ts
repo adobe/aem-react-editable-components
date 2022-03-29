@@ -14,7 +14,6 @@ export * from './core/ComponentMapping';
 export * from './components/AllowedComponentsContainer';
 export * from './components/Container';
 export { EditableComponent } from './core/EditableComponent';
-export * from './delete/ModelProvider';
 export * from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';
 export * from './constants';
