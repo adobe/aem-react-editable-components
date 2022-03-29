@@ -351,6 +351,7 @@ describe('EditableComponent ->', () => {
     it('should log error when there is no data', async () => {
       const error = new Error('404 - Not found');
       getDataSpy.mockRejectedValue(error);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       act(() => {
