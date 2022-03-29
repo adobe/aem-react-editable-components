@@ -14,7 +14,7 @@ import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manage
 import React, { Component } from 'react';
 import isEqual from 'react-fast-compare';
 import { Constants } from '../ConstantsRefactor';
-import { MappedComponentProperties, ReloadForceAble } from './ComponentMapping';
+import { MappedComponentProperties, ReloadForceAble } from '../core/ComponentMapping';
 import { Utils } from '../utils/Utils';
 import { useEditor } from '../hooks/useEditor';
 
@@ -50,7 +50,7 @@ export interface ModelProviderType extends ReloadForceAble {
  *
  * @private
  */
-export class ModelProvider extends Component<ModelProviderType> {
+export class ModelProvider extends Component<any> {
   constructor(props: ModelProviderType) {
     super(props);
     this.updateData = this.updateData.bind(this);
