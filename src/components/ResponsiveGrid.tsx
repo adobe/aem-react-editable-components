@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -11,50 +11,65 @@
  */
 import React from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
-import { MapTo, withComponentMappingContext } from '../core/ComponentMapping';
+import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
-import { Config } from '../core/EditableComponent';
+import { Config, EditableComponent } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
 import { ClassNames } from '../constants';
 import { Container } from './Container';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
-export type ResponsiveGridComponentProps = {
+type ResponsiveGridComponentProps = {
   title?: string;
   isInEditor: boolean;
-  componentMapping: typeof ComponentMapping;
+  componentMapping?: typeof ComponentMapping;
+  config?: Config<MappedComponentProperties>;
+  className?: string;
 } & ResponsiveGridProps;
 
-export const ResponsiveGrid = ({
+const LayoutContainer = ({
   title = 'Layout Container',
   columnClassNames,
+  isInEditor,
+  className = '',
   ...props
 }: ResponsiveGridComponentProps): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
-  const className = `${props.gridClassNames} ${ClassNames.CONTAINER}`;
+  const gridClassNames = `${props.gridClassNames} ${ClassNames.CONTAINER}`;
+  const gridProps = {
+    ...props,
+    customClassName: className,
+    className: gridClassNames,
+    getItemClassNames,
+    placeholderClassNames: ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES,
+    isInEditor,
+  };
 
-  return props.allowedComponents?.applicable && props.isInEditor ? (
-    <AllowedComponentsContainer
-      {...props}
-      className={className}
-      getItemClassNames={getItemClassNames}
-      placeholderClassNames={ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES}
-      title={title}
-    />
+  return props.allowedComponents?.applicable && isInEditor ? (
+    <AllowedComponentsContainer {...gridProps} title={title} />
   ) : (
-    <Container {...props} className={className} getItemClassNames={getItemClassNames} />
+    <Container {...gridProps} />
   );
 };
 
-const config: Config<ResponsiveGridProps> = {
-  isEmpty(props: ResponsiveGridProps): boolean {
-    return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
-  },
+export const ResponsiveGrid = ({
+  isInEditor = AuthoringUtils.isInEditor(),
+  ...props
+}: ResponsiveGridComponentProps): JSX.Element => {
+  const config = {
+    isEmpty: (props: ResponsiveGridProps): boolean => {
+      return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
+    },
+  };
+
+  return (
+    <EditableComponent config={config} {...props}>
+      <LayoutContainer {...props} isInEditor={isInEditor} />
+    </EditableComponent>
+  );
 };
 
-MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(
-  withComponentMappingContext(ResponsiveGrid),
-  config,
-);
+MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(ResponsiveGrid);

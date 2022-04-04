@@ -16,6 +16,3 @@ export * from './components/Container';
 export { EditableComponent } from './core/EditableComponent';
 export * from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';
-export * from './constants';
-export * from './delete/EditorContext';
-export { Utils } from './utils/Utils';

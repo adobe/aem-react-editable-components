@@ -9,11 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useState } from 'react';
+import React from 'react';
 import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
 import { ComponentMapping } from '../core/ComponentMapping';
+import { Config } from '../core/EditableComponent';
+import { MappedComponentProperties } from '../core/ComponentMapping';
 
 type Props = {
   className?: string;
@@ -21,8 +23,12 @@ type Props = {
   isPage?: boolean;
   childPages?: JSX.Element;
   getItemClassNames?: (_key: string) => string;
+  placeholderClassNames?: string;
   isInEditor: boolean;
-  componentMapping: typeof ComponentMapping;
+  componentMapping?: typeof ComponentMapping;
+  removeAEMStyles?: boolean;
+  config?: Config<MappedComponentProperties>;
+  customClassName?: string;
 } & ModelProps;
 
 const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
@@ -38,7 +44,7 @@ const getItemPath = (cqPath: string, itemKey: string, isPage = false): string =>
 };
 
 const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: Props) => {
-  const [componentMapping, setComponentMapping] = useState(() => props.componentMapping || ComponentMapping);
+  const componentMapping = props.componentMapping || ComponentMapping;
   if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }
@@ -48,7 +54,15 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
     if (itemProps && itemProps.cqType) {
       const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType);
       const itemPath = getItemPath(cqPath, itemKey, isPage);
-      return <ItemComponent key={itemPath} {...itemProps} cqPath={itemPath} className={itemClassNames} />;
+      return (
+        <ItemComponent
+          key={itemPath}
+          {...itemProps}
+          cqPath={itemPath}
+          className={itemClassNames}
+          removeAEMStyles={props.removeAEMStyles}
+        />
+      );
     }
   });
   return <>{components}</>;
@@ -56,25 +70,30 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
 
 // to do: clarify usage of component mapping and define type
 export const Container = (props: Props): JSX.Element => {
-  const { cqPath = '', className = '', isPage = false, isInEditor, childPages } = props;
+  const { cqPath = '', className = '', isPage = false, isInEditor, childPages, placeholderClassNames = '' } = props;
 
-  const containerProps = {
-    [Properties.DATA_PATH_ATTR]: cqPath,
-  };
+  const containerProps =
+    (isInEditor && {
+      [Properties.DATA_PATH_ATTR]: cqPath,
+    }) ||
+    {};
+
   const childComponents = <ComponentList {...props} />;
 
   // clarify why aemnodecoration is needed when not in editor in the first place
   // shouldnt all aem specific things be removed anyway?
-  return isInEditor ? (
+  return isInEditor || (!props.removeAEMStyles && className) ? (
     <div className={className || ClassNames.CONTAINER} {...containerProps}>
       {childComponents}
       {childPages}
-      {!isPage && <div data-cq-data-path={`${cqPath}/*`} className={ClassNames.NEW_SECTION} />}
+      {!isPage && isInEditor && (
+        <div data-cq-data-path={`${cqPath}/*`} className={`${ClassNames.NEW_SECTION} ${placeholderClassNames}`} />
+      )}
     </div>
   ) : (
-    <>
+    <div className={props.customClassName || ''}>
       {childComponents}
       {childPages}
-    </>
+    </div>
   );
 };

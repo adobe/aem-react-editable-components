@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -9,13 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import React, { ComponentType } from 'react';
+
+import { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
-import { EditConfig } from './EditableComponent';
-import { ReloadableModelProperties } from '../delete/ModelProvider';
-import { withEditorContext } from '../delete/EditorContext';
 
 /**
  * @private
@@ -47,27 +43,6 @@ export interface MappedComponentProperties extends ReloadForceAble {
 }
 
 /**
- * Makes a React component mappable to AEM resourceTypes by adding Model config and AEM editing capabilities to it.
- *
- * @param component React representation for the component
- * @param editConfig Configuration object for enabling the edition capabilities.
- * @param config Model configuration object.
- * @returns The resulting decorated Component
- */
-const withMappable = <P extends MappedComponentProperties>(
-  component: ComponentType<P>,
-  config?: ReloadableModelProperties,
-): ComponentType<P> => {
-  const { injectPropsOnInit = true, forceReload = false, ...rest } = config || {};
-  const configToUse: ReloadableModelProperties = { injectPropsOnInit, forceReload, ...rest };
-  let innerComponent: ComponentType<P> = component;
-
-  innerComponent = withEditorContext(component, configToUse);
-
-  return innerComponent;
-};
-
-/**
  * Map a React component with the given resource types.
  * If an {@link EditConfig} is provided the component is wrapped to provide editing capabilities on the AEM Page Editor
  *
@@ -80,15 +55,9 @@ const withMappable = <P extends MappedComponentProperties>(
 ComponentMapping.map = function map<P extends MappedComponentProperties>(
   resourceTypes: string | string[],
   component: ComponentType<P>,
-  editConfig?: EditConfig<P>,
-  config?: ReloadableModelProperties,
 ) {
-  const { injectPropsOnInit = false, ...rest } = config || {};
-  const innerComponent = withMappable(component, editConfig, { injectPropsOnInit, ...rest });
-
-  wrappedMapFct.call(ComponentMapping, resourceTypes, innerComponent);
-
-  return innerComponent;
+  wrappedMapFct.call(ComponentMapping, resourceTypes, component);
+  return component;
 };
 
 ComponentMapping.get = wrappedGetFct;
@@ -96,34 +65,15 @@ ComponentMapping.get = wrappedGetFct;
 /**
  * @private
  */
-type MapperFunction<P extends MappedComponentProperties> = (
-  component: ComponentType<P>,
-  editConfig?: EditConfig<P>,
-) => ComponentType<P>;
+type MapperFunction<P extends MappedComponentProperties> = (_component: ComponentType<P>) => ComponentType<P>;
 
 const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
-  const mapper = (clazz: ComponentType<P>, config?: EditConfig<P>) => {
+  const mapper = (component: ComponentType<P>) => {
     // todo: pass 3rd argument: config
-    return ComponentMapping.map(resourceTypes, clazz);
+    return ComponentMapping.map(resourceTypes, component);
   };
 
   return mapper as MapperFunction<P>;
 };
 
-type MappingContextFunction<P extends MappedComponentProperties> = (props: P) => JSX.Element;
-
-const ComponentMappingContext: React.Context<typeof ComponentMapping> = React.createContext(ComponentMapping);
-
-function withComponentMappingContext<P extends MappedComponentProperties>(
-  Component: React.ComponentType<P>,
-): MappingContextFunction<P> {
-  return function ComponentMappingContextComponent(props: P): JSX.Element {
-    return (
-      <ComponentMappingContext.Consumer>
-        {(componentMapping: ComponentMapping) => <Component {...props} componentMapping={componentMapping} />}
-      </ComponentMappingContext.Consumer>
-    );
-  };
-}
-
-export { ComponentMapping, MapTo, withMappable, ComponentMappingContext, withComponentMappingContext };
+export { ComponentMapping, MapTo };
