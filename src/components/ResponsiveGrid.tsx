@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
+import classnames from 'classnames';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
@@ -24,25 +25,28 @@ type ResponsiveGridComponentProps = {
   isInEditor: boolean;
   componentMapping?: typeof ComponentMapping;
   config?: Config<MappedComponentProperties>;
-  className?: string;
+  customClassName?: string;
+  removeAEMStyles?: boolean;
 } & ResponsiveGridProps;
 
 const LayoutContainer = ({
   title = 'Layout Container',
   columnClassNames,
   isInEditor,
-  className = '',
   ...props
 }: ResponsiveGridComponentProps): JSX.Element => {
   const getItemClassNames = (itemKey: string) => {
     return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
   };
 
-  const gridClassNames = `${props.gridClassNames} ${ClassNames.CONTAINER}`;
+  let className = props.customClassName || '';
+  if (isInEditor || !props.removeAEMStyles) {
+    className = classnames(className, `${props.gridClassNames || ''} ${ClassNames.CONTAINER}`);
+  }
+
   const gridProps = {
     ...props,
-    customClassName: className,
-    className: gridClassNames,
+    className,
     getItemClassNames,
     placeholderClassNames: ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES,
     isInEditor,

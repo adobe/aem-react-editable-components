@@ -28,7 +28,6 @@ type Props = {
   componentMapping?: typeof ComponentMapping;
   removeAEMStyles?: boolean;
   config?: Config<MappedComponentProperties>;
-  customClassName?: string;
 } & ModelProps;
 
 const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
@@ -82,7 +81,7 @@ export const Container = (props: Props): JSX.Element => {
 
   // clarify why aemnodecoration is needed when not in editor in the first place
   // shouldnt all aem specific things be removed anyway?
-  return isInEditor || (!props.removeAEMStyles && className) ? (
+  return isInEditor ? (
     <div className={className || ClassNames.CONTAINER} {...containerProps}>
       {childComponents}
       {childPages}
@@ -91,7 +90,7 @@ export const Container = (props: Props): JSX.Element => {
       )}
     </div>
   ) : (
-    <div className={props.customClassName || ''}>
+    <div className={className}>
       {childComponents}
       {childPages}
     </div>
