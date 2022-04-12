@@ -29,6 +29,7 @@ type ResponsiveGridComponentProps = {
   removeAEMStyles?: boolean;
 } & ResponsiveGridProps;
 
+const RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
 const LayoutContainer = ({
   title = 'Layout Container',
   columnClassNames,
@@ -67,6 +68,7 @@ export const ResponsiveGrid = ({
     isEmpty: (props: ResponsiveGridProps): boolean => {
       return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
     },
+    resourceType: RESOURCE_TYPE,
   };
 
   return (
@@ -76,4 +78,4 @@ export const ResponsiveGrid = ({
   );
 };
 
-MapTo<ResponsiveGridComponentProps>('wcm/foundation/components/responsivegrid')(ResponsiveGrid);
+MapTo<ResponsiveGridComponentProps>(RESOURCE_TYPE)(ResponsiveGrid);

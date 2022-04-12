@@ -9,7 +9,8 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* @ts-ignore */
 import React, { ReactNode, useEffect, useState } from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
 import { ClassNames, Properties } from '../constants';
@@ -79,9 +80,7 @@ export const EditableComponent = ({
 
   const componentProps = {
     cqPath: path,
-    ...props,
     ...model,
-    isInEditor,
   };
 
   const dataAttr =
@@ -95,12 +94,13 @@ export const EditableComponent = ({
     props.appliedCssClassNames || ''
   }`.trim();
 
+  const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
   return isInEditor || (!props.removeAEMStyles && className) ? (
     <div className={className} {...dataAttr}>
-      {addPropsToComponent(children, componentProps)}
+      {updatedComponent}
       {isInEditor && <Placeholder config={config} {...componentProps} />}
     </div>
   ) : (
-    <>{addPropsToComponent(children, componentProps)}</>
+    <>{updatedComponent}</>
   );
 };
