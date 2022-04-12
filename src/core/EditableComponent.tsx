@@ -9,8 +9,6 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* @ts-ignore */
 import React, { ReactNode, useEffect, useState } from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
 import { ClassNames, Properties } from '../constants';
