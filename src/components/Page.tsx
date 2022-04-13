@@ -36,7 +36,7 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
     const { cqPath, cqType } = itemProps;
     if (cqType) {
       const ItemComponent: React.ElementType = componentMapping.get(cqType);
-      return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
+      return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} isInEditor={props.isInEditor} />;
     }
   });
 

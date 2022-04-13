@@ -13,7 +13,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
-import { ComponentMapping } from '../../src/core/ComponentMapping';
+import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
 import { Page } from '../../src/components/Page';
 
 describe('Page ->', () => {
@@ -131,7 +131,7 @@ describe('Page ->', () => {
           cqItems={ITEMS}
           cqItemsOrder={ITEMS_ORDER}
           isInEditor={true}
-        ></Page>
+        />
       );
 
       ReactDOM.render(element, rootNode);
