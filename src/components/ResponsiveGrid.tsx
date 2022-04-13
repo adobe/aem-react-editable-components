@@ -65,8 +65,8 @@ export const ResponsiveGrid = ({
   ...props
 }: ResponsiveGridComponentProps): JSX.Element => {
   const config = {
-    isEmpty: (props: ResponsiveGridProps): boolean => {
-      return (props.cqItemsOrder && props.cqItemsOrder.length > 0) || false;
+    isEmpty: (gridProps: ResponsiveGridProps): boolean => {
+      return (gridProps.cqItemsOrder && gridProps.cqItemsOrder.length > 0) || false;
     },
     resourceType: RESOURCE_TYPE,
   };

@@ -13,9 +13,8 @@ import React from 'react';
 import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
-import { ComponentMapping } from '../core/ComponentMapping';
+import { ComponentMapping, MappedComponentProperties } from '../core/ComponentMapping';
 import { Config } from '../core/EditableComponent';
-import { MappedComponentProperties } from '../core/ComponentMapping';
 
 type Props = {
   className?: string;
