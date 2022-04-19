@@ -12,14 +12,9 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Model } from '@adobe/aem-spa-page-model-manager';
-import {
-  ComponentMapping,
-  MappedComponentProperties,
-  withComponentMappingContext,
-} from '../../src/core/ComponentMapping';
+import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
 import { Page } from '../../src/components/Page';
-import { EditorContext, withEditorContext } from '../../src/delete/EditorContext';
 
 describe('Page ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -71,7 +66,6 @@ describe('Page ->', () => {
   };
 
   let rootNode: Element;
-  let EditorContextPage: any;
   let ComponentMappingSpy: jest.SpyInstance;
 
   interface DummyProps extends MappedComponentProperties {
@@ -88,11 +82,11 @@ describe('Page ->', () => {
 
   beforeEach(() => {
     ComponentMappingSpy = jest.spyOn(ComponentMapping, 'get');
-    EditorContextPage = withComponentMappingContext(withEditorContext(Page));
-    EditorContextPage.test = true;
     rootNode = document.createElement('div');
     rootNode.className = ROOT_CLASS_NAME;
     document.body.appendChild(rootNode);
+    jest.spyOn(ModelManager, 'addListener').mockImplementation();
+    jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
   });
 
   afterEach(() => {
@@ -137,7 +131,7 @@ describe('Page ->', () => {
           cqItems={ITEMS}
           cqItemsOrder={ITEMS_ORDER}
           isInEditor={true}
-        ></Page>
+        />
       );
 
       ReactDOM.render(element, rootNode);
@@ -166,7 +160,7 @@ describe('Page ->', () => {
 
           case PAGE_TYPE1:
           case PAGE_TYPE2:
-            return EditorContextPage;
+            return Page;
 
           default:
             return null;
@@ -174,16 +168,14 @@ describe('Page ->', () => {
       });
 
       const element = (
-        <EditorContext.Provider value={true}>
-          <Page
-            componentMapping={ComponentMapping}
-            isInEditor={true}
-            cqPath={PAGE_PATH}
-            cqChildren={CHILDREN}
-            cqItems={ITEMS}
-            cqItemsOrder={ITEMS_ORDER}
-          ></Page>
-        </EditorContext.Provider>
+        <Page
+          componentMapping={ComponentMapping}
+          isInEditor={true}
+          cqPath={PAGE_PATH}
+          cqChildren={CHILDREN}
+          cqItems={ITEMS}
+          cqItemsOrder={ITEMS_ORDER}
+        />
       );
 
       ReactDOM.render(element, rootNode);

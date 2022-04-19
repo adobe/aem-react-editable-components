@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,12 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Container } from './Container';
 import { ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
 import { Utils } from '../utils/Utils';
 import { ComponentMapping } from '../core/ComponentMapping';
+import { EditableComponent } from '../core/EditableComponent';
 
 type Props = {
   isInEditor: boolean;
@@ -24,7 +25,7 @@ type Props = {
 } & ModelProps;
 
 const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
-  const [componentMapping, setComponentMapping] = useState(() => props.componentMapping || ComponentMapping);
+  const componentMapping = props.componentMapping || ComponentMapping;
 
   if (!cqChildren) {
     return <></>;
@@ -35,7 +36,7 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
     const { cqPath, cqType } = itemProps;
     if (cqType) {
       const ItemComponent: React.ElementType = componentMapping.get(cqType);
-      return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} />;
+      return <ItemComponent {...itemProps} key={cqPath} cqPath={cqPath} isInEditor={props.isInEditor} />;
     }
   });
 
@@ -43,10 +44,12 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
 };
 
 export const Page = ({ className, ...props }: Props): JSX.Element => (
-  <Container
-    className={`${ClassNames.PAGE} ${className || ''}`}
-    isPage={true}
-    childPages={<PageList {...props} />}
-    {...props}
-  />
+  <EditableComponent {...props}>
+    <Container
+      className={`${ClassNames.PAGE} ${className || ''}`}
+      isPage={true}
+      childPages={<PageList {...props} />}
+      {...props}
+    />
+  </EditableComponent>
 );

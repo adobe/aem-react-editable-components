@@ -12,8 +12,9 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
-import { ResponsiveGrid, ResponsiveGridComponentProps } from '../../src/components/ResponsiveGrid';
+import { ResponsiveGrid } from '../../src/components/ResponsiveGrid';
 import { AllowedComponentList } from '../../src/types/AEMModel';
 
 describe('ResponsiveGrid ->', () => {
@@ -64,7 +65,7 @@ describe('ResponsiveGrid ->', () => {
     components: [],
   };
 
-  const STANDARD_GRID_PROPS: ResponsiveGridComponentProps = {
+  const STANDARD_GRID_PROPS = {
     cqPath: '',
     gridClassNames: '',
     columnClassNames: {},
@@ -85,6 +86,8 @@ describe('ResponsiveGrid ->', () => {
     rootNode = document.createElement('div');
     rootNode.className = ROOT_CLASS_NAME;
     document.body.appendChild(rootNode);
+    jest.spyOn(ModelManager, 'addListener').mockImplementation();
+    jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
   });
 
   afterEach(() => {

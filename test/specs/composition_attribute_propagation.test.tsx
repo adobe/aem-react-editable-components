@@ -13,7 +13,6 @@
 import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { withEditorContext } from '../../src/delete/EditorContext';
 import { MappedComponentProperties } from '../../src/core/ComponentMapping';
 
 describe('Composition and attribute propagation ->', () => {
@@ -94,7 +93,7 @@ describe('Composition and attribute propagation ->', () => {
 
   describe('withEditorContext ->', () => {
     it('should propagate attributes to properties', () => {
-      testCompositionAttributePropagation(withEditorContext(ChildComponent));
+      testCompositionAttributePropagation(ChildComponent);
     });
   });
 });
