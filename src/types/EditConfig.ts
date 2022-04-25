@@ -9,9 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
-// Editor specific logic could be placed here
-export const useEditor = (): boolean => {
-  return AuthoringUtils.isInEditor();
-};
+import { MappedComponentProperties } from '../core/ComponentMapping';
+
+export interface Config<P extends MappedComponentProperties> {
+  emptyLabel?: string;
+  isEmpty(_props: P): boolean;
+  resourceType?: string;
+  forceReload?: boolean;
+}

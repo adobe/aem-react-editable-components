@@ -10,9 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
-export * from './core/ComponentMapping';
-export * from './components/AllowedComponentsContainer';
-export * from './components/Container';
+export { MapTo } from './core/ComponentMapping';
+export { Container } from './components/Container';
 export { EditableComponent } from './core/EditableComponent';
-export * from './components/Page';
+export { Page } from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';
+export { useModel } from './hooks/useModel';

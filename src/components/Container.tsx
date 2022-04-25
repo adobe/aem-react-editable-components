@@ -14,7 +14,7 @@ import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
 import { ComponentMapping, MappedComponentProperties } from '../core/ComponentMapping';
-import { Config } from '../core/EditableComponent';
+import { Config } from '../types/EditConfig';
 
 type Props = {
   className?: string;

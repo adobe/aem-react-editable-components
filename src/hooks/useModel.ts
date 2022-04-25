@@ -10,48 +10,32 @@
  * governing permissions and limitations under the License.
  */
 import { useCallback } from 'react';
-import { Model, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
+import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { Utils } from '../utils/Utils';
-import { Events } from '../constants';
+import { ModelProps } from '../types/AEMModel';
 
-// Editor specific logic could be placed here
-export const useModel = () => {
-  //   const initializeModel = (props: PathObj, isInEditor = false, forceReload = false) => {
-  //     const { fetchModel } = useModel();
+type Props = {
+  cqPath?: string;
+  forceReload?: boolean;
+  pagePath?: string;
+  itemPath?: string;
+};
 
-  //     const path = Utils.getCQPath(props); //check if injectprops is needed after refactoring and update util accordingly
-  //     ModelManager.addListener(path, fetchModel);
-  //     return fetchModel(props, forceReload)
-  //       .then(data => {
-  //         if (isInEditor && props.pagePath) {
-  //           PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});
-  //         }
-  //         return data;
-  //       })
-  // Following logic for standalone items or highest level in 2.0 only. Figure how to do this in a simpler way
-  // Use an extra prop like injectprops as already done?
-  // or would checking for pagepath do as it should not be available for children
-  // if(isInEditor() && injectPropsOnInit) {
-  //   PathUtils.dispatchGlobalCustomEvent(Constants.ASYNC_CONTENT_LOADED_EVENT, {});
-  // }
-  //       .catch(err => console.error(err));
-  // }
-
-  const fetchModel = useCallback((cqPath: string, setModel, forceReload = false, isRemote) => {
-    if (!cqPath) {
+// Model specific logic could be placed here
+export const useModel = (): { fetchModel: (_arg: Props) => Promise<void | ModelProps> | undefined } => {
+  const fetchModel = useCallback(({ cqPath, forceReload = false, pagePath, itemPath }: Props) => {
+    if (!cqPath && !pagePath) {
       return;
     }
-    return ModelManager.getData({ path: cqPath, forceReload })
+    return ModelManager.getData({ path: cqPath || Utils.getCQPath({ pagePath, itemPath }), forceReload })
       .then((data: Model) => {
         if (data && Object.keys(data).length) {
-          setModel(Utils.modelToProps(data));
-          isRemote && PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});
+          return Utils.modelToProps(data);
         }
+        return {};
       })
       .catch((err) => console.error(err));
   }, []);
 
-  return {
-    fetchModel,
-  };
+  return { fetchModel };
 };

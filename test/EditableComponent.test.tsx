@@ -380,21 +380,4 @@ describe('EditableComponent ->', () => {
       expect(removeListenerSpy).toHaveBeenCalledWith(COMPONENT_PATH, expect.any(Function));
     });
   });
-  // Is aemnodecoration needed?
-  // describe('component decoration ->', () => {
-  //   it('if aemNoDecoration is set to true, there should not be a component div wrapper', () => {
-  //     const EDIT_CONFIG = {
-  //       isEmpty: function () {
-  //         return false;
-  //       },
-  //       emptyLabel: EMPTY_LABEL,
-  //       resourceType: COMPONENT_RESOURCE_TYPE,
-  //     };
-  //     ReactDOM.render(createEditableComponent(EDIT_CONFIG), rootNode);
-
-  //     const node = rootNode.querySelector('.' + CQ_PROPS.appliedCssClassNames);
-
-  //     expect(node).toBeNull();
-  //   });
-  // });
 });

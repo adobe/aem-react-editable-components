@@ -9,20 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
-import { ClassNames, Properties } from '../constants';
+import { ClassNames, Events, Properties } from '../constants';
 import { Utils } from '../utils/Utils';
 import { useModel } from '../hooks/useModel';
-import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
-import { PageModel } from '../types/AEMModel';
-
-export interface Config<P extends MappedComponentProperties> {
-  emptyLabel?: string;
-  isEmpty(_props: P): boolean;
-  resourceType?: string;
-  forceReload?: boolean;
-}
+import { AuthoringUtils, ModelManager, PathUtils } from '@adobe/aem-spa-page-model-manager';
+import { ModelProps, PageModel } from '../types/AEMModel';
+import { Config } from '../types/EditConfig';
 
 export type Props = {
   config?: Config<MappedComponentProperties>;
@@ -43,7 +37,6 @@ const Placeholder = ({ config, ...props }: Props) => {
   }
   return <div className={ClassNames.DEFAULT_PLACEHOLDER} data-emptytext={emptyLabel}></div>;
 };
-
 const addPropsToComponent = (component: ReactNode, props: MappedComponentProperties) => {
   if (React.isValidElement(component)) {
     return React.cloneElement(component, props);
@@ -65,16 +58,24 @@ export const EditableComponent = ({
   const path = Utils.getCQPath({ cqPath, pagePath, itemPath });
   const [model, setModel] = useState(() => userModel || {});
   const isInEditor = props.isInEditor || AuthoringUtils.isInEditor();
+  const updateModel = useCallback(() => {
+    fetchModel({ cqPath: path, forceReload, pagePath })?.then((data: ModelProps | void) => {
+      if (data && Object.keys(data).length) {
+        setModel(data);
+        if (isInEditor && pagePath) {
+          PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});
+        }
+      }
+    });
+  }, [fetchModel, forceReload, isInEditor, pagePath, path]);
 
   useEffect(() => {
-    const updateModel = () => fetchModel(path, setModel, forceReload, pagePath);
     ModelManager.addListener(path, updateModel);
-    updateModel();
-
+    !userModel && updateModel();
     return () => {
       ModelManager.removeListener(path, updateModel);
     };
-  }, [path, fetchModel, forceReload, pagePath]);
+  }, [path, userModel, updateModel]);
 
   const componentProps = {
     cqPath: path,
@@ -93,6 +94,7 @@ export const EditableComponent = ({
   }`.trim();
 
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
+
   return isInEditor || (!props.removeAEMStyles && className) ? (
     <div className={className} {...dataAttr}>
       {updatedComponent}

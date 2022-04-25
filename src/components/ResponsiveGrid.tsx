@@ -10,12 +10,14 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
-import classnames from 'classnames';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
+import { EditableComponent } from '../core/EditableComponent';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
 import { Config, EditableComponent } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
+import { Config } from '../types/EditConfig';
 import { ClassNames } from '../constants';
 import { Container } from './Container';
 import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
@@ -42,7 +44,7 @@ const LayoutContainer = ({
 
   let className = props.customClassName || '';
   if (isInEditor || !props.removeAEMStyles) {
-    className = classnames(className, `${props.gridClassNames || ''} ${ClassNames.CONTAINER}`);
+    className = `${className} ${props.gridClassNames || ''} ${ClassNames.CONTAINER}`;
   }
 
   const gridProps = {
