@@ -15,12 +15,10 @@ import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
 import { EditableComponent } from '../core/EditableComponent';
 import { AllowedComponentsContainer } from './AllowedComponentsContainer';
-import { Config, EditableComponent } from '../core/EditableComponent';
 import { ResponsiveGridProps } from '../types/AEMModel';
 import { Config } from '../types/EditConfig';
 import { ClassNames } from '../constants';
 import { Container } from './Container';
-import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 type ResponsiveGridComponentProps = {
   title?: string;

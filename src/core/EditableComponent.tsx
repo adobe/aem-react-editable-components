@@ -94,7 +94,6 @@ export const EditableComponent = ({
   }`.trim();
 
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
-
   return isInEditor || (!props.removeAEMStyles && className) ? (
     <div className={className} {...dataAttr}>
       {updatedComponent}
