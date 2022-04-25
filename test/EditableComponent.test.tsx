@@ -335,7 +335,7 @@ describe('EditableComponent ->', () => {
       getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue(TEST_COMPONENT_MODEL);
       act(() => {
         ReactDOM.render(
-          <EditableComponent pagePath={COMPONENT_PATH}>
+          <EditableComponent pagePath={COMPONENT_PATH} isInEditor={true}>
             <ChildComponent />
           </EditableComponent>,
           rootNode,
