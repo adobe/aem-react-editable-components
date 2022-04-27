@@ -46,6 +46,7 @@ describe('EditableComponent ->', () => {
 
   let rootNode: HTMLElement;
   let addListenerSpy: jest.SpyInstance;
+  let removeListenerSpy: jest.SpyInstance;
   let getDataSpy: jest.SpyInstance;
 
   interface ChildComponentProps extends MappedComponentProperties {
@@ -69,6 +70,7 @@ describe('EditableComponent ->', () => {
     rootNode.className = ROOT_CLASS_NAME;
     getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
     addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
+    removeListenerSpy = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
     document.body.appendChild(rootNode);
   });
 
@@ -79,6 +81,7 @@ describe('EditableComponent ->', () => {
     }
     getDataSpy.mockReset();
     addListenerSpy.mockReset();
+    removeListenerSpy.mockReset();
   });
 
   afterAll(() => {

@@ -11,7 +11,7 @@
  */
 import React from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
-import { Properties } from '../constants';
+import { ClassNames, Properties } from '../constants';
 import { Utils } from '../utils/Utils';
 import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { PageModel } from '../types/AEMModel';
@@ -37,7 +37,7 @@ const Placeholder = ({ config, ...props }: Props) => {
   }
   return <div className={ClassNames.DEFAULT_PLACEHOLDER} data-emptytext={emptyLabel}></div>;
 };
-const addPropsToComponent = (component: ReactNode, props: MappedComponentProperties) => {
+const addPropsToComponent = (component: React.ReactNode, props: MappedComponentProperties) => {
   if (React.isValidElement(component)) {
     return React.cloneElement(component, props);
   }

@@ -13,6 +13,7 @@
 import React from 'react';
 import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { Container } from '../../src/components/Container';
+import ReactDOM from 'react-dom';
 
 describe('Container ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';

@@ -14,6 +14,7 @@ import React from 'react';
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { Page } from '../../src/components/Page';
+import ReactDOM from 'react-dom';
 
 describe('Page ->', () => {
   const ROOT_CLASS_NAME = 'root-class';
@@ -71,14 +72,6 @@ describe('Page ->', () => {
     const { id = '' } = model || {};
     return <div id={id} className={CHILD_COMPONENT_CLASS_NAME} data-cq-data-path={cqPath} />;
   };
-
-  class ChildComponent extends Component<DummyProps> {
-    render() {
-      return (
-        <div id={this.props.id} className={CHILD_COMPONENT_CLASS_NAME} data-cq-data-path={this.props.cqPath}></div>
-      );
-    }
-  }
 
   beforeEach(() => {
     ComponentMappingSpy = jest.spyOn(ComponentMapping, 'get');
