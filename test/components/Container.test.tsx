@@ -10,9 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
+import React from 'react';
+import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { Container } from '../../src/components/Container';
 
 describe('Container ->', () => {
@@ -58,17 +57,10 @@ describe('Container ->', () => {
 
   const ITEMS_ORDER = ['component1', 'component2'];
 
-  interface DummyProps extends MappedComponentProperties {
-    id: string;
-  }
-
-  class ComponentChild extends Component<DummyProps> {
-    render() {
-      return (
-        <div id={this.props && this.props.id} className={this.props.className} data-cq-data-path={this.props.cqPath} />
-      );
-    }
-  }
+  const ComponentChild = ({ model, className, cqPath }) => {
+    const { id = '' } = model || {};
+    return <div id={id} className={className} data-cq-data-path={cqPath} />;
+  };
 
   let rootNode: HTMLElement;
   let ComponentMappingSpy: jest.SpyInstance;

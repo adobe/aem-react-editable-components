@@ -10,10 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
-import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
+import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { Page } from '../../src/components/Page';
 
 describe('Page ->', () => {
@@ -68,9 +67,10 @@ describe('Page ->', () => {
   let rootNode: Element;
   let ComponentMappingSpy: jest.SpyInstance;
 
-  interface DummyProps extends MappedComponentProperties {
-    id: string;
-  }
+  const ChildComponent = ({ model, cqPath = '' }) => {
+    const { id = '' } = model || {};
+    return <div id={id} className={CHILD_COMPONENT_CLASS_NAME} data-cq-data-path={cqPath} />;
+  };
 
   class ChildComponent extends Component<DummyProps> {
     render() {
