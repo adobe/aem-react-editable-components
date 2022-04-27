@@ -39,29 +39,29 @@ const addPropsToComponent = (component: React.ReactNode, props: MappedComponentP
 };
 
 export const EditableComponent = ({
-  config,
+  config = { isEmpty: () => false },
   children,
   model: userModel,
   cqPath,
   pagePath,
   itemPath,
+  isInEditor = AuthoringUtils.isInEditor(),
+  className = '',
+  appliedCssClassNames = '',
   ...props
 }: Props): JSX.Element => {
   const { updateModel } = useEditor();
-  const { forceReload } = config || {};
+  const { forceReload, resourceType = '' } = config;
   const path = cqPath || Utils.getCQPath({ cqPath, pagePath, itemPath });
   const [model, setModel] = React.useState(() => userModel || {});
-  const isInEditor = props.isInEditor || AuthoringUtils.isInEditor();
 
   React.useEffect(() => {
     const renderContent = () => updateModel({ path, forceReload, setModel, isInEditor, pagePath });
     !Object.keys(model)?.length && renderContent();
-    if (ModelManager && typeof ModelManager.addListener === 'function') {
-      ModelManager.addListener(path, renderContent);
-      return () => {
-        ModelManager.removeListener(path, renderContent);
-      };
-    }
+    ModelManager.addListener(path, renderContent);
+    return () => {
+      ModelManager.removeListener(path, renderContent);
+    };
   }, [path, model, updateModel, isInEditor, pagePath, forceReload]);
 
   const componentProps = {
@@ -72,17 +72,15 @@ export const EditableComponent = ({
   const dataAttr =
     (isInEditor && {
       [Properties.DATA_PATH_ATTR]: path,
-      [Properties.DATA_CQ_RESOURCE_TYPE_ATTR]: config?.resourceType || '',
+      [Properties.DATA_CQ_RESOURCE_TYPE_ATTR]: resourceType,
     }) ||
     {};
 
-  const className = `${props.className || ''} ${props.containerProps?.className || ''} ${
-    props.appliedCssClassNames || ''
-  }`.trim();
+  const componentClassName = `${className} ${props.containerProps?.className || ''} ${appliedCssClassNames}`.trim();
 
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
-  return isInEditor || (!props.removeAEMStyles && className) ? (
-    <div className={className} {...dataAttr}>
+  return isInEditor || (!props.removeAEMStyles && componentClassName) ? (
+    <div className={componentClassName} {...dataAttr}>
       {updatedComponent}
       {isInEditor && <Placeholder config={config} {...componentProps} />}
     </div>
