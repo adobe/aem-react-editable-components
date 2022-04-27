@@ -14,11 +14,11 @@ import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
 import { EditableComponent } from '../core/EditableComponent';
-import { AllowedComponentsContainer } from './AllowedComponentsContainer';
+import { Container } from './Container';
+import AllowedComponentsContainer from './AllowedComponentsContainer';
 import { ResponsiveGridProps } from '../types/AEMModel';
 import { Config } from '../types/EditConfig';
 import { ClassNames } from '../constants';
-import { Container } from './Container';
 
 type ResponsiveGridComponentProps = {
   title?: string;
@@ -30,6 +30,7 @@ type ResponsiveGridComponentProps = {
 } & ResponsiveGridProps;
 
 const RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
+
 const LayoutContainer = ({
   title = 'Layout Container',
   columnClassNames,

@@ -11,12 +11,11 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { AllowedComponentsContainer } from '../../src/components/AllowedComponentsContainer';
+import { render, screen } from '@testing-library/react';
+import AllowedComponentsContainer from '../../src/components/AllowedComponentsContainer';
 import { AllowedComponentList } from '../../src/types/AEMModel';
 
 describe('AllowedComponentsContainer ->', () => {
-  const ROOT_CLASS_NAME = 'root-class';
   const DEFAULT_TITLE = 'Layout Container';
   const ALLOWED_PLACEHOLDER_SELECTOR = '.aem-AllowedComponent--list';
   const ALLOWED_COMPONENT_TITLE_SELECTOR = '.aem-AllowedComponent--title';
@@ -51,53 +50,35 @@ describe('AllowedComponentsContainer ->', () => {
       allowedComponents: allowedComponents,
       cqPath: '',
     };
-
-    return <AllowedComponentsContainer className="" {...props} />;
+    return (
+      <div data-testid="testcontainer">
+        <AllowedComponentsContainer className="" {...props} />
+      </div>
+    );
   }
-
-  let rootNode: HTMLElement;
-
-  beforeEach(() => {
-    rootNode = document.createElement('div');
-    rootNode.className = ROOT_CLASS_NAME;
-    document.body.appendChild(rootNode);
-  });
-
-  afterEach(() => {
-    if (rootNode) {
-      document.body.appendChild(rootNode);
-      rootNode = undefined;
-    }
-  });
 
   describe('applicable ->', () => {
     it('should be applicable with an empty list of allowed components', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_EMPTY_DATA), rootNode);
-
-      const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
-
+      render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_EMPTY_DATA));
+      const node = screen.getByTestId('testcontainer');
+      const allowedComponentsContainer = node.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
       expect(allowedComponentsContainer).toBeDefined();
-
       const allowedComponentsTitle = allowedComponentsContainer.querySelector(
         ALLOWED_COMPONENT_TITLE_SELECTOR,
       ) as HTMLElement;
-
       expect(allowedComponentsTitle).toBeDefined();
       expect(allowedComponentsTitle.dataset.text).toEqual('No allowed components');
-      expect(allowedComponentsContainer.querySelector(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR)).toBeNull();
+      expect(allowedComponentsContainer.querySelector(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR)).toBeFalsy();
     });
 
     it('should be applicable with a list of allowed components', () => {
-      ReactDOM.render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA, DEFAULT_TITLE), rootNode);
-
-      const allowedComponentsContainer = rootNode.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
-
+      render(generateAllowedComponentsContainer(ALLOWED_COMPONENTS_DATA, DEFAULT_TITLE));
+      const node = screen.getByTestId('testcontainer');
+      const allowedComponentsContainer = node.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
       expect(allowedComponentsContainer).toBeDefined();
-
       const allowedComponentsTitle = allowedComponentsContainer.querySelector(
         ALLOWED_COMPONENT_TITLE_SELECTOR,
       ) as HTMLElement;
-
       expect(allowedComponentsTitle).toBeDefined();
       expect(allowedComponentsTitle.dataset.text).toEqual(DEFAULT_TITLE);
       expect(allowedComponentsContainer.querySelectorAll(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR).length).toEqual(2);

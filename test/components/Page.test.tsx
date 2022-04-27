@@ -11,13 +11,12 @@
  */
 
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { Page } from '../../src/components/Page';
-import ReactDOM from 'react-dom';
 
 describe('Page ->', () => {
-  const ROOT_CLASS_NAME = 'root-class';
   const CHILD_COMPONENT_CLASS_NAME = 'child-class';
   const PAGE_PATH = '/page';
   const ITEM1_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/page/jcr:content/component1"]';
@@ -65,81 +64,70 @@ describe('Page ->', () => {
     },
   };
 
-  let rootNode: Element;
   let ComponentMappingSpy: jest.SpyInstance;
+  let addListenerSpy: jest.SpyInstance;
+  let removeListenerSpy: jest.SpyInstance;
+  let getDataSpy: jest.SpyInstance;
 
   const ChildComponent = ({ model, cqPath = '' }) => {
     const { id = '' } = model || {};
     return <div id={id} className={CHILD_COMPONENT_CLASS_NAME} data-cq-data-path={cqPath} />;
   };
 
+  function generatePage({ cqChildren = {} }) {
+    const props = {
+      isInEditor: true,
+      componentMapping: ComponentMapping,
+      cqPath: PAGE_PATH,
+      cqItems: ITEMS,
+      cqItemsOrder: ITEMS_ORDER,
+      cqChildren,
+    };
+    return (
+      <div data-testid="pageComponent">
+        <Page {...props} />
+      </div>
+    );
+  }
+
   beforeEach(() => {
     ComponentMappingSpy = jest.spyOn(ComponentMapping, 'get');
-    rootNode = document.createElement('div');
-    rootNode.className = ROOT_CLASS_NAME;
-    document.body.appendChild(rootNode);
-    jest.spyOn(ModelManager, 'addListener').mockImplementation();
-    jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
+    getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
+    addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
+    removeListenerSpy = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
   });
 
   afterEach(() => {
     ComponentMappingSpy.mockRestore();
-
-    if (rootNode) {
-      document.body.appendChild(rootNode);
-      rootNode = undefined;
-    }
+    addListenerSpy.mockReset();
+    removeListenerSpy.mockReset();
+    getDataSpy.mockReset();
   });
 
   describe('child pages ->', () => {
     it('should render only components if no children', () => {
       ComponentMappingSpy.mockReturnValue(ChildComponent);
-
-      const element = (
-        <Page
-          componentMapping={ComponentMapping}
-          cqPath={PAGE_PATH}
-          cqItems={ITEMS}
-          cqItemsOrder={ITEMS_ORDER}
-          isInEditor={true}
-        ></Page>
-      );
-      ReactDOM.render(element, rootNode);
-
-      expect(rootNode.querySelector('#c1')).toBeTruthy();
-      expect(rootNode.querySelector('#c2')).toBeTruthy();
-
-      expect(rootNode.querySelector('#p1')).toBeNull();
-      expect(rootNode.querySelector('#p2')).toBeNull();
+      render(generatePage({}));
+      const node = screen.getByTestId('pageComponent');
+      expect(node.querySelector('#c1')).toBeTruthy();
+      expect(node.querySelector('#c2')).toBeTruthy();
+      expect(node.querySelector('#p1')).toBeNull();
+      expect(node.querySelector('#p2')).toBeNull();
     });
 
     it('should add the expected children', () => {
       ComponentMappingSpy.mockReturnValue(ChildComponent);
-
-      const element = (
-        <Page
-          componentMapping={ComponentMapping}
-          cqPath={PAGE_PATH}
-          cqChildren={CHILDREN}
-          cqItems={ITEMS}
-          cqItemsOrder={ITEMS_ORDER}
-          isInEditor={true}
-        />
-      );
-
-      ReactDOM.render(element, rootNode);
+      render(generatePage({ cqChildren: CHILDREN }));
       expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE1);
       expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE2);
-
-      const childItem1 = rootNode.querySelector('#c1');
-      const childItem2 = rootNode.querySelector('#c2');
-
+      const node = screen.getByTestId('pageComponent');
+      const childItem1 = node.querySelector('#c1');
+      const childItem2 = node.querySelector('#c1');
       expect(childItem1).toBeTruthy();
       expect(childItem2).toBeTruthy();
 
-      const childPage1 = rootNode.querySelector('#p1');
-      const childPage2 = rootNode.querySelector('#p2');
-
+      const childPage1 = node.querySelector('#p1');
+      const childPage2 = node.querySelector('#p2');
       expect(childPage1).toBeTruthy();
       expect(childPage2).toBeTruthy();
     });
@@ -160,31 +148,17 @@ describe('Page ->', () => {
         }
       });
 
-      const element = (
-        <Page
-          componentMapping={ComponentMapping}
-          isInEditor={true}
-          cqPath={PAGE_PATH}
-          cqChildren={CHILDREN}
-          cqItems={ITEMS}
-          cqItemsOrder={ITEMS_ORDER}
-        />
-      );
-
-      ReactDOM.render(element, rootNode);
-
+      render(generatePage({ cqChildren: CHILDREN }));
       expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE1);
       expect(ComponentMappingSpy).toHaveBeenCalledWith(COMPONENT_TYPE2);
-
-      const childItem1 = rootNode.querySelector(ITEM1_DATA_ATTRIBUTE_SELECTOR);
-      const childItem2 = rootNode.querySelector(ITEM2_DATA_ATTRIBUTE_SELECTOR);
-
+      const node = screen.getByTestId('pageComponent');
+      const childItem1 = node.querySelector(ITEM1_DATA_ATTRIBUTE_SELECTOR);
+      const childItem2 = node.querySelector(ITEM2_DATA_ATTRIBUTE_SELECTOR);
       expect(childItem1).toBeTruthy();
       expect(childItem2).toBeTruthy();
 
-      const childPage1 = rootNode.querySelector(CHILD_PAGE_1_DATA_ATTRIBUTE_SELECTOR);
-      const childPage2 = rootNode.querySelector(CHILD_PAGE_2_DATA_ATTRIBUTE_SELECTOR);
-
+      const childPage1 = node.querySelector(CHILD_PAGE_1_DATA_ATTRIBUTE_SELECTOR);
+      const childPage2 = node.querySelector(CHILD_PAGE_2_DATA_ATTRIBUTE_SELECTOR);
       expect(childPage1).toBeTruthy();
       expect(childPage2).toBeTruthy();
     });

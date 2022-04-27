@@ -11,12 +11,13 @@
  */
 import React from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
-import { ClassNames, Properties } from '../constants';
+import { Properties } from '../constants';
 import { Utils } from '../utils/Utils';
 import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { PageModel } from '../types/AEMModel';
 import { Config } from '../types/EditConfig';
 import { useEditor } from '../hooks/useEditor';
+import Placeholder from '../components/Placeholder';
 
 export type Props = {
   config?: Config<MappedComponentProperties>;
@@ -30,13 +31,6 @@ export type Props = {
   removeAEMStyles?: boolean;
 } & MappedComponentProperties;
 
-const Placeholder = ({ config, ...props }: Props) => {
-  const { emptyLabel = '', isEmpty } = config || {};
-  if (!(typeof isEmpty === 'function' && isEmpty(props))) {
-    return null;
-  }
-  return <div className={ClassNames.DEFAULT_PLACEHOLDER} data-emptytext={emptyLabel}></div>;
-};
 const addPropsToComponent = (component: React.ReactNode, props: MappedComponentProperties) => {
   if (React.isValidElement(component)) {
     return React.cloneElement(component, props);
@@ -55,19 +49,19 @@ export const EditableComponent = ({
 }: Props): JSX.Element => {
   const { updateModel } = useEditor();
   const { forceReload } = config || {};
-  const path = Utils.getCQPath({ cqPath, pagePath, itemPath });
+  const path = cqPath || Utils.getCQPath({ cqPath, pagePath, itemPath });
   const [model, setModel] = React.useState(() => userModel || {});
   const isInEditor = props.isInEditor || AuthoringUtils.isInEditor();
 
   React.useEffect(() => {
     const renderContent = () => updateModel({ path, forceReload, setModel, isInEditor, pagePath });
-    ModelManager.addListener(path, renderContent);
-    if (!model || !Object.keys(model)?.length) {
-      renderContent();
+    !Object.keys(model)?.length && renderContent();
+    if (ModelManager && typeof ModelManager.addListener === 'function') {
+      ModelManager.addListener(path, renderContent);
+      return () => {
+        ModelManager.removeListener(path, renderContent);
+      };
     }
-    return () => {
-      ModelManager.removeListener(path, renderContent);
-    };
   }, [path, model, updateModel, isInEditor, pagePath, forceReload]);
 
   const componentProps = {

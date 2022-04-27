@@ -10,17 +10,16 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
-import { ComponentMapping, MappedComponentProperties } from '../../src/core/ComponentMapping';
+import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { ResponsiveGrid } from '../../src/components/ResponsiveGrid';
 import { AllowedComponentList } from '../../src/types/AEMModel';
 
 describe('ResponsiveGrid ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
   const CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/*"]';
-  const ROOT_CLASS_NAME = 'root-class';
   const ITEM_CLASS_NAME = 'item-class';
   const CONTAINER_PATH = '/container';
   const ITEM1_DATA_ATTRIBUTE_SELECTOR = '[data-cq-data-path="/container/component1"]';
@@ -50,15 +49,7 @@ describe('ResponsiveGrid ->', () => {
     component2: COLUMN_2_CLASS_NAMES,
   };
 
-  interface DummyProps extends MappedComponentProperties {
-    id: string;
-  }
-
-  class ComponentChild extends Component<DummyProps> {
-    render() {
-      return <div id={this.props && this.props.id} className={ITEM_CLASS_NAME} />;
-    }
-  }
+  const ComponentChild = ({ id = '' }) => <div id={id} className={ITEM_CLASS_NAME} />;
 
   const allowedComp: AllowedComponentList = {
     applicable: false,
@@ -66,8 +57,8 @@ describe('ResponsiveGrid ->', () => {
   };
 
   const STANDARD_GRID_PROPS = {
-    cqPath: '',
-    gridClassNames: '',
+    cqPath: CONTAINER_PATH,
+    gridClassNames: GRID_CLASS_NAMES,
     columnClassNames: {},
     allowedComponents: allowedComp,
     title: '',
@@ -78,45 +69,51 @@ describe('ResponsiveGrid ->', () => {
     cqType: '',
   };
 
-  let rootNode: HTMLElement;
   let ComponentMappingSpy: jest.SpyInstance;
+  let addListenerSpy: jest.SpyInstance;
+  let removeListenerSpy: jest.SpyInstance;
+  let getDataSpy: jest.SpyInstance;
 
+  function generateResponsiveGrid(customProps) {
+    const props = {
+      ...STANDARD_GRID_PROPS,
+      ...customProps,
+    };
+    return (
+      <div data-testid="gridComponent">
+        <ResponsiveGrid {...props} />
+      </div>
+    );
+  }
   beforeEach(() => {
     ComponentMappingSpy = jest.spyOn(ComponentMapping, 'get');
-    rootNode = document.createElement('div');
-    rootNode.className = ROOT_CLASS_NAME;
-    document.body.appendChild(rootNode);
-    jest.spyOn(ModelManager, 'addListener').mockImplementation();
-    jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
+    getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
+    addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
+    removeListenerSpy = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
   });
 
   afterEach(() => {
     ComponentMappingSpy.mockRestore();
-
-    if (rootNode) {
-      document.body.appendChild(rootNode);
-      rootNode = undefined;
-    }
+    addListenerSpy.mockReset();
+    removeListenerSpy.mockReset();
+    getDataSpy.mockReset();
   });
 
   describe('Grid class names ->', () => {
     it('should add the grid class names', () => {
-      ReactDOM.render(<ResponsiveGrid {...STANDARD_GRID_PROPS} />, rootNode);
-
-      const gridElement = rootNode.querySelector('.' + GRID_CLASS_NAMES);
-
-      expect(gridElement).toBeDefined();
+      render(generateResponsiveGrid({}));
+      const node = screen.getByTestId('gridComponent');
+      expect(node.querySelector('.' + GRID_CLASS_NAMES)).toBeTruthy();
     });
   });
 
   describe('Placeholder ->', () => {
     it('should add the expected placeholder class names', () => {
-      ReactDOM.render(<ResponsiveGrid {...STANDARD_GRID_PROPS} isInEditor={true} cqPath={CONTAINER_PATH} />, rootNode);
-
-      const gridPlaceholder = rootNode.querySelector(
+      render(generateResponsiveGrid({}));
+      const node = screen.getByTestId('gridComponent');
+      const gridPlaceholder = node.querySelector(
         '.' + PLACEHOLDER_CLASS_NAMES + CONTAINER_PLACEHOLDER_SELECTOR + CONTAINER_PLACEHOLDER_DATA_ATTRIBUTE_SELECTOR,
       );
-
       expect(gridPlaceholder).toBeDefined();
     });
   });
@@ -124,21 +121,12 @@ describe('ResponsiveGrid ->', () => {
   describe('Column class names ->', () => {
     it('should add the expected column class names', () => {
       ComponentMappingSpy.mockReturnValue(ComponentChild);
-      ReactDOM.render(
-        <ResponsiveGrid
-          {...STANDARD_GRID_PROPS}
-          isInEditor={true}
-          columnClassNames={COLUMN_CLASS_NAMES}
-          cqPath={CONTAINER_PATH}
-          cqItems={ITEMS}
-          cqItemsOrder={ITEMS_ORDER}
-        />,
-        rootNode,
+      render(
+        generateResponsiveGrid({ columnClassNames: COLUMN_CLASS_NAMES, cqItems: ITEMS, cqItemsOrder: ITEMS_ORDER }),
       );
-
-      const childItem1 = rootNode.querySelector('.' + COLUMN_1_CLASS_NAMES + ITEM1_DATA_ATTRIBUTE_SELECTOR);
-      const childItem2 = rootNode.querySelector('.' + COLUMN_2_CLASS_NAMES + ITEM2_DATA_ATTRIBUTE_SELECTOR);
-
+      const node = screen.getByTestId('gridComponent');
+      const childItem1 = node.querySelector('.' + COLUMN_1_CLASS_NAMES + ITEM1_DATA_ATTRIBUTE_SELECTOR);
+      const childItem2 = node.querySelector('.' + COLUMN_2_CLASS_NAMES + ITEM2_DATA_ATTRIBUTE_SELECTOR);
       expect(childItem1).toBeDefined();
       expect(childItem2).toBeDefined();
     });
