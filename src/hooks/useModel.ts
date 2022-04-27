@@ -27,7 +27,8 @@ export const useModel = (): { fetchModel: (_arg: Props) => Promise<void | ModelP
     if (!cqPath && !pagePath) {
       return;
     }
-    return ModelManager.getData({ path: cqPath || Utils.getCQPath({ pagePath, itemPath }), forceReload })
+    const path = cqPath || Utils.getCQPath({ pagePath, itemPath });
+    return ModelManager.getData({ path, forceReload })
       .then((data: Model) => {
         if (data && Object.keys(data).length) {
           return Utils.modelToProps(data);

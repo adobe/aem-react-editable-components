@@ -9,9 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { ReactNode, useEffect, useState } from 'react';
+import React from 'react';
 import { MappedComponentProperties } from './ComponentMapping';
-import { ClassNames, Properties } from '../constants';
+import { Properties } from '../constants';
 import { Utils } from '../utils/Utils';
 import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { PageModel } from '../types/AEMModel';
@@ -20,7 +20,7 @@ import { useEditor } from '../hooks/useEditor';
 
 export type Props = {
   config?: Config<MappedComponentProperties>;
-  children?: ReactNode;
+  children?: React.ReactNode;
   className?: string;
   appliedCssClassNames?: string;
   containerProps?: { className?: string };
@@ -56,17 +56,19 @@ export const EditableComponent = ({
   const { updateModel } = useEditor();
   const { forceReload } = config || {};
   const path = Utils.getCQPath({ cqPath, pagePath, itemPath });
-  const [model, setModel] = useState(() => userModel || {});
+  const [model, setModel] = React.useState(() => userModel || {});
   const isInEditor = props.isInEditor || AuthoringUtils.isInEditor();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const renderContent = () => updateModel({ path, forceReload, setModel, isInEditor, pagePath });
     ModelManager.addListener(path, renderContent);
-    !userModel && renderContent();
+    if (!model || !Object.keys(model)?.length) {
+      renderContent();
+    }
     return () => {
       ModelManager.removeListener(path, renderContent);
     };
-  }, [path, userModel, updateModel, isInEditor, pagePath, forceReload]);
+  }, [path, model, updateModel, isInEditor, pagePath, forceReload]);
 
   const componentProps = {
     cqPath: path,
