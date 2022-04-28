@@ -72,7 +72,7 @@ const Utils = {
     const { pagePath = '', itemPath = '', cqPath = '' } = componentProps;
     if (pagePath && !cqPath) {
       const path = sanitizeUrl(itemPath ? `${pagePath}/jcr:content/${itemPath}` : pagePath);
-      return path.replace(/\/+/g, '/').replace(/\/+$/, '');
+      return path.replace(/\/+/g, '/').replace(/\/$/, '');
     }
     return cqPath;
   },
