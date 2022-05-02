@@ -16,7 +16,7 @@
     "url": "https://github.com/adobe/aem-react-editable-components/issues"
   },
   "engines": {
-    "npm": "8.7.0",
+    "npm": ">=8.7.0",
     "node": ">=12.16.2"
   },
   "main": "dist/aem-react-editable-components.js",
@@ -50,8 +50,7 @@
     "@braintree/sanitize-url": "^6.0.0"
   },
   "peerDependencies": {
-    "@adobe/aem-spa-page-model-manager": "^1.4.0",
-    "react": "^16.13.1"
+    "@adobe/aem-spa-page-model-manager": "^1.4.0"
   },
   "devDependencies": {
     "@adobe/aem-spa-page-model-manager": "~1.4.0",
