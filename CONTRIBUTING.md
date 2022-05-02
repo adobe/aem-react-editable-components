@@ -4,6 +4,10 @@ Thanks for choosing to contribute!
 
 The following are a set of guidelines to follow when contributing to this project.
 
+## Important 
+
+Please follow the [Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines). 
+
 ## Code Of Conduct
 
 This project adheres to the Adobe [code of conduct](../CODE_OF_CONDUCT.md). By participating,
