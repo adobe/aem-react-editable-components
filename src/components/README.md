@@ -71,6 +71,8 @@ The ResponsiveGrid component can still be used if content does not exist yet on 
 
 
 ## Additional Features
+
+### Remove AEM grid styling
 AEM layouting styles are applied by default when using the ResponsiveGrid and Page components. If you would prefer to use your own custom layouting over the AEM authored layouts, an additional prop _removeAEMStyles_ (or maybe removeDefaultStyles) can be passed into the components.
 
 ```
@@ -80,3 +82,14 @@ AEM layouting styles are applied by default when using the ResponsiveGrid and Pa
   removeAEMStyles={true} />
 ```
 This will remove all styles specific to the AEM grid system and corresponsing DOM wrappers.
+
+### Custom class for ResponsiveGrid
+
+If a custom class name needs to be added to the OOTB ResponsiveGrid component, this can be done by passing in the class names as a string via the prop _customClassName_
+
+```
+<ResponsiveGrid 
+  pagePath='/content/wknd-app/us/en/home'
+  itemPath='root/responsivegrid'
+  customClassName='newUserStyleClass' />
+```
