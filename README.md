@@ -31,9 +31,9 @@ npm install @adobe/aem-react-editable-components
 
 ## Features
 
-- [Components](./src/components/README.md)
-- [Integration with AEM](./src/core/README.md)
-- [Reusable hooks](./src/hooks/README.md) *TO DO*
+- [Components](./src/components)
+- [Integration with AEM](./src/core)
+- [Reusable hooks](./src/hooks) *TO DO*
 
 
 ## Contributing
