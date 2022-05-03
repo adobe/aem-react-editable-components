@@ -27,6 +27,7 @@ where _emptyLabel_ is the label to be displayed for empty overlay in AEM, _isEmp
 
 _resourceType_ in config is essential for supporting [virtual component](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/hybrid/editing-external-spa.html?lang=en#virtual-leaf-components) usecases.
 
+
 2. Create an editable version of the component using the _EditableComponent_ wrapper and passing in the config.
 
 ```
@@ -39,18 +40,22 @@ export const AEMText = (props) => (
 );
 ```
 
-3. Use this component by passing in the appropriate props if using it as a standalone component within your SPA - 
 
-```
-<AEMText 
-  pagePath='/content/wknd-app/us/en/home'
-  itemPath='root/responsivegrid/text />
-```
+3. Use this component - 
+  - By passing in the appropriate props if using it as a standalone component within your SPA 
 
-or [map to the appropriate resource type](https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/spa-editor/react/map-components.html?lang=en) if using as part of a container.
+  ```
+  <AEMText 
+    pagePath='/content/wknd-app/us/en/home'
+    itemPath='root/responsivegrid/text />
+  ```
+  
+  **OR** 
 
-```
-MapTo('wknd-app/components/text')(AEMText);
-```
+  - [Map to the appropriate resource type](https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/spa-editor/react/map-components.html?lang=en) if using as part of a container
+
+  ```
+  MapTo('wknd-app/components/text')(AEMText);
+  ```
 
 
