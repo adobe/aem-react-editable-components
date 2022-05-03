@@ -1,6 +1,7 @@
 # Components 
 
-- ## Page ##
+
+## Page ##
 
 Render an AEM page and its content and enable authoring on AEM. All child components still need to be mapped to their AEM resourcetypes using **MapTo**.
 All mapped components also need to be updated to use the newly introduced wrapper [EditableComponent](../core/README.md).
@@ -46,7 +47,8 @@ When using the component directly within the app for remote SPA, an additional p
 
 Here,the Page component will render content on the AEM page at _us/en/home_ within the project _wknd-app_
 
-- ## ResponsiveGrid
+
+## ResponsiveGrid
 
 Render an AEM Layout Container and its content and enable authoring on AEM. All child components still need to be mapped to their AEM resourcetypes using **MapTo**.
 
@@ -82,7 +84,7 @@ If a custom class name needs to be added to the OOTB ResponsiveGrid component, t
 
 # Additional Features
 
-## Remove AEM grid styling
+### Remove AEM grid styling
 AEM layouting styles are applied by default when using the ResponsiveGrid and Page components. If you would prefer to use your own custom layouting over the AEM authored layouts, an additional prop _removeAEMStyles_ (or maybe removeDefaultStyles) can be passed into the components.
 
 ```
