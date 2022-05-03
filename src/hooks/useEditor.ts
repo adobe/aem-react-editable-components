@@ -12,8 +12,8 @@
 import { Dispatch, useCallback } from 'react';
 import { PathUtils } from '@adobe/aem-spa-page-model-manager';
 import { ModelProps } from '../types/AEMModel';
-import { useModel } from './useModel';
 import { Events } from '../constants';
+import { fetchModel } from '../api/fetchModel';
 
 type Props = {
   path?: string;
@@ -25,21 +25,15 @@ type Props = {
 
 // Editor specific logic could be placed here
 export const useEditor = () => {
-  const { fetchModel } = useModel();
-
-  const updateModel = useCallback(
-    ({ path, forceReload, pagePath, setModel, isInEditor }: Props) => {
-      fetchModel({ cqPath: path, forceReload, pagePath })?.then((data: ModelProps | void) => {
-        if (data && Object.keys(data).length) {
-          setModel(data);
-          if (isInEditor && pagePath) {
-            PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});
-          }
-        }
-      });
-    },
-    [fetchModel],
-  );
+  const updateModel = useCallback(async ({ path, forceReload, pagePath, setModel, isInEditor }: Props) => {
+    const model = await fetchModel({ cqPath: path, forceReload, pagePath }).catch((err) => console.error(err));
+    if (model && Object.keys(model).length) {
+      setModel(model);
+      if (isInEditor && pagePath) {
+        PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});
+      }
+    }
+  }, []);
 
   return { updateModel };
 };

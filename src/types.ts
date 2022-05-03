@@ -9,10 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 export { MapTo } from './core/ComponentMapping';
 export { Container } from './components/Container';
 export { EditableComponent } from './core/EditableComponent';
 export { Page } from './components/Page';
 export { ResponsiveGrid } from './components/ResponsiveGrid';
-export { useModel } from './hooks/useModel';
+export { fetchModel } from './api/fetchModel';
