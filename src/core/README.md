@@ -16,8 +16,8 @@ To make this editable on AEM and fetch content to be rendered on AEM :
 
 1. Create a config object as illustrated [in the wknd sample](https://github.com/adobe/aem-guides-wknd-spa/blob/React/latest/ui.frontend/src/components/Text/Text.js#L29).
 
-```json
-export const TextEditConfig = {    
+```
+const TextEditConfig = {    
   emptyLabel:  'Text',
   isEmpty: () => {},
   resourceType: "wknd-app/components/text"
