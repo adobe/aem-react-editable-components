@@ -18,14 +18,13 @@ To make this editable on AEM and fetch content to be rendered on AEM :
 
 ```json
 export const TextEditConfig = {    
-  emptyLabel: "Text" 
-  // Label to be displayed for empty overlay in AEM,
-  isEmpty: TextV2IsEmptyFn,
-  // Method to check if no values are present and empty overlay is needed
+  emptyLabel:  'Text',
+  isEmpty: () => {},
   resourceType: "wknd-app/components/text"
-  // Resourcetype of the component on AEM
 };
 ```
+where _emptyLabel_ is the label to be displayed for empty overlay in AEM, _isEmpty_ the method to check if no content is present and empty overlay is needed, and _resourceType_ the resourcetype of the component on AEM.
+
 _resourceType_ in config is essential for supporting [virtual component](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/hybrid/editing-external-spa.html?lang=en#virtual-leaf-components) usecases.
 
 2. Create an editable version of the component using the _EditableComponent_ wrapper and passing in the config.
