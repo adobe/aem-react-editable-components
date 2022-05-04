@@ -9,6 +9,8 @@ All mapped components also need to be updated to use the newly introduced wrappe
 
 For default SPA on AEM, the component can be used as-is OOTB.
 
+#### Migration to v2
+
 - *ComponentMappingContent* is now handled internally, so the [usage as illustrated in the sample WKND project](https://github.com/adobe/aem-guides-wknd-spa/blob/React/latest/ui.frontend/src/components/Page/Page.js) as - 
 
 ```
@@ -48,7 +50,8 @@ Here,the Page component will render content on the AEM page at _us/en/home_ with
 
 ## ResponsiveGrid
 
-Render an AEM Layout Container and its content and enable authoring on AEM. All child components still need to be mapped to their AEM resourcetypes using **MapTo**.
+Render an AEM Layout Container and its content and enable authoring on AEM. 
+Child components to be rendered within the container [should be mapped to their AEM resourcetypes using **MapTo**](https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/spa-editor/react/map-components.html?lang=en).
 
 The OOTB ResponsiveGrid component maps to the resourceType _wcm/foundation/components/responsivegrid_ by default.
 
