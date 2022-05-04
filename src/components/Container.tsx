@@ -14,7 +14,7 @@ import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
 import { ComponentMapping, MappedComponentProperties } from '../core/ComponentMapping';
-import { Config } from '../core/EditableComponent';
+import { Config } from '../types/EditConfig';
 
 type Props = {
   className?: string;
@@ -52,10 +52,11 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
     if (itemProps && itemProps.cqType) {
       const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType);
       const itemPath = getItemPath(cqPath, itemKey, isPage);
+
       return (
         <ItemComponent
           key={itemPath}
-          {...itemProps}
+          model={itemProps}
           cqPath={itemPath}
           className={itemClassNames}
           removeAEMStyles={props.removeAEMStyles}
@@ -66,7 +67,6 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
   return <>{components}</>;
 };
 
-// to do: clarify usage of component mapping and define type
 export const Container = (props: Props): JSX.Element => {
   const { cqPath = '', className = '', isPage = false, isInEditor, childPages, placeholderClassNames = '' } = props;
 
@@ -78,8 +78,6 @@ export const Container = (props: Props): JSX.Element => {
 
   const childComponents = <ComponentList {...props} />;
 
-  // clarify why aemnodecoration is needed when not in editor in the first place
-  // shouldnt all aem specific things be removed anyway?
   return isInEditor ? (
     <div className={className || ClassNames.CONTAINER} {...containerProps}>
       {childComponents}

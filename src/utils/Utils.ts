@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { normalize as normalizePath } from 'path';
+import { sanitizeUrl } from '@braintree/sanitize-url';
 import { Model } from '@adobe/aem-spa-page-model-manager';
 import { ModelProps } from '../types/AEMModel';
 
@@ -26,9 +26,9 @@ interface ComponentProps {
  * @param propKey
  */
 function transformToCQ(propKey: string) {
-  const tempKey = propKey.substr(1);
+  const tempKey = propKey.substring(1);
 
-  return 'cq' + tempKey.substr(0, 1).toUpperCase() + tempKey.substr(1);
+  return 'cq' + tempKey.substring(0, 1).toUpperCase() + tempKey.substring(1);
 }
 
 /**
@@ -39,7 +39,6 @@ const Utils = {
    * Transforms the item data to component properties.
    * It will replace ':' with 'cq' and convert the name to CameCase.
    *
-   * @private
    * @param item - the item data
    * @returns the transformed data
    */
@@ -67,16 +66,14 @@ const Utils = {
   /**
    * Determines the cqPath of a component given its props
    *
-   * @private
    * @returns cqPath of the component
    */
   getCQPath(componentProps: ComponentProps): string {
     const { pagePath = '', itemPath = '', cqPath = '' } = componentProps;
-
     if (pagePath && !cqPath) {
-      return normalizePath(itemPath ? `${pagePath}/jcr:content/${itemPath}` : pagePath);
+      const path = sanitizeUrl(itemPath ? `${pagePath}/jcr:content/${itemPath}` : pagePath);
+      return path.replace(/\/+/g, '/').replace(/\/$/, '');
     }
-
     return cqPath;
   },
 };

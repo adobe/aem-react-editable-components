@@ -10,15 +10,15 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
-import classnames from 'classnames';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
 import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
-import { AllowedComponentsContainer } from './AllowedComponentsContainer';
-import { Config, EditableComponent } from '../core/EditableComponent';
-import { ResponsiveGridProps } from '../types/AEMModel';
-import { ClassNames } from '../constants';
+import { EditableComponent } from '../core/EditableComponent';
 import { Container } from './Container';
-import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
+import AllowedComponentsContainer from './AllowedComponentsContainer';
+import { ResponsiveGridProps } from '../types/AEMModel';
+import { Config } from '../types/EditConfig';
+import { ClassNames } from '../constants';
 
 type ResponsiveGridComponentProps = {
   title?: string;
@@ -30,6 +30,7 @@ type ResponsiveGridComponentProps = {
 } & ResponsiveGridProps;
 
 const RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
+
 const LayoutContainer = ({
   title = 'Layout Container',
   columnClassNames,
@@ -42,7 +43,7 @@ const LayoutContainer = ({
 
   let className = props.customClassName || '';
   if (isInEditor || !props.removeAEMStyles) {
-    className = classnames(className, `${props.gridClassNames || ''} ${ClassNames.CONTAINER}`);
+    className = `${className} ${props.gridClassNames || ''} ${ClassNames.CONTAINER}`;
   }
 
   const gridProps = {

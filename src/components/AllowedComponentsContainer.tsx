@@ -25,7 +25,7 @@ type Props = {
 /**
  * Represents allowed components container in AEM.
  */
-export const AllowedComponentsContainer = (props: Props): JSX.Element => {
+const AllowedComponentsContainer = (props: Props): JSX.Element => {
   const { placeholderClassNames = '', allowedComponents, title } = props;
   const { components } = allowedComponents;
   const emptyLabel = 'No allowed components'; //move to constants and add localization?
@@ -45,3 +45,5 @@ export const AllowedComponentsContainer = (props: Props): JSX.Element => {
     </div>
   );
 };
+
+export default AllowedComponentsContainer;

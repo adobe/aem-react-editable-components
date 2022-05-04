@@ -35,7 +35,7 @@ export interface PageModel extends Model {
 }
 
 export type ModelProps = {
-  cqPath: string;
+  cqPath?: string;
   cqItems?: { [key: string]: Model };
   cqItemsOrder?: string[];
   cqType?: string;

@@ -34,8 +34,13 @@ All submissions should come in the form of pull requests and need to be reviewed
 by project committers. Read [GitHub's pull request documentation](https://help.github.com/articles/about-pull-requests/)
 for more information on sending pull requests.
 
-Lastly, please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when
-submitting a pull request!
+Some things that will increase the chance that your pull request is accepted:
+
+1. Write a [good commit message]((https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines)).
+2. Make sure the PR merges cleanly with the latest master.
+3. Describe your feature/bugfix and why it's needed/important in the pull request description.
+4. Lastly, please follow the pull request template when submitting a pull request.
+
 
 ## From Contributor To Committer
 
