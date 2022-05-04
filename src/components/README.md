@@ -47,7 +47,7 @@ When using the component directly within the app for remote SPA, an additional p
   pagePath='/content/wknd-app/us/en/home' />
 ```
 
-Here,the Page component will render content on the AEM page at _us/en/home_ within the project _wknd-app_
+Here, the Page component will render content on the AEM page at _us/en/home_ within the project _wknd-app_
 
 
 ## ResponsiveGrid
