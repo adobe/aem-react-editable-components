@@ -1,5 +1,6 @@
 # Components 
 
+
 ## Page ##
 
 Render an AEM page and its content and enable authoring on AEM. All child components still need to be mapped to their AEM resourcetypes using **MapTo**.
@@ -48,6 +49,7 @@ When using the component directly within the app for remote SPA, an additional p
 
 Here,the Page component will render content on the AEM page at _us/en/home_ within the project _wknd-app_
 
+
 ## ResponsiveGrid
 
 Render an AEM Layout Container and its content and enable authoring on AEM. 
@@ -72,8 +74,18 @@ Here,the ResponsiveGrid component will render content of the layout container _/
 #### Virtual Container
 The ResponsiveGrid component can still be used if content does not exist yet on AEM at the defined path. This will simply add an overlay on AEM for the author when opened for editing in AEM. More details are available [in the docs](https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/hybrid/editing-external-spa.html?lang=en#virtual-containers).
 
+#### Custom class for ResponsiveGrid
 
-## Additional Features
+If a custom class name needs to be added to the OOTB ResponsiveGrid component, this can be done by passing in the class names as a string via the prop _customClassName_
+
+```
+<ResponsiveGrid 
+  pagePath='/content/wknd-app/us/en/home'
+  itemPath='root/responsivegrid'
+  customClassName='newUserStyleClass' />
+```
+
+# Additional Features
 
 ### Remove AEM grid styling
 AEM layouting styles are applied by default when using the ResponsiveGrid and Page components. If you would prefer to use your own custom layouting over the AEM authored layouts, an additional prop _removeAEMStyles_ (or maybe removeDefaultStyles) can be passed into the components.
@@ -86,13 +98,3 @@ AEM layouting styles are applied by default when using the ResponsiveGrid and Pa
 ```
 This will remove all styles specific to the AEM grid system and corresponsing DOM wrappers.
 
-### Custom class for ResponsiveGrid
-
-If a custom class name needs to be added to the OOTB ResponsiveGrid component, this can be done by passing in the class names as a string via the prop _customClassName_
-
-```
-<ResponsiveGrid 
-  pagePath='/content/wknd-app/us/en/home'
-  itemPath='root/responsivegrid'
-  customClassName='newUserStyleClass' />
-```
