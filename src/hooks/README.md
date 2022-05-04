@@ -1,5 +1,0 @@
-# Hooks
-
-## useModel
-
-// to do
