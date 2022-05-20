@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Container } from './Container';
 import { ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
@@ -30,13 +30,17 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
   if (!cqChildren) {
     return <></>;
   }
-
-  const pages = Object.keys(cqChildren).map((itemKey) => {
+  const pages: Array<ReactElement> = [];
+  Object.keys(cqChildren).forEach((itemKey) => {
     const itemProps = Utils.modelToProps(cqChildren[itemKey]);
     const { cqPath, cqType } = itemProps;
     if (cqType) {
       const ItemComponent: React.ElementType = componentMapping.get(cqType);
-      return <ItemComponent model={itemProps} key={cqPath} cqPath={cqPath} isInEditor={props.isInEditor} />;
+      if (ItemComponent) {
+        pages.push(<ItemComponent model={itemProps} key={cqPath} cqPath={cqPath} isInEditor={props.isInEditor} />);
+      } else {
+        console.error('Component not mapped for resourcetype:', cqType);
+      }
     }
   });
 

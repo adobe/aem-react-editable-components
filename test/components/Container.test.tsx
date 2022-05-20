@@ -37,6 +37,16 @@ describe('Container ->', () => {
     },
   };
 
+  const ITEMS_ONE_TYPE = {
+    component1: {
+      ':type': COMPONENT_TYPE1,
+      id: 'c1',
+    },
+    component2: {
+      id: 'c2',
+    },
+  };
+
   const ITEMS_NO_TYPE = {
     component1: {
       id: 'c1',
@@ -105,6 +115,20 @@ describe('Container ->', () => {
       );
       const node = screen.getByTestId('testcontainer');
       expect(node.querySelector('#c1')).toBeNull();
+      expect(node.querySelector('#c2')).toBeNull();
+    });
+    it('should render available components if some are unmapped', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(
+        generateContainerComponent({
+          isInEditor: false,
+          cqPath: '',
+          cqItems: ITEMS_ONE_TYPE,
+          cqItemsOrder: ITEMS_ORDER,
+        }),
+      );
+      const node = screen.getByTestId('testcontainer');
+      expect(node.querySelector('#c1')).toBeTruthy();
       expect(node.querySelector('#c2')).toBeNull();
     });
     it('should add the expected components', () => {
