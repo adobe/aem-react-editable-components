@@ -107,6 +107,25 @@ describe('Container ->', () => {
       expect(node.querySelector('#c1')).toBeNull();
       expect(node.querySelector('#c2')).toBeNull();
     });
+    it('should render available components if some are unmapped', () => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      ComponentMappingSpy.mockReturnValueOnce(ComponentChild);
+      render(
+        generateContainerComponent({
+          isInEditor: false,
+          cqPath: '',
+          cqItems: ITEMS,
+          cqItemsOrder: ITEMS_ORDER,
+        }),
+      );
+      const node = screen.getByTestId('testcontainer');
+      expect(node.querySelector('#c1')).toBeTruthy();
+      expect(node.querySelector('#c2')).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      expect(consoleSpy.mock.calls[0]).toContain('components/c2');
+      consoleSpy.mockRestore();
+    });
     it('should add the expected components', () => {
       ComponentMappingSpy.mockReturnValue(ComponentChild);
       render(generateContainerComponent({ isInEditor: false, cqPath: '', cqItems: ITEMS, cqItemsOrder: ITEMS_ORDER }));
