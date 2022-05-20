@@ -37,16 +37,6 @@ describe('Container ->', () => {
     },
   };
 
-  const ITEMS_ONE_TYPE = {
-    component1: {
-      ':type': COMPONENT_TYPE1,
-      id: 'c1',
-    },
-    component2: {
-      id: 'c2',
-    },
-  };
-
   const ITEMS_NO_TYPE = {
     component1: {
       id: 'c1',
@@ -118,18 +108,23 @@ describe('Container ->', () => {
       expect(node.querySelector('#c2')).toBeNull();
     });
     it('should render available components if some are unmapped', () => {
-      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      ComponentMappingSpy.mockReturnValueOnce(ComponentChild);
       render(
         generateContainerComponent({
           isInEditor: false,
           cqPath: '',
-          cqItems: ITEMS_ONE_TYPE,
+          cqItems: ITEMS,
           cqItemsOrder: ITEMS_ORDER,
         }),
       );
       const node = screen.getByTestId('testcontainer');
       expect(node.querySelector('#c1')).toBeTruthy();
       expect(node.querySelector('#c2')).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      expect(consoleSpy.mock.calls[0]).toContain('components/c2');
+      consoleSpy.mockRestore();
     });
     it('should add the expected components', () => {
       ComponentMappingSpy.mockReturnValue(ComponentChild);
