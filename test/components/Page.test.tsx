@@ -114,7 +114,18 @@ describe('Page ->', () => {
       expect(node.querySelector('#p1')).toBeNull();
       expect(node.querySelector('#p2')).toBeNull();
     });
-
+    it('should render available pages if some are unmapped', () => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      ComponentMappingSpy.mockImplementation((type) => type !== PAGE_TYPE2 && ChildComponent);
+      render(generatePage({ cqChildren: CHILDREN }));
+      const node = screen.getByTestId('pageComponent');
+      expect(node.querySelector('#p1')).toBeTruthy();
+      expect(node.querySelector('#p2')).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      expect(consoleSpy.mock.calls[0]).toContain(PAGE_TYPE2);
+      consoleSpy.mockRestore();
+    });
     it('should add the expected children', () => {
       ComponentMappingSpy.mockReturnValue(ChildComponent);
       render(generatePage({ cqChildren: CHILDREN }));

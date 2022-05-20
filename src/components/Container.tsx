@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
@@ -46,22 +46,26 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
   if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }
-  const components = cqItemsOrder.map((itemKey: string) => {
+  const components: Array<ReactElement> = [];
+  cqItemsOrder.forEach((itemKey: string) => {
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
     const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
     if (itemProps && itemProps.cqType) {
       const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType);
       const itemPath = getItemPath(cqPath, itemKey, isPage);
-
-      return (
-        <ItemComponent
-          key={itemPath}
-          model={itemProps}
-          cqPath={itemPath}
-          className={itemClassNames}
-          removeAEMStyles={props.removeAEMStyles}
-        />
-      );
+      if (ItemComponent) {
+        components.push(
+          <ItemComponent
+            key={itemPath}
+            model={itemProps}
+            cqPath={itemPath}
+            className={itemClassNames}
+            removeAEMStyles={props.removeAEMStyles}
+          />,
+        );
+      } else {
+        console.error('Component not mapped for resourcetype:', itemProps.cqType);
+      }
     }
   });
   return <>{components}</>;
