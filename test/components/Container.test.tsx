@@ -136,6 +136,18 @@ describe('Container ->', () => {
       expect(node.querySelector('#c2')).toBeTruthy();
     });
 
+    it('should render components if container cqpath is undefined', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(
+        <div data-testid="testcontainer">
+          <Container isInEditor={false} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER} />
+        </div>,
+      );
+      const node = screen.getByTestId('testcontainer');
+      expect(node.querySelector('#c1')).toBeTruthy();
+      expect(node.querySelector('#c2')).toBeTruthy();
+    });
+
     it('should add a placeholder with data attribute when in WCM edit mode', () => {
       render(generateContainerComponent({}));
       const node = screen.getByTestId('testcontainer');
