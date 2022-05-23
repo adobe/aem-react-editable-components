@@ -186,6 +186,16 @@ describe('Container ->', () => {
       expect(childItem1).toBeTruthy();
       expect(childItem2).toBeTruthy();
     });
+
+    it('should support component mapping via prop', () => {
+      const MapComponentsSpy = jest.spyOn(ComponentMapping, 'map');
+      render(
+        generateContainerComponent({
+          components: { [COMPONENT_TYPE2]: ComponentChild },
+        }),
+      );
+      expect(MapComponentsSpy).toBeCalledWith(COMPONENT_TYPE2, ComponentChild);
+    });
   });
 
   describe('Data attributes ->', () => {

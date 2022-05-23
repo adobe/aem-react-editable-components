@@ -3,7 +3,7 @@
 
 ## Page ##
 
-Render an AEM page and its content and enable authoring on AEM. All child components still need to be mapped to their AEM resourcetypes using **MapTo**.
+Render an AEM page and its content and enable authoring on AEM. All child components still need to be mapped to their AEM resourcetypes using **MapTo** or [the **components** prop](#component-mapping).
 All mapped components also need to be updated to use the newly introduced wrapper [EditableComponent](../core/README.md).
 
 ### Default SPA
@@ -87,6 +87,19 @@ If a custom class name needs to be added to the OOTB ResponsiveGrid component, t
 
 # Additional Features
 
+### Prefetched Model
+
+If the model for rendering the component has already been fetched (for eg: in SSR), this can be passed into the component via a prop, so that the component doesn't need to fetch it again on the client side.
+
+```
+const App = ({ model }) => (
+  <ResponsiveGrid 
+    pagePath='/content/wknd-app/us/en/home'
+    itemPath='root/responsivegrid'
+    model={model} />
+);
+```
+
 ### Remove AEM grid styling
 AEM layouting styles are applied by default when using the ResponsiveGrid and Page components. If you would prefer to use your own custom layouting over the AEM authored layouts, an additional prop _removeAEMStyles_ (or maybe removeDefaultStyles) can be passed into the components.
 
@@ -98,3 +111,65 @@ AEM layouting styles are applied by default when using the ResponsiveGrid and Pa
 ```
 This will remove all styles specific to the AEM grid system and corresponsing DOM wrappers.
 
+### Component Mapping
+
+Mapping child components to a container component can now be done via a prop instead of having to do _MapTo_ on initial load.
+
+If the container components has 2 child components, _Text_ and _Image_ of resource type _wknd/text_ and _wknd/image_ respectively, these can now be mapped to a grid component as below - 
+
+```
+<ResponsiveGrid 
+  pagePath='/content/wknd-app/us/en/home'
+  itemPath='root/responsivegrid'
+  components={{
+    "wknd/text": Text,
+    "wknd/image": Image
+  }} />
+```
+
+Mapping of the resource type to the corresponding component will then be handled internally by the SPA SDK.
+
+### Lazy Loading
+
+Child components can be lazy loaded to ensure that they are dynamically imported only when needed, thus reducing the amount of code on initial load.
+
+#### Prerequisites
+
+- The container component with the child components to be lazy loaded [should be within a _Suspense_ component with fallback content](https://reactjs.org/docs/code-splitting.html#reactlazy).
+- The component to be lazy loaded should be a default export.
+
+#### Using with RemotePage component
+
+To ensure the lazy loaded chunks are imported from the appropriate origin and not the AEM instance when the app is rendered for authoring in the AEM editor, [update the SPA to explicitly set the public path](https://webpack.js.org/guides/public-path/#on-the-fly) to the host URL of the SPA.
+
+#### MapTo
+
+```
+import Text from ./components/Text';
+MapTo('wknd/text')(Text);
+```
+
+can be updated to lazy load the Text component on usage as below - 
+
+```
+MapTo('wknd/text')(React.lazy(() => import('./components/Text')));
+```
+
+#### _components_ Prop
+
+```
+<ResponsiveGrid 
+  ...
+  components={{
+    "wknd/text": Text
+  }} />
+```
+can be updated to lazy load the child components on usage as below - 
+
+```
+<ResponsiveGrid 
+  ...
+  components={{
+    "wknd/text": React.lazy(() => import('./components/Text'))
+  }} />
+```
