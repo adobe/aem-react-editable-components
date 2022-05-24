@@ -9,11 +9,11 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { ReactElement } from 'react';
+import React, { ComponentType, ReactElement } from 'react';
 import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
-import { ComponentMapping, MappedComponentProperties } from '../core/ComponentMapping';
+import { ComponentMapping, MappedComponentProperties, MapTo } from '../core/ComponentMapping';
 import { Config } from '../types/EditConfig';
 
 type Props = {
@@ -27,6 +27,7 @@ type Props = {
   componentMapping?: typeof ComponentMapping;
   removeAEMStyles?: boolean;
   config?: Config<MappedComponentProperties>;
+  components?: { [key: string]: ComponentType<MappedComponentProperties> };
 } & ModelProps;
 
 const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
@@ -72,7 +73,21 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
 };
 
 export const Container = (props: Props): JSX.Element => {
-  const { cqPath = '', className = '', isPage = false, isInEditor, childPages, placeholderClassNames = '' } = props;
+  const {
+    cqPath = '',
+    className = '',
+    isPage = false,
+    isInEditor,
+    childPages,
+    placeholderClassNames = '',
+    components,
+  } = props;
+
+  if (components && Object.keys(components).length) {
+    for (const resourceType in components) {
+      MapTo(resourceType)(components[resourceType]);
+    }
+  }
 
   const containerProps =
     (isInEditor && {

@@ -136,6 +136,18 @@ describe('Container ->', () => {
       expect(node.querySelector('#c2')).toBeTruthy();
     });
 
+    it('should render components if container cqpath is undefined', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(
+        <div data-testid="testcontainer">
+          <Container isInEditor={false} cqItems={ITEMS} cqItemsOrder={ITEMS_ORDER} />
+        </div>,
+      );
+      const node = screen.getByTestId('testcontainer');
+      expect(node.querySelector('#c1')).toBeTruthy();
+      expect(node.querySelector('#c2')).toBeTruthy();
+    });
+
     it('should add a placeholder with data attribute when in WCM edit mode', () => {
       render(generateContainerComponent({}));
       const node = screen.getByTestId('testcontainer');
@@ -185,6 +197,16 @@ describe('Container ->', () => {
       const childItem2 = node.querySelector('#c2.' + COMPONENT_2_CLASS_NAMES);
       expect(childItem1).toBeTruthy();
       expect(childItem2).toBeTruthy();
+    });
+
+    it('should support component mapping via prop', () => {
+      const MapComponentsSpy = jest.spyOn(ComponentMapping, 'map');
+      render(
+        generateContainerComponent({
+          components: { [COMPONENT_TYPE2]: ComponentChild },
+        }),
+      );
+      expect(MapComponentsSpy).toBeCalledWith(COMPONENT_TYPE2, ComponentChild);
     });
   });
 
