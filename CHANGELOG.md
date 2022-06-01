@@ -1,3 +1,10 @@
+## [1.1.11](https://github.com/adobe/aem-react-editable-components/compare/v1.1.10...v1.1.11) (2022-03-29)
+
+
+### Bug Fixes
+
+* add circular-dependency-plugin dev dep ([b86274a](https://github.com/adobe/aem-react-editable-components/commit/b86274a8b3f3b8f70dfbdf3251b96ecac272c50e))
+
 ## [1.1.10](https://github.com/adobe/aem-react-editable-components/compare/v1.1.9...v1.1.10) (2021-09-15)
 
 
