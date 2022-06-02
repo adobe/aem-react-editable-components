@@ -68,10 +68,7 @@ ComponentMapping.get = wrappedGetFct;
 type MapperFunction<P extends MappedComponentProperties> = (_component: ComponentType<P>) => ComponentType<P>;
 
 const MapTo = <P extends MappedComponentProperties>(resourceTypes: string | string[]): MapperFunction<P> => {
-  const mapper = (component: ComponentType<P>) => {
-    // todo: pass 3rd argument: config
-    return ComponentMapping.map(resourceTypes, component);
-  };
+  const mapper = (component: ComponentType<P>) => ComponentMapping.map(resourceTypes, component);
 
   return mapper as MapperFunction<P>;
 };

@@ -28,7 +28,7 @@ export type Props = {
   model?: PageModel;
   pagePath?: string;
   itemPath?: string;
-  removeAEMStyles?: boolean;
+  removeDefaultStyles?: boolean;
 } & MappedComponentProperties;
 
 const addPropsToComponent = (component: React.ReactNode, props: MappedComponentProperties) => {
@@ -79,7 +79,7 @@ export const EditableComponent = ({
   const componentClassName = `${className} ${props.containerProps?.className || ''} ${appliedCssClassNames}`.trim();
 
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
-  return isInEditor || (!props.removeAEMStyles && componentClassName) ? (
+  return isInEditor || (!props.removeDefaultStyles && componentClassName) ? (
     <div className={componentClassName} {...dataAttr}>
       {updatedComponent}
       {isInEditor && <Placeholder config={config} {...componentProps} />}

@@ -25,7 +25,7 @@ type Props = {
   placeholderClassNames?: string;
   isInEditor: boolean;
   componentMapping?: typeof ComponentMapping;
-  removeAEMStyles?: boolean;
+  removeDefaultStyles?: boolean;
   config?: Config<MappedComponentProperties>;
   components?: { [key: string]: ComponentType<MappedComponentProperties> };
 } & ModelProps;
@@ -61,7 +61,7 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
             model={itemProps}
             cqPath={itemPath}
             className={itemClassNames}
-            removeAEMStyles={props.removeAEMStyles}
+            removeDefaultStyles={props.removeDefaultStyles}
           />,
         );
       } else {

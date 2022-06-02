@@ -26,7 +26,7 @@ type ResponsiveGridComponentProps = {
   componentMapping?: typeof ComponentMapping;
   config?: Config<MappedComponentProperties>;
   customClassName?: string;
-  removeAEMStyles?: boolean;
+  removeDefaultStyles?: boolean;
 } & ResponsiveGridProps;
 
 const RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
@@ -42,7 +42,7 @@ const LayoutContainer = ({
   };
 
   let className = props.customClassName || '';
-  if (isInEditor || !props.removeAEMStyles) {
+  if (isInEditor || !props.removeDefaultStyles) {
     className = `${className} ${props.gridClassNames || ''} ${ClassNames.CONTAINER}`;
   }
 
