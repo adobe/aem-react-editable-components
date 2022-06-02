@@ -69,31 +69,18 @@ describe('Composition and attribute propagation ->', () => {
       rootNode = undefined;
     }
   });
-
-  /**
-   * Sets a property on the provided CompositeComponent then updates it
-   *
-   * @param CompositeComponent
-   */
-  function testCompositionAttributePropagation(CompositeComponent: React.ComponentType<DummyProps>) {
-    ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps="true" />, rootNode);
-
+  it('should propagate attributes to properties', () => {
+    ReactDOM.render(<ChildComponent {...CQ_PROPS} attrToProps="true" />, rootNode);
     let node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']') as HTMLElement;
 
     expect(node).toBeDefined();
     expect(node.dataset.attrToProps).toEqual('true');
 
     // Update the component with new properties
-    ReactDOM.render(<CompositeComponent {...CQ_PROPS} attrToProps="false" />, rootNode);
+    ReactDOM.render(<ChildComponent {...CQ_PROPS} attrToProps="false" />, rootNode);
 
     node = rootNode.querySelector('[' + DATA_ATTR_TO_PROPS + ']');
     expect(node).toBeDefined();
     expect(node.dataset.attrToProps).toEqual('false');
-  }
-
-  describe('withEditorContext ->', () => {
-    it('should propagate attributes to properties', () => {
-      testCompositionAttributePropagation(ChildComponent);
-    });
   });
 });
