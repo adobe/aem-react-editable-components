@@ -18,13 +18,26 @@ type Props = {
   forceReload?: boolean;
   pagePath?: string;
   itemPath?: string;
+  host?: string;
+  options?: {
+    headers?: HeadersInit;
+  };
 };
 
-export async function fetchModel({ cqPath, forceReload = false, pagePath, itemPath }: Props) {
-  let model = {};
+export async function fetchModel({ cqPath, forceReload = false, pagePath, itemPath, host, options }: Props) {
+  let model = {},
+    data;
   if (cqPath || pagePath) {
     const path = (cqPath && sanitizeUrl(cqPath)) || Utils.getCQPath({ pagePath, itemPath });
-    const data = await ModelManager.getData({ path, forceReload }).catch((err) => console.error(err));
+    if (host) {
+      const hostURL = sanitizeUrl(`${host}/${path}`).replace(/\/+/g, '/');
+      const response = await fetch(`${hostURL}.model.json`, options);
+      if (response.ok) {
+        data = await response.json();
+      }
+    } else {
+      data = await ModelManager.getData({ path, forceReload }).catch((err: Error) => console.error(err));
+    }
     if (data && Object.keys(data).length) {
       model = Utils.modelToProps(data);
     }
