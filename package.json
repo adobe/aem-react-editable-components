@@ -50,10 +50,10 @@
     "@braintree/sanitize-url": "^6.0.0"
   },
   "peerDependencies": {
-    "@adobe/aem-spa-page-model-manager": "^1.4.0"
+    "@adobe/aem-spa-page-model-manager": "^1.4.3"
   },
   "devDependencies": {
-    "@adobe/aem-spa-page-model-manager": "~1.4.0",
+    "@adobe/aem-spa-page-model-manager": "~1.4.3",
     "@adobe/eslint-config-editorxp": "^1.0.8",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
