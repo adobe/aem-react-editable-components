@@ -12,9 +12,11 @@
 
 import { Model, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { fetchModel } from '../../src/api/fetchModel';
+import { waitFor } from '@testing-library/react';
 
 describe('fetchModel ->', () => {
   const MODEL = { data: 'testModel' } as Model;
+  const MODEL_OK_RESPONSE = { data: 'testModel', ok: true, json: () => ' ' } as Model;
   const CQ_PATH = 'testPage/jcr:content/componentPath';
 
   let getDataSpy: jest.SpyInstance;
@@ -39,9 +41,19 @@ describe('fetchModel ->', () => {
   });
 
   it('should fetch model using fetch api if remote host if provided', async () => {
-    global.fetch = jest.fn().mockImplementation(() => MODEL as Response);
+    global.fetch = jest.fn().mockImplementation(() => MODEL_OK_RESPONSE as Response);
     fetchModel({ cqPath: CQ_PATH, host: 'test.com/', options: {} });
     expect(fetch).toHaveBeenCalledWith(`test.com/${CQ_PATH}.model.json`, {});
     delete global.fetch;
+  });
+
+  it('should log error when there is no remote host and no data', async () => {
+    const error = new Error('404 - Not found');
+    getDataSpy = jest.spyOn(ModelManager, 'getData').mockRejectedValue(error);
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    await fetchModel({ cqPath: CQ_PATH });
+    await waitFor(() => expect(consoleSpy).toHaveBeenCalledWith(error));
+    consoleSpy.mockRestore();
   });
 });

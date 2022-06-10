@@ -303,7 +303,9 @@ describe('EditableComponent ->', () => {
     });
     it('should log error when there is no data', async () => {
       const error = new Error('404 - Not found');
-      getDataSpy.mockRejectedValue(error);
+      getDataSpy = jest.spyOn(ModelManager, 'getData').mockImplementation(() => {
+        throw error;
+      });
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -328,5 +330,21 @@ describe('EditableComponent ->', () => {
       });
       expect(removeListenerSpy).toHaveBeenCalledWith(COMPONENT_PATH, expect.any(Function));
     });
+  });
+
+  it('should render components even if the children are not valid React elements', () => {
+    const isElementValidSpy = jest.spyOn(React, 'isValidElement').mockReturnValue(false);
+    act(() => {
+      render(
+        <EditableComponent cqPath={COMPONENT_PATH}>
+          <ChildComponent />
+        </EditableComponent>,
+      );
+    });
+    expect(addListenerSpy).toHaveBeenCalledWith(COMPONENT_PATH, expect.any(Function));
+    expect(getDataSpy).toHaveBeenCalledWith({ path: COMPONENT_PATH, forceReload: false });
+    const node = screen.getByTestId('childComponent');
+    expect(node).toBeDefined();
+    isElementValidSpy.mockReset();
   });
 });
