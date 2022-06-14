@@ -63,6 +63,11 @@ export class Container<P extends ContainerProperties, S extends ContainerState> 
 
                 if (ItemComponent) {
                     childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));
+                } else {
+                    console.warn(
+`The server responded an item with cqType "${itemProps.cqType}" but there is no component mapped to that cqType.
+Do you have a call to MapTo for that cqType? Is that code reached (eg. imported) by ui.frontend/src/index.tsx?
+More info on "Map SPA components to AEM components" at https://experienceleague.adobe.com/docs/experience-manager-learn/getting-started-with-aem-headless/spa-editor/react/map-components.html`)
                 }
             }
         });
