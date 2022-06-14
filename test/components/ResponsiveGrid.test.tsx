@@ -12,7 +12,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ModelManager } from '@adobe/aem-spa-page-model-manager';
+import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '../../src/core/ComponentMapping';
 import { ResponsiveGrid } from '../../src/components/ResponsiveGrid';
 import { AllowedComponentList } from '../../src/types/AEMModel';
@@ -30,6 +30,14 @@ describe('ResponsiveGrid ->', () => {
   const PLACEHOLDER_CLASS_NAMES = 'aem-Grid-newComponent';
   const COMPONENT_TYPE1 = 'components/c1';
   const COMPONENT_TYPE2 = 'components/c2';
+  const COMPONENT_TEXT_PATH = '/content/page/jcr:content/root/text';
+  const COMPONENT_TEXT_TITLE = 'Text';
+  const CUSTOM_TITLE = 'Custom Container';
+  const ALLOWED_PLACEHOLDER_SELECTOR = '.aem-AllowedComponent--list';
+  const ALLOWED_COMPONENT_TITLE_SELECTOR = '.aem-AllowedComponent--title';
+  const ALLOWED_TEXT_COMPONENT_PLACEHOLDER_SELECTOR =
+    '.aem-AllowedComponent--component.cq-placeholder.placeholder[data-cq-data-path="/content/page/jcr:content/root/text"]';
+  const DEFAULT_PLACEHOLDER_SELECTOR = '.cq-placeholder';
 
   const ITEMS = {
     component1: {
@@ -56,12 +64,21 @@ describe('ResponsiveGrid ->', () => {
     components: [],
   };
 
+  const allowedCompTrue: AllowedComponentList = {
+    applicable: true,
+    components: [
+      {
+        path: COMPONENT_TEXT_PATH,
+        title: COMPONENT_TEXT_TITLE,
+      },
+    ],
+  };
+
   const STANDARD_GRID_PROPS = {
     cqPath: CONTAINER_PATH,
     gridClassNames: GRID_CLASS_NAMES,
     columnClassNames: {},
     allowedComponents: allowedComp,
-    title: '',
     componentMapping: ComponentMapping,
     cqItems: {},
     cqItemsOrder: [],
@@ -73,6 +90,7 @@ describe('ResponsiveGrid ->', () => {
   let addListenerSpy: jest.SpyInstance;
   let removeListenerSpy: jest.SpyInstance;
   let getDataSpy: jest.SpyInstance;
+  let isInEditorSpy: jest.SpyInstance;
 
   function generateResponsiveGrid(customProps) {
     const props = {
@@ -90,6 +108,7 @@ describe('ResponsiveGrid ->', () => {
     getDataSpy = jest.spyOn(ModelManager, 'getData').mockResolvedValue({});
     addListenerSpy = jest.spyOn(ModelManager, 'addListener').mockImplementation();
     removeListenerSpy = jest.spyOn(ModelManager, 'removeListener').mockImplementation();
+    isInEditorSpy = jest.spyOn(AuthoringUtils, 'isInEditor').mockReturnValue(false);
   });
 
   afterEach(() => {
@@ -97,6 +116,7 @@ describe('ResponsiveGrid ->', () => {
     addListenerSpy.mockReset();
     removeListenerSpy.mockReset();
     getDataSpy.mockReset();
+    isInEditorSpy.mockReset();
   });
 
   describe('Grid class names ->', () => {
@@ -129,6 +149,39 @@ describe('ResponsiveGrid ->', () => {
       const childItem2 = node.querySelector('.' + COLUMN_2_CLASS_NAMES + ITEM2_DATA_ATTRIBUTE_SELECTOR);
       expect(childItem1).toBeDefined();
       expect(childItem2).toBeDefined();
+    });
+  });
+
+  describe('Allowed Component Container ->', () => {
+    it('should add the Allowed Component Container', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(
+        generateResponsiveGrid({
+          allowedComponents: allowedCompTrue,
+          isInEditor: true,
+          title: 'Custom Container',
+        }),
+      );
+      const node = screen.getByTestId('gridComponent');
+
+      const allowedComponentsContainer = node.querySelector(ALLOWED_PLACEHOLDER_SELECTOR);
+      const allowedComponentsTitle = allowedComponentsContainer.querySelector(
+        ALLOWED_COMPONENT_TITLE_SELECTOR,
+      ) as HTMLElement;
+      expect(allowedComponentsTitle).toBeDefined();
+      expect(allowedComponentsTitle.dataset.text).toEqual(CUSTOM_TITLE);
+      expect(allowedComponentsContainer.querySelector(ALLOWED_TEXT_COMPONENT_PLACEHOLDER_SELECTOR)).toBeTruthy();
+    });
+  });
+
+  describe('No Default Placeholder ->', () => {
+    it('should not add default placeholder', () => {
+      isInEditorSpy = jest.spyOn(AuthoringUtils, 'isInEditor').mockReturnValue(true);
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(generateResponsiveGrid({ cqItems: ITEMS, cqItemsOrder: ITEMS_ORDER }));
+      const node = screen.getByTestId('gridComponent');
+      const defaultPlaceholderSelector = node.querySelector(DEFAULT_PLACEHOLDER_SELECTOR);
+      expect(defaultPlaceholderSelector).toBeNull();
     });
   });
 });
