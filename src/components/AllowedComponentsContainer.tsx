@@ -12,7 +12,7 @@
 
 import React from 'react';
 import { AllowedComponentList, ModelProps } from '../types/AEMModel';
-import { ClassNames } from '../constants';
+import { ClassNames, Texts } from '../constants';
 
 type Props = {
   allowedComponents: AllowedComponentList;
@@ -28,7 +28,7 @@ type Props = {
 const AllowedComponentsContainer = (props: Props): JSX.Element => {
   const { placeholderClassNames = '', allowedComponents, title } = props;
   const { components } = allowedComponents;
-  const emptyLabel = 'No allowed components'; //move to constants and add localization?
+  const emptyLabel = Texts.EMPTY_LABEL;
   const listLabel = components && components.length > 0 ? title : emptyLabel;
 
   return (
