@@ -10,9 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import { Properties } from './properties';
-import { ClassNames } from './classnames';
-import { Events } from './events';
-import { Texts } from './texts';
-
-export { Properties, ClassNames, Events, Texts };
+/**
+ * Constants for interacting with AEM components.
+ */
+export const Texts = Object.freeze({
+  /**
+   * The label to be displayed when no components are allowed in AllowedComponentsContainer
+   */
+  EMPTY_LABEL: 'No allowed components',
+});
