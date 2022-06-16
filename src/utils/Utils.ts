@@ -48,15 +48,11 @@ const Utils = {
     }
 
     const keys = Object.getOwnPropertyNames(item);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const props: any = {};
 
     keys.forEach((key: string) => {
-      let propKey: string = key;
-
-      if (propKey.startsWith(':')) {
-        propKey = transformToCQ(propKey);
-      }
-
+      const propKey = (key.startsWith(':') ? transformToCQ(key) : key) as keyof ModelProps;
       props[propKey] = item[key as keyof Model] || '';
     });
 
