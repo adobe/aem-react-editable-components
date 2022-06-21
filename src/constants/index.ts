@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,7 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { Properties } from './properties';
+import { ClassNames } from './classnames';
+import { Events } from './events';
+import { Texts } from './texts';
 
-configure({ adapter: new Adapter() });
+export { Properties, ClassNames, Events, Texts };

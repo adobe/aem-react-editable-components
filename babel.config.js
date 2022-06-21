@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,16 +10,20 @@
  * governing permissions and limitations under the License.
  */
 
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.(js|js|ts)x?$': 'babel-jest',
-  },
-  testMatch: ['<rootDir>/test/**/*.test.{ts,tsx}'],
-  testPathIgnorePatterns: ['node_modules/', 'dist/', 'typesoutput/'],
-  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-  coveragePathIgnorePatterns: ['src/types.ts', 'src/types/'],
-  coverageDirectory: 'dist/coverage',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+module.exports = function (api) {
+  api.cache(true);
+
+  const presets = ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'];
+
+  const plugins = [
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-proposal-export-default-from',
+  ];
+
+  return {
+    presets,
+    plugins,
+  };
 };

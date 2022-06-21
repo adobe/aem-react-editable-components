@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,16 +10,11 @@
  * governing permissions and limitations under the License.
  */
 
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.(js|js|ts)x?$': 'babel-jest',
-  },
-  testMatch: ['<rootDir>/test/**/*.test.{ts,tsx}'],
-  testPathIgnorePatterns: ['node_modules/', 'dist/', 'typesoutput/'],
-  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-  coveragePathIgnorePatterns: ['src/types.ts', 'src/types/'],
-  coverageDirectory: 'dist/coverage',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-};
+import { MappedComponentProperties } from '../core/ComponentMapping';
+
+export interface Config<P extends MappedComponentProperties> {
+  emptyLabel?: string;
+  isEmpty(_props: P): boolean;
+  resourceType?: string;
+  forceReload?: boolean;
+}

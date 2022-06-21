@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -9,60 +9,74 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { MapTo, withComponentMappingContext } from '../ComponentMapping';
-import { AllowedComponentsContainer, AllowedComponentsProperties } from './allowedcomponents/AllowedComponentsContainer';
-import { ContainerState } from './Container';
-import { PlaceHolderModel } from './ContainerPlaceholder';
-import { EditConfig } from './EditableComponent';
-import { Constants } from '../Constants';
+import React from 'react';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
+import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
+import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
+import { EditableComponent } from '../core/EditableComponent';
+import { Container } from './Container';
+import AllowedComponentsContainer from './AllowedComponentsContainer';
+import { ResponsiveGridProps } from '../types/AEMModel';
+import { Config } from '../types/EditConfig';
+import { ClassNames } from '../constants';
 
-export interface ResponsiveGridProperties extends AllowedComponentsProperties {
-    gridClassNames: string;
-    columnClassNames: { [key: string]: string };
-}
+type ResponsiveGridComponentProps = {
+  title?: string;
+  isInEditor: boolean;
+  componentMapping?: typeof ComponentMapping;
+  config?: Config<MappedComponentProperties>;
+  customClassName?: string;
+  removeDefaultStyles?: boolean;
+} & ResponsiveGridProps;
 
-export class ResponsiveGrid<P extends ResponsiveGridProperties, S extends ContainerState> extends AllowedComponentsContainer<P, S> {
-    public static defaultProps = {
-        _allowedComponentPlaceholderListEmptyLabel: 'No allowed components',
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: '',
-        title: 'Layout Container'
-    };
+const RESOURCE_TYPE = 'wcm/foundation/components/responsivegrid';
 
-    get containerProps(): { [key: string]: string } {
-        const containerProps = super.containerProps;
+const LayoutContainer = ({
+  title = 'Layout Container',
+  columnClassNames,
+  isInEditor,
+  ...props
+}: ResponsiveGridComponentProps): JSX.Element => {
+  const getItemClassNames = (itemKey: string) => {
+    return columnClassNames && columnClassNames[itemKey] ? columnClassNames[itemKey] : '';
+  };
 
-        containerProps.className = (containerProps.className || '') + ' ' + this.props.gridClassNames;
+  let className = props.customClassName || '';
+  if (isInEditor || !props.removeDefaultStyles) {
+    className = `${className} ${props.gridClassNames || ''} ${ClassNames.CONTAINER}`;
+  }
 
-        return containerProps;
-    }
+  const gridProps = {
+    ...props,
+    className,
+    getItemClassNames,
+    placeholderClassNames: ClassNames.RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES,
+    isInEditor,
+  };
 
-    get placeholderProps(): PlaceHolderModel {
-        const props = super.placeholderProps;
-
-        props.placeholderClassNames = (props.placeholderClassNames || '') + ' ' + Constants._RESPONSIVE_GRID_PLACEHOLDER_CLASS_NAMES;
-
-        return props;
-    }
-
-    getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
-        const attrs = super.getItemComponentProps(item, itemKey, itemPath);
-
-        attrs.className = attrs.className || '';
-        attrs.className += this.props.columnClassNames && this.props.columnClassNames[itemKey] ? ' ' + this.props.columnClassNames[itemKey] : '';
-
-        return attrs;
-    }
-}
-
-/**
- * @private
- */
-const config: EditConfig<ResponsiveGridProperties> = {
-    isEmpty(props: ResponsiveGridProperties): boolean {
-        return props.cqItemsOrder && props.cqItemsOrder.length > 0;
-    }
+  return props.allowedComponents?.applicable && isInEditor ? (
+    <AllowedComponentsContainer {...gridProps} title={title} />
+  ) : (
+    <Container {...gridProps} />
+  );
 };
 
-MapTo<ResponsiveGridProperties>('wcm/foundation/components/responsivegrid')(withComponentMappingContext(ResponsiveGrid), config);
+export const ResponsiveGrid = ({
+  isInEditor = AuthoringUtils.isInEditor(),
+  ...props
+}: ResponsiveGridComponentProps): JSX.Element => {
+  const config = {
+    isEmpty: (gridProps: ResponsiveGridProps): boolean => {
+      return (gridProps.cqItemsOrder && gridProps.cqItemsOrder.length > 0) || false;
+    },
+    resourceType: RESOURCE_TYPE,
+  };
+
+  return (
+    <EditableComponent config={config} {...props}>
+      <LayoutContainer {...props} isInEditor={isInEditor} />
+    </EditableComponent>
+  );
+};
+
+MapTo<ResponsiveGridComponentProps>(RESOURCE_TYPE)(ResponsiveGrid);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,87 +10,50 @@
  * governing permissions and limitations under the License.
  */
 
-import React from 'react';
-import { Model } from '@adobe/aem-spa-page-model-manager';
-import { Constants } from '../Constants';
-import Utils from '../Utils';
-import { Container, ContainerProperties, ContainerState } from './Container';
-import { ComponentMapping, MappedComponentProperties } from '../ComponentMapping';
+import React, { ReactElement } from 'react';
+import { Container } from './Container';
+import { ClassNames } from '../constants';
+import { ModelProps } from '../types/AEMModel';
+import { Utils } from '../utils/Utils';
+import { ComponentMapping } from '../core/ComponentMapping';
+import { EditableComponent } from '../core/EditableComponent';
 
-export interface PageModel extends Model {
-    ':type': string;
-    'id': string;
-    ':path': string;
-    ':children'?: { [key: string]: PageModel };
-}
+type Props = {
+  isInEditor: boolean;
+  componentMapping: typeof ComponentMapping;
+  className?: string;
+} & ModelProps;
 
-export interface PageProperties extends ContainerProperties {
-    cqChildren: { [key: string]: PageModel };
-}
+const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
+  const componentMapping = props.componentMapping || ComponentMapping;
 
-export class Page<P extends PageProperties, S extends ContainerState> extends Container<P, S> {
-    public static defaultProps = {
-        cqChildren: {},
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: ''
-    };
-
-    constructor(props: P) {
-        super(props);
-
-        this.state = {
-            componentMapping: this.props.componentMapping || ComponentMapping
-        } as Readonly<S>;
+  if (!cqChildren) {
+    return <></>;
+  }
+  const pages: Array<ReactElement> = [];
+  Object.keys(cqChildren).forEach((itemKey) => {
+    const itemProps = Utils.modelToProps(cqChildren[itemKey]);
+    const { cqPath, cqType } = itemProps;
+    if (cqType) {
+      const ItemComponent: React.ElementType = componentMapping.get(cqType);
+      if (ItemComponent) {
+        pages.push(<ItemComponent model={itemProps} key={cqPath} cqPath={cqPath} isInEditor={props.isInEditor} />);
+      } else {
+        console.error('Component not mapped for resourcetype:', cqType);
+      }
     }
+  });
 
-    get containerProps(): { [key: string]: string } {
-        const props: { [key: string]: string } = {
-            className: Constants._PAGE_CLASS_NAMES
-        };
+  return <>{pages}</>;
+};
 
-        if (this.props.isInEditor) {
-            props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
-        }
-
-        return props;
-    }
-
-    /**
-     * @returns The child pages of a page.
-     */
-    get childPages(): JSX.Element[] {
-        const pages: JSX.Element[] = [];
-
-        if (!this.props.cqChildren) {
-            return pages;
-        }
-
-        Object.keys(this.props.cqChildren).map((itemKey) => {
-            const itemProps = Utils.modelToProps(this.props.cqChildren[itemKey]);
-            const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
-
-            if (ItemComponent) {
-                pages.push(
-                    <ItemComponent key={ itemProps.cqPath } {...itemProps} cqPath={ itemProps.cqPath }>
-                    </ItemComponent>
-                );
-            }
-        });
-
-        return pages;
-    }
-
-    public getItemPath(itemKey: string) {
-        return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + Constants.JCR_CONTENT + '/' + itemKey) : itemKey;
-    }
-
-    public render() {
-        return (
-          <div {...this.containerProps}>
-            { this.childComponents }
-            { this.childPages }
-          </div>
-        );
-    }
-}
+export const Page = ({ className, ...props }: Props): JSX.Element => (
+  <EditableComponent {...props}>
+    <Container
+      className={`${ClassNames.PAGE} ${className || ''}`}
+      isPage={true}
+      childPages={<PageList {...props} />}
+      {...props}
+    />
+  </EditableComponent>
+);

@@ -13,15 +13,15 @@
 import { Model } from '@adobe/aem-spa-page-model-manager';
 
 export interface ResponsiveGridModel extends Model {
-    gridClassNames: string;
-    columnCount: number;
+  gridClassNames: string;
+  columnCount: number;
 }
 
 export interface PageModel extends Model {
-    designPath?: string;
-    title?: string;
-    lastModifiedDate?: number;
-    templateName?: string;
-    cssClassNames?: string;
-    language?: string;
+  designPath?: string;
+  title?: string;
+  lastModifiedDate?: number;
+  templateName?: string;
+  cssClassNames?: string;
+  language?: string;
 }

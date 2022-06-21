@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "@adobe/aem-react-editable-components": ["./"],
+      "@adobe/aem-react-editable-components/*": ["./*"]
+    }
+  }
+}

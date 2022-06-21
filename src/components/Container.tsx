@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -9,163 +9,106 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import React, { ComponentType, ReactElement } from 'react';
+import { Utils } from '../utils/Utils';
+import { Properties, ClassNames } from '../constants';
+import { ModelProps } from '../types/AEMModel';
+import { ComponentMapping, MappedComponentProperties, MapTo } from '../core/ComponentMapping';
+import { Config } from '../types/EditConfig';
 
-import { Model } from '@adobe/aem-spa-page-model-manager';
-import React, { Component } from 'react';
-import { ComponentMapping, MappedComponentProperties } from '../ComponentMapping';
-import { Constants } from '../Constants';
-import Utils from '../Utils';
-import { ContainerPlaceholder, PlaceHolderModel } from './ContainerPlaceholder';
+type Props = {
+  className?: string;
+  itemPath?: string;
+  isPage?: boolean;
+  childPages?: JSX.Element;
+  getItemClassNames?: (_key: string) => string;
+  placeholderClassNames?: string;
+  isInEditor: boolean;
+  componentMapping?: typeof ComponentMapping;
+  removeDefaultStyles?: boolean;
+  config?: Config<MappedComponentProperties>;
+  components?: { [key: string]: ComponentType<MappedComponentProperties> };
+} & ModelProps;
 
-export interface ContainerProperties extends MappedComponentProperties {
-    componentMapping?: typeof ComponentMapping;
-    cqItems: { [key: string]: Model };
-    cqItemsOrder: string[];
-}
-
-export interface ContainerState {
-    componentMapping: typeof ComponentMapping;
-}
-
-export class Container<P extends ContainerProperties, S extends ContainerState> extends Component<P, S> {
-    public static defaultProps = {
-        cqItems: {},
-        cqItemsOrder: [],
-        cqPath: ''
-    };
-
-    constructor(props: P) {
-        super(props);
-
-        this.state = {
-            componentMapping: this.props.componentMapping || ComponentMapping
-        } as Readonly<S>;
+const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
+  let itemPath = itemKey;
+  if (cqPath) {
+    if (isPage) {
+      itemPath = `${cqPath}/${Properties.JCR_CONTENT}/${itemKey}`;
+    } else {
+      itemPath = `${cqPath}/${itemKey}`;
     }
+  }
+  return itemPath;
+};
 
-    /**
-     * Returns the child components of this Container.
-     * It will instantiate the child components if mapping exists.
-     *
-     * @returns An array with the components instantiated to JSX
-     */
-    get childComponents(): JSX.Element[] {
-        const childComponents: JSX.Element[] = [];
-
-        if (!this.props.cqItems || !this.props.cqItemsOrder) {
-            return childComponents;
-        }
-
-        this.props.cqItemsOrder.map((itemKey) => {
-            const itemProps = Utils.modelToProps(this.props.cqItems[itemKey]);
-
-            if (itemProps) {
-                const ItemComponent: React.ComponentType<MappedComponentProperties> = this.state.componentMapping.get(itemProps.cqType);
-
-                if (ItemComponent) {
-                    childComponents.push(this.connectComponentWithItem(ItemComponent, itemProps, itemKey));
-                }
-            }
-        });
-
-        return childComponents;
+const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: Props) => {
+  const componentMapping = props.componentMapping || ComponentMapping;
+  if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
+    return <></>;
+  }
+  const components: Array<ReactElement> = [];
+  cqItemsOrder.forEach((itemKey: string) => {
+    const itemProps = Utils.modelToProps(cqItems[itemKey]);
+    const itemClassNames = (getItemClassNames && getItemClassNames(itemKey)) || '';
+    if (itemProps && itemProps.cqType) {
+      const ItemComponent: React.ElementType = componentMapping.get(itemProps.cqType);
+      const itemPath = getItemPath(cqPath, itemKey, isPage);
+      if (ItemComponent) {
+        components.push(
+          <ItemComponent
+            key={itemPath}
+            model={itemProps}
+            cqPath={itemPath}
+            className={itemClassNames}
+            removeDefaultStyles={props.removeDefaultStyles}
+          />,
+        );
+      } else {
+        console.error('Component not mapped for resourcetype:', itemProps.cqType);
+      }
     }
+  });
+  return <>{components}</>;
+};
 
-    /**
-     * Connects a child component with the item data.
-     *
-     * @param ChildComponent
-     * @param itemProps
-     * @param itemKey
-     * @returns The React element constructed by connecting the values of the input with the Component.
-     */
-    protected connectComponentWithItem(ChildComponent: React.ComponentType<MappedComponentProperties>, itemProps: any, itemKey: string) {
-        const itemPath = this.getItemPath(itemKey);
+export const Container = (props: Props): JSX.Element => {
+  const {
+    cqPath = '',
+    className = '',
+    isPage = false,
+    isInEditor,
+    childPages,
+    placeholderClassNames = '',
+    components,
+  } = props;
 
-        return <ChildComponent {...itemProps}
-                               key={itemPath}
-                               cqPath={itemPath}
-                               isInEditor={this.props.isInEditor}
-                               containerProps={this.getItemComponentProps(itemProps, itemKey, itemPath)}/>;
+  if (components && Object.keys(components).length) {
+    for (const resourceType in components) {
+      MapTo(resourceType)(components[resourceType]);
     }
+  }
 
-    /**
-     * Returns the properties to add on a specific child component.
-     *
-     * @param item
-     * @param itemKey
-     * @param itemPath
-     * @returns The map of properties.
-     */
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    getItemComponentProps(item: any, itemKey: string, itemPath: string): { [key: string]: string } {
-        return {};
-    }
+  const containerProps =
+    (isInEditor && {
+      [Properties.DATA_PATH_ATTR]: cqPath,
+    }) ||
+    {};
 
-    /**
-     * Returns the path of given item.
-     *
-     * @param itemKey
-     * @returns The computed path.
-     */
-    public getItemPath(itemKey: string) {
-        return (this.props && this.props.cqPath) ? (this.props.cqPath + '/' + itemKey) : itemKey;
-    }
+  const childComponents = <ComponentList {...props} />;
 
-    /**
-     * The properties for the root element of the container.
-     *
-     * @returns The map of properties.
-     */
-    get containerProps(): {[key: string]: string} {
-        const props: { [key: string]: string } = {
-            className: Constants._CONTAINER_CLASS_NAMES,
-        };
-
-        if (this.props.isInEditor) {
-            props[Constants.DATA_PATH_ATTR] = this.props.cqPath;
-        }
-
-        return props;
-    }
-
-    /**
-     * The properties for the placeholder component in root element.
-     *
-     * @returns The map of properties to be added.
-     */
-    get placeholderProps(): PlaceHolderModel {
-        return {
-            cqPath: this.props.cqPath,
-            placeholderClassNames: Constants.NEW_SECTION_CLASS_NAMES,
-        };
-    }
-
-    get placeholderComponent() {
-        if (!this.props.isInEditor) {
-            return null;
-        }
-
-        return <ContainerPlaceholder { ...this.placeholderProps }/>;
-    }
-
-    public render() {
-        let renderScript;
-
-        if (!this.props.isInEditor && this.props.aemNoDecoration){
-            renderScript = (
-                <React.Fragment>
-                    { this.childComponents }
-                </React.Fragment>
-            )
-        } else {
-            renderScript = (
-                <div {...this.containerProps}>
-                    { this.childComponents }
-                    { this.placeholderComponent }
-                </div>
-            )
-        }
-
-        return renderScript;
-    }
-}
+  return isInEditor ? (
+    <div className={className || ClassNames.CONTAINER} {...containerProps}>
+      {childComponents}
+      {childPages}
+      {!isPage && isInEditor && (
+        <div data-cq-data-path={`${cqPath}/*`} className={`${ClassNames.NEW_SECTION} ${placeholderClassNames}`} />
+      )}
+    </div>
+  ) : (
+    <div className={className}>
+      {childComponents}
+      {childPages}
+    </div>
+  );
+};

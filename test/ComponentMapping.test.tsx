@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
+ * Copyright 2022 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,44 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
-import { ComponentMapping, MappedComponentProperties, MapTo } from '../src/ComponentMapping';
-import { EditConfig } from '../src/components/EditableComponent';
+import React from 'react';
+import { ComponentMapping, MapTo } from '../src/core/ComponentMapping';
 
 describe('ComponentMapping', () => {
+  const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
 
-    interface Props extends MappedComponentProperties{
-        src?:string
-    }
+  const TestComponent = () => <div />;
 
-    const COMPONENT_RESOURCE_TYPE = 'test/component/resource/type';
-    const editConfig: EditConfig<Props> = {
-        emptyLabel: 'Image',
+  it('should store and retrieve component', () => {
+    const WrappedReturnType = MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent);
 
-        isEmpty: function(props) {
-            return !props || !props.src || (props.src.trim().length < 1);
-        }
-    };
+    const WrappedComponentFromGet = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
 
+    expect(WrappedComponentFromGet).toBeDefined();
+    expect(WrappedReturnType).toBeDefined();
 
-    class TestComponent extends Component<Props> {
-        render () {
-            return <div/>;
-        }
-    }
-
-    it('should store and retrieve component', () => {
-        const spy = jest.spyOn(document.head, 'querySelector').mockReturnValue({ content: 'edit' } as any);
-
-        const WrappedReturnType = MapTo(COMPONENT_RESOURCE_TYPE)(TestComponent, editConfig);
-
-        const WrappedComponentFromGet = ComponentMapping.get(COMPONENT_RESOURCE_TYPE);
-
-        expect(WrappedComponentFromGet).toBeDefined();
-        expect(WrappedReturnType).toBeDefined();
-
-        expect(WrappedReturnType).toBe(WrappedComponentFromGet);
-
-        spy.mockRestore();
-    });
+    expect(WrappedReturnType).toBe(WrappedComponentFromGet);
+  });
 });

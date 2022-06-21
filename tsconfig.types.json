@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "importHelpers": true,
+    "removeComments": false,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./typesoutput",
+    "emitDeclarationOnly": true
+  },
+  "exclude": ["./internal/umd.ts"]
+}
