@@ -1,3 +1,29 @@
+# [2.0.0](https://github.com/adobe/aem-react-editable-components/compare/v1.1.11...v2.0.0) (2022-06-21)
+
+
+### Bug Fixes
+
+* adjust src and tests according to prettier rules ([6634e74](https://github.com/adobe/aem-react-editable-components/commit/6634e746c9a806f8b64cfb3c3ab2cfba3b18719c))
+* further refactoring ([#106](https://github.com/adobe/aem-react-editable-components/issues/106)) ([5619a31](https://github.com/adobe/aem-react-editable-components/commit/5619a31898646e0fe83565b89afdf5b72dc25884))
+* move circular-dependency-plugin to dev deps ([1f3c350](https://github.com/adobe/aem-react-editable-components/commit/1f3c3509599f9ae2bd70449ec93b7c47fe1aa79b))
+* move circular-dependency-plugin to dev deps ([f0af6e3](https://github.com/adobe/aem-react-editable-components/commit/f0af6e383e0c5a854e6894d32558898a49298260))
+* setup project ([2d42638](https://github.com/adobe/aem-react-editable-components/commit/2d42638aff36a9ef6662afafbc8d4b03b3ed6d80))
+* update package-lock.json ([5e4b645](https://github.com/adobe/aem-react-editable-components/commit/5e4b645bde12e007d5de549a422a157d64929517))
+
+
+* Merge pull request #115 from adobe/feat/functional-components ([9098aa5](https://github.com/adobe/aem-react-editable-components/commit/9098aa5a43549063553a037eeedee8c4792f8686)), closes [#115](https://github.com/adobe/aem-react-editable-components/issues/115)
+
+
+### Features
+
+* Refactor to use components by composition ([85d0012](https://github.com/adobe/aem-react-editable-components/commit/85d00122a1fe56dfee202905520554dfdc9ba2ea))
+
+
+### BREAKING CHANGES
+
+* withMappable and other helpers removed
+* EditableComponent to cover scenarios provided by withMappable
+
 ## [1.1.11](https://github.com/adobe/aem-react-editable-components/compare/v1.1.10...v1.1.11) (2022-03-29)
 
 
