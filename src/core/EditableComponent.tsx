@@ -10,16 +10,15 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
-import { MappedComponentProperties } from './ComponentMapping';
 import { Properties } from '../constants';
 import { Utils } from '../utils/Utils';
 import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { PageModel } from '../types/AEMModel';
-import { Config } from '../types/EditConfig';
+import { Config, MappedComponentProperties } from '../types/EditConfig';
 import { useEditor } from '../hooks/useEditor';
 import Placeholder from '../components/Placeholder';
 
-export type Props = {
+export type EditableComponentProps = {
   config?: Config<MappedComponentProperties>;
   children?: React.ReactNode;
   className?: string;
@@ -49,7 +48,7 @@ export const EditableComponent = ({
   className = '',
   appliedCssClassNames = '',
   ...props
-}: Props): JSX.Element => {
+}: EditableComponentProps): JSX.Element => {
   const { updateModel } = useEditor();
   const { forceReload, resourceType = '' } = config;
   const path = cqPath || Utils.getCQPath({ cqPath, pagePath, itemPath });

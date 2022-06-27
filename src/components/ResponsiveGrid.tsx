@@ -12,15 +12,15 @@
 import React from 'react';
 import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
-import { MapTo, MappedComponentProperties } from '../core/ComponentMapping';
+import { MapTo } from '../core/ComponentMapping';
 import { EditableComponent } from '../core/EditableComponent';
 import { Container } from './Container';
 import AllowedComponentsContainer from './AllowedComponentsContainer';
 import { ResponsiveGridProps } from '../types/AEMModel';
-import { Config } from '../types/EditConfig';
+import { Config, MappedComponentProperties } from '../types/EditConfig';
 import { ClassNames } from '../constants';
 
-type ResponsiveGridComponentProps = {
+export type ResponsiveGridComponentProps = {
   title?: string;
   isInEditor: boolean;
   componentMapping?: typeof ComponentMapping;

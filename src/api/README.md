@@ -13,9 +13,9 @@ const model = await fetchModel({
 });
 ```
 
-where model will contain the fetched model of the grid at the path _'root/responsivegrid'_ within the page _'/content/wknd-app/us/en/home'_.
+where _model_ will contain the fetched model of the container at the path _'root/responsivegrid'_ within the page _'/content/wknd-app/us/en/home'_.
 
-You can also directly provide the cqPath of the component for which model needs to be fetched if required.
+You can also directly provide the _cqPath_ of the component for which model needs to be fetched if required.
 
 ```
 const model = await fetchModel({ 
@@ -29,6 +29,6 @@ If the fetch needs to be done prior to ModelManager initialization, you would al
 const model = await fetchModel({ 
   cqPath: '/content/wknd-app/us/en/home/jcr:content/root/responsivegrid',
   host: ${AEM_HOST},
-  option: ${FETCH_REQUEST_OPTIONS}
+  options: ${FETCH_REQUEST_OPTIONS}
 });
 ```

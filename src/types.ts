@@ -10,8 +10,11 @@
  * governing permissions and limitations under the License.
  */
 export { MapTo } from './core/ComponentMapping';
-export { Container } from './components/Container';
-export { EditableComponent } from './core/EditableComponent';
-export { Page } from './components/Page';
-export { ResponsiveGrid } from './components/ResponsiveGrid';
-export { fetchModel } from './api/fetchModel';
+export * from './components/Container';
+export * from './core/EditableComponent';
+export * from './components/Page';
+export * from './components/ResponsiveGrid';
+export * from './api/fetchModel';
+
+export * from './types/AEMModel';
+export * from './types/EditConfig';

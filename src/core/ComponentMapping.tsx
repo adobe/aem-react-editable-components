@@ -12,6 +12,7 @@
 
 import { ComponentType } from 'react';
 import { ComponentMapping } from '@adobe/aem-spa-component-mapping';
+import { MappedComponentProperties } from '../types/EditConfig';
 
 /**
  * @private
@@ -21,26 +22,6 @@ const wrappedMapFct = ComponentMapping.map;
  * @private
  */
 const wrappedGetFct = ComponentMapping.get;
-
-/**
- * Hold force reload state.
- */
-export interface ReloadForceAble {
-  /*
-   * Should the model cache be ignored when processing the component.
-   */
-  cqForceReload?: boolean;
-}
-
-/**
- * Properties given to every component runtime by the SPA editor.
- */
-export interface MappedComponentProperties extends ReloadForceAble {
-  isInEditor?: boolean;
-  cqPath?: string;
-  appliedCssClassNames?: string;
-  aemNoDecoration?: boolean;
-}
 
 /**
  * Map a React component with the given resource types.
