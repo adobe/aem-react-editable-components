@@ -14,7 +14,7 @@ import { Model } from '@adobe/aem-spa-page-model-manager';
 /**
  * Component that is allowed to be used on the page by the editor.
  */
-type AllowedComponent = {
+export type AllowedComponent = {
   path: string;
   title: string;
 };

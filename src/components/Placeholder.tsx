@@ -11,10 +11,10 @@
  */
 
 import React from 'react';
-import { Props } from '../core/EditableComponent';
+import { EditableComponentProps } from '../core/EditableComponent';
 import { ClassNames } from '../constants';
 
-const Placeholder = ({ config, ...props }: Props) => {
+const Placeholder = ({ config, ...props }: EditableComponentProps) => {
   const { emptyLabel = '', isEmpty } = config || {};
   if (!(typeof isEmpty === 'function' && isEmpty(props))) {
     return null;

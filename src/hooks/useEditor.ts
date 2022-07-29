@@ -16,14 +16,13 @@ import { Events } from '../constants';
 import { fetchModel } from '../api/fetchModel';
 
 type Props = {
-  path?: string;
+  path: string;
   forceReload?: boolean;
   isInEditor?: boolean;
   pagePath?: string;
   setModel: Dispatch<ModelProps>;
 };
 
-// Editor specific logic could be placed here
 export const useEditor = () => {
   const updateModel = useCallback(async ({ path, forceReload, pagePath, setModel, isInEditor }: Props) => {
     const model = await fetchModel({ cqPath: path, forceReload, pagePath }).catch((err) => console.error(err));

@@ -18,13 +18,13 @@ import { Utils } from '../utils/Utils';
 import { ComponentMapping } from '../core/ComponentMapping';
 import { EditableComponent } from '../core/EditableComponent';
 
-type Props = {
+export type PageProps = {
   isInEditor: boolean;
   componentMapping: typeof ComponentMapping;
   className?: string;
 } & ModelProps;
 
-const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
+const PageList = ({ cqChildren, ...props }: PageProps): JSX.Element => {
   const componentMapping = props.componentMapping || ComponentMapping;
 
   if (!cqChildren) {
@@ -47,7 +47,7 @@ const PageList = ({ cqChildren, ...props }: Props): JSX.Element => {
   return <>{pages}</>;
 };
 
-export const Page = ({ className, ...props }: Props): JSX.Element => (
+export const Page = ({ className, ...props }: PageProps): JSX.Element => (
   <EditableComponent {...props}>
     <Container
       className={`${ClassNames.PAGE} ${className || ''}`}

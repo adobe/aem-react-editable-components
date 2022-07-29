@@ -12,19 +12,44 @@
 import { ModelManager } from '@adobe/aem-spa-page-model-manager';
 import { Utils } from '../utils/Utils';
 import { sanitizeUrl } from '@braintree/sanitize-url';
+import { ModelProps } from '../types/AEMModel';
 
-type Props = {
-  cqPath?: string;
+type RequireAtLeastOne<T> = { [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>> }[keyof T];
+
+export interface Path {
+  cqPath: string;
+  pagePath: string;
+}
+
+export type FetchProps = RequireAtLeastOne<Path> & {
   forceReload?: boolean;
-  pagePath?: string;
-  itemPath?: string;
   host?: string;
   options?: {
     headers?: HeadersInit;
   };
+  itemPath?: string;
 };
 
-export async function fetchModel({ cqPath, forceReload = false, pagePath, itemPath, host, options }: Props) {
+/**
+ * Fetch the model for a given path from AEM
+ *
+ * @param {Object} options
+ * @param options.cqPath Complete path to component on AEM
+ * @param options.pagePath Path to page containing the desired component
+ * @param options.itemPath Path to item within the page defined by pagePath
+ * @param options.host Host information of the AEM instance if fetch is to be done prior to ModelManager init
+ * @param options.options Fetch request options is fetching model using host
+ 
+ * @returns The fetched model transformed into usable props
+ */
+export async function fetchModel({
+  cqPath,
+  forceReload = false,
+  pagePath,
+  itemPath,
+  host,
+  options,
+}: FetchProps): Promise<ModelProps> {
   let model = {},
     data;
   if (cqPath || pagePath) {

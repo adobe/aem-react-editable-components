@@ -26,7 +26,7 @@
     "build:types": "tsc -p tsconfig.types.json",
     "build": "npm run lint && npm run build:types && webpack",
     "clean": "rm -rf dist/ node_modules/ package-lock.json",
-    "docs": "npm i && npx typedoc --entryPointStrategy expand --excludePrivate ./src --out ./dist/docs",
+    "docs": "npm i && npx typedoc --entryPoints ./src/types.ts --out ./dist/docs",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
     "semantic-release": "semantic-release",

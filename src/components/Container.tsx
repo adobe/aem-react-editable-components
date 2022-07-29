@@ -13,10 +13,10 @@ import React, { ComponentType, ReactElement } from 'react';
 import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
 import { ModelProps } from '../types/AEMModel';
-import { ComponentMapping, MappedComponentProperties, MapTo } from '../core/ComponentMapping';
-import { Config } from '../types/EditConfig';
+import { ComponentMapping, MapTo } from '../core/ComponentMapping';
+import { Config, MappedComponentProperties } from '../types/EditConfig';
 
-type Props = {
+export type ContainerProps = {
   className?: string;
   itemPath?: string;
   isPage?: boolean;
@@ -42,7 +42,7 @@ const getItemPath = (cqPath: string, itemKey: string, isPage = false): string =>
   return itemPath;
 };
 
-const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: Props) => {
+const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: ContainerProps) => {
   const componentMapping = props.componentMapping || ComponentMapping;
   if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
@@ -72,7 +72,7 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
   return <>{components}</>;
 };
 
-export const Container = (props: Props): JSX.Element => {
+export const Container = (props: ContainerProps): JSX.Element => {
   const {
     cqPath = '',
     className = '',

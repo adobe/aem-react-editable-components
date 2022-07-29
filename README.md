@@ -33,6 +33,7 @@ npm install @adobe/aem-react-editable-components
 
 - [Components](./src/components)
 - [Integration with AEM](./src/core)
+- [Helpers](./src/api)
 
 
 ## Contributing

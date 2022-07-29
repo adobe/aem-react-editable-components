@@ -10,7 +10,25 @@
  * governing permissions and limitations under the License.
  */
 
-import { MappedComponentProperties } from '../core/ComponentMapping';
+/**
+ * Hold force reload state.
+ */
+export interface ReloadForceAble {
+  /*
+   * Should the model cache be ignored when processing the component.
+   */
+  cqForceReload?: boolean;
+}
+
+/**
+ * Properties given to every component runtime by the SPA editor.
+ */
+export interface MappedComponentProperties extends ReloadForceAble {
+  isInEditor?: boolean;
+  cqPath?: string;
+  appliedCssClassNames?: string;
+  aemNoDecoration?: boolean;
+}
 
 export interface Config<P extends MappedComponentProperties> {
   emptyLabel?: string;
