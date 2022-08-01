@@ -4,4 +4,3 @@ dist/
 **/*.log
 *.tgz
 *.tsbuildinfo
-typesoutput/
