@@ -15,7 +15,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2018"
+    "target": "ES2022",
+    "declaration": true
   },
   "include": ["src/**/*"]
 }
