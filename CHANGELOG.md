@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/adobe/aem-react-editable-components/compare/v2.0.0...v2.0.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* include types in build ([3ad1f34](https://github.com/adobe/aem-react-editable-components/commit/3ad1f340af65bf3fa7d72387e4b262472a71b362))
+
 # [2.0.0](https://github.com/adobe/aem-react-editable-components/compare/v1.1.11...v2.0.0) (2022-06-21)
 
 
