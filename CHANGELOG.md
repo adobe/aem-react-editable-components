@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/adobe/aem-react-editable-components/compare/v2.0.1...v2.0.2) (2022-09-21)
+
+
+### Bug Fixes
+
+* transpilation target incompatible with CRA ([061906f](https://github.com/adobe/aem-react-editable-components/commit/061906f731f477c249e94b7ba120e8f389f742c9))
+
 ## [2.0.1](https://github.com/adobe/aem-react-editable-components/compare/v2.0.0...v2.0.1) (2022-08-02)
 
 
