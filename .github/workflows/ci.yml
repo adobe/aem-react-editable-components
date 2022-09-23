@@ -36,16 +36,3 @@ jobs:
           path: coverage
       - name: Upload code coverage report to codecov.io and comment in pull request
         uses: codecov/codecov-action@v3
-      - name: Upload Sonar report to sonarcloud.io and comment in pull request
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=adobeinc
-            -Dsonar.projectKey=adobe_aem-react-editable-components
-            -Dsonar.sources=src
-            -Dsonar.tests=test
-            -Dsonar.javascript.lcov.reportPaths=dist/coverage/lcov.info
-            -Dsonar.coverage.exclusions=src/types.ts
