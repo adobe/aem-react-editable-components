@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/adobe/aem-react-editable-components/compare/v2.0.2...v2.0.3) (2022-10-20)
+
+
+### Bug Fixes
+
+* pass props to child component ([ba4be70](https://github.com/adobe/aem-react-editable-components/commit/ba4be703d281a8c71df721be27b73127500867a5))
+
 ## [2.0.2](https://github.com/adobe/aem-react-editable-components/compare/v2.0.1...v2.0.2) (2022-09-21)
 
 
