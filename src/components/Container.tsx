@@ -12,7 +12,7 @@
 import React, { ComponentType, ReactElement } from 'react';
 import { Utils } from '../utils/Utils';
 import { Properties, ClassNames } from '../constants';
-import { ModelProps } from '../types/AEMModel';
+import { ModelProps, PageModel } from '../types/AEMModel';
 import { ComponentMapping, MapTo } from '../core/ComponentMapping';
 import { Config, MappedComponentProperties } from '../types/EditConfig';
 
@@ -28,6 +28,7 @@ export type ContainerProps = {
   removeDefaultStyles?: boolean;
   config?: Config<MappedComponentProperties>;
   components?: { [key: string]: ComponentType<MappedComponentProperties> };
+  model?: PageModel;
 } & ModelProps;
 
 const getItemPath = (cqPath: string, itemKey: string, isPage = false): string => {
@@ -81,6 +82,7 @@ export const Container = (props: ContainerProps): JSX.Element => {
     childPages,
     placeholderClassNames = '',
     components,
+    model = {},
   } = props;
 
   if (components && Object.keys(components).length) {
@@ -95,7 +97,7 @@ export const Container = (props: ContainerProps): JSX.Element => {
     }) ||
     {};
 
-  const childComponents = <ComponentList {...props} />;
+  const childComponents = <ComponentList {...model} {...props} />;
 
   return isInEditor ? (
     <div className={className || ClassNames.CONTAINER} {...containerProps}>
