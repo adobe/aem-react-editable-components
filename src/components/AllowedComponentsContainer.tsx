@@ -28,8 +28,7 @@ type Props = {
 const AllowedComponentsContainer = (props: Props): JSX.Element => {
   const { placeholderClassNames = '', allowedComponents, title } = props;
   const { components } = allowedComponents;
-  const emptyLabel = Texts.EMPTY_LABEL;
-  const listLabel = components && components.length > 0 ? title : emptyLabel;
+  const listLabel = components && components.length > 0 ? title : Texts.EMPTY_LABEL;
 
   return (
     <div className={`${ClassNames.ALLOWED_LIST_PLACEHOLDER} ${ClassNames.NEW_SECTION} ${placeholderClassNames}`}>
@@ -38,7 +37,7 @@ const AllowedComponentsContainer = (props: Props): JSX.Element => {
         <div
           data-cq-data-path={component.path}
           key={component.path}
-          data-emptytext={emptyLabel}
+          data-emptytext={component.title ? component.title : Texts.EMPTY_COMPONENT_TITLE}
           className={ClassNames.ALLOWED_COMPONENT_PLACEHOLDER}
         />
       ))}

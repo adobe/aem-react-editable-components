@@ -18,4 +18,5 @@ export const Texts = Object.freeze({
    * The label to be displayed when no components are allowed in AllowedComponentsContainer
    */
   EMPTY_LABEL: 'No allowed components',
+  EMPTY_COMPONENT_TITLE: '–',
 });
