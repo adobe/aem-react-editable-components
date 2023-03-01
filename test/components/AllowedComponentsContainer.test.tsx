@@ -14,6 +14,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import AllowedComponentsContainer from '../../src/components/AllowedComponentsContainer';
 import { AllowedComponentList } from '../../src/types/AEMModel';
+import { Texts } from '../../src/constants';
 
 describe('AllowedComponentsContainer ->', () => {
   const DEFAULT_TITLE = 'Layout Container';
@@ -82,6 +83,38 @@ describe('AllowedComponentsContainer ->', () => {
       expect(allowedComponentsTitle).toBeDefined();
       expect(allowedComponentsTitle.dataset.text).toEqual(DEFAULT_TITLE);
       expect(allowedComponentsContainer.querySelectorAll(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR).length).toEqual(2);
+    });
+  });
+
+  describe('AllowedComponentPlaceholder ->', () => {
+    const renderAllowedComponentPlaceholder = ({ title = null, path = '' }) => {
+      const allowedComponents: AllowedComponentList = {
+        applicable: true,
+        components: [
+          {
+            path,
+            title,
+          },
+        ],
+      };
+      render(generateAllowedComponentsContainer(allowedComponents));
+      const node = screen.getByTestId('testcontainer');
+      return node.querySelector(ALLOWED_COMPONENT_PLACEHOLDER_SELECTOR) as HTMLElement;
+    };
+
+    it('should contain title', () => {
+      const placeholder = renderAllowedComponentPlaceholder({ title: COMPONENT_TEXT_TITLE });
+      expect(placeholder.dataset.emptytext).toEqual(COMPONENT_TEXT_TITLE);
+    });
+
+    it('should contain empty title when none provided', () => {
+      const placeholder = renderAllowedComponentPlaceholder({});
+      expect(placeholder.dataset.emptytext).toEqual(Texts.EMPTY_COMPONENT_TITLE);
+    });
+
+    it('should contain path', () => {
+      const placeholder = renderAllowedComponentPlaceholder({ path: COMPONENT_TEXT_PATH });
+      expect(placeholder.dataset.cqDataPath).toEqual(COMPONENT_TEXT_PATH);
     });
   });
 });
