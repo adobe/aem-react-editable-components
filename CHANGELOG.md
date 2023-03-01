@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/adobe/aem-react-editable-components/compare/v2.0.3...v2.0.4) (2023-03-01)
+
+
+### Bug Fixes
+
+* jcr:title of the component should be used in Template Editor ([0564707](https://github.com/adobe/aem-react-editable-components/commit/0564707c62104a35269c36c93754efd2799352ad))
+
 ## [2.0.3](https://github.com/adobe/aem-react-editable-components/compare/v2.0.2...v2.0.3) (2022-10-20)
 
 
