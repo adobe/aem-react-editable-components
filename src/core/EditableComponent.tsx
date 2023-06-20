@@ -37,24 +37,26 @@ const addPropsToComponent = (component: React.ReactNode, props: MappedComponentP
   return component;
 };
 
-export const EditableComponent = ({
-  config = { isEmpty: () => false },
-  children,
-  model: userModel,
-  cqPath,
-  pagePath,
-  itemPath,
-  isInEditor = AuthoringUtils.isInEditor(),
-  className = '',
-  appliedCssClassNames = '',
-  ...props
-}: EditableComponentProps): JSX.Element => {
+export const EditableComponent = (editableProps: EditableComponentProps): JSX.Element => {
+  const {
+    config = { isEmpty: () => false },
+    children,
+    model: userModel,
+    cqPath,
+    pagePath,
+    itemPath,
+    isInEditor = AuthoringUtils.isInEditor(),
+    className = '',
+    appliedCssClassNames = '',
+    ...props
+  } = editableProps;
   const { updateModel } = useEditor();
-  const { forceReload, resourceType = '' } = config;
+  const { forceReload, resourceType = '' } = config || {};
   const path = cqPath || Utils.getCQPath({ cqPath, pagePath, itemPath });
   const [model, setModel] = React.useState(() => userModel || {});
 
   React.useEffect(() => {
+    if (!path) return;
     const renderContent = () => updateModel({ path, forceReload, setModel, isInEditor, pagePath });
     !Object.keys(model)?.length && renderContent();
     ModelManager.addListener(path, renderContent);
@@ -62,6 +64,8 @@ export const EditableComponent = ({
       ModelManager.removeListener(path, renderContent);
     };
   }, [path, model, updateModel, isInEditor, pagePath, forceReload]);
+
+  if (!editableProps) return <></>;
 
   const componentProps = {
     cqPath: path,

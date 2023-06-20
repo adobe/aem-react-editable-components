@@ -16,10 +16,11 @@ import { ClassNames } from '../constants';
 
 const Placeholder = ({ config, ...props }: EditableComponentProps) => {
   const { emptyLabel = '', isEmpty } = config || {};
-  if (!(typeof isEmpty === 'function' && isEmpty(props))) {
-    return null;
+  const editorProps = {};
+  if (typeof isEmpty === 'function' && isEmpty(props)) {
+    Object.assign(editorProps, { className: ClassNames.DEFAULT_PLACEHOLDER, 'data-emptyText': emptyLabel });
   }
-  return <div className={ClassNames.DEFAULT_PLACEHOLDER} data-emptytext={emptyLabel} />;
+  return <div {...editorProps} />;
 };
 
 export default Placeholder;

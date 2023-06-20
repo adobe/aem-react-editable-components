@@ -28,7 +28,7 @@ export const useEditor = () => {
     const model = await fetchModel({ cqPath: path, forceReload, pagePath }).catch((err) => console.error(err));
     if (model && Object.keys(model).length) {
       setModel(model);
-      if (isInEditor && pagePath) {
+      if (isInEditor) {
         PathUtils.dispatchGlobalCustomEvent(Events.ASYNC_CONTENT_LOADED_EVENT, {});
       }
     }
