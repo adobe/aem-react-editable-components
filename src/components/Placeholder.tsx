@@ -18,7 +18,7 @@ const Placeholder = ({ config, ...props }: EditableComponentProps) => {
   const { emptyLabel = '', isEmpty } = config || {};
   const editorProps = {};
   if (typeof isEmpty === 'function' && isEmpty(props)) {
-    Object.assign(editorProps, { className: ClassNames.DEFAULT_PLACEHOLDER, 'data-emptyText': emptyLabel });
+    Object.assign(editorProps, { className: ClassNames.DEFAULT_PLACEHOLDER, 'data-emptytext': emptyLabel });
   }
   return <div {...editorProps} />;
 };

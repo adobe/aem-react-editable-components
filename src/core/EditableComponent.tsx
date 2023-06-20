@@ -56,7 +56,6 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
   const [model, setModel] = React.useState(() => userModel || {});
 
   React.useEffect(() => {
-    if (!path) return;
     const renderContent = () => updateModel({ path, forceReload, setModel, isInEditor, pagePath });
     !Object.keys(model)?.length && renderContent();
     ModelManager.addListener(path, renderContent);
