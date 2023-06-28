@@ -1,3 +1,10 @@
+## [2.0.5](https://github.com/adobe/aem-react-editable-components/compare/v2.0.4...v2.0.5) (2023-06-28)
+
+
+### Bug Fixes
+
+* resolve reload issue on remote spa ([7bf16d8](https://github.com/adobe/aem-react-editable-components/commit/7bf16d8858c11915094939d55fe861f5ed6b22b2))
+
 ## [2.0.4](https://github.com/adobe/aem-react-editable-components/compare/v2.0.3...v2.0.4) (2023-03-01)
 
 
