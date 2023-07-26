@@ -13,7 +13,7 @@ import React from 'react';
 import { Properties } from '../constants';
 import { Utils } from '../utils/Utils';
 import { AuthoringUtils, ModelManager } from '@adobe/aem-spa-page-model-manager';
-import { PageModel } from '../types/AEMModel';
+import { ModelProps } from '../types/AEMModel';
 import { Config, MappedComponentProperties } from '../types/EditConfig';
 import { useEditor } from '../hooks/useEditor';
 import Placeholder from '../components/Placeholder';
@@ -24,7 +24,7 @@ export type EditableComponentProps = {
   className?: string;
   appliedCssClassNames?: string;
   containerProps?: { className?: string };
-  model?: PageModel;
+  model?: ModelProps;
   pagePath?: string;
   itemPath?: string;
   removeDefaultStyles?: boolean;
@@ -47,7 +47,6 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
     itemPath,
     isInEditor = AuthoringUtils.isInEditor(),
     className = '',
-    appliedCssClassNames = '',
     ...props
   } = editableProps;
   const { updateModel } = useEditor();
@@ -78,6 +77,7 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
     }) ||
     {};
 
+  const {appliedCssClassNames = ''} = model; 
   const componentClassName = `${className} ${props.containerProps?.className || ''} ${appliedCssClassNames}`.trim();
 
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
