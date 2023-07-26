@@ -77,7 +77,7 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
     }) ||
     {};
 
-  const {appliedCssClassNames = ''} = model; 
+  const { appliedCssClassNames = '' } = model;
   const componentClassName = `${className} ${props.containerProps?.className || ''} ${appliedCssClassNames}`.trim();
 
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
