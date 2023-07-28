@@ -15,6 +15,7 @@ import { Properties, ClassNames } from '../constants';
 import { ModelProps, PageModel } from '../types/AEMModel';
 import { ComponentMapping, MapTo } from '../core/ComponentMapping';
 import { Config, MappedComponentProperties } from '../types/EditConfig';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 export type ContainerProps = {
   className?: string;
@@ -43,11 +44,37 @@ const getItemPath = (cqPath: string, itemKey: string, isPage = false): string =>
   return itemPath;
 };
 
-const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: ContainerProps) => {
-  const componentMapping = props.componentMapping || ComponentMapping;
+const ComponentList = ({
+  cqItemsOrder,
+  cqItems,
+  cqPath = '',
+  getItemClassNames,
+  isPage,
+  removeDefaultStyles,
+  ...props
+}: ContainerProps) => {
   if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }
+
+  return (
+    <>
+      {getChildComponents({ cqItemsOrder, cqItems, cqPath, getItemClassNames, isPage, removeDefaultStyles, ...props })}
+    </>
+  );
+};
+
+export const getChildComponents = ({
+  cqItemsOrder = [],
+  cqItems = {},
+  cqPath = '',
+  getItemClassNames,
+  isPage,
+  removeDefaultStyles,
+  isInEditor = AuthoringUtils.isInEditor(),
+  ...props
+}: ContainerProps) => {
+  const componentMapping = props.componentMapping || ComponentMapping;
   const components: Array<ReactElement> = [];
   cqItemsOrder.forEach((itemKey: string) => {
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
@@ -61,8 +88,10 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
             key={itemPath}
             model={itemProps}
             cqPath={itemPath}
+            isInEditor={isInEditor}
+            componentMapping={componentMapping}
             className={itemClassNames}
-            removeDefaultStyles={props.removeDefaultStyles}
+            removeDefaultStyles={removeDefaultStyles}
           />,
         );
       } else {
