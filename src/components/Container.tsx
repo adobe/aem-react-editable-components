@@ -24,7 +24,7 @@ export type ContainerProps = {
   childPages?: JSX.Element;
   getItemClassNames?: (_key: string) => string;
   placeholderClassNames?: string;
-  isInEditor: boolean;
+  isInEditor?: boolean;
   componentMapping?: typeof ComponentMapping;
   removeDefaultStyles?: boolean;
   config?: Config<MappedComponentProperties>;
@@ -73,7 +73,7 @@ export const getChildComponents = ({
   removeDefaultStyles,
   isInEditor = AuthoringUtils.isInEditor(),
   ...props
-}: ContainerProps) => {
+}: ContainerProps): ReactElement[] => {
   const componentMapping = props.componentMapping || ComponentMapping;
   const components: Array<ReactElement> = [];
   cqItemsOrder.forEach((itemKey: string) => {
@@ -99,7 +99,7 @@ export const getChildComponents = ({
       }
     }
   });
-  return <>{components}</>;
+  return components;
 };
 
 export const Container = (props: ContainerProps): JSX.Element => {
@@ -107,7 +107,7 @@ export const Container = (props: ContainerProps): JSX.Element => {
     cqPath = '',
     className = '',
     isPage = false,
-    isInEditor,
+    isInEditor = AuthoringUtils.isInEditor(),
     childPages,
     placeholderClassNames = '',
     components,
