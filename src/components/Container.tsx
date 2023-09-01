@@ -64,6 +64,12 @@ const ComponentList = ({
   );
 };
 
+/**
+ * Retrieves the child components from the container.
+ * @summary Retrieves the child components from the cqItems and cqItemsOrder for use in custom containers like Tabs, Carousel, Accordion, etc.
+ * @param {ContainerProps} props
+ * @returns {JSX.Element} Array of child components ready to be rendered
+ */
 export const getChildComponents = ({
   cqItemsOrder = [],
   cqItems = {},
