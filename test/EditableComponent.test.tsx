@@ -32,7 +32,9 @@ describe('EditableComponent ->', () => {
   const CQ_PROPS = {
     cqType: COMPONENT_RESOURCE_TYPE,
     cqPath: COMPONENT_PATH,
-    appliedCssClassNames: CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME,
+    model: {
+      appliedCssClassNames: CHILD_COMPONENT_APPLIED_STYLE_CLASS_NAME,
+    },
     containerProps: {
       className: GRID_CLASS_NAME,
     },
@@ -69,7 +71,9 @@ describe('EditableComponent ->', () => {
   type Props = {
     cqType: string;
     cqPath: string;
-    appliedCssClassNames?: string;
+    model?: {
+      appliedCssClassNames?: string;
+    };
     containerProps: {
       className?: string;
     };
@@ -186,7 +190,8 @@ describe('EditableComponent ->', () => {
         render(createEditableComponent(EDIT_CONFIG));
       });
       const node = screen.getByTestId('childComponent').parentElement;
-      expect(node.classList.contains(CQ_PROPS.appliedCssClassNames)).toBeTruthy();
+      console.error(node?.classList);
+      expect(node.classList.contains(CQ_PROPS.model?.appliedCssClassNames)).toBeTruthy();
     });
 
     it('should not have any custom CSS classes if appliedCssClasses is empty or not set', () => {
@@ -197,7 +202,10 @@ describe('EditableComponent ->', () => {
         emptyLabel: EMPTY_LABEL,
         resourceType: COMPONENT_RESOURCE_TYPE,
       };
-      const { appliedCssClassNames, ...otherCQProps } = CQ_PROPS;
+      const {
+        model: { appliedCssClassNames },
+        ...otherCQProps
+      } = CQ_PROPS;
       act(() => {
         render(createEditableComponent(EDIT_CONFIG, true, otherCQProps));
       });
