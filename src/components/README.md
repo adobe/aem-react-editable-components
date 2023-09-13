@@ -14,14 +14,14 @@ For default SPA on AEM, the component can be used as-is OOTB.
 
 - *ComponentMappingContent* is now handled internally, so the [usage as illustrated in the sample WKND project](https://github.com/adobe/aem-guides-wknd-spa/blob/React/latest/ui.frontend/src/components/Page/Page.js) as - 
 
-```
+```js
 export default MapTo('wknd-spa-react/components/page')(
   withComponentMappingContext(withRoute(AppPage))
 );
 ```
 
 can be simplified and now instead be -
-```
+```js
 export default MapTo('wknd-spa-react/components/page')(
   withRoute(AppPage)
 );
@@ -29,20 +29,20 @@ export default MapTo('wknd-spa-react/components/page')(
 
 - *Model fetching* is now handled internally, so [the usage of withModel](https://github.com/adobe/aem-guides-wknd-spa/blob/React/latest/ui.frontend/src/App.js#L16)  - 
 
-```
+```js
 export default withModel(App);
 ```
 
 can be removed and can be used simply as -
 
-```
+```js
 export default App;
 ```
 
 ### Remote SPA
 When using the component directly within the app for remote SPA, an additional prop _pagePath_ can be used to pass the path of the corresponding page on AEM.
 
-```
+```jsx
 <Page 
   pagePath='/content/wknd-app/us/en/home' />
 ```
@@ -128,7 +128,7 @@ const MyTabs = (props) =>
 
   const tabItemsJsx = tabItemsInOrder.map((tabItemJsx) =><div className="tab-item">{tabItemJsx}</div>);
 
-  return <div className="tabs">${tabItemsJsx}</div>;
+  return <div className="tabs">{tabItemsJsx}</div>;
 }
 
 MapTo('/wknd/components/content/tabs')(MyTabs, MyTabsEditConfig);
