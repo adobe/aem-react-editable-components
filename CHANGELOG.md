@@ -1,3 +1,11 @@
+# [2.1.0](https://github.com/adobe/aem-react-editable-components/compare/v2.0.5...v2.1.0) (2023-09-13)
+
+
+### Features
+
+* ability to export child components ([a6a7047](https://github.com/adobe/aem-react-editable-components/commit/a6a704785c70c7d7edaf5a77f1027cf44da761e8)), closes [#189](https://github.com/adobe/aem-react-editable-components/issues/189)
+* ability to export child components ([6162d62](https://github.com/adobe/aem-react-editable-components/commit/6162d622bceaa8d00107614a9bdbe8762077d27c)), closes [#189](https://github.com/adobe/aem-react-editable-components/issues/189)
+
 ## [2.0.5](https://github.com/adobe/aem-react-editable-components/compare/v2.0.4...v2.0.5) (2023-06-28)
 
 
