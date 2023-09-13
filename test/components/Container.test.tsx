@@ -10,10 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { render, screen } from '@testing-library/react';
 import { ComponentMapping } from '../../src/core/ComponentMapping';
-import { Container } from '../../src/components/Container';
+import { Container, getChildComponents } from '../../src/components/Container';
 
 describe('Container ->', () => {
   const CONTAINER_PLACEHOLDER_SELECTOR = '.new.section';
@@ -107,6 +107,59 @@ describe('Container ->', () => {
       expect(node.querySelector('#c1')).toBeNull();
       expect(node.querySelector('#c2')).toBeNull();
     });
+
+    it('should return an empty array of JSX if incoming model json doesnt meet container props', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+
+      const jsxList: ReactElement[] = getChildComponents({
+        cqType: '/some/type',
+        removeDefaultStyles: true,
+      });
+
+      expect(jsxList.length).toBe(0);
+    });
+
+    it('should return an empty JSX if incoming model json has empty items', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(
+        <div data-testid="testcontainer">
+          <Container
+            {...{
+              cqPath: '/some/path',
+              cqType: '/some/type',
+              removeDefaultStyles: true,
+              cqItems: {},
+              cqItemsOrder: [],
+            }}
+          />
+        </div>,
+      );
+      const node = screen.getByTestId('testcontainer');
+      expect(node).not.toBeNull();
+      expect(node.getElementsByClassName('aem-container').length).toBe(0);
+    });
+
+    it('should return an empty JSX if incoming model json has empty items when isInEditor is set', () => {
+      ComponentMappingSpy.mockReturnValue(ComponentChild);
+      render(
+        <div data-testid="testcontainer">
+          <Container
+            {...{
+              cqPath: '/some/path',
+              cqType: '/some/type',
+              isInEditor: true,
+              removeDefaultStyles: true,
+              cqItems: {},
+              cqItemsOrder: [],
+            }}
+          />
+        </div>,
+      );
+      const node = screen.getByTestId('testcontainer');
+      expect(node).not.toBeNull();
+      expect(node.getElementsByClassName('aem-container').length).toBe(1);
+    });
+
     it('should render available components if some are unmapped', () => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});

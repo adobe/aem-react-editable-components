@@ -15,6 +15,7 @@ import { Properties, ClassNames } from '../constants';
 import { ModelProps, PageModel } from '../types/AEMModel';
 import { ComponentMapping, MapTo } from '../core/ComponentMapping';
 import { Config, MappedComponentProperties } from '../types/EditConfig';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 export type ContainerProps = {
   className?: string;
@@ -23,7 +24,7 @@ export type ContainerProps = {
   childPages?: JSX.Element;
   getItemClassNames?: (_key: string) => string;
   placeholderClassNames?: string;
-  isInEditor: boolean;
+  isInEditor?: boolean;
   componentMapping?: typeof ComponentMapping;
   removeDefaultStyles?: boolean;
   config?: Config<MappedComponentProperties>;
@@ -43,11 +44,43 @@ const getItemPath = (cqPath: string, itemKey: string, isPage = false): string =>
   return itemPath;
 };
 
-const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, isPage, ...props }: ContainerProps) => {
-  const componentMapping = props.componentMapping || ComponentMapping;
+const ComponentList = ({
+  cqItemsOrder,
+  cqItems,
+  cqPath = '',
+  getItemClassNames,
+  isPage,
+  removeDefaultStyles,
+  ...props
+}: ContainerProps) => {
   if (!cqItemsOrder || !cqItems || !cqItemsOrder.length) {
     return <></>;
   }
+
+  return (
+    <>
+      {getChildComponents({ cqItemsOrder, cqItems, cqPath, getItemClassNames, isPage, removeDefaultStyles, ...props })}
+    </>
+  );
+};
+
+/**
+ * Retrieves the child components from the container.
+ * @summary Retrieves the child components from the cqItems and cqItemsOrder for use in custom containers like Tabs, Carousel, Accordion, etc.
+ * @param {ContainerProps} props
+ * @returns {JSX.Element} Array of child components ready to be rendered
+ */
+export const getChildComponents = ({
+  cqItemsOrder = [],
+  cqItems = {},
+  cqPath = '',
+  getItemClassNames,
+  isPage,
+  removeDefaultStyles,
+  isInEditor = AuthoringUtils.isInEditor(),
+  ...props
+}: ContainerProps): ReactElement[] => {
+  const componentMapping = props.componentMapping || ComponentMapping;
   const components: Array<ReactElement> = [];
   cqItemsOrder.forEach((itemKey: string) => {
     const itemProps = Utils.modelToProps(cqItems[itemKey]);
@@ -61,8 +94,10 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
             key={itemPath}
             model={itemProps}
             cqPath={itemPath}
+            isInEditor={isInEditor}
+            componentMapping={componentMapping}
             className={itemClassNames}
-            removeDefaultStyles={props.removeDefaultStyles}
+            removeDefaultStyles={removeDefaultStyles}
           />,
         );
       } else {
@@ -70,7 +105,7 @@ const ComponentList = ({ cqItemsOrder, cqItems, cqPath = '', getItemClassNames, 
       }
     }
   });
-  return <>{components}</>;
+  return components;
 };
 
 export const Container = (props: ContainerProps): JSX.Element => {
@@ -78,7 +113,7 @@ export const Container = (props: ContainerProps): JSX.Element => {
     cqPath = '',
     className = '',
     isPage = false,
-    isInEditor,
+    isInEditor = AuthoringUtils.isInEditor(),
     childPages,
     placeholderClassNames = '',
     components,
