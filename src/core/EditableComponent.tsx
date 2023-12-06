@@ -55,7 +55,7 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
   const [model, setModel] = React.useState(() => userModel || {});
 
   React.useEffect(() => {
-    setModel(userModel || {});
+    setModel(userModel ?? {});
   }, [path, userModel]);
 
   React.useEffect(() => {
