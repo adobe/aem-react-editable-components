@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/adobe/aem-react-editable-components/compare/v2.1.0...v2.1.1) (2023-12-11)
+
+
+### Bug Fixes
+
+* refresh model for dynamic path ([2570871](https://github.com/adobe/aem-react-editable-components/commit/2570871bde7528db0f4c7f659db6b2587e900688))
+
 # [2.1.0](https://github.com/adobe/aem-react-editable-components/compare/v2.0.5...v2.1.0) (2023-09-13)
 
 
