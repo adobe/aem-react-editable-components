@@ -55,6 +55,10 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
   const [model, setModel] = React.useState(() => userModel || {});
 
   React.useEffect(() => {
+    setModel(userModel ?? {});
+  }, [path, userModel]);
+
+  React.useEffect(() => {
     const renderContent = () => updateModel({ path, forceReload, setModel, isInEditor, pagePath });
     !Object.keys(model)?.length && renderContent();
     ModelManager.addListener(path, renderContent);
@@ -79,7 +83,6 @@ export const EditableComponent = (editableProps: EditableComponentProps): JSX.El
 
   const { appliedCssClassNames = '' } = model;
   const componentClassName = `${className} ${props.containerProps?.className || ''} ${appliedCssClassNames}`.trim();
-
   const updatedComponent = addPropsToComponent(children, pagePath ? componentProps : model);
   return isInEditor || (!props.removeDefaultStyles && componentClassName) ? (
     <div className={componentClassName} {...dataAttr}>
