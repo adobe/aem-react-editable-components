@@ -13,8 +13,8 @@ This project provides the React components and integration layer to get you star
 
 
 ## Installation
-```
-npm install @adobe/aem-react-editable-components
+```console
+$ npm install @adobe/aem-react-editable-components
 ```
 
 ## Prerequisites
