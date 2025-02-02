@@ -20,7 +20,7 @@ import { EditableComponent } from '../core/EditableComponent';
 
 export type PageProps = {
   isInEditor: boolean;
-  componentMapping: typeof ComponentMapping;
+  componentMapping?: typeof ComponentMapping;
   className?: string;
 } & ModelProps;
 
