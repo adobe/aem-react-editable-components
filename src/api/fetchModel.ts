@@ -55,7 +55,7 @@ export async function fetchModel({
   if (cqPath || pagePath) {
     const path = (cqPath && sanitizeUrl(cqPath)) || Utils.getCQPath({ pagePath, itemPath });
     if (host) {
-      const hostURL = sanitizeUrl(`${host}/${path}`).replace(/\/+/g, '/');
+      const hostURL = new URL(path, host).toString();
       const response = await fetch(`${hostURL}.model.json`, options);
       if (response.ok) {
         data = await response.json();
