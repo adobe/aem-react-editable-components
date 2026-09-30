@@ -26,7 +26,7 @@ jobs:
       - name: Run tests and do code coverage check
         run: npm run test:coverage
       - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+        uses: creyD/prettier_action@v4.6
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload code coverage report to workflow as an artifact
